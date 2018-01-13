@@ -44,10 +44,10 @@ public class SwerveMath {
 		double ws2 = Math.sqrt(Math.pow(b,2)+Math.pow(d,2)); 
 		double ws3 = Math.sqrt(Math.pow(a,2)+Math.pow(d,2)); 
 		double ws4 = Math.sqrt(Math.pow(a,2)+Math.pow(c,2)); 
-		double wa1 = Math.atan2(b,c)*100/Math.PI; 
-		double wa2 = Math.atan2(b,d)*100/Math.PI; 
-		double wa3 = Math.atan2(a,d)*100/Math.PI; 
-		double wa4 = Math.atan2(a,c)*100/Math.PI; 
+		double wa1 = Math.atan2(b,c)*180/Math.PI; 
+		double wa2 = Math.atan2(b,d)*180/Math.PI; 
+		double wa3 = Math.atan2(a,d)*180/Math.PI; 
+		double wa4 = Math.atan2(a,c)*180/Math.PI; 
 		double max = ws1; 
 		if(ws2>max) max = ws2;
 		if(ws3>max) max = ws3; 
@@ -66,10 +66,10 @@ public class SwerveMath {
 		ws2*=SCALE_SPEED; 
 		ws3*=SCALE_SPEED; 
 		ws4*=SCALE_SPEED; 
-		SwerveDirective d1 = new SwerveDirective(wa1, wa1); 
-		SwerveDirective d2 = new SwerveDirective(wa2, wa2); 
-		SwerveDirective d3 = new SwerveDirective(wa3, wa3); 
-		SwerveDirective d4 = new SwerveDirective(wa4, wa4); 
+		SwerveDirective d1 = new SwerveDirective(wa1, ws1); 
+		SwerveDirective d2 = new SwerveDirective(wa2, ws2); 
+		SwerveDirective d3 = new SwerveDirective(wa3, ws3); 
+		SwerveDirective d4 = new SwerveDirective(wa4, ws4); 
 		return Arrays.asList(d1, d2, d3, d4); 
 	}
 
