@@ -77,6 +77,7 @@ public class Robot extends TimedRobot {
     @Override
     public void disabledPeriodic() {
         Scheduler.getInstance().run();
+        SmartDashboard.putString("DB/String 1", "" + Robot.drivetrain.analogInput1.getValue());
     }
 
     @Override
@@ -101,6 +102,7 @@ public class Robot extends TimedRobot {
         // continue until interrupted by another command, remove
         // this line or comment it out.
         if (autonomousCommand != null) autonomousCommand.cancel();
+        
     }
 
     /**
