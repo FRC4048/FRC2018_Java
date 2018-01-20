@@ -32,13 +32,13 @@ public class CanTalonSwerveEnclosure extends BaseEnclousre implements SwerveEncl
 	@Override
 	public void setSpeed(double speed)
 	{
-		driveMotor.set(speed);
+		driveMotor.set(ControlMode.PercentOutput, speed);
 	}
 	
 	@Override
 	public void setAngle(double angle)
 	{
-		steerMotor.set(ControlMode.Position, angle);
+		steerMotor.set(ControlMode.Position, angle * gearRatio);
 		//steerMotor.enable();
 	}
 	
@@ -47,14 +47,14 @@ public class CanTalonSwerveEnclosure extends BaseEnclousre implements SwerveEncl
 	{
 		int reverse = reverseEncoder ? -1 : 1;
 		
-		driveMotor.disable();
-		return reverse = steerMotor.getSensorCollection().getQuadraturePosition();
+//		driveMotor.disable();
+		return reverse * steerMotor.getSelectedSensorPosition(0);
 	}
 	
 	@Override
 	public void setEncPosition(int position)
 	{
-		steerMotor.getSensorCollection().setQuadraturePosition(position, 10);
+		steerMotor.setSelectedSensorPosition(position, 0, 10);
 	}
 	
 	public WPI_TalonSRX getDriveMotor()

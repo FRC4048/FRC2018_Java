@@ -34,9 +34,9 @@ public class SwerveDrive {
 		List<SwerveDirective> swerveDirectives = swerveMath.move(fwd, str, rcw, gyroValue);
 		
 		swerveEnclosure1.move(swerveDirectives.get(0).getSpeed(), swerveDirectives.get(0).getAngle());
-		swerveEnclosure1.move(swerveDirectives.get(1).getSpeed(), swerveDirectives.get(1).getAngle());
-		swerveEnclosure1.move(swerveDirectives.get(2).getSpeed(), swerveDirectives.get(2).getAngle());
-		swerveEnclosure1.move(swerveDirectives.get(3).getSpeed(), swerveDirectives.get(3).getAngle());
+		swerveEnclosure2.move(swerveDirectives.get(1).getSpeed(), swerveDirectives.get(1).getAngle());
+		swerveEnclosure3.move(swerveDirectives.get(2).getSpeed(), swerveDirectives.get(2).getAngle());
+		swerveEnclosure4.move(swerveDirectives.get(3).getSpeed(), swerveDirectives.get(3).getAngle());
 	}
 	
 	public void stop()

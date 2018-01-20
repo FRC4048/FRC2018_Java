@@ -71,13 +71,18 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void disabledInit(){
+        // TODO - MOve to subsystem
+		RobotMap.swerveDriveEncoder.reset();
+		RobotMap.swerveDriveEncoder.setDistancePerPulse(0.1);
 
     }
 
     @Override
     public void disabledPeriodic() {
         Scheduler.getInstance().run();
-        SmartDashboard.putString("DB/String 1", "" + Robot.drivetrain.analogInput1.getValue());
+//        SmartDashboard.putString("DB/String 1", "" + Robot.drivetrain.analogInput1.getValue());
+        
+        SmartDashboard.putNumber("Front Right Encoder Pos", Robot.drivetrain.getFREncoderPos());
     }
 
     @Override
@@ -111,5 +116,9 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
+        SmartDashboard.putNumber("Distance", RobotMap.swerveDriveEncoder.getDistance());
+        
+        SmartDashboard.putNumber("Front Right Encoder Pos", Robot.drivetrain.getFREncoderPos());
+
     }
 }

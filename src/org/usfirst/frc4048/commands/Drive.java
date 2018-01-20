@@ -43,6 +43,9 @@ public class Drive extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
+    	Robot.drivetrain.move(-Robot.oi.getLeftJoystick().getY(), 
+    						  Robot.oi.getLeftJoystick().getX(), 
+    						  Robot.oi.getRightJoystick().getY());
     }
 
     // Make this return true when this Command no longer needs to run execute()
