@@ -40,14 +40,17 @@ public class SwerveMath {
 		double b = str + rcw*(length / diagonal); 
 		double c = fwd - rcw*(length / diagonal); 
 		double d = fwd + rcw*(length / diagonal); 
+		
 		double ws1 = Math.sqrt(Math.pow(b,2)+Math.pow(c,2)); 
 		double ws2 = Math.sqrt(Math.pow(b,2)+Math.pow(d,2)); 
 		double ws3 = Math.sqrt(Math.pow(a,2)+Math.pow(d,2)); 
 		double ws4 = Math.sqrt(Math.pow(a,2)+Math.pow(c,2)); 
+		
 		double wa1 = Math.atan2(b,c)*180/Math.PI; 
 		double wa2 = Math.atan2(b,d)*180/Math.PI; 
 		double wa3 = Math.atan2(a,d)*180/Math.PI; 
 		double wa4 = Math.atan2(a,c)*180/Math.PI; 
+		
 		double max = ws1; 
 		if(ws2>max) max = ws2;
 		if(ws3>max) max = ws3; 
