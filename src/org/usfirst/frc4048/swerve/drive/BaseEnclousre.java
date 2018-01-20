@@ -51,7 +51,7 @@ public abstract class BaseEnclousre implements SwerveEnclosure{
 		
 		if(wa < 0)	wa += 1;
 		
-		double longDiff = Math.abs(wa = ea);
+		double longDiff = Math.abs(wa - ea);
 		
 		double diff = Math.min(longDiff, 1.0-longDiff);
 		

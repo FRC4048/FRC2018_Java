@@ -45,7 +45,7 @@ public class Drive extends Command {
     protected void execute() {
     	Robot.drivetrain.move(-Robot.oi.getLeftJoystick().getY(), 
     						  Robot.oi.getLeftJoystick().getX(), 
-    						  Robot.oi.getRightJoystick().getY());
+    						  Robot.oi.getRightJoystick().getX());
     }
 
     // Make this return true when this Command no longer needs to run execute()

@@ -121,4 +121,10 @@ public class Robot extends TimedRobot {
         SmartDashboard.putNumber("Front Right Encoder Pos", Robot.drivetrain.getFREncoderPos());
 
     }
+    
+    @Override
+    public void testPeriodic()
+    {
+        SmartDashboard.putNumber("Front Right Encoder Pos", Robot.drivetrain.getFREncoderPos());
+    }
 }
