@@ -84,7 +84,10 @@ public class Robot extends TimedRobot {
         
         SmartDashboard.putNumber("Front Right Encoder Pos", Robot.drivetrain.getFREncoderPos());
         SmartDashboard.putNumber("Distance Disabled", RobotMap.swerveDriveEncoder.getDistance());
-
+        Robot.drivetrain.outputAbsEncValues();
+        SmartDashboard.putNumber("JoyStick Left X", oi.getLeftJoystick().getX());
+        SmartDashboard.putNumber("JoyStick Left Y", oi.getLeftJoystick().getY());
+        SmartDashboard.putNumber("JoyStick Right X", oi.getRightJoystick().getX());
     }
 
     @Override
@@ -100,6 +103,7 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousPeriodic() {
         Scheduler.getInstance().run();
+        Robot.drivetrain.outputAbsEncValues();
     }
 
     @Override
@@ -121,6 +125,8 @@ public class Robot extends TimedRobot {
         SmartDashboard.putNumber("Distance Teleop", RobotMap.swerveDriveEncoder.getDistance());
         
         SmartDashboard.putNumber("Front Right Encoder Pos", Robot.drivetrain.getFREncoderPos());
+        
+        Robot.drivetrain.outputAbsEncValues();
 
     }
     
@@ -128,5 +134,6 @@ public class Robot extends TimedRobot {
     public void testPeriodic()
     {
         SmartDashboard.putNumber("Front Right Encoder Pos", Robot.drivetrain.getFREncoderPos());
+        Robot.drivetrain.outputAbsEncValues();
     }
 }
