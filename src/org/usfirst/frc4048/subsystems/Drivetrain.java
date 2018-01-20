@@ -76,7 +76,7 @@ public class Drivetrain extends Subsystem {
     private AnalogInput analogInput3 = RobotMap.swerveDriveAnalogInputRearLeft;
     private AnalogInput analogInput4 = RobotMap.swerveDriveAnalogInputRearRight;
     
-    private final Encoder encoder1 = RobotMap.swerveDriveEncoder;
+    //private final Encoder encoder1 = RobotMap.swerveDriveEncoder;
     
     private final PigeonIMU pigeon1 = RobotMap.swerveDrivePigeon1;
     
@@ -153,8 +153,8 @@ public class Drivetrain extends Subsystem {
 		pigeon1.setYaw(0, timeout);
 		pigeon1.setFusedHeading(0, timeout);
 		
-		encoder1.reset();
-		encoder1.setDistancePerPulse(0.0942478739);
+//		encoder1.reset();
+//		encoder1.setDistancePerPulse(0.0942478739);
 		
 		initSteerMotor(frontRightSteerMotor);
 		initSteerMotor(frontLeftSteerMotor);
@@ -172,7 +172,7 @@ public class Drivetrain extends Subsystem {
 		rearRightWheel.setReverseSteerMotor(REVERSE_OUTPUT);
 		
 		RobotMap.swerveDriveEncoder.reset();
-		RobotMap.swerveDriveEncoder.setDistancePerPulse(0.1);
+		RobotMap.swerveDriveEncoder.setDistancePerPulse(RobotMap.SWERVE_DRIVE_ENCODER_DISTANCE_PER_TICK);
 		
 		resetQuadEncoder();
     }

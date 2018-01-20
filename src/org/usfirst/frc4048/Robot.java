@@ -73,7 +73,7 @@ public class Robot extends TimedRobot {
     public void disabledInit(){
         // TODO - MOve to subsystem
 		RobotMap.swerveDriveEncoder.reset();
-		RobotMap.swerveDriveEncoder.setDistancePerPulse(0.1);
+		RobotMap.swerveDriveEncoder.setDistancePerPulse(RobotMap.SWERVE_DRIVE_ENCODER_DISTANCE_PER_TICK);
 
     }
 
@@ -83,6 +83,8 @@ public class Robot extends TimedRobot {
 //        SmartDashboard.putString("DB/String 1", "" + Robot.drivetrain.analogInput1.getValue());
         
         SmartDashboard.putNumber("Front Right Encoder Pos", Robot.drivetrain.getFREncoderPos());
+        SmartDashboard.putNumber("Distance Disabled", RobotMap.swerveDriveEncoder.getDistance());
+
     }
 
     @Override
@@ -116,7 +118,7 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
-        SmartDashboard.putNumber("Distance", RobotMap.swerveDriveEncoder.getDistance());
+        SmartDashboard.putNumber("Distance Teleop", RobotMap.swerveDriveEncoder.getDistance());
         
         SmartDashboard.putNumber("Front Right Encoder Pos", Robot.drivetrain.getFREncoderPos());
 

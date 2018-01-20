@@ -48,6 +48,8 @@ public class RobotMap {
     
     public static Encoder swerveDriveEncoder;
     
+    public static double SWERVE_DRIVE_ENCODER_DISTANCE_PER_TICK = 0.0942478739;
+    
     public static PigeonIMU swerveDrivePigeon1;
 	
     @SuppressWarnings("deprecation")
