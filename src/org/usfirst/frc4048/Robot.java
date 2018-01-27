@@ -82,8 +82,7 @@ public class Robot extends TimedRobot {
         Scheduler.getInstance().run();
 //        SmartDashboard.putString("DB/String 1", "" + Robot.drivetrain.analogInput1.getValue());
         
-        SmartDashboard.putNumber("Front Right Encoder Pos", Robot.drivetrain.getFREncoderPos());
-        SmartDashboard.putNumber("Distance Disabled", RobotMap.swerveDriveEncoder.getDistance());
+        SmartDashboard.putNumber("Distance", RobotMap.swerveDriveEncoder.getDistance());
         Robot.drivetrain.outputAbsEncValues();
         SmartDashboard.putNumber("JoyStick Left X", oi.getLeftJoystick().getX());
         SmartDashboard.putNumber("JoyStick Left Y", oi.getLeftJoystick().getY());
@@ -122,9 +121,7 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
-        SmartDashboard.putNumber("Distance Teleop", RobotMap.swerveDriveEncoder.getDistance());
-        
-        SmartDashboard.putNumber("Front Right Encoder Pos", Robot.drivetrain.getFREncoderPos());
+        SmartDashboard.putNumber("Distance", RobotMap.swerveDriveEncoder.getDistance());
         
         Robot.drivetrain.outputAbsEncValues();
 
@@ -133,7 +130,6 @@ public class Robot extends TimedRobot {
     @Override
     public void testPeriodic()
     {
-        SmartDashboard.putNumber("Front Right Encoder Pos", Robot.drivetrain.getFREncoderPos());
         Robot.drivetrain.outputAbsEncValues();
     }
 }

@@ -73,14 +73,14 @@ public class Drivetrain extends Subsystem {
     private CanTalonSwerveEnclosure rearLeftWheel;
     private CanTalonSwerveEnclosure rearRightWheel;
     
-    private AnalogInput analogInput1 = RobotMap.swerveDriveAnalogInputFrontRight;
-    private AnalogInput analogInput2 = RobotMap.swerveDriveAnalogInputFrontLeft;
-    private AnalogInput analogInput3 = RobotMap.swerveDriveAnalogInputRearLeft;
-    private AnalogInput analogInput4 = RobotMap.swerveDriveAnalogInputRearRight;
+    private AnalogInput analogInputFrontRight = RobotMap.swerveDriveAnalogInputFrontRight;
+    private AnalogInput analogInputFrontLeft = RobotMap.swerveDriveAnalogInputFrontLeft;
+    private AnalogInput analogInputRearLeft = RobotMap.swerveDriveAnalogInputRearLeft;
+    private AnalogInput analogInputRearRight = RobotMap.swerveDriveAnalogInputRearRight;
     
-    //private final Encoder encoder1 = RobotMap.swerveDriveEncoder;
+    private final Encoder encoder = RobotMap.swerveDriveEncoder;
     
-    private final PigeonIMU pigeon1 = RobotMap.swerveDrivePigeon1;
+    private final PigeonIMU pigeon = RobotMap.swerveDrivePigeon1;
     
     private final boolean REVERSE_ENCODER = true;
     private final boolean REVERSE_OUTPUT = true;
@@ -93,10 +93,10 @@ public class Drivetrain extends Subsystem {
      * 4 = Back Right
      */
     
-    private final int ZERO1 = 2741;
-    private final int ZERO2 = 793;
-    private final int ZERO3 = 3819;
-    private final int ZERO4 = 2621;
+    private final int FR_ZERO = 2741;
+    private final int FL_ZERO = 793;
+    private final int RL_ZERO = 3819;
+    private final int RR_ZERO = 2621;
     
     private final double P = 10;
     private final double I = 0;
@@ -109,9 +109,10 @@ public class Drivetrain extends Subsystem {
     private final double LEFT_JOY_Y_MAX_DEADZONE = 0.015748031437397003;
     private final double RIGHT_JOY_X_MIN_DEADZONE = -0.0078125;
     private final double RIGHT_JOY_X_MAX_DEADZONE = 0.031496062874794006;
-    
-    private final int timeout = 100;    //TODO
         
+    private final int timeout = 100;    //TODO
+    
+    
     /**
      * Constructor for robot drivetrain
      * Initializes all of the wheel enclosures and speed controllers
@@ -158,11 +159,8 @@ public class Drivetrain extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
     public void init() {
-		pigeon1.setYaw(0, timeout);
-		pigeon1.setFusedHeading(0, timeout);
-		
-//		encoder1.reset();
-//		encoder1.setDistancePerPulse(0.0942478739);
+		pigeon.setYaw(0, timeout);
+		pigeon.setFusedHeading(0, timeout);
 		
 		initSteerMotor(frontRightSteerMotor);
 		initSteerMotor(frontLeftSteerMotor);
@@ -179,8 +177,8 @@ public class Drivetrain extends Subsystem {
 		rearLeftWheel.setReverseSteerMotor(REVERSE_OUTPUT);
 		rearRightWheel.setReverseSteerMotor(REVERSE_OUTPUT);
 		
-		RobotMap.swerveDriveEncoder.reset();
-		RobotMap.swerveDriveEncoder.setDistancePerPulse(RobotMap.SWERVE_DRIVE_ENCODER_DISTANCE_PER_TICK);
+		encoder.reset();
+		encoder.setDistancePerPulse(RobotMap.SWERVE_DRIVE_ENCODER_DISTANCE_PER_TICK);
 		
 		resetQuadEncoder();
     }
@@ -209,10 +207,10 @@ public class Drivetrain extends Subsystem {
     }
     
     public void resetQuadEncoder() {
-    	frontRightSteerMotor.setSelectedSensorPosition((int)((analogInput1.getValue() - ZERO1)/4000.0 * GEAR_RATIO), 0, timeout);
-    	frontLeftSteerMotor.setSelectedSensorPosition((int) ((analogInput2.getValue() - ZERO2)/4000.0 * GEAR_RATIO), 0, timeout);
-    	rearLeftSteerMotor.setSelectedSensorPosition((int) ((analogInput3.getValue() - ZERO3)/4000.0 * GEAR_RATIO), 0, timeout);
-    	rearRightSteerMotor.setSelectedSensorPosition((int) ((analogInput4.getValue()- ZERO4)/4000.0 * GEAR_RATIO), 0, timeout);
+    	frontRightSteerMotor.setSelectedSensorPosition((int)((analogInputFrontRight.getValue() - FR_ZERO)/4000.0 * GEAR_RATIO), 0, timeout);
+    	frontLeftSteerMotor.setSelectedSensorPosition((int) ((analogInputFrontLeft.getValue() - FL_ZERO)/4000.0 * GEAR_RATIO), 0, timeout);
+    	rearLeftSteerMotor.setSelectedSensorPosition((int) ((analogInputRearLeft.getValue() - RL_ZERO)/4000.0 * GEAR_RATIO), 0, timeout);
+    	rearRightSteerMotor.setSelectedSensorPosition((int) ((analogInputRearRight.getValue()- RR_ZERO)/4000.0 * GEAR_RATIO), 0, timeout);
     	
     	frontRightSteerMotor.set(ControlMode.Position, 0);
     	frontLeftSteerMotor.set(ControlMode.Position, 0);
@@ -220,9 +218,16 @@ public class Drivetrain extends Subsystem {
     	rearRightSteerMotor.set(ControlMode.Position, 0);
     }
     
+    @SuppressWarnings("unused")
+	private void setGyro(double angle)
+    {
+    	pigeon.setYaw(angle, timeout);
+    	pigeon.setFusedHeading(angle, timeout);
+    }
+    
     public double getGyro()
     {
-    	double angle = 0 - pigeon1.getFusedHeading();
+    	double angle = 0 - pigeon.getFusedHeading();
     	return angle % 360;
     }
     
@@ -240,10 +245,10 @@ public class Drivetrain extends Subsystem {
      */
     public void outputAbsEncValues()
     {
-    	SmartDashboard.putNumber("Front Right Abs", analogInput1.getValue());
-    	SmartDashboard.putNumber("Front Left Abs", analogInput2.getValue());
-    	SmartDashboard.putNumber("Rear Left Abs", analogInput3.getValue());
-    	SmartDashboard.putNumber("Rear Right Abs", analogInput4.getValue());
+    	SmartDashboard.putNumber("Front Right Abs", analogInputFrontRight.getValue());
+    	SmartDashboard.putNumber("Front Left Abs", analogInputFrontLeft.getValue());
+    	SmartDashboard.putNumber("Rear Left Abs", analogInputRearLeft.getValue());
+    	SmartDashboard.putNumber("Rear Right Abs", analogInputRearRight.getValue());
     }
     
     /**
@@ -257,23 +262,8 @@ public class Drivetrain extends Subsystem {
     	rearRightSteerMotor.set(ControlMode.Position, 0);
     }
     
-    public void moveForward()
-    {
-    	final double SPEED = 0.2;
-    	frontRightDriveMotor.set(ControlMode.PercentOutput, SPEED);
-    	frontLeftDriveMotor.set(ControlMode.PercentOutput, SPEED);
-    	rearLeftDriveMotor.set(ControlMode.PercentOutput, SPEED);
-    	rearRightDriveMotor.set(ControlMode.PercentOutput, SPEED);
-    }
-  
-    public void setGyro(double angle)
-    {
-    	pigeon1.setYaw(angle, timeout);
-    	pigeon1.setFusedHeading(angle, timeout);
-    }
-    
     public double getDistance() {
-    	return RobotMap.swerveDriveEncoder.getDistance();
+    	return encoder.getDistance();
     }
     
     public void move(double fwd, double str, double rcw)
@@ -292,11 +282,5 @@ public class Drivetrain extends Subsystem {
     {
     	swerveDrivetrain.stop();
     }
-    
-    public int getFREncoderPos()
-    {
-    	return frontRightSteerMotor.getSelectedSensorPosition(0);
-    }
-
 }
 
