@@ -41,7 +41,7 @@ public class DriveDistance extends Command {
     	if(Robot.drivetrain.getDistance() < distance)
     		Robot.drivetrain.move(fwd, dir, rot);
     	
-    }
+     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
