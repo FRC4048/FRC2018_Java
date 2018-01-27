@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.command.Command;
 public class RotateAngle extends Command {
 
 	private double angle;
-	private double speed = 0.0;
 	
 	private final double PID_P = 310.0;
     private final double ANGLE_TOLERANCE = 3;	//Defines angle tolernace used when going to a specific location
@@ -26,14 +25,14 @@ public class RotateAngle extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    		
+    	
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	final double currAngle = Robot.drivetrain.getGyro();
     	
-    	if(speed == 0.0 && (Math.abs(angle - currAngle) < ANGLE_TOLERANCE))
+    	if(Math.abs(angle - currAngle) < ANGLE_TOLERANCE)
     	{
     		Robot.drivetrain.move(0, 0, 0);
     	}
@@ -55,7 +54,7 @@ public class RotateAngle extends Command {
 	        } else {
 	            speed -= SPEED_LOWER;
 	        }
-	        if (Math.abs(speed) > 0.22) {
+	        if (Math.abs(speed) > MAX_SPEED) {
 	            if (speed > 0) speed = MAX_SPEED;
 	            else speed = -MAX_SPEED;
 	        }
@@ -68,7 +67,7 @@ public class RotateAngle extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return speed == 0.0 || Math.abs(angle - Robot.drivetrain.getGyro()) < ANGLE_TOLERANCE;
+        return Math.abs(angle - Robot.drivetrain.getGyro()) < ANGLE_TOLERANCE;
     }
 
     // Called once after isFinished returns true

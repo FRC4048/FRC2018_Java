@@ -264,6 +264,14 @@ public class Drivetrain extends Subsystem {
     	return encoder.getDistance();
     }
     
+    /**
+     * Outputs direction of encoder
+     * @return - true if encoder direction is positive, false if encoder direction is negative
+     */
+    public boolean getEncoderDirection() {
+    	return encoder.getDirection();
+    }
+    
     public void move(double fwd, double str, double rcw)
     {
     	if(fwd <= LEFT_JOY_X_MAX_DEADZONE && fwd >= LEFT_JOY_X_MIN_DEADZONE)
