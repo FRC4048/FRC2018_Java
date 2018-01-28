@@ -129,7 +129,6 @@ public class Drivetrain extends Subsystem {
     	
     	rearRightWheel = new CanTalonSwerveEnclosure("RearRightWheel", 
 													rearRightDriveMotor, rearRightSteerMotor, GEAR_RATIO);
-
     	init();
     	
     	swerveDrivetrain = new SwerveDrive(frontRightWheel, frontLeftWheel, rearLeftWheel, rearRightWheel, 
