@@ -37,7 +37,7 @@ public class GetCube extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return !moveArm.isRunning() && !lowerIntake.isRunning() && !intakeCube.isRunning();
     }
 
     // Called once after isFinished returns true
