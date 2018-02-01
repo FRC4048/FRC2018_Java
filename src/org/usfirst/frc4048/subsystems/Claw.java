@@ -59,5 +59,9 @@ public class Claw extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 
+    public boolean hasCube()
+    {
+    	return cubeSwitch.get();
+    }
 }
 

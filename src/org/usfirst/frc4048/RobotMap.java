@@ -136,6 +136,7 @@ public class RobotMap {
         LiveWindow.addActuator("Intake", "rightIntakeMotor", (Talon) intakerightIntakeMotor);
         intakerightIntakeMotor.setInverted(false);
         intakecubeSwitch = new DigitalInput(7);
+        
         LiveWindow.addSensor("Intake", "cubeSwitch", intakecubeSwitch);
         
         intakedeployMotor = new Spark(2);

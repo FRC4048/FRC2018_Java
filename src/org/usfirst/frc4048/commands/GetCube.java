@@ -34,6 +34,8 @@ public class GetCube extends Command {
     	lowerIntake = new LowerIntake();
     	intakeCube = new IntakeCube();
     	levelClaw = new MoveClaw(0.0);
+    	openClaw = new OpenClaw();
+    	closeClaw = new CloseClaw();
     	
     	//Add something to check for cube in claw
     	
@@ -43,24 +45,26 @@ public class GetCube extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if(!lowerIntake.isCompleted() && !moveArmExchange.isCompleted())
-    	{
+    	if(!lowerIntake.isCompleted() && !moveArmExchange.isCompleted()) {
     		moveArmExchange = new MoveArm(ArmPositions.Exchange);
     		if(!intakeCube.isRunning() && !intakeCube.isCompleted()  &&
     		   !openClaw.isRunning() && ! openClaw.isCompleted()) {
     			intakeCube.start();
     			openClaw.start();
-    		}
-    		else {
+    		} else {
     			if(!levelClaw.isRunning() && !levelClaw.isCompleted()) {
     				levelClaw.start();
-    			}
-    			else {
+    			} else {
     				if(!moveArmGround.isRunning() && !moveArmGround.isCompleted()) {
     					moveArmGround.start();
-    				}
-    				else {
-    					
+    				} else {
+    					if(!closeClaw.isRunning() && !closeClaw.isCompleted()) {
+    						closeClaw.start(); 
+    					} else {
+	    					if(!moveArmExchange.isRunning() && !moveArmExchange.isCompleted()) {
+	    						moveArmExchange.start();
+	    					}
+    					}
     				}
     			}
     		}
@@ -75,6 +79,7 @@ public class GetCube extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	
     }
 
     // Called when another command which requires one or more of the same
