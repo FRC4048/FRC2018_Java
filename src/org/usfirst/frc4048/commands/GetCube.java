@@ -11,13 +11,13 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class GetCube extends Command {
 
-	Command moveArmGround;
 	Command moveArmExchange;
 	Command lowerIntake;
 	Command intakeCube;
 	Command levelClaw;
 	Command closeClaw;
 	Command openClaw;
+	Command finetuneDown;
 	
     public GetCube() {
         // Use requires() here to declare subsystem dependencies
@@ -29,13 +29,13 @@ public class GetCube extends Command {
     	
     	setTimeout(5.0);
     	
-    	moveArmGround = new MoveArm(ArmPositions.Cube);
     	moveArmExchange = new MoveArm(ArmPositions.Exchange);
     	lowerIntake = new LowerIntake();
     	intakeCube = new IntakeCube();
     	levelClaw = new MoveClaw(0.0);
     	openClaw = new OpenClaw();
     	closeClaw = new CloseClaw();
+    	finetuneDown = new FinetuneDown();
     	
     	//Add something to check for cube in claw
     	
@@ -55,11 +55,11 @@ public class GetCube extends Command {
     			if(!levelClaw.isRunning() && !levelClaw.isCompleted()) {
     				levelClaw.start();
     			} else {
-    				if(!moveArmGround.isRunning() && !moveArmGround.isCompleted()) {
-    					moveArmGround.start();
+    				if(!finetuneDown.isRunning() && !finetuneDown.isCompleted()) {
+    					finetuneDown.start();
     				} else {
-    					if(!closeClaw.isRunning() && !closeClaw.isCompleted()) {
-    						closeClaw.start(); 
+    					if(Robot.claw.hasCube() && !closeClaw.isRunning() && !closeClaw.isCompleted()) {
+    						closeClaw.start();
     					} else {
 	    					if(!moveArmExchange.isRunning() && !moveArmExchange.isCompleted()) {
 	    						moveArmExchange.start();
@@ -73,7 +73,7 @@ public class GetCube extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return isTimedOut() && !moveArmExchange.isCompleted() && !moveArmGround.isCompleted() && !lowerIntake.isCompleted() && 
+        return isTimedOut() && !moveArmExchange.isCompleted() && !lowerIntake.isCompleted() && 
         	   !intakeCube.isCompleted();
     }
 

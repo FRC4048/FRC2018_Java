@@ -42,11 +42,11 @@ public class Arm extends Subsystem {
 
 	public static enum ArmPositions
 	{
-		Cube,
 		Exchange,
 		Switch,
 		LowScale,
-		HighScale
+		HighScale,
+		Climb
 	}
 	
     @Override
