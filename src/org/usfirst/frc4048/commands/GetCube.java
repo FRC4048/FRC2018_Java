@@ -3,15 +3,9 @@ package org.usfirst.frc4048.commands;
 import org.usfirst.frc4048.Robot;
 import org.usfirst.frc4048.subsystems.Arm;
 import org.usfirst.frc4048.subsystems.Arm.ArmPositions;
-
-import com.sun.xml.internal.bind.v2.schemagen.xmlschema.Schema;
-
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
-/**
- *
- */
 public class GetCube extends Command {
 
 	Command moveArmExchange;
@@ -25,7 +19,9 @@ public class GetCube extends Command {
     public GetCube() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-
+    	requires(Robot.intake);
+    	requires(Robot.claw);
+    	requires(Robot.arm);
     }
 
     // Called just before this Command runs the first time
@@ -84,11 +80,24 @@ public class GetCube extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	
+    	moveArmExchange.cancel();
+    	intakeCube.cancel();
+    	lowerIntake.cancel();
+    	openClaw.cancel();
+    	closeClaw.cancel();
+    	levelClaw.cancel();
+    	finetuneDown.cancel();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	moveArmExchange.cancel();
+    	intakeCube.cancel();
+    	lowerIntake.cancel();
+    	openClaw.cancel();
+    	closeClaw.cancel();
+    	levelClaw.cancel();
+    	finetuneDown.cancel();
     }
 }

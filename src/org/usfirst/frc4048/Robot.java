@@ -137,6 +137,9 @@ public class Robot extends TimedRobot {
         SmartDashboard.putNumber("Distance", RobotMap.swerveDriveEncoder.getDistance());
         SmartDashboard.putNumber("Gyro Angle", Robot.drivetrain.getGyro());
         Robot.drivetrain.outputAbsEncValues();
+        
+        System.out.println(RobotMap.accelerometer.getAcceleration(edu.wpi.first.wpilibj.ADXL362.Axes.kX));
+        System.out.println(RobotMap.accelerometer.getAcceleration(edu.wpi.first.wpilibj.ADXL362.Axes.kY) + "\n");
     }
     
     @Override
