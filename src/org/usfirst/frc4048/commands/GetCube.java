@@ -4,7 +4,10 @@ import org.usfirst.frc4048.Robot;
 import org.usfirst.frc4048.subsystems.Arm;
 import org.usfirst.frc4048.subsystems.Arm.ArmPositions;
 
+import com.sun.xml.internal.bind.v2.schemagen.xmlschema.Schema;
+
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Scheduler;
 
 /**
  *
@@ -22,6 +25,7 @@ public class GetCube extends Command {
     public GetCube() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
+
     }
 
     // Called just before this Command runs the first time
@@ -58,8 +62,9 @@ public class GetCube extends Command {
     				if(!finetuneDown.isRunning() && !finetuneDown.isCompleted()) {
     					finetuneDown.start();
     				} else {
-    					if(Robot.claw.hasCube() && !closeClaw.isRunning() && !closeClaw.isCompleted()) {
+    					if(Robot.claw.aboveCube() && !closeClaw.isRunning() && !closeClaw.isCompleted()) {
     						closeClaw.start();
+    						finetuneDown.cancel();
     					} else {
 	    					if(!moveArmExchange.isRunning() && !moveArmExchange.isCompleted()) {
 	    						moveArmExchange.start();
