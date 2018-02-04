@@ -65,7 +65,7 @@ public class Drivetrain extends Subsystem {
     //Length between drivetrain wheels
     private final double LENGTH = 19;
     
-    private SwerveDrive swerveDrivetrain;
+    public SwerveDrive swerveDrivetrain;
     private CanTalonSwerveEnclosure frontLeftWheel;
     private CanTalonSwerveEnclosure frontRightWheel;
     private CanTalonSwerveEnclosure rearLeftWheel;
@@ -228,14 +228,14 @@ public class Drivetrain extends Subsystem {
     	return angle % 360;
     }
     
-    public void setFieldCentric(boolean x)
+  /*  public void setFieldCentric(boolean x)
     {
     	if (x) {
     		swerveDrivetrain.setCentricMode(CentricMode.FIELD);
     	} else {
     		swerveDrivetrain.setCentricMode(CentricMode.ROBOT);
     	}
-    }
+    }*/
     
     /**
      * Outputs absolute encoder positions
@@ -303,5 +303,7 @@ public class Drivetrain extends Subsystem {
     {
     	swerveDrivetrain.stop();
     }
+    
+   
 }
 

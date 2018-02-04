@@ -47,8 +47,9 @@ public class SwerveDrive {
 		swerveEnclosure4.stop();
 	}
 	
-	public void setCentricMode(CentricMode centricMode)
+	public void toggleMode()
 	{
-		this.swerveMath.setCentricMode(centricMode);
+		this.swerveMath.toggleCentricMode();
 	}
+	
 }
