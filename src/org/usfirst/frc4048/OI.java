@@ -110,7 +110,7 @@ public class OI {
         rightJoystick = new Joystick(1);
         
         toggleMode = new JoystickButton(rightJoystick, 10);
-        toggleMode.whenPressed(new BlankCommand());
+        toggleMode.whenPressed(new ToggleMode());
         ditchCube = new JoystickButton(rightJoystick, 9);
         ditchCube.whenPressed(new BlankCommand());
         intakeFlush = new JoystickButton(rightJoystick, 8);
