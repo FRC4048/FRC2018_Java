@@ -73,16 +73,25 @@ public class Claw extends Subsystem {
     {
     	super("Claw");
     	
-		gripMotor.configSelectedFeedbackSensor(FeedbackDevice.Analog, 0, TIMEOUT);
+    	gripMotor.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, 
+    											 LimitSwitchNormal.NormallyOpen, 
+    											 TIMEOUT);
+    	gripMotor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, 
+				 								 LimitSwitchNormal.NormallyOpen, 
+				 								 TIMEOUT);
 		gripMotor.selectProfileSlot(0, 0);
     	gripMotor.configPeakOutputForward(1, TIMEOUT);
     	gripMotor.configPeakOutputReverse(-1, TIMEOUT);
     	gripMotor.configNominalOutputForward(0, TIMEOUT);
     	gripMotor.configNominalOutputReverse(0, TIMEOUT);
 		gripMotor.setNeutralMode(NeutralMode.Brake);
-
 		
-		pitchMotor.configSelectedFeedbackSensor(FeedbackDevice.Analog, 0, TIMEOUT);
+		pitchMotor.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, 
+				 								 LimitSwitchNormal.NormallyOpen, 
+				 								 TIMEOUT);
+		pitchMotor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, 
+				 								  LimitSwitchNormal.NormallyOpen, 
+				 								  TIMEOUT);
 		pitchMotor.selectProfileSlot(0, 0);
     	pitchMotor.configPeakOutputForward(1, TIMEOUT);
     	pitchMotor.configPeakOutputReverse(-1, TIMEOUT);
@@ -113,15 +122,15 @@ public class Claw extends Subsystem {
     		return false;
     }
 
-//    public boolean gripClosed()
-//    {
-//    	
-//    }
-//    
-//    public boolean gripOpen()
-//    {
-//    	gripMotor.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal., timeoutMs)
-//    }
+    public boolean gripClosed()
+    {
+    	return gripMotor.getSensorCollection().isRevLimitSwitchClosed();
+    }
+    
+    public boolean gripOpen()
+    {
+    	return gripMotor.getSensorCollection().isFwdLimitSwitchClosed();
+    }
     
     public void openClaw()
     {
@@ -146,6 +155,16 @@ public class Claw extends Subsystem {
     public void angleDown()
     {
     	pitchMotor.set(ControlMode.PercentOutput, ANGLE_DOWN_SPEED);
+    }
+    
+    public boolean clawUp()
+    {
+    	return pitchMotor.getSensorCollection().isFwdLimitSwitchClosed();
+    }
+    
+    public boolean clawDown()
+    {
+    	return pitchMotor.getSensorCollection().isRevLimitSwitchClosed();
     }
     
     public void stopWrist()

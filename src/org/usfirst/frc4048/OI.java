@@ -14,6 +14,7 @@ package org.usfirst.frc4048;
 import org.usfirst.frc4048.commands.*;
 import org.usfirst.frc4048.commands.arm.GrabCube;
 import org.usfirst.frc4048.commands.arm.MoveArm;
+import org.usfirst.frc4048.commands.arm.OpenClaw;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import javafx.scene.control.ToggleButton;
@@ -106,7 +107,7 @@ public class OI {
         grabCube = new JoystickButton(controller, 6);
         grabCube.whenPressed(new GrabCube());
         releaseCube = new JoystickButton(controller, 5);
-        releaseCube.whenPressed(new BlankCommand());
+        releaseCube.whenPressed(new OpenClaw());
         rightJoystick = new Joystick(1);
         
         toggleMode = new JoystickButton(rightJoystick, 10);

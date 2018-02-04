@@ -27,8 +27,6 @@ public class MoveArm extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.arm.setMovingToPos(true);
-
     	if(!Robot.arm.armAtPosition(position))
     		Robot.arm.moveToPos(position);
     }
@@ -41,13 +39,11 @@ public class MoveArm extends Command {
     // Called once after isFinished returns true
     protected void end() {
     	Robot.arm.stopArm();
-    	Robot.arm.setMovingToPos(false);
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
     	Robot.arm.stopArm();
-    	Robot.arm.setMovingToPos(false);
     }
 }

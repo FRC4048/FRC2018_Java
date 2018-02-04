@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class GrabCube extends Command {
-
+	
     public GrabCube() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
@@ -16,17 +16,18 @@ public class GrabCube extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if(!Robot.claw.hasCube() && !isTimedOut())
+    	if(!Robot.claw.hasCube() && !Robot.claw.gripClosed() && !isTimedOut())
     		Robot.claw.closeClaw();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return Robot.claw.hasCube() || isTimedOut();
+        return Robot.claw.hasCube() || Robot.claw.gripClosed() || isTimedOut();
     }
 
     // Called once after isFinished returns true
