@@ -47,8 +47,6 @@ public class CanTalonSwerveEnclosure extends BaseEnclousre implements SwerveEncl
 	public int getEncPosition()
 	{
 		int reverse = reverseEncoder ? -1 : 1;
-		
-//		driveMotor.disable();
 		return reverse * steerMotor.getSelectedSensorPosition(0);
 	}
 	

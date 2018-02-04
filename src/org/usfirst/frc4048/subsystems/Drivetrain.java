@@ -108,7 +108,7 @@ public class Drivetrain extends Subsystem {
     private final double RIGHT_JOY_X_MIN_DEADZONE = -0.0078125;
     private final double RIGHT_JOY_X_MAX_DEADZONE = 0.031496062874794006;
         
-    private final int timeout = 100;    //TODO
+    private final int TIMEOUT = 100;    //TODO
     
     
     /**
@@ -156,8 +156,8 @@ public class Drivetrain extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
     public void init() {
-		pigeon.setYaw(0, timeout);
-		pigeon.setFusedHeading(0, timeout);
+		pigeon.setYaw(0, TIMEOUT);
+		pigeon.setFusedHeading(0, TIMEOUT);
 		
 		initSteerMotor(frontRightSteerMotor);
 		initSteerMotor(frontLeftSteerMotor);
@@ -182,32 +182,32 @@ public class Drivetrain extends Subsystem {
     
     private void initSteerMotor(WPI_TalonSRX steerMotor)
     {
-    	steerMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, timeout);
+    	steerMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, TIMEOUT);
     	
     	steerMotor.selectProfileSlot(0, 0); //Idx, Pdx
     	
     	//steerMotor.configEncoderCodesPerRev()
-    	steerMotor.configPeakOutputForward(1, timeout);
-    	steerMotor.configPeakOutputReverse(-1, timeout);
+    	steerMotor.configPeakOutputForward(1, TIMEOUT);
+    	steerMotor.configPeakOutputReverse(-1, TIMEOUT);
     	
-    	steerMotor.configNominalOutputForward(0, timeout);
-    	steerMotor.configNominalOutputReverse(0, timeout);
+    	steerMotor.configNominalOutputForward(0, TIMEOUT);
+    	steerMotor.configNominalOutputReverse(0, TIMEOUT);
     	
     	steerMotor.setNeutralMode(NeutralMode.Brake);
     	
-    	steerMotor.configAllowableClosedloopError(0, 4, timeout);//arg0 = slotIdx, arg2 = timeoutMs
+    	steerMotor.configAllowableClosedloopError(0, 4, TIMEOUT);//arg0 = slotIdx, arg2 = timeoutMs
     	
-    	steerMotor.config_kP(0, P, timeout);//1st arg is slotIdx
-    	steerMotor.config_kI(0, I, timeout);
-    	steerMotor.config_kD(0, D, timeout);
-    	steerMotor.config_kF(0, F, timeout);
+    	steerMotor.config_kP(0, P, TIMEOUT);//1st arg is slotIdx
+    	steerMotor.config_kI(0, I, TIMEOUT);
+    	steerMotor.config_kD(0, D, TIMEOUT);
+    	steerMotor.config_kF(0, F, TIMEOUT);
     }
     
     public void resetQuadEncoder() {
-    	frontRightSteerMotor.setSelectedSensorPosition((int)((analogInputFrontRight.getValue() - FR_ZERO)/4000.0 * GEAR_RATIO), 0, timeout);
-    	frontLeftSteerMotor.setSelectedSensorPosition((int) ((analogInputFrontLeft.getValue() - FL_ZERO)/4000.0 * GEAR_RATIO), 0, timeout);
-    	rearLeftSteerMotor.setSelectedSensorPosition((int) ((analogInputRearLeft.getValue() - RL_ZERO)/4000.0 * GEAR_RATIO), 0, timeout);
-    	rearRightSteerMotor.setSelectedSensorPosition((int) ((analogInputRearRight.getValue()- RR_ZERO)/4000.0 * GEAR_RATIO), 0, timeout);
+    	frontRightSteerMotor.setSelectedSensorPosition((int)((analogInputFrontRight.getValue() - FR_ZERO)/4000.0 * GEAR_RATIO), 0, TIMEOUT);
+    	frontLeftSteerMotor.setSelectedSensorPosition((int) ((analogInputFrontLeft.getValue() - FL_ZERO)/4000.0 * GEAR_RATIO), 0, TIMEOUT);
+    	rearLeftSteerMotor.setSelectedSensorPosition((int) ((analogInputRearLeft.getValue() - RL_ZERO)/4000.0 * GEAR_RATIO), 0, TIMEOUT);
+    	rearRightSteerMotor.setSelectedSensorPosition((int) ((analogInputRearRight.getValue()- RR_ZERO)/4000.0 * GEAR_RATIO), 0, TIMEOUT);
     	
     	frontRightSteerMotor.set(ControlMode.Position, 0);
     	frontLeftSteerMotor.set(ControlMode.Position, 0);
@@ -218,8 +218,8 @@ public class Drivetrain extends Subsystem {
     @SuppressWarnings("unused")
 	private void setGyro(double angle)
     {
-    	pigeon.setYaw(angle, timeout);
-    	pigeon.setFusedHeading(angle, timeout);
+    	pigeon.setYaw(angle, TIMEOUT);
+    	pigeon.setFusedHeading(angle, TIMEOUT);
     }
     
     public double getGyro()
@@ -279,6 +279,22 @@ public class Drivetrain extends Subsystem {
     		str = 0.0;
     	if(rcw <= RIGHT_JOY_X_MAX_DEADZONE && rcw >= RIGHT_JOY_X_MIN_DEADZONE)
     		rcw = 0.0;
+    
+    	//Square the values for finer movement
+    	if(fwd < 0)
+    		fwd *= fwd * -1;
+    	else
+    		fwd *= fwd;
+    	
+    	if(str < 0)
+    		str *= str * -1;
+    	else
+    		str *= str;
+    	
+    	if(rcw < 0)
+    		rcw *= rcw * -1;
+    	else
+    		rcw *= rcw;
     	
     	swerveDrivetrain.move(fwd, str, rcw, getGyro());
     }

@@ -14,12 +14,14 @@ package org.usfirst.frc4048;
 import org.usfirst.frc4048.commands.*;
 import org.usfirst.frc4048.commands.auto.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import javafx.scene.control.ToggleButton;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 import org.usfirst.frc4048.subsystems.*;
+import org.usfirst.frc4048.subsystems.Arm.ArmPositions;
 
 import com.sun.org.apache.xalan.internal.xsltc.trax.SmartTransformerFactoryImpl;
 
@@ -90,15 +92,15 @@ public class OI {
         cancelFunction = new JoystickButton(controller, 7);
         cancelFunction.whileHeld(new CancelCommand());
         moveToClimb = new JoystickButton(controller, 8);
-        moveToClimb.whenPressed(new BlankCommand());
+        moveToClimb.whenPressed(new MoveArm(ArmPositions.Climb));
         moveToExchange = new JoystickButton(controller, 3);
-        moveToExchange.whenPressed(new BlankCommand());
+        moveToExchange.whenPressed(new MoveArm(ArmPositions.Exchange));
         moveToHighScale = new JoystickButton(controller, 4);
-        moveToHighScale.whenPressed(new BlankCommand());
+        moveToHighScale.whenPressed(new MoveArm(ArmPositions.HighScale));
         moveToLowScale = new JoystickButton(controller, 2);
-        moveToLowScale.whenPressed(new BlankCommand());
+        moveToLowScale.whenPressed(new MoveArm(ArmPositions.LowScale));
         moveToSwitch = new JoystickButton(controller, 1);
-        moveToSwitch.whenPressed(new BlankCommand());
+        moveToSwitch.whenPressed(new MoveArm(ArmPositions.Switch));
         grabCube = new JoystickButton(controller, 6);
         grabCube.whenPressed(new GrabCube());
         releaseCube = new JoystickButton(controller, 5);
@@ -110,9 +112,9 @@ public class OI {
         ditchCube = new JoystickButton(rightJoystick, 9);
         ditchCube.whenPressed(new BlankCommand());
         intakeFlush = new JoystickButton(rightJoystick, 8);
-        intakeFlush.whileHeld(new BlankCommand());
+        intakeFlush.whileHeld(new FlushCube());
         toggleIntake = new JoystickButton(rightJoystick, 7);
-        toggleIntake.whenPressed(new BlankCommand());
+        toggleIntake.whenPressed(new ToggleIntake());
         leftJoystick = new Joystick(0);
         
 
