@@ -2,7 +2,7 @@ package org.usfirst.frc4048.commands.auto;
 
 import org.usfirst.frc4048.commands.BlankCommand;
 import org.usfirst.frc4048.commands.DriveDistance;
-import org.usfirst.frc4048.commands.MoveArm;
+import org.usfirst.frc4048.commands.arm.MoveArm;
 import org.usfirst.frc4048.commands.PrintCommand;
 import org.usfirst.frc4048.commands.RotateAngle;
 import org.usfirst.frc4048.subsystems.Arm.ArmPositions;

@@ -9,7 +9,7 @@
 	<classpathentry kind="lib" path="C:/Users/Team 4048/wpilib/java/current/lib/ntcore-sources.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Team 4048/wpilib/java/current/lib/opencv.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Team 4048/wpilib/java/current/lib/opencv-sources.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Team 4048/wpilib/java/current/lib/WPILib.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Team 4048/wpilib/java/current/lib/WPILib.jar" sourcepath="C:/Users/Team 4048/wpilib/java/current/lib/WPILib-sources.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Team 4048/wpilib/java/current/lib/WPILib-sources.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Team 4048/wpilib/java/current/lib/wpiutil.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Team 4048/wpilib/java/current/lib/wpiutil-sources.jar"/>
