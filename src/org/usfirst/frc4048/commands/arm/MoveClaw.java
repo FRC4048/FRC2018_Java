@@ -1,15 +1,23 @@
-package org.usfirst.frc4048.commands;
+package org.usfirst.frc4048.commands.arm;
+
+import org.usfirst.frc4048.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class FinetuneUp extends Command {
+public class MoveClaw extends Command {
 
-    public FinetuneUp() {
+	private double angle;
+	
+    public MoveClaw(double angle) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
+    	
+    	requires(Robot.claw);
+    	
+    	this.angle = angle;
     }
 
     // Called just before this Command runs the first time

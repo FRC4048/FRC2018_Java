@@ -12,6 +12,9 @@
 package org.usfirst.frc4048;
 
 import org.usfirst.frc4048.commands.*;
+import org.usfirst.frc4048.commands.arm.GrabCube;
+import org.usfirst.frc4048.commands.arm.MoveArm;
+import org.usfirst.frc4048.commands.arm.OpenClaw;
 import org.usfirst.frc4048.commands.auto.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import javafx.scene.control.ToggleButton;
@@ -104,7 +107,7 @@ public class OI {
         grabCube = new JoystickButton(controller, 6);
         grabCube.whenPressed(new GrabCube());
         releaseCube = new JoystickButton(controller, 5);
-        releaseCube.whenPressed(new BlankCommand());
+        releaseCube.whenPressed(new OpenClaw());
         rightJoystick = new Joystick(1);
         
         toggleMode = new JoystickButton(rightJoystick, 10);
@@ -166,6 +169,16 @@ public class OI {
     	boolean output = !rightTriggerPrevPressed && xboxController.getTriggerAxis(Hand.kRight) >= 0.75;
     	rightTriggerPrevPressed = xboxController.getTriggerAxis(Hand.kRight) >= 0.75;
     	return output;
+    }
+    
+    public boolean getLeftstickUp()
+    {
+    	return xboxController.getY(Hand.kLeft) <= -0.75;
+    }
+    
+    public boolean getLeftstickDown()
+    {
+    	return xboxController.getY(Hand.kLeft) >= 0.75;
     }
 }
 
