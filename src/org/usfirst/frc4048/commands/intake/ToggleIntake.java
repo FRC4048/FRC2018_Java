@@ -2,6 +2,7 @@ package org.usfirst.frc4048.commands.intake;
 
 import org.usfirst.frc4048.Robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -22,12 +23,22 @@ public class ToggleIntake extends Command {
     protected void initialize() {
     	lowerIntake = new LowerIntake();
     	raiseIntake = new RaiseIntake();
+    	//DriverStation.reportError("A Thing: " + Robot.intake.isLowered() + ", " + !Robot.intake.isRaised() + ", " + !Robot.intake.hasCube(), true);
+    	DriverStation.reportError("isRaised: "+ Robot.intake.isRaised(), true);
+    	DriverStation.reportError("isLowered: "+ Robot.intake.isLowered(), true);
     	
-    	if(Robot.intake.isLowered() && !Robot.intake.isRaised() && !Robot.intake.hasCube())
+    	
+    	if(Robot.intake.isLowered() && !Robot.intake.isRaised() && !Robot.intake.hasCube()) {
     		raiseIntake.start();
-    	else if(Robot.intake.isRaised() && !Robot.intake.isLowered() && !Robot.intake.hasCube())
+    		DriverStation.reportError("raiseIntake running", true);
+    	}else if(Robot.intake.isRaised() && !Robot.intake.isLowered() && !Robot.intake.hasCube()) {
     		lowerIntake.start();
-    }
+    		DriverStation.reportError("lowerIntake running", true);
+    	}else { //TODO Decide what the default intake position should be (Up or Down)
+    		raiseIntake.start();
+    		DriverStation.reportError("raiseIntake running", true);
+    	}
+    }	
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {

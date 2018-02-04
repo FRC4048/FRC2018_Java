@@ -2,6 +2,7 @@ package org.usfirst.frc4048.commands.intake;
 
 import org.usfirst.frc4048.Robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -32,6 +33,8 @@ public class IntakeCube extends Command {
 	    	else
 	    	{
 	    		Robot.intake.intakeCube();
+	    		DriverStation.reportError("Another Test.", true);
+	    		System.out.println("This is a test.");
 	    	}
     	}
     }
