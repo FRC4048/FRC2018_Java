@@ -3,25 +3,25 @@ package org.usfirst.frc4048.commands;
 import org.usfirst.frc4048.Robot;
 import org.usfirst.frc4048.subsystems.Arm;
 import org.usfirst.frc4048.subsystems.Arm.ArmPositions;
-
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Scheduler;
 
-/**
- *
- */
 public class GetCube extends Command {
 
-	Command moveArmGround;
 	Command moveArmExchange;
 	Command lowerIntake;
 	Command intakeCube;
 	Command levelClaw;
 	Command closeClaw;
 	Command openClaw;
+	Command finetuneDown;
 	
     public GetCube() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
+    	requires(Robot.intake);
+    	requires(Robot.claw);
+    	requires(Robot.arm);
     }
 
     // Called just before this Command runs the first time
@@ -29,13 +29,13 @@ public class GetCube extends Command {
     	
     	setTimeout(5.0);
     	
-    	moveArmGround = new MoveArm(ArmPositions.Cube);
     	moveArmExchange = new MoveArm(ArmPositions.Exchange);
     	lowerIntake = new LowerIntake();
     	intakeCube = new IntakeCube();
     	levelClaw = new MoveClaw(0.0);
     	openClaw = new OpenClaw();
     	closeClaw = new CloseClaw();
+    	finetuneDown = new FinetuneDown();
     	
     	//Add something to check for cube in claw
     	
@@ -55,11 +55,12 @@ public class GetCube extends Command {
     			if(!levelClaw.isRunning() && !levelClaw.isCompleted()) {
     				levelClaw.start();
     			} else {
-    				if(!moveArmGround.isRunning() && !moveArmGround.isCompleted()) {
-    					moveArmGround.start();
+    				if(!finetuneDown.isRunning() && !finetuneDown.isCompleted()) {
+    					finetuneDown.start();
     				} else {
-    					if(!closeClaw.isRunning() && !closeClaw.isCompleted()) {
-    						closeClaw.start(); 
+    					if(Robot.claw.aboveCube() && !closeClaw.isRunning() && !closeClaw.isCompleted()) {
+    						closeClaw.start();
+    						finetuneDown.cancel();
     					} else {
 	    					if(!moveArmExchange.isRunning() && !moveArmExchange.isCompleted()) {
 	    						moveArmExchange.start();
@@ -73,17 +74,30 @@ public class GetCube extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return isTimedOut() && !moveArmExchange.isCompleted() && !moveArmGround.isCompleted() && !lowerIntake.isCompleted() && 
+        return isTimedOut() && !moveArmExchange.isCompleted() && !lowerIntake.isCompleted() && 
         	   !intakeCube.isCompleted();
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	
+    	moveArmExchange.cancel();
+    	intakeCube.cancel();
+    	lowerIntake.cancel();
+    	openClaw.cancel();
+    	closeClaw.cancel();
+    	levelClaw.cancel();
+    	finetuneDown.cancel();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	moveArmExchange.cancel();
+    	intakeCube.cancel();
+    	lowerIntake.cancel();
+    	openClaw.cancel();
+    	closeClaw.cancel();
+    	levelClaw.cancel();
+    	finetuneDown.cancel();
     }
 }
