@@ -26,13 +26,14 @@ public class ToggleIntake extends Command {
     	//DriverStation.reportError("A Thing: " + Robot.intake.isLowered() + ", " + !Robot.intake.isRaised() + ", " + !Robot.intake.hasCube(), true);
     	DriverStation.reportError("isRaised: "+ Robot.intake.isRaised(), true);
     	DriverStation.reportError("isLowered: "+ Robot.intake.isLowered(), true);
-    	
+    	System.out.println("Test!");
     	if (Robot.intake.hasCube()) {
     		//Do nothing, since it has a cube
-    	}else if(Robot.intake.isLowered() && !Robot.intake.isRaised()) {
+    		DriverStation.reportError("There's a cube.", true);
+    	}else if(!Robot.intake.isLowered() && Robot.intake.isRaised()) {
     		raiseIntake.start();
     		DriverStation.reportError("raiseIntake running", true);
-    	}else if(Robot.intake.isRaised() && !Robot.intake.isLowered()) {
+    	}else if(!Robot.intake.isRaised() && Robot.intake.isLowered()) {
     		lowerIntake.start();
     		DriverStation.reportError("lowerIntake running", true);
     	}else{ //TODO Decide what the default intake position should be (Up or Down)

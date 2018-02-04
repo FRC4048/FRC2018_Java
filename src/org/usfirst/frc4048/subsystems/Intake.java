@@ -56,8 +56,8 @@ public class Intake extends Subsystem {
     private final double RAISE_SPEED =  0.3;
     private final double LOWER_SPEED = -0.15;
     
-    private final double ROLLER_SPEED = 0.4;
-    private final double VARIED_ROLLER_SPEED = 0.2;
+    private final double ROLLER_SPEED = 0.67;
+    private final double VARIED_ROLLER_SPEED = 0.33;
     
     @Override
     public void initDefaultCommand() {
@@ -96,6 +96,11 @@ public class Intake extends Subsystem {
     	deployMotor.set(LOWER_SPEED);
     }
     
+    public void stopLowerOrRaiseIntake()
+    {
+    	deployMotor.set(0);
+    }
+    
     public void intakeCube()
     {
     	leftIntakeMotor.set(ROLLER_SPEED);
@@ -125,11 +130,18 @@ public class Intake extends Subsystem {
     	return !cubeSwitch.get();
     }
     
+    /**
+     * Returns true when the switch is NOT pressed
+     * @return
+     */
     public boolean isLowered()
     {
-    	return lowerLimit.get();
+    	return lowerLimit.get(); 
     }
-    
+    /**
+     * Returns true when the switch is NOT pressed
+     * @return
+     */
     public boolean isRaised()
     {
     	return upperLimit.get();
