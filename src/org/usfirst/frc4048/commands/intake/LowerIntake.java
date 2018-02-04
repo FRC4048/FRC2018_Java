@@ -17,7 +17,7 @@ public class LowerIntake extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	setTimeout(2.0);
+    	setTimeout(2.0); //TODO Implement LowerIntake timeouts and test them (uncomment them, and make sure they work)
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -28,7 +28,7 @@ public class LowerIntake extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return !Robot.intake.isLowered();// || !isTimedOut();
+        return !Robot.intake.isLowered();// || isTimedOut();
     }
 
     // Called once after isFinished returns true
