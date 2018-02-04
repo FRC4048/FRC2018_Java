@@ -13,7 +13,6 @@ package org.usfirst.frc4048;
 
 import org.usfirst.frc4048.commands.*;
 import org.usfirst.frc4048.commands.intake.FlushCube;
-import org.usfirst.frc4048.commands.intake.GrabCube;
 import org.usfirst.frc4048.commands.intake.ToggleIntake;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
