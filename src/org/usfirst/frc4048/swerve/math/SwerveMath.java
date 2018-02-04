@@ -8,6 +8,9 @@ public class SwerveMath {
 	private final double width;
 	private final double diagonal;
 	private final double SCALE_SPEED = 1.00;
+/**
+ * WARNING: if you change this variable to field centric it will mess with the autonomous!!!
+ */
 	private CentricMode centricMode = CentricMode.ROBOT;
 
 	public SwerveMath(double width, double length) {
