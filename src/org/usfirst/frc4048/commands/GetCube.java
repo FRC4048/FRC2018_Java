@@ -3,6 +3,11 @@ package org.usfirst.frc4048.commands;
 import org.usfirst.frc4048.Robot;
 import org.usfirst.frc4048.commands.intake.IntakeCube;
 import org.usfirst.frc4048.commands.intake.LowerIntake;
+import org.usfirst.frc4048.commands.arm.GrabCube;
+import org.usfirst.frc4048.commands.arm.ArmFinetune;
+import org.usfirst.frc4048.commands.arm.MoveArm;
+import org.usfirst.frc4048.commands.arm.MoveClaw;
+import org.usfirst.frc4048.commands.arm.OpenClaw;
 import org.usfirst.frc4048.subsystems.Arm;
 import org.usfirst.frc4048.subsystems.Arm.ArmPositions;
 import edu.wpi.first.wpilibj.command.Command;
@@ -21,9 +26,7 @@ public class GetCube extends Command {
     public GetCube() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.intake);
-    	requires(Robot.claw);
-    	requires(Robot.arm);
+
     }
 
     // Called just before this Command runs the first time
@@ -36,8 +39,8 @@ public class GetCube extends Command {
     	intakeCube = new IntakeCube();
     	levelClaw = new MoveClaw(0.0);
     	openClaw = new OpenClaw();
-    	closeClaw = new CloseClaw();
-    	finetuneDown = new FinetuneDown();
+    	closeClaw = new GrabCube();
+    	finetuneDown = new ArmFinetune();
     	
     	//Add something to check for cube in claw
     	

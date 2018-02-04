@@ -76,10 +76,7 @@ public class RobotMap {
     
     public static Encoder swerveDriveEncoder;
     
-    public static ADXRS450_Gyro gyro0;
-    public static ADXL362 accelerometer;
-    public static ADXRS450_Gyro gyro2;
-    public static ADXRS450_Gyro gyro3;
+    public static ADXRS450_Gyro gyro;
     
     public static double SWERVE_DRIVE_ENCODER_DISTANCE_PER_TICK = 0.0942478739;
     
@@ -183,10 +180,7 @@ public class RobotMap {
         
         swerveDrivePigeon1 = new PigeonIMU(9);
         
-        gyro0 = new ADXRS450_Gyro(Port.kOnboardCS0);
-        gyro2 = new ADXRS450_Gyro(Port.kOnboardCS2);
-        gyro3 = new ADXRS450_Gyro(Port.kOnboardCS3);
-        accelerometer = new ADXL362(Port.kOnboardCS1, Range.k2G);
+        gyro = new ADXRS450_Gyro(Port.kOnboardCS0);
         
         pdp = new PowerDistributionPanel(0);
     }

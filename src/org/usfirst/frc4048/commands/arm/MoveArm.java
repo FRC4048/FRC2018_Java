@@ -1,4 +1,4 @@
-package org.usfirst.frc4048.commands;
+package org.usfirst.frc4048.commands.arm;
 
 import org.usfirst.frc4048.subsystems.Arm.ArmPositions;
 
@@ -20,6 +20,7 @@ public class MoveArm extends Command {
     	this.position = position;
     }
 
+    
     // Called just before this Command runs the first time
     protected void initialize() {
     	setTimeout(3.0);

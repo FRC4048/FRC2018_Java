@@ -1,4 +1,4 @@
-package org.usfirst.frc4048.commands;
+package org.usfirst.frc4048.commands.arm;
 
 import org.usfirst.frc4048.Robot;
 
