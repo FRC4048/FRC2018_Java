@@ -228,14 +228,6 @@ public class Drivetrain extends Subsystem {
     	return angle % 360;
     }
     
-  /*  public void setFieldCentric(boolean x)
-    {
-    	if (x) {
-    		swerveDrivetrain.setCentricMode(CentricMode.FIELD);
-    	} else {
-    		swerveDrivetrain.setCentricMode(CentricMode.ROBOT);
-    	}
-    }*/
     
     /**
      * Outputs absolute encoder positions
