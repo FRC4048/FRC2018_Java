@@ -1,13 +1,13 @@
-package org.usfirst.frc4048.commands;
+package org.usfirst.frc4048.commands.arm;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class FinetuneDown extends Command {
+public class OpenClaw extends Command {
 
-    public FinetuneDown() {
+    public OpenClaw() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     }
