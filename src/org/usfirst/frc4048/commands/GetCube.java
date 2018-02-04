@@ -1,6 +1,8 @@
 package org.usfirst.frc4048.commands;
 
 import org.usfirst.frc4048.Robot;
+import org.usfirst.frc4048.commands.intake.IntakeCube;
+import org.usfirst.frc4048.commands.intake.LowerIntake;
 import org.usfirst.frc4048.commands.arm.GrabCube;
 import org.usfirst.frc4048.commands.arm.ArmFinetune;
 import org.usfirst.frc4048.commands.arm.MoveArm;

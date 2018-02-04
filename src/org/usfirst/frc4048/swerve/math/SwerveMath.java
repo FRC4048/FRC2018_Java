@@ -25,8 +25,15 @@ public class SwerveMath {
 		return centricMode;
 	}
 
-	public void setCentricMode(CentricMode centricMode) {
-		this.centricMode = centricMode;
+	public void toggleCentricMode() {
+		switch(centricMode) {
+		case ROBOT:
+			centricMode=CentricMode.FIELD;
+			break;
+		case FIELD:
+			centricMode=CentricMode.ROBOT;
+			break;
+			}
 	}
 
 	public List<SwerveDirective> move(double fwd, double str, double rcw, Double gyroValue) {

@@ -1,15 +1,17 @@
-package org.usfirst.frc4048.commands;
+package org.usfirst.frc4048.commands.intake;
 
 import org.usfirst.frc4048.Robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class RaiseIntake extends Command {
+public class IntakeCube extends Command {
 
-    public RaiseIntake() {
+    public IntakeCube() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.intake);
@@ -17,16 +19,29 @@ public class RaiseIntake extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	setTimeout(2.0);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.intake.raiseIntake();
+    	if(!Robot.intake.hasCube() && Robot.intake.isLowered() && !isTimedOut())
+    	{
+	    	if(Robot.oi.getXboxController().getTriggerAxis(Hand.kLeft) > 0.75)
+	    	{
+	    		Robot.intake.adjustCube();
+	    	}
+	    	else
+	    	{
+	    		Robot.intake.intakeCube();
+	    		DriverStation.reportError("Another Test.", true);
+	    		System.out.println("This is a test.");
+	    	}
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return Robot.intake.isRaised();
+        return Robot.intake.hasCube() || !Robot.intake.isLowered() || isTimedOut();
     }
 
     // Called once after isFinished returns true

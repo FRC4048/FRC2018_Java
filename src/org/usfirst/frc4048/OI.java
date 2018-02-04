@@ -12,6 +12,8 @@
 package org.usfirst.frc4048;
 
 import org.usfirst.frc4048.commands.*;
+import org.usfirst.frc4048.commands.intake.FlushCube;
+import org.usfirst.frc4048.commands.intake.ToggleIntake;
 import org.usfirst.frc4048.commands.arm.GrabCube;
 import org.usfirst.frc4048.commands.arm.MoveArm;
 import org.usfirst.frc4048.commands.arm.OpenClaw;
@@ -111,7 +113,7 @@ public class OI {
         rightJoystick = new Joystick(1);
         
         toggleMode = new JoystickButton(rightJoystick, 10);
-        toggleMode.whenPressed(new BlankCommand());
+        toggleMode.whenPressed(new ToggleMode());
         ditchCube = new JoystickButton(rightJoystick, 9);
         ditchCube.whenPressed(new BlankCommand());
         intakeFlush = new JoystickButton(rightJoystick, 8);
