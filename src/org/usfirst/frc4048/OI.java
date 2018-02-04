@@ -171,12 +171,12 @@ public class OI {
     
     public boolean getLeftstickUp()
     {
-    	return xboxController.getY(Hand.kLeft) >= 0.75;
+    	return xboxController.getY(Hand.kLeft) <= -0.75;
     }
     
     public boolean getLeftstickDown()
     {
-    	return xboxController.getY(Hand.kLeft) <= -0.75;
+    	return xboxController.getY(Hand.kLeft) >= 0.75;
     }
 }
 

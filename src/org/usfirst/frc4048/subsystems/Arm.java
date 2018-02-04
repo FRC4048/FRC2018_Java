@@ -14,7 +14,6 @@ package org.usfirst.frc4048.subsystems;
 import org.usfirst.frc4048.RobotMap;
 import org.usfirst.frc4048.commands.*;
 import org.usfirst.frc4048.commands.arm.ArmFinetune;
-import org.usfirst.frc4048.commands.arm.FinetuneUp;
 import org.usfirst.frc4048.*;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -64,7 +63,7 @@ public class Arm extends Subsystem {
     private final double ARM_I = 0.0;
     private final double ARM_D = 0.0;
     
-    private final double FINETUNE_SPEED = 0.1;
+    private final double FINETUNE_SPEED = 0.01;
     private final double ARM_STOP_SPEED = 0.05;
     
     private double armSetpoint;
@@ -140,7 +139,7 @@ public class Arm extends Subsystem {
     	
     	moveArm();
     	moveExtension();
-    	
+    	   	
     	SmartDashboard.putNumber("Setpoint", armSetpoint);
     	SmartDashboard.putNumber("Current Value", getArmPos());
     }
