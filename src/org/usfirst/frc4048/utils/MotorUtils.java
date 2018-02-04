@@ -31,6 +31,8 @@ public class MotorUtils {
 		this.timeout = timeout;
 	}
 	
+	
+	
 	public boolean isStalled()
 	{
 		if (RobotMap.pdp.getCurrent(PDPChannel) < currentThreshold)
@@ -44,6 +46,7 @@ public class MotorUtils {
 				DriverStation.reportError("Motor stall, PDP Channel=" + PDPChannel, false);
 				return true;
 			}
+			
 		}
 		return false;
 	}
