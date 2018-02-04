@@ -1,4 +1,4 @@
-package org.usfirst.frc4048.commands;
+package org.usfirst.frc4048.commands.intake;
 
 import org.usfirst.frc4048.Robot;
 
@@ -7,37 +7,42 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class LowerIntake extends Command {
+public class ToggleIntake extends Command {
 
-    public LowerIntake() {
+	Command lowerIntake;
+	Command raiseIntake;
+	
+    public ToggleIntake() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	setTimeout(2.0);
+    	lowerIntake = new LowerIntake();
+    	raiseIntake = new RaiseIntake();
+    	
+    	if(Robot.intake.isLowered() && !Robot.intake.isRaised() && !Robot.intake.hasCube())
+    		raiseIntake.start();
+    	else if(Robot.intake.isRaised() && !Robot.intake.isLowered() && !Robot.intake.hasCube())
+    		lowerIntake.start();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if(!isTimedOut())
-    		Robot.intake.lowerIntake();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return Robot.intake.isLowered() || !isTimedOut();
+        return true;
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.intake.stopIntake();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	Robot.intake.stopIntake();
     }
 }

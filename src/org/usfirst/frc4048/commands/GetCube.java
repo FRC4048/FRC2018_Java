@@ -1,6 +1,8 @@
 package org.usfirst.frc4048.commands;
 
 import org.usfirst.frc4048.Robot;
+import org.usfirst.frc4048.commands.intake.IntakeCube;
+import org.usfirst.frc4048.commands.intake.LowerIntake;
 import org.usfirst.frc4048.subsystems.Arm;
 import org.usfirst.frc4048.subsystems.Arm.ArmPositions;
 import edu.wpi.first.wpilibj.command.Command;
