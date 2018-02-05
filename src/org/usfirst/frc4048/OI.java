@@ -19,7 +19,6 @@ import org.usfirst.frc4048.commands.arm.MoveArm;
 import org.usfirst.frc4048.commands.arm.OpenClaw;
 import org.usfirst.frc4048.commands.auto.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import javafx.scene.control.ToggleButton;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
@@ -27,8 +26,6 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 import org.usfirst.frc4048.subsystems.*;
 import org.usfirst.frc4048.subsystems.Arm.ArmPositions;
-
-import com.sun.org.apache.xalan.internal.xsltc.trax.SmartTransformerFactoryImpl;
 
 
 /**
