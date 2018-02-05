@@ -1,54 +1,50 @@
-package org.usfirst.frc4048.commands;
+package org.usfirst.frc4048.commands.arm;
+
+import org.usfirst.frc4048.subsystems.Arm.ArmPositions;
+
+import edu.wpi.first.wpilibj.command.Command;
 
 import org.usfirst.frc4048.Robot;
-
-import edu.wpi.first.wpilibj.GenericHID.Hand;
-import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class IntakeCube extends Command {
+public class MoveArm extends Command {
 
-    public IntakeCube() {
+	ArmPositions position; 
+	
+    public MoveArm(ArmPositions position) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.intake);
+    	
+    	this.position = position;
     }
 
+    
     // Called just before this Command runs the first time
     protected void initialize() {
-    	setTimeout(2.0);
+    	setTimeout(3.0);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if(!Robot.intake.hasCube() && Robot.intake.isLowered() && !isTimedOut())
-    	{
-	    	if(Robot.oi.getXboxController().getTriggerAxis(Hand.kLeft) > 0.75)
-	    	{
-	    		Robot.intake.adjustCube();
-	    	}
-	    	else
-	    	{
-	    		Robot.intake.intakeCube();
-	    	}
-    	}
+    	if(!Robot.arm.armAtPosition(position))
+    		Robot.arm.moveToPos(position);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return Robot.intake.hasCube() || !Robot.intake.isLowered() || isTimedOut();
+        return isTimedOut() || Robot.arm.armAtPosition(position);
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.intake.stopIntake();
+    	Robot.arm.stopArm();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	Robot.intake.stopIntake();
+    	Robot.arm.stopArm();
     }
 }

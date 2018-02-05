@@ -12,9 +12,13 @@
 package org.usfirst.frc4048;
 
 import org.usfirst.frc4048.commands.*;
+import org.usfirst.frc4048.commands.intake.FlushCube;
+import org.usfirst.frc4048.commands.intake.ToggleIntake;
+import org.usfirst.frc4048.commands.arm.GrabCube;
+import org.usfirst.frc4048.commands.arm.MoveArm;
+import org.usfirst.frc4048.commands.arm.OpenClaw;
 import org.usfirst.frc4048.commands.auto.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import javafx.scene.control.ToggleButton;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
@@ -22,8 +26,6 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 import org.usfirst.frc4048.subsystems.*;
 import org.usfirst.frc4048.subsystems.Arm.ArmPositions;
-
-import com.sun.org.apache.xalan.internal.xsltc.trax.SmartTransformerFactoryImpl;
 
 
 /**
@@ -104,11 +106,11 @@ public class OI {
         grabCube = new JoystickButton(controller, 6);
         grabCube.whenPressed(new GrabCube());
         releaseCube = new JoystickButton(controller, 5);
-        releaseCube.whenPressed(new BlankCommand());
+        releaseCube.whenPressed(new OpenClaw());
         rightJoystick = new Joystick(1);
         
         toggleMode = new JoystickButton(rightJoystick, 10);
-        toggleMode.whenPressed(new BlankCommand());
+        toggleMode.whenPressed(new ToggleMode());
         ditchCube = new JoystickButton(rightJoystick, 9);
         ditchCube.whenPressed(new BlankCommand());
         intakeFlush = new JoystickButton(rightJoystick, 8);
@@ -166,6 +168,16 @@ public class OI {
     	boolean output = !rightTriggerPrevPressed && xboxController.getTriggerAxis(Hand.kRight) >= 0.75;
     	rightTriggerPrevPressed = xboxController.getTriggerAxis(Hand.kRight) >= 0.75;
     	return output;
+    }
+    
+    public boolean getLeftstickUp()
+    {
+    	return xboxController.getY(Hand.kLeft) <= -0.75;
+    }
+    
+    public boolean getLeftstickDown()
+    {
+    	return xboxController.getY(Hand.kLeft) >= 0.75;
     }
 }
 

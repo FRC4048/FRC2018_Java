@@ -165,17 +165,9 @@ public class Robot extends TimedRobot {
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
         
-        SmartDashboard.putNumber("Distance", RobotMap.swerveDriveEncoder.getDistance());
-        SmartDashboard.putNumber("Gyro Angle", Robot.drivetrain.getGyro());
-        Robot.drivetrain.outputAbsEncValues();
-        
-        SmartDashboard.putNumber("Accel X", RobotMap.accelerometer.getX());
-        SmartDashboard.putNumber("Accel Y", RobotMap.accelerometer.getY());
-        SmartDashboard.putNumber("Accel Z", RobotMap.accelerometer.getZ());
-        
-        SmartDashboard.putNumber("Gyro 0 X", RobotMap.gyro0.getAngle());
-        SmartDashboard.putNumber("Gyro 2 X", RobotMap.gyro2.getAngle());
-        SmartDashboard.putNumber("Gyro 3 X", RobotMap.gyro3.getAngle());
+//        SmartDashboard.putNumber("Distance", RobotMap.swerveDriveEncoder.getDistance());
+//        SmartDashboard.putNumber("Gyro Angle", Robot.drivetrain.getGyro());
+//        Robot.drivetrain.outputAbsEncValues();
     }
     
     @Override
