@@ -67,12 +67,14 @@ public class Robot extends TimedRobot {
         oi = new OI();
         
         chooser.addDefault("BaseLine", Action.B);
+        chooser.addObject("Robot on left, do switch if its left or scale if on the left", Action.LWL);
+        chooser.addObject("Robot on right, do switch if its right or scale if on the right", Action.LWR);
+        chooser.addObject("Robot on left, do scale if its left or switch if on the left", Action.LCL);
+        chooser.addObject("Robot on right, do scale if its right or switch if on the right", Action.LCR);
         chooser.addObject("Scale Robot Right", Action.CR);
         chooser.addObject("Scale Robot Left", Action.CL);
         chooser.addObject("Switch Robot Right", Action.WR);
         chooser.addObject("Switch Robot Left", Action.WL);
-        chooser.addObject("Local Robot Right", Action.LR);
-        chooser.addObject("Local Robot Left", Action.LL);
         chooser.addObject("Do Nothing", Action.N);
         
         
@@ -102,9 +104,9 @@ public class Robot extends TimedRobot {
         
         SmartDashboard.putNumber("Distance", RobotMap.swerveDriveEncoder.getDistance());
         Robot.drivetrain.outputAbsEncValues();
-        SmartDashboard.putNumber("JoyStick Left X", oi.getLeftJoystick().getX());
-        SmartDashboard.putNumber("JoyStick Left Y", oi.getLeftJoystick().getY());
-        SmartDashboard.putNumber("JoyStick Right X", oi.getRightJoystick().getX());
+        //SmartDashboard.putNumber("JoyStick Left X", oi.getLeftJoystick().getX());
+        //SmartDashboard.putNumber("JoyStick Left Y", oi.getLeftJoystick().getY());
+        //SmartDashboard.putNumber("JoyStick Right X", oi.getRightJoystick().getX());
     }
 
     @Override

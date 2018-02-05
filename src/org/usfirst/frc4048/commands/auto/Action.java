@@ -6,12 +6,16 @@ public enum Action {
 	 * CL = Scale Robot Left
 	 * WR = Switch Robot Right
 	 * WL = Switch Robot Left
-	 * LR = Local Robot Right
-	 * LL = Local Robot Left
+	 * LWR = Local Robot Right(Switch Priority)
+	 * LWL = Local Robot Left(Switch priority)
+	 * LCR = Local Robot Right(Scale Priority)
+	 * LCL = Local Robot Left(Scale Priority)
 	 * 
 	 * NOTE: Local means that the robot will choose to go to either the switch or the scale
 	 * depending on the position of the scale/switch
 	 */
-	
-	B,CR,CL,WR,WL,LR,LL,N
+	//For the labeling of the commands (Ex: AutoScaleRR) the first letter is the 
+	//robot position and the second is the position of the switch/scale
+
+	B,CR,CL,WR,WL,LWR,LWL,N,LCR,LCL 
 }

@@ -104,7 +104,35 @@ public class AutoAction extends Command {
     			selectCmd = new AutoBase();
     		}
     		break;
-    	case LR:
+    	case LWR:
+    		if(scalePos == 'R')
+    		{
+    			selectCmd = new AutoSwitchRRGroup();
+    		}
+    		else if (switchPos == 'R')
+    		{
+    			selectCmd = new AutoScaleRRGroup();
+    		}
+    		else
+    		{
+    			selectCmd = new AutoBase();
+    		}
+    		break;
+    	case LWL:
+    		if(scalePos == 'L')
+    		{
+    			selectCmd = new AutoSwitchLLGroup();
+    		}
+    		else if (switchPos == 'L')
+    		{
+    			selectCmd = new AutoScaleLLGroup();
+    		}
+    		else
+    		{
+    			selectCmd = new AutoBase();
+    		}
+    		break;
+    	case LCR:
     		if(scalePos == 'R')
     		{
     			selectCmd = new AutoScaleRRGroup();
@@ -118,7 +146,7 @@ public class AutoAction extends Command {
     			selectCmd = new AutoBase();
     		}
     		break;
-    	case LL:
+    	case LCL:
     		if(scalePos == 'L')
     		{
     			selectCmd = new AutoScaleLLGroup();
@@ -136,6 +164,7 @@ public class AutoAction extends Command {
     		
     		break;
     	}
+    	System.out.println("You are running the auto command " + selectCmd.getName());    	
     	selectCmd.start();
     }
 
