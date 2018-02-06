@@ -1,5 +1,6 @@
 package org.usfirst.frc4048.commands.intake;
 
+import org.usfirst.frc4048.IntakeCubeTrigger;
 import org.usfirst.frc4048.Robot;
 import org.usfirst.frc4048.RobotMap;
 import org.usfirst.frc4048.utils.*;
@@ -14,14 +15,21 @@ import edu.wpi.first.wpilibj.command.Command;
 public class IntakeCube extends Command {
 	private MotorUtils leftMotor;
 	private MotorUtils rightMotor;
+	private final IntakeCubeTrigger intakeCubeTrigger;
 
     public IntakeCube() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.intake);
+    	this.intakeCubeTrigger = null;
     }
 
-    // Called just before this Command runs the first time
+    public IntakeCube(IntakeCubeTrigger intakeCubeTrigger) {
+    	requires(Robot.intake);
+		this.intakeCubeTrigger = intakeCubeTrigger;
+	}
+
+	// Called just before this Command runs the first time
     protected void initialize() {
     	setTimeout(2.0);
     	leftMotor = new MotorUtils(RobotMap.PDP_LEFT_INTAKE_MOTOR, RobotMap.CURRENT_THRESHOLD_INTAKE_MOTOR, RobotMap.TIMEOUT_INTAKE_MOTOR);
@@ -32,7 +40,7 @@ public class IntakeCube extends Command {
     protected void execute() {
     	if(!Robot.intake.hasCube() && Robot.intake.isLowered() && !isTimedOut())
     	{
-	    	if(Robot.oi.getXboxController().getTriggerAxis(Hand.kLeft) > 0.75)
+    		if (intakeCubeTrigger.isAdjustEnabled()) 
 	    	{
 	    		Robot.intake.adjustCube();
 	    	}
