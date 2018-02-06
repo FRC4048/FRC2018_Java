@@ -90,10 +90,16 @@ public class Intake extends Subsystem {
     	rightIntakeMotor.set(ROLLER_SPEED);
     }
     
-    public void adjustCube()
+    public void adjustCubeLeftSide()
     {
     	leftIntakeMotor.set(ROLLER_SPEED);
     	rightIntakeMotor.set(VARIED_ROLLER_SPEED);
+    }
+    
+    public void adjustCubeRightSide()
+    {
+    	leftIntakeMotor.set(VARIED_ROLLER_SPEED);
+    	rightIntakeMotor.set(ROLLER_SPEED);
     }
     
     public void flushCube()

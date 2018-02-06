@@ -1,12 +1,9 @@
 package org.usfirst.frc4048.commands.intake;
 
-import org.usfirst.frc4048.IntakeCubeTrigger;
 import org.usfirst.frc4048.Robot;
 import org.usfirst.frc4048.RobotMap;
-import org.usfirst.frc4048.utils.*;
+import org.usfirst.frc4048.utils.MotorUtils;
 
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -15,18 +12,28 @@ import edu.wpi.first.wpilibj.command.Command;
 public class IntakeCube extends Command {
 	private MotorUtils leftMotor;
 	private MotorUtils rightMotor;
-	private final IntakeCubeTrigger intakeCubeTrigger;
+	private final TriggerEvent event;
+	private AdjustSide adjustSide = AdjustSide.LEFT;
+
+	private enum AdjustSide {
+		LEFT, RIGHT, 
+	};
+	
+	public enum TriggerEvent {
+		ADJUST,
+		INTAKE
+	}
 
     public IntakeCube() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.intake);
-    	this.intakeCubeTrigger = null;
+    	this.event = TriggerEvent.INTAKE;
     }
 
-    public IntakeCube(IntakeCubeTrigger intakeCubeTrigger) {
+    public IntakeCube(TriggerEvent event) {
     	requires(Robot.intake);
-		this.intakeCubeTrigger = intakeCubeTrigger;
+		this.event = event;
 	}
 
 	// Called just before this Command runs the first time
@@ -36,26 +43,30 @@ public class IntakeCube extends Command {
     	rightMotor = new MotorUtils(RobotMap.PDP_RIGHT_INTAKE_MOTOR, RobotMap.CURRENT_THRESHOLD_INTAKE_MOTOR, RobotMap.TIMEOUT_INTAKE_MOTOR);
     }
 
-    // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
-    	if(!Robot.intake.hasCube() && Robot.intake.isLowered() && !isTimedOut())
-    	{
-			// There is a case where this command can be run without an operator trigger and
-			// there is no intakeCubeTrigger object.
-    		
-    		if (intakeCubeTrigger == null) {
-    			Robot.intake.intakeCube();
-    		}
-    		else if (intakeCubeTrigger.isAdjustEnabled()) 
-	    	{
-	    		Robot.intake.adjustCube();
-	    	}
-	    	else
-	    	{
-	    		Robot.intake.intakeCube();
-	    	}
-    	}
-    }
+	// Called repeatedly when this Command is scheduled to run
+	protected void execute() {
+		if (!Robot.intake.hasCube() && Robot.intake.isLowered() && !isTimedOut()) {
+			switch (event) {
+			case INTAKE:
+				Robot.intake.intakeCube();
+				break;
+
+			case ADJUST:
+				switch (adjustSide) {
+				case LEFT:
+					Robot.intake.adjustCubeLeftSide();
+					adjustSide = AdjustSide.RIGHT;
+					break;
+				case RIGHT:
+					Robot.intake.adjustCubeRightSide();
+					adjustSide = AdjustSide.LEFT;
+					break;
+				}
+				break;
+			}
+
+		}
+	}
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
