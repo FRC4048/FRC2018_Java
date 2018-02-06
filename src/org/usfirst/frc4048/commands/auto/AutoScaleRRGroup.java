@@ -1,5 +1,9 @@
 package org.usfirst.frc4048.commands.auto;
 
+import org.usfirst.frc4048.commands.DriveDistance;
+import org.usfirst.frc4048.commands.PrintCommand;
+import org.usfirst.frc4048.commands.RotateAngle;
+
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
@@ -24,5 +28,12 @@ public class AutoScaleRRGroup extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
+    	
+    	addParallel(new DriveDistance(AutoAction.LOCAL_SCALE_DISTANCE, AutoAction.LOCAL_SCALE_SPEED,0,0));
+    	//addSequential(new MoveArm(ArmPositions.HighScale)); //TODO add this back
+    	addSequential(new PrintCommand());
+    	addSequential(new RotateAngle(-90));
+    	addSequential(new DriveDistance(5, AutoAction.LOCAL_SCALE_SPEED,0,0));
+    	//Use addSequential to drop the cube
     }
 }

@@ -1,5 +1,10 @@
 package org.usfirst.frc4048.commands.auto;
 
+import org.usfirst.frc4048.commands.DriveDistance;
+import org.usfirst.frc4048.commands.RotateAngle;
+import org.usfirst.frc4048.commands.arm.MoveArm;
+import org.usfirst.frc4048.subsystems.Arm.ArmPositions;
+
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
@@ -24,5 +29,10 @@ public class AutoSwitchRLGroup extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
+    	addParallel(new DriveDistance(AutoAction.LOCAL_SWITCH_DISTANCE, AutoAction.LOCAL_SCALE_SPEED,0,0));
+    	//addSequential(new MoveArm(ArmPositions.Switch)); //TODO add this back
+    	addSequential(new DriveDistance(AutoAction.TRAVEL_THROUGH_SWITCH, 0, AutoAction.LOCAL_SCALE_SPEED,0));
+    	addSequential(new RotateAngle(180));
+    	addSequential(new DriveDistance(5, AutoAction.LOCAL_SWITCH_SPEED,0,0));
     }
 }

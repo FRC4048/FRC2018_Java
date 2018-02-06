@@ -16,6 +16,16 @@ public class AutoAction extends Command {
 	char scalePos;
 	Action autoAction;
 	
+	public static final double LOCAL_SWITCH_SPEED = 0.3;
+	public static final double LOCAL_SWITCH_DISTANCE = 20;
+	
+	public static final double LOCAL_SCALE_SPEED = 0.3;
+	public static final double LOCAL_SCALE_DISTANCE = 324;
+	
+	public static final double AUTO_RUN_DISTANCE = 83.5;
+	
+	public static final double TRAVEL_THROUGH_SWITCH = 145.25;
+	
 	Command selectCmd;
 	
     public AutoAction() {
@@ -38,7 +48,7 @@ public class AutoAction extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	System.out.println(autoAction.toString());
+    	
     	//For the labeling of the commands (Ex: AutoScaleRR) the first letter is the 
     	//robot position and the second is the position of the switch/scale
     	switch(autoAction)
@@ -77,11 +87,11 @@ public class AutoAction extends Command {
     		}
     		break;
     	case WR:
-    		if(scalePos == 'R')
+    		if(switchPos == 'R')
     		{
     			selectCmd = new AutoSwitchRRGroup();
     		}
-    		else if(scalePos == 'L')
+    		else if(switchPos == 'L')
     		{
     			selectCmd = new AutoSwitchRLGroup();
     		}
@@ -91,11 +101,11 @@ public class AutoAction extends Command {
     		}
     		break;
     	case WL:
-    		if(scalePos == 'R')
+    		if(switchPos == 'R')
     		{
     			selectCmd = new AutoSwitchLRGroup();
     		}
-    		else if(scalePos == 'L')
+    		else if(switchPos == 'L')
     		{
     			selectCmd = new AutoSwitchLLGroup();
     		}
@@ -105,11 +115,11 @@ public class AutoAction extends Command {
     		}
     		break;
     	case LWR:
-    		if(scalePos == 'R')
+    		if(switchPos == 'R')
     		{
     			selectCmd = new AutoSwitchRRGroup();
     		}
-    		else if (switchPos == 'R')
+    		else if (scalePos == 'R')
     		{
     			selectCmd = new AutoScaleRRGroup();
     		}
@@ -119,11 +129,11 @@ public class AutoAction extends Command {
     		}
     		break;
     	case LWL:
-    		if(scalePos == 'L')
+    		if(switchPos == 'L')
     		{
     			selectCmd = new AutoSwitchLLGroup();
     		}
-    		else if (switchPos == 'L')
+    		else if (scalePos == 'L')
     		{
     			selectCmd = new AutoScaleLLGroup();
     		}

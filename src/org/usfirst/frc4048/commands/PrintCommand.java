@@ -20,7 +20,7 @@ double time;
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+    	System.out.println("A");
     	
     }
 

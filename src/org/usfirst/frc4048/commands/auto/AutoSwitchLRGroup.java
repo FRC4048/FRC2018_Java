@@ -1,5 +1,9 @@
 package org.usfirst.frc4048.commands.auto;
 
+import org.usfirst.frc4048.commands.DriveDistance;
+import org.usfirst.frc4048.commands.PrintCommand;
+import org.usfirst.frc4048.commands.RotateAngle;
+
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
@@ -24,5 +28,7 @@ public class AutoSwitchLRGroup extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
+    	
+    	
     }
 }

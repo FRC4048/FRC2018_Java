@@ -272,21 +272,7 @@ public class Drivetrain extends Subsystem {
     	if(rcw <= RIGHT_JOY_X_MAX_DEADZONE && rcw >= RIGHT_JOY_X_MIN_DEADZONE)
     		rcw = 0.0;
     
-    	//Square the values for finer movement
-    	if(fwd < 0)
-    		fwd *= fwd * -1;
-    	else
-    		fwd *= fwd;
     	
-    	if(str < 0)
-    		str *= str * -1;
-    	else
-    		str *= str;
-    	
-    	if(rcw < 0)
-    		rcw *= rcw * -1;
-    	else
-    		rcw *= rcw;
     	
     	swerveDrivetrain.move(fwd, str, rcw, getGyro());
     }

@@ -66,15 +66,15 @@ public class Robot extends TimedRobot {
         // pointers. Bad news. Don't move it.
         oi = new OI();
         
-        chooser.addDefault("BaseLine", Action.B);
-        chooser.addObject("Robot on left, do switch if its left or scale if on the left", Action.LWL);
-        chooser.addObject("Robot on right, do switch if its right or scale if on the right", Action.LWR);
-        chooser.addObject("Robot on left, do scale if its left or switch if on the left", Action.LCL);
-        chooser.addObject("Robot on right, do scale if its right or switch if on the right", Action.LCR);
-        chooser.addObject("Scale Robot Right", Action.CR);
-        chooser.addObject("Scale Robot Left", Action.CL);
-        chooser.addObject("Switch Robot Right", Action.WR);
-        chooser.addObject("Switch Robot Left", Action.WL);
+        chooser.addDefault("Autorun(cross the base line)", Action.B);
+        chooser.addObject("Robot on LEFT, do SWITCH", Action.WL);
+        chooser.addObject("Robot on LEFT, do SCALE", Action.CL);
+        chooser.addObject("Robot on LEFT, do SWITCH if its left or SCALE if on the left", Action.LWL);
+        chooser.addObject("Robot on LEFT, do SCALE if its left or SWITCH if on the left", Action.LCL);
+        chooser.addObject("Robot on RIGHT, do SWITCH", Action.WR);
+        chooser.addObject("Robot on RIGHT, do SCALE", Action.CR);
+        chooser.addObject("Robot on RIGHT, do SWITCH if its right or SCALE if on the right", Action.LWR);
+        chooser.addObject("Robot on RIGHT, do SCALE if its right or SWITCH if on the right", Action.LCR);
         chooser.addObject("Do Nothing", Action.N);
         
         
@@ -132,6 +132,7 @@ public class Robot extends TimedRobot {
     	
     	
     	Action autoAction = chooser.getSelected();
+    	System.out.println("Action in Auto " + autoAction.toString());
     	autonomousCommand = new AutoAction(switchPos, scalePos, autoAction);
     	
         // schedule the autonomous command (example)
@@ -154,6 +155,10 @@ public class Robot extends TimedRobot {
         // teleop starts running. If you want the autonomous to
         // continue until interrupted by another command, remove
         // this line or comment it out.
+    	
+    	Action autoAction = chooser.getSelected();
+    	System.out.println("Action in teleop " + autoAction.toString());
+    	
         if (autonomousCommand != null) autonomousCommand.cancel();
         
     }
