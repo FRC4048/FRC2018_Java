@@ -40,15 +40,19 @@ public class IntakeCube extends Command {
     protected void execute() {
     	if(!Robot.intake.hasCube() && Robot.intake.isLowered() && !isTimedOut())
     	{
-    		if (intakeCubeTrigger.isAdjustEnabled()) 
+			// There is a case where this command can be run without an operator trigger and
+			// there is no intakeCubeTrigger object.
+    		
+    		if (intakeCubeTrigger == null) {
+    			Robot.intake.intakeCube();
+    		}
+    		else if (intakeCubeTrigger.isAdjustEnabled()) 
 	    	{
 	    		Robot.intake.adjustCube();
 	    	}
 	    	else
 	    	{
 	    		Robot.intake.intakeCube();
-	    		DriverStation.reportError("Another Test.", true);
-	    		System.out.println("This is a test.");
 	    	}
     	}
     }
