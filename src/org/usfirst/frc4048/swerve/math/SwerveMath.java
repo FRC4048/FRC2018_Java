@@ -12,6 +12,12 @@ public class SwerveMath {
  * WARNING: if you change this variable to field centric it will mess with the autonomous!!!
  */
 	private CentricMode centricMode = CentricMode.ROBOT;
+	public void SwitchModeRobot() {
+		centricMode= CentricMode.ROBOT;
+	}
+	public void SwitchModeField() {
+		centricMode= CentricMode.FIELD;
+	}
 
 	public SwerveMath(double width, double length) {
 		assert (width > 0) : "Width has to be larger than 0";
