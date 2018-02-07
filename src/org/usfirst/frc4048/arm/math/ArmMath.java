@@ -19,7 +19,7 @@ public class ArmMath {
 	 * @return 
 	 */
 	public double convertPotToAngle(double potMin, double angleMin, double potMax, double angleMax, double inputPot){	
-		//equation: point slope form given two points: (potMin, angleMin) and (potMax, angleMax)
+		//equation: point slope form given two     points: (potMin, angleMin) and (potMax, angleMax)
 		return ((angleMax - angleMin)/(potMax - potMin))*(inputPot - potMin) + angleMin;
 	}
 	
@@ -28,8 +28,10 @@ public class ArmMath {
 	 * @param angle - angle from starting position in degrees
 	 * @return
 	 */
-	public double convertArmAngleToExtPot(double angle)
+	public double convertArmAngleToExtPot(double potMin, double lengthMin, double potMax, double lengthMax, double angle)
 	{
-		return 0.0;
+		double length = strat.getExtensionLength(angle);
+		double potVal = ((potMax - potMin)/(lengthMax - lengthMin)) * (length - lengthMin) + potMin;
+		return Math.min(potVal, potMax);
 	}
 }
