@@ -74,11 +74,11 @@ public class RobotMap {
     /**
      * TODO Determine correct values for Current threshold for intake motors.
      */
-    public static final double CURRENT_THRESHOLD_INTAKE_MOTOR=0;
+    public static final double CURRENT_THRESHOLD_INTAKE_MOTOR=0.1;
     /**
      * TODO Determine correct timeout for intake motors.
      */
-    public static final double TIMEOUT_INTAKE_MOTOR=0.15;
+    public static final double TIMEOUT_INTAKE_MOTOR=10.15;
     public static AnalogInput swerveDriveAnalogInputFrontRight;
     public static AnalogInput swerveDriveAnalogInputFrontLeft;
     public static AnalogInput swerveDriveAnalogInputRearLeft;

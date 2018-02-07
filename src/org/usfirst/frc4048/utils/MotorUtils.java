@@ -14,8 +14,8 @@ public class MotorUtils {
 	public static final double DEFAULT_TIMEOUT = 0.15;
 	private double timeout;
 	private double time;
-	int PDPChannel;
-	double currentThreshold;
+	final int PDPChannel;
+	final double currentThreshold;
 	
 	public MotorUtils(int PDPPort, double currentThreshold)
 	{
@@ -35,15 +35,18 @@ public class MotorUtils {
 	
 	public boolean isStalled()
 	{
-		if (RobotMap.pdp.getCurrent(PDPChannel) < currentThreshold)
+		final double currentValue = RobotMap.pdp.getCurrent(PDPChannel);
+		DriverStation.reportError("## "+ PDPChannel + " " + currentValue, false);
+		if (currentValue < currentThreshold)
 		{
 			time = Timer.getFPGATimestamp();
 		}
 		else
 		{
+			DriverStation.reportError("Motor stall, PDP Channel=" + PDPChannel, false);
 			if (Timer.getFPGATimestamp() - time > timeout)
 			{
-				DriverStation.reportError("Motor stall, PDP Channel=" + PDPChannel, false);
+				//DriverStation.reportError("Motor stall, PDP Channel=" + PDPChannel, false);
 				return true;
 			}
 			
