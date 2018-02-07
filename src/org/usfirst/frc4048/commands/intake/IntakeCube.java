@@ -51,6 +51,16 @@ public class IntakeCube extends Command {
 				RobotMap.TIMEOUT_INTAKE_MOTOR);
 		rightMotor = new MotorUtils(RobotMap.PDP_RIGHT_INTAKE_MOTOR, RobotMap.CURRENT_THRESHOLD_INTAKE_MOTOR,
 				RobotMap.TIMEOUT_INTAKE_MOTOR);
+		
+		switch (pullSide) {
+		case LEFT:
+			pullSide = PullSide.RIGHT;
+			break;
+		case RIGHT:
+			pullSide = PullSide.LEFT;
+			break;
+		}
+
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -65,11 +75,9 @@ public class IntakeCube extends Command {
 				switch (pullSide) {
 				case LEFT:
 					Robot.intake.adjustCubeLeftSide();
-					pullSide = PullSide.RIGHT;
 					break;
 				case RIGHT:
 					Robot.intake.adjustCubeRightSide();
-					pullSide = PullSide.LEFT;
 					break;
 				}
 				break;

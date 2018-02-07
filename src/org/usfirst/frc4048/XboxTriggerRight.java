@@ -4,16 +4,16 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.buttons.Trigger;
 
-public class IntakeCubeTriggerLeft extends Trigger {
+public class XboxTriggerRight extends Trigger {
 	private final XboxController xboxController;
 
-	public IntakeCubeTriggerLeft(XboxController xboxController) {
+	public XboxTriggerRight(XboxController xboxController) {
 		this.xboxController = xboxController;
 	}
 
 	@Override
 	public boolean get() {
-		if (xboxController.getTriggerAxis(Hand.kLeft) > 0.75)
+		if (xboxController.getTriggerAxis(Hand.kRight) >= 0.75)
 			return true;
 		else
 			return false;
