@@ -52,4 +52,12 @@ public class SwerveDrive {
 		this.swerveMath.toggleCentricMode();
 	}
 	
+	public void setModeRobot() {
+		this.swerveMath.setModeRobot();
+	}
+	
+	public void setModeField() {
+		this.swerveMath.setModeField();
+	}
+
 }

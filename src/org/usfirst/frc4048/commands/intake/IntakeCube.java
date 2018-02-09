@@ -2,10 +2,8 @@ package org.usfirst.frc4048.commands.intake;
 
 import org.usfirst.frc4048.Robot;
 import org.usfirst.frc4048.RobotMap;
-import org.usfirst.frc4048.utils.*;
+import org.usfirst.frc4048.utils.MotorUtils;
 
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -14,50 +12,94 @@ import edu.wpi.first.wpilibj.command.Command;
 public class IntakeCube extends Command {
 	private MotorUtils leftMotor;
 	private MotorUtils rightMotor;
+	private final IntakeMode mode;
+	private PullSide pullSide = PullSide.LEFT;
 
-    public IntakeCube() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
-    	requires(Robot.intake);
-    }
+	private enum PullSide {
+		LEFT, RIGHT,
+	};
 
-    // Called just before this Command runs the first time
-    protected void initialize() {
-    	setTimeout(2.0);
-    	leftMotor = new MotorUtils(RobotMap.PDP_LEFT_INTAKE_MOTOR, RobotMap.CURRENT_THRESHOLD_INTAKE_MOTOR, RobotMap.TIMEOUT_INTAKE_MOTOR);
-    	rightMotor = new MotorUtils(RobotMap.PDP_RIGHT_INTAKE_MOTOR, RobotMap.CURRENT_THRESHOLD_INTAKE_MOTOR, RobotMap.TIMEOUT_INTAKE_MOTOR);
-    }
+	public enum IntakeMode {
 
-    // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
-    	if(!Robot.intake.hasCube() && Robot.intake.isLowered() && !isTimedOut())
-    	{
-	    	if(Robot.oi.getXboxController().getTriggerAxis(Hand.kLeft) > 0.75)
-	    	{
-	    		Robot.intake.adjustCube();
-	    	}
-	    	else
-	    	{
-	    		Robot.intake.intakeCube();
-	    		DriverStation.reportError("Another Test.", true);
-	    		System.out.println("This is a test.");
-	    	}
-    	}
-    }
+		/**
+		 * Alternate pulling from one side or the other.
+		 */
+		TOGGLE_PULL_LEFT_OR_RIGHT,
 
-    // Make this return true when this Command no longer needs to run execute()
-    protected boolean isFinished() {
-        return Robot.intake.hasCube() || !Robot.intake.isLowered() || isTimedOut() || leftMotor.isStalled() || rightMotor.isStalled();
-    }
+		/**
+		 * Both intake motors run at the same speed.
+		 */
+		STRAIGHT_PULL
+	}
 
-    // Called once after isFinished returns true
-    protected void end() {
-    	Robot.intake.stopIntake();
-    }
+	public IntakeCube() {
+		// Use requires() here to declare subsystem dependencies
+		// eg. requires(chassis);
+		requires(Robot.intake);
+		this.mode = IntakeMode.STRAIGHT_PULL;
+	}
 
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
-    protected void interrupted() {
-    	Robot.intake.stopIntake();
-    }
+	public IntakeCube(IntakeMode event) {
+		requires(Robot.intake);
+		this.mode = event;
+	}
+
+	// Called just before this Command runs the first time
+	protected void initialize() {
+		setTimeout(3.0);
+		leftMotor = new MotorUtils(RobotMap.PDP_LEFT_INTAKE_MOTOR, RobotMap.CURRENT_THRESHOLD_INTAKE_MOTOR,
+				RobotMap.TIMEOUT_INTAKE_MOTOR);
+		rightMotor = new MotorUtils(RobotMap.PDP_RIGHT_INTAKE_MOTOR, RobotMap.CURRENT_THRESHOLD_INTAKE_MOTOR,
+				RobotMap.TIMEOUT_INTAKE_MOTOR);
+		
+		switch (pullSide) {
+		case LEFT:
+			pullSide = PullSide.RIGHT;
+			break;
+		case RIGHT:
+			pullSide = PullSide.LEFT;
+			break;
+		}
+
+	}
+
+	// Called repeatedly when this Command is scheduled to run
+	protected void execute() {
+		if (!Robot.intake.hasCube() && Robot.intake.isLowered() && !isTimedOut()) {
+			switch (mode) {
+			case STRAIGHT_PULL:
+				Robot.intake.intakeCube();
+				break;
+
+			case TOGGLE_PULL_LEFT_OR_RIGHT:
+				switch (pullSide) {
+				case LEFT:
+					Robot.intake.adjustCubeLeftSide();
+					break;
+				case RIGHT:
+					Robot.intake.adjustCubeRightSide();
+					break;
+				}
+				break;
+			}
+
+		}
+	}
+
+	// Make this return true when this Command no longer needs to run execute()
+	protected boolean isFinished() {
+		return Robot.intake.hasCube() || !Robot.intake.isLowered() || isTimedOut() || leftMotor.isStalled()
+				|| rightMotor.isStalled();
+	}
+
+	// Called once after isFinished returns true
+	protected void end() {
+		Robot.intake.stopIntake();
+	}
+
+	// Called when another command which requires one or more of the same
+	// subsystems is scheduled to run
+	protected void interrupted() {
+		Robot.intake.stopIntake();
+	}
 }

@@ -36,7 +36,7 @@ public class AutoSwitchRLGroup extends CommandGroup {
     	addSequential(new DriveDistance(AutoAction.TRAVEL_THROUGH_SWITCH, 0, AutoAction.LOCAL_SCALE_SPEED,0));
     	addSequential(new RotateAngle(180));
     	addSequential(new DriveDistance(5, AutoAction.LOCAL_SWITCH_SPEED,0,0));
-    	addSequential(new MoveClaw());
+    	//addSequential(new MoveClaw());
     	addSequential(new OpenClaw());
     }
 }
