@@ -12,10 +12,10 @@ public class SwerveMath {
  * WARNING: if you change this variable to field centric it will mess with the autonomous!!!
  */
 	private CentricMode centricMode = CentricMode.ROBOT;
-	public void SwitchModeRobot() {
+	public void setModeRobot() {
 		centricMode= CentricMode.ROBOT;
 	}
-	public void SwitchModeField() {
+	public void setModeField() {
 		centricMode= CentricMode.FIELD;
 	}
 
