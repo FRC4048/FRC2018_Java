@@ -18,43 +18,48 @@ public class ArmTesting {
 	{
 		LinearMoveStrat strat = new LinearMoveStrat();
 		
-		System.out.println("STARTING TEST");
+		System.out.println("STARTING LINEAR TEST");
 		testLinearStrat(strat);
-		System.out.println("ENDING TEST");
+		System.out.println("ENDING LINEAR TEST");
 		
-//		for(double i = ARM_MIN_ANGLE; i <= ARM_MAX_ANGLE; i += 0.5)
-//		{
-//			System.out.println("ANGLE: " + i + "   LENGTH: " + strat.getExtensionLength(i));
-//		}
-//		ArmMath math = new ArmMath();
-//		for(double armPot = ARM_MIN_POT; armPot <= ARM_MAX_POT; armPot += 0.05)
-//		{
-//			double angle = math.convertPotToAngle(ARM_MIN_POT, ARM_MIN_ANGLE, ARM_MAX_POT, ARM_MAX_ANGLE, armPot);		
-//			double potValue = math.convertArmAngleToExtPot(EXT_MIN_POT, EXT_MIN_LENGTH, EXT_MAX_POT, EXT_MAX_LENGTH, angle);
-//			System.out.printf("ARM POT: %-2.4f\t\tARM ANGLE: %-2.4f\tEXT POT: %-2.4f\n", armPot, angle, potValue);
-//		}
+		
 	}
 	
 	public static void testLinearStrat(LinearMoveStrat strat)
 	{
 		if(!(strat.getExtensionLength(-5.0) == 0.0))
 		{
-			throw new AssertionError("MINUS FIVE ANGLE TEST ERROR");
+			throw new AssertionError("MINUS FIVE ANGLE TEST ERROR: " + strat.getExtensionLength(-5.0));
 		}
 		
 		if(!(strat.getExtensionLength(0.0) == 0.0))
 		{
-			throw new AssertionError("ZERO ANGLE TEST ERROR");
+			throw new AssertionError("ZERO ANGLE TEST ERROR: " + strat.getExtensionLength(0.0));
 		}
 		
 		if(!(strat.getExtensionLength(7.0) == 0.0))
 		{
-			throw new AssertionError("SEVEN ANGLE TEST ERROR");
+			throw new AssertionError("SEVEN ANGLE TEST ERROR: " + strat.getExtensionLength(7.0));
 		}
 		
-		if(!(strat.getExtensionLength(15.0) > 22.112))
+		if(!(((strat.getExtensionLength(15.0) - 22.112)) < 0.001))
 		{
-			throw new AssertionError("15 ANGLE TEST ERROR");
+			throw new AssertionError("15 ANGLE TEST ERROR: " + strat.getExtensionLength(15.0));
+		}
+		
+		if(!(strat.getExtensionLength(68.0) == 0.0))
+		{
+			throw new AssertionError("68 ANGLE TEST ERROR: " + strat.getExtensionLength(68.0));
+		}
+		
+		if(!(((strat.getExtensionLength(80.0) - 0.982)) < 0.001))
+		{
+			throw new AssertionError("80 ANGLE TEST ERROR: " + strat.getExtensionLength(80.0));
+		}
+		
+		if(!(strat.getExtensionLength(190.0) == 0.0))
+		{
+			throw new AssertionError("190 ANGLE TEST ERROR: " + strat.getExtensionLength(190.0));
 		}
 	}
 }
