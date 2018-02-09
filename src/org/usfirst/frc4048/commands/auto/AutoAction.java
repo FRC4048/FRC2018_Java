@@ -22,9 +22,9 @@ public class AutoAction extends Command {
 	public static final double LOCAL_SCALE_SPEED = 0.3;
 	public static final double LOCAL_SCALE_DISTANCE = 300;
 	
-	public static final double AUTO_RUN_DISTANCE = 83.5;
+	public static final double AUTO_RUN_DISTANCE = 112;
 	
-	public static final double TRAVEL_THROUGH_SWITCH = 145.25;
+	public static final double TRAVEL_THROUGH_SWITCH = 180;
 	
 	Command selectCmd;
 	

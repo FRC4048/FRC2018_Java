@@ -3,6 +3,8 @@ package org.usfirst.frc4048.commands.auto;
 import org.usfirst.frc4048.commands.DriveDistance;
 import org.usfirst.frc4048.commands.RotateAngle;
 import org.usfirst.frc4048.commands.arm.MoveArm;
+import org.usfirst.frc4048.commands.arm.MoveClaw;
+import org.usfirst.frc4048.commands.arm.OpenClaw;
 import org.usfirst.frc4048.subsystems.Arm.ArmPositions;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -34,5 +36,7 @@ public class AutoSwitchRLGroup extends CommandGroup {
     	addSequential(new DriveDistance(AutoAction.TRAVEL_THROUGH_SWITCH, 0, AutoAction.LOCAL_SCALE_SPEED,0));
     	addSequential(new RotateAngle(180));
     	addSequential(new DriveDistance(5, AutoAction.LOCAL_SWITCH_SPEED,0,0));
+    	addSequential(new MoveClaw());
+    	addSequential(new OpenClaw());
     }
 }
