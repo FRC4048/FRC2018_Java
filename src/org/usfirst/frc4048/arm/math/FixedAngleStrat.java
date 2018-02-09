@@ -2,7 +2,7 @@ package org.usfirst.frc4048.arm.math;
 
 public class FixedAngleStrat implements ArmStrat{
 
-	private static final double MAX_CRIT_ANGLE = 50.0;
+	private static final double MAX_CRIT_ANGLE = 32.0;
 	private static final double LOWER_MARGIN = 5.0;
 	private static final double UPPER_MARGIN = 3.0;
 	

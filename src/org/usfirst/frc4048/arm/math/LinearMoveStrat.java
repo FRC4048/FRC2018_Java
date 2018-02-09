@@ -2,11 +2,34 @@ package org.usfirst.frc4048.arm.math;
 
 public class LinearMoveStrat implements ArmStrat{
 	
-	public static final double MAX_DISTANCE = 43.25;
-	public static final double STARTING_ANGLE = Math.toRadians(35.0);	//Home angle from tower
-	public static final double START_EXT_LENGTH = 2.1;
-	public static final double FIXED_ARM_LENGTH = 39.0;
-	
+	/**
+	 * Max distance the arm can extend to at 90 degrees (based on 16 inch boundary)
+	 */
+	public static final double MAX_DISTANCE = 44;
+	/**
+	 * Margin for max length (currently zero because the arm is physically limited)
+	 */
+	public static final double DISTANCE_MARGIN = 0.0;
+	/**
+	 * Angle of arm from tower at home position. Angle should never be below this.
+	 */
+	public static final double STARTING_ANGLE = Math.toRadians(22.0);
+	/**
+	 * Extension at home
+	 */
+	public static final double START_EXT_LENGTH = 0.0;
+	/**
+	 * Angle that when above begins the linear math
+	 */
+	public static final double HOME_MAX_ANGLE = Math.toRadians(32.0);
+	/**
+	 * Length of arm when at home
+	 */
+	public static final double FIXED_ARM_LENGTH = 44.0;
+	/**
+	 * 
+	 */
+	public static final double MAX_EXTENSION = 14.0;
 	
 	/**
 	 * Converts angle of arm into extension length. Meant to be used only when placing cube.
@@ -16,12 +39,23 @@ public class LinearMoveStrat implements ArmStrat{
 	@Override
 	public double getExtensionLength(double angle)
 	{
-		if(angle < -1)
+		angle = Math.toRadians(angle) + STARTING_ANGLE;	//Is now relative to tower
+		if(angle <= HOME_MAX_ANGLE)
+		{
 			return START_EXT_LENGTH;
+		}
 		else
 		{
-			angle = Math.toRadians(angle);
-			return (MAX_DISTANCE/Math.sin(angle + STARTING_ANGLE)) - FIXED_ARM_LENGTH;
+			double length = ((MAX_DISTANCE-DISTANCE_MARGIN)/Math.sin(angle)) - FIXED_ARM_LENGTH;
+			if(length > MAX_EXTENSION)
+			{
+				length = MAX_EXTENSION;
+			}
+			if(length < 0)
+			{
+				length = 0.0;
+			}
+			return length;
 		}
 	}
 }
