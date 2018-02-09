@@ -176,7 +176,7 @@ public class AutoAction extends Command {
     		
     		break;
     	}
-    	System.out.println("You are running the auto command " + selectCmd.getName());    	
+    	SmartDashboard.putString("Running Auto Command ", selectCmd.getName());    	
     	selectCmd.start();
     }
 

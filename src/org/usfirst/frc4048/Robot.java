@@ -119,7 +119,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-    	
+    	Robot.drivetrain.swerveDrivetrain.setModeField();
         char switchPos = 'X';
         char scalePos = 'X';
         String gameData = DriverStation.getInstance().getGameSpecificMessage();
