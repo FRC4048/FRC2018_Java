@@ -134,11 +134,13 @@ public class Arm extends Subsystem {
     	
     	moveArm();
     	moveExtension();
-    	   	
+    }
+    
+    public void armData() {
     	SmartDashboard.putNumber("Setpoint", armSetpoint);
     	SmartDashboard.putNumber("Current Value", getArmPos());
     }
-
+    
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
     
