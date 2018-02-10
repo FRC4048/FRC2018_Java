@@ -2,8 +2,6 @@ package org.usfirst.frc4048.arm.math;
 
 public interface ArmStrat {
 	
-	public final double MIN_CRIT_ANGLE = 20.0;
-	
 	public final double MIN_CLIMB_ANGLE = 100.0;
 	public final double MIN_HIGH_SCALE_ANGLE = 75.0;
 	public final double MIN_LOW_SCALE_ANGLE = 55.0;
