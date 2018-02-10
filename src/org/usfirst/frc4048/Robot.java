@@ -198,6 +198,5 @@ public class Robot extends TimedRobot {
     	}
     	SmartDashboard.putString("Action for Auto", autoAction.toString());
     	SmartDashboard.putNumber("Gyro Value", Robot.drivetrain.getGyro());
-    	SmartDashboard.putData(new PrintGroup());
     }
  }
