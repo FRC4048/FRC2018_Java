@@ -73,6 +73,7 @@ public class Arm extends Subsystem {
     
 	public static enum ArmPositions
 	{
+		Intake,
 		Exchange,
 		Switch,
 		LowScale,
