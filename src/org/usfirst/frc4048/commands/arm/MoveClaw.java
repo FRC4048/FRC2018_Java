@@ -1,6 +1,8 @@
 package org.usfirst.frc4048.commands.arm;
 
 import org.usfirst.frc4048.Robot;
+import org.usfirst.frc4048.subsystems.Claw;
+import org.usfirst.frc4048.subsystems.Claw.WristPostion;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -9,15 +11,15 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class MoveClaw extends Command {
 
-	private double angle;
+	private WristPostion position;
 	
-    public MoveClaw(double angle) {
+    public MoveClaw(Claw.WristPostion position) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	
     	requires(Robot.claw);
     	
-    	this.angle = angle;
+    	this.position = position;
     }
 
     // Called just before this Command runs the first time
@@ -26,6 +28,16 @@ public class MoveClaw extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	switch (position) {
+		case Compact:
+			
+			break;
+		case Level:
+			
+			break;
+		default:
+			break;
+		}
     }
 
     // Make this return true when this Command no longer needs to run execute()

@@ -1,6 +1,7 @@
 package org.usfirst.frc4048.commands.arm;
 
 import org.usfirst.frc4048.Robot;
+import org.usfirst.frc4048.utils.MotorUtils;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -8,6 +9,10 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class GrabCube extends Command {
+	
+//	MotorUtils currentCheck 
+	
+	//TODO Add motorutils into this command
 	
     public GrabCube() {
         // Use requires() here to declare subsystem dependencies
@@ -21,13 +26,13 @@ public class GrabCube extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if(!Robot.claw.hasCube() && !Robot.claw.gripClosed() && !isTimedOut())
+    	if(!Robot.claw.gripClosed() && !isTimedOut())
     		Robot.claw.closeClaw();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return Robot.claw.hasCube() || Robot.claw.gripClosed() || isTimedOut();
+        return Robot.claw.gripClosed() || isTimedOut();
     }
 
     // Called once after isFinished returns true

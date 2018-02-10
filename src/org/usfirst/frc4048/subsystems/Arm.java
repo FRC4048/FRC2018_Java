@@ -70,8 +70,10 @@ public class Arm extends Subsystem {
     private final double ARM_I = 0.0;
     private final double ARM_D = 0.0;
     
-    private final double FINETUNE_SPEED = 0.01;
-    private final double ARM_STOP_SPEED = 0.05;
+    /**
+     * Is not a speed, but a setpoint adjustment value
+     */
+    private final double FINETUNE_RATE = 0.01;
     
     private final int MARGIN_VALUE = 5;
     private final int EXCHANGE_SETPOINT = 200;
@@ -160,12 +162,12 @@ public class Arm extends Subsystem {
     
     public void finetuneUp()
     {
-    	armSetpoint += FINETUNE_SPEED;
+    	armSetpoint += FINETUNE_RATE;
     }
     
     public void finetuneDown()
     {
-    	armSetpoint -= FINETUNE_SPEED;
+    	armSetpoint -= FINETUNE_RATE;
     }
     
     public void stopArm()
@@ -223,6 +225,7 @@ public class Arm extends Subsystem {
 		}
     }
     
+    //TODO Test this!!!
     public void moveToPos(ArmPositions pos)
     {
     	switch (pos) {
