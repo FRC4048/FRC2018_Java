@@ -156,7 +156,12 @@ public class Arm extends Subsystem {
     	SmartDashboard.putNumber("ARM POT", getArmPos());
     	SmartDashboard.putNumber("EXT POT", getExtPos());
     }
-
+    
+    public void armData() {
+    	SmartDashboard.putNumber("Setpoint", armSetpoint);
+    	SmartDashboard.putNumber("Current Value", getArmPos());
+    }
+    
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
     
