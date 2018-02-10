@@ -177,8 +177,7 @@ public class Robot extends TimedRobot {
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
         
-//        SmartDashboard.putNumber("Distance", RobotMap.swerveDriveEncoder.getDistance());
-//        SmartDashboard.putNumber("Gyro Angle", Robot.drivetrain.getGyro());
+
 //        Robot.drivetrain.outputAbsEncValues();
     }
     
@@ -199,5 +198,6 @@ public class Robot extends TimedRobot {
     	}
     	SmartDashboard.putString("Action for Auto", autoAction.toString());
     	SmartDashboard.putNumber("Gyro Value", Robot.drivetrain.getGyro());
+    	SmartDashboard.putData(new PrintGroup());
     }
  }

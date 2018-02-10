@@ -33,8 +33,8 @@ public class AutoScaleLRGroup extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     	addParallel(new DriveDistance(AutoAction.DISTANCE_TO_MIDDLE_OF_LANE, AutoAction.LOCAL_SCALE_SPEED,0,0));
-    	addSequential(new PrintCommand());
-    	//addSequential(new MoveArm(ArmPositions.HighScale));
+    	//addSequential(new PrintCommand());
+    	addSequential(new MoveArm(ArmPositions.HighScale));
     	//WaitForChildren() waits for the parallel commands to finish
     	addSequential(new WaitForChildren());
     	addSequential(new RotateAngle(0));
