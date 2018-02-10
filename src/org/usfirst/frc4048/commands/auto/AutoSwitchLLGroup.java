@@ -34,12 +34,13 @@ public class AutoSwitchLLGroup extends CommandGroup {
         // arm.
     	
     	addParallel(new DriveDistance(AutoAction.DISTANCE_TO_MIDDLE_OF_SWITCH, AutoAction.LOCAL_SWITCH_SPEED,0,0));
-    	//addSequential(new MoveArm(ArmPositions.Switch)); //TODO add this back
+    	addSequential(new MoveArm(ArmPositions.Switch)); //TODO add this back
     	addSequential(new PrintCommand());
     	//WaitForChildren() waits for the parallel commands to finish
     	addSequential(new WaitForChildren());
     	addSequential(new RotateAngle(90));
     	addSequential(new DriveDistance(5, 0,	AutoAction.LOCAL_SWITCH_SPEED,0));
     	//addSequential(new MoveClaw()); TODO fix this
-    	addSequential(new OpenClaw());    }
+    	addSequential(new OpenClaw());   
+    	}
 }

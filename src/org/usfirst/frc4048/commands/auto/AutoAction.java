@@ -30,6 +30,8 @@ public class AutoAction extends Command {
 	public static final double TRAVEL_THROUGH_SWITCH = 180;
 	//200 is just a placeholder until we know a better messurement
 	public static final double TRAVEL_ACROSS_SWITCH = 200;
+	public static final double LANE_TO_SCALE = 80;
+	
 	
 	Command selectCmd;
 	

@@ -1,14 +1,14 @@
 package org.usfirst.frc4048.commands.auto;
-/** Baseline  = baseline
- * RScale = Scale Robot Right 
- * LScale = Scale Robot Left
- * RSwitch = Switch Robot Right
- * LSwitch = Switch Robot Left
- * RLocalSwitchPriority = Local Robot Right(Switch Priority)
- * LLocalSwitchPriority = Local Robot Left(Switch priority)
- * RLocalScalePriority = Local Robot Right(Scale Priority)
- * LLocalScalePriority = Local Robot Left(Scale Priority)
- * Nothing = Do nothing
+/**Baseline  = baseline,
+ * RScale = Scale Robot Right, 
+ * LScale = Scale Robot Left,
+ * RSwitch = Switch Robot Right,
+ * LSwitch = Switch Robot Left,
+ * RLocalSwitchPriority = Local Robot Right(Switch Priority),
+ * LLocalSwitchPriority = Local Robot Left(Switch priority),
+ * RLocalScalePriority = Local Robot Right(Scale Priority),
+ * LLocalScalePriority = Local Robot Left(Scale Priority),
+ * Nothing = Do nothing,
  * 
  * NOTE: Local means that the robot will choose to go to either the switch or the scale
  * depending on the position of the scale/switch

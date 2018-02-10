@@ -18,9 +18,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 import java.time.temporal.IsoFields;
-
 import org.usfirst.frc4048.commands.*;
 import org.usfirst.frc4048.commands.auto.AutoAction;
 import org.usfirst.frc4048.subsystems.*;
@@ -187,6 +185,8 @@ public class Robot extends TimedRobot {
     @Override
     public void testPeriodic()
     {
+    	Scheduler.getInstance().run();
+    	
         dashboardData();
     }
     
