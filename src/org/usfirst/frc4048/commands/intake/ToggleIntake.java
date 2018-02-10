@@ -37,12 +37,12 @@ public class ToggleIntake extends Command {
 				DriverStation.reportError("There's a cube.", true);
 			}
 		} else if (!Robot.intake.isLowered() && Robot.intake.isRaised()) {
-			raiseIntake.start();
+			lowerIntake.start();
 			if (DEBUG) {
 				DriverStation.reportError("raiseIntake running", true);
 			}
 		} else if (!Robot.intake.isRaised() && Robot.intake.isLowered()) {
-			lowerIntake.start();
+			raiseIntake.start();
 			if (DEBUG) {
 				DriverStation.reportError("lowerIntake running", true);
 			}
