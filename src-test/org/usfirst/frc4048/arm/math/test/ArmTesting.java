@@ -1,6 +1,7 @@
 package org.usfirst.frc4048.arm.math.test;
 
 import org.usfirst.frc4048.arm.math.*;
+import org.usfirst.frc4048.subsystems.Arm;
 
 public class ArmTesting {
 
@@ -30,6 +31,11 @@ public class ArmTesting {
 		System.out.println("STARTING CUBE ANGLE TEST");
 		testCubePosStrat(stratCube);
 		System.out.println("ENDING CUBE ANGLE TEST");
+		
+		ArmMath armMath = new ArmMath();
+		System.out.println("START ARM MATH TEST");
+		testArmMath(armMath);
+		System.out.println("END ARM MATH TEST");
 	}
 	
 	public static void testLinearStrat(LinearMoveStrat strat)
@@ -164,7 +170,46 @@ public class ArmTesting {
 		{
 			throw new AssertionError("190 ANGLE TEST ERROR: " + strat.getExtensionLength(190.0));
 		}
-
 	}
 
+	public static void testArmMath(ArmMath armMath)
+	{
+		final double ARM_MIN_POT = 0.9;
+		final double ARM_MAX_POT = 4.3;
+		final double ARM_MIN_ANGLE = 0.0;
+		final double ARM_MAX_ANGLE = 158.0;
+		
+		final double EXT_MIN_POT = 0.7;
+		final double EXT_MAX_POT = 5.0;
+		final double EXT_MIN_LENGTH = 0.0;
+		final double EXT_MAX_LENGTH = LinearMoveStrat.MAX_EXTENSION;
+		
+		assert armMath.convertPotToAngle(ARM_MIN_POT, ARM_MIN_ANGLE, ARM_MAX_POT, ARM_MAX_ANGLE, 0.0) == 0 : 
+			"0 POT TEST ERROR: " + armMath.convertPotToAngle(ARM_MIN_POT, ARM_MIN_ANGLE, ARM_MAX_POT, ARM_MAX_ANGLE, 0.0); 
+		
+		assert armMath.convertPotToAngle(ARM_MIN_POT, ARM_MIN_ANGLE, ARM_MAX_POT, ARM_MAX_ANGLE, 4.5) == 158.0 :
+			"4.5 POT TEST ERROR: " + armMath.convertPotToAngle(ARM_MIN_POT, ARM_MIN_ANGLE, ARM_MAX_POT, ARM_MAX_ANGLE, 4.5);
+		
+		assert armMath.convertPotToAngle(ARM_MIN_POT, ARM_MIN_ANGLE, ARM_MAX_POT, ARM_MAX_ANGLE, 2.6) == 79 :
+			"2.6 POT TEST ERROR: " + armMath.convertPotToAngle(ARM_MIN_POT, ARM_MIN_ANGLE, ARM_MAX_POT, ARM_MAX_ANGLE, 2.6);
+		
+		assert armMath.convertPotToAngle(ARM_MIN_POT, ARM_MIN_ANGLE, ARM_MAX_POT, ARM_MAX_ANGLE, 1.75) == 39.5 :
+			"1.75 POT TEST ERROR: " + armMath.convertPotToAngle(ARM_MIN_POT, ARM_MIN_ANGLE, ARM_MAX_POT, ARM_MAX_ANGLE, 1.3);
+		
+		assert armMath.convertPotToAngle(ARM_MIN_POT, ARM_MIN_ANGLE, ARM_MAX_POT, ARM_MAX_ANGLE, 3.45) == 118.50000000000001:
+			"3.45 POT TEST ERROR: " + armMath.convertPotToAngle(ARM_MIN_POT, ARM_MIN_ANGLE, ARM_MAX_POT, ARM_MAX_ANGLE, 3.45);
+		
+		
+		assert armMath.convertArmAngleToExtPot(EXT_MIN_POT, EXT_MIN_LENGTH, EXT_MAX_POT, EXT_MAX_LENGTH, -5.0) == 0.7 : 
+			"-5.0 ANGLE TO EXT POT ERROR: " + armMath.convertArmAngleToExtPot(EXT_MIN_POT, EXT_MIN_LENGTH, EXT_MAX_POT, EXT_MAX_LENGTH, -5.0);
+		
+		assert armMath.convertArmAngleToExtPot(EXT_MIN_POT, EXT_MIN_LENGTH, EXT_MAX_POT, EXT_MAX_LENGTH, 0.0) == 0.7 : 
+			"0.0 ANGLE TO EXT POT ERROR: " + armMath.convertArmAngleToExtPot(EXT_MIN_POT, EXT_MIN_LENGTH, EXT_MAX_POT, EXT_MAX_LENGTH, -5.0);
+		
+		assert armMath.convertArmAngleToExtPot(EXT_MIN_POT, EXT_MIN_LENGTH, EXT_MAX_POT, EXT_MAX_LENGTH, 158) == 5.0 : 
+			"158.0 ANGLE TO EXT POT ERROR: " + armMath.convertArmAngleToExtPot(EXT_MIN_POT, EXT_MIN_LENGTH, EXT_MAX_POT, EXT_MAX_LENGTH, 158.0);
+		
+		assert armMath.convertArmAngleToExtPot(EXT_MIN_POT, EXT_MIN_LENGTH, EXT_MAX_POT, EXT_MAX_LENGTH, 175) == 0.7 : 
+			"175.0 ANGLE TO EXT POT ERROR: " + armMath.convertArmAngleToExtPot(EXT_MIN_POT, EXT_MIN_LENGTH, EXT_MAX_POT, EXT_MAX_LENGTH, 175.0);
+	}
 }

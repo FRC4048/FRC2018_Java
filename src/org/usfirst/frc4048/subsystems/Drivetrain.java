@@ -108,7 +108,7 @@ public class Drivetrain extends Subsystem {
     private final double RIGHT_JOY_X_MIN_DEADZONE = -0.0078125;
     private final double RIGHT_JOY_X_MAX_DEADZONE = 0.031496062874794006;
         
-    private final int TIMEOUT = 100;    //TODO
+    private final int TIMEOUT = 100;    //TODO Is this timeout right?
     
     
     /**

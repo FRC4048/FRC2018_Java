@@ -81,7 +81,17 @@ public class Arm extends Subsystem {
     private final int CLIMBER_SETPOINT = 1200;
     private final int HOME_SETPOINT = 300;
     
+    private final double ARM_POT_MIN = 0.0;
+    private final double ARM_POT_MAX = 5.0;
+    private final double ARM_ANGLE_MIN = 0.0;
+    private final double ARM_ANGLE_MAX = 158.0;
+    private final double EXT_POT_MIN = 0.0;
+    private final double EXT_POT_MAX = 5.0;
+    private final double EXT_LENGTH_MIN = 0.0;
+    private final double EXT_LENGTH_MAX = 16.0;
+    
     private double armSetpoint;
+    private double extSetpoint;
     private ArmMath armMath = new ArmMath();
     private boolean autoExtension = true;
     private PIDController armController = new PIDController(ARM_P, ARM_I, ARM_D, rotationPot, movementMotor);
@@ -140,8 +150,9 @@ public class Arm extends Subsystem {
     	moveArm();
     	moveExtension();
     	   	
-    	SmartDashboard.putNumber("Setpoint", armSetpoint);
-    	SmartDashboard.putNumber("Current Value", getArmPos());
+    	SmartDashboard.putNumber("ARM SETPOINT", armSetpoint);
+    	SmartDashboard.putNumber("ARM POT", getArmPos());
+    	SmartDashboard.putNumber("EXT POT", getExtPos());
     }
 
     // Put methods for controlling this subsystem
@@ -174,32 +185,39 @@ public class Arm extends Subsystem {
     	return rotationPot.get();
     }
     
-    public int getExtPos()
+    public double getExtPos()
     {
-    	return extensionMotor.getSelectedSensorPosition(0);
+    	return extensionPot.get();
     }
+    
+//    public int getExtPos()
+//    {
+//    	return extensionMotor.getSelectedSensorPosition(0);
+//    }
     
     /**
      * Checks to see if the arm is within the correct position
      * @param position
      * @return True if arm is in correct position., False otherwise
      */
+    //TODO Test this!!!
     public boolean armAtPosition(ArmPositions position)
     {
 //    	int armPos = getArmPos();
+    	double armPos = getArmPos();
     	switch (position) {
-//		case Exchange:			
-//			return armPos >= EXCHANGE_SETPOINT - RANGE_VALUE && armPos <= EXCHANGE_SETPOINT + RANGE_VALUE;	
-//		case Switch:
-//			return armPos >= SWITCH_SETPOINT - RANGE_VALUE && armPos <= SWITCH_SETPOINT + RANGE_VALUE;
-//		case LowScale:
-//			return armPos >= LOWSCALE_SETPOINT - RANGE_VALUE && armPos <= LOWSCALE_SETPOINT + RANGE_VALUE;
-//		case HighScale:
-//			return armPos >= HIGHSCALE_SETPOINT - RANGE_VALUE && armPos <= HIGHSCALE_SETPOINT + RANGE_VALUE;
-//		case Climb:
-//			return armPos >= CLIMBER_SETPOINT - RANGE_VALUE && armPos <= CLIMBER_SETPOINT + RANGE_VALUE;
-//		case Home:
-//			return armPos >= HOME_SETPOINT - RANGE_VALUE && armPos <= HOME_SETPOINT + RANGE_VALUE;
+		case Exchange:			
+			return armPos >= EXCHANGE_SETPOINT - MARGIN_VALUE && armPos <= EXCHANGE_SETPOINT + MARGIN_VALUE;	
+		case Switch:
+			return armPos >= SWITCH_SETPOINT - MARGIN_VALUE && armPos <= SWITCH_SETPOINT + MARGIN_VALUE;
+		case LowScale:
+			return armPos >= LOWSCALE_SETPOINT - MARGIN_VALUE && armPos <= LOWSCALE_SETPOINT + MARGIN_VALUE;
+		case HighScale:
+			return armPos >= HIGHSCALE_SETPOINT - MARGIN_VALUE && armPos <= HIGHSCALE_SETPOINT + MARGIN_VALUE;
+		case Climb:
+			return armPos >= CLIMBER_SETPOINT - MARGIN_VALUE && armPos <= CLIMBER_SETPOINT + MARGIN_VALUE;
+		case Home:
+			return armPos >= HOME_SETPOINT - MARGIN_VALUE && armPos <= HOME_SETPOINT + MARGIN_VALUE;
 		default:
 			return false;
 		}
@@ -253,8 +271,14 @@ public class Arm extends Subsystem {
      */
     private void moveExtension()
     {
-    	armMath.convertPotToAngle(, angleMin, potMax, angleMax, inputPot)
-    	armMath.convertArmAngleToExtPot(potMin, 0, potMax, lengthMax, angle);
+    	if(autoExtension)
+    	{
+	    	double angle = armMath.convertPotToAngle(ARM_POT_MIN, ARM_ANGLE_MIN, ARM_POT_MAX, ARM_ANGLE_MAX, getArmPos());
+	    	SmartDashboard.putNumber("ARM ANGLE", angle);
+	    	extSetpoint = armMath.convertArmAngleToExtPot(EXT_POT_MIN, EXT_LENGTH_MIN, EXT_POT_MAX, EXT_LENGTH_MAX, angle);
+	    	SmartDashboard.putNumber("EXTENSION SETPOINT", extSetpoint);
+	    	extController.setSetpoint(extSetpoint);
+    	}
     }
     
     /**

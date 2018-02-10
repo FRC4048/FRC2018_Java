@@ -22,14 +22,15 @@ public class LinearMoveStrat implements ArmStrat{
 	 * Angle that when above begins the linear math
 	 */
 	public static final double HOME_MAX_ANGLE = Math.toRadians(32.0);
+	public static final double MAX_ANGLE = Math.toRadians(158.0);
 	/**
 	 * Length of arm when at home
 	 */
 	public static final double FIXED_ARM_LENGTH = 44.0;
 	/**
-	 * 
+	 * Maximum length of extension
 	 */
-	public static final double MAX_EXTENSION = 14.0;
+	public static final double MAX_EXTENSION = 16.0;
 	
 	/**
 	 * Converts angle of arm into extension length. Meant to be used only when placing cube.
@@ -39,8 +40,13 @@ public class LinearMoveStrat implements ArmStrat{
 	@Override
 	public double getExtensionLength(double angle)
 	{
+//		return testGetExtensionLength(angle, STARTING_ANGLE, HOME_MAX_ANGLE, START_EXT_LENGTH, MAX_DISTANCE, DISTANCE_MARGIN, FIXED_ARM_LENGTH, MAX_EXTENSION);
 		angle = Math.toRadians(angle) + STARTING_ANGLE;	//Is now relative to tower
 		if(angle <= HOME_MAX_ANGLE)
+		{
+			return START_EXT_LENGTH;
+		}
+		else if(angle > STARTING_ANGLE + MAX_ANGLE)
 		{
 			return START_EXT_LENGTH;
 		}
@@ -58,4 +64,26 @@ public class LinearMoveStrat implements ArmStrat{
 			return length;
 		}
 	}
+	
+//	public double testGetExtensionLength(double angle, double startingAngle, double homeMaxAngle, double startExtLength, double maxDistance, double distanceMargin, double fixedArmLength, double maxExtension)
+//	{
+//		angle = Math.toRadians(angle) + startingAngle;	//Is now relative to tower
+//		if(angle <= homeMaxAngle)
+//		{
+//			return startExtLength;
+//		}
+//		else
+//		{
+//			double length = ((maxDistance-distanceMargin)/Math.sin(angle)) - fixedArmLength;
+//			if(length > maxExtension)
+//			{
+//				length = maxExtension;
+//			}
+//			if(length < 0)
+//			{
+//				length = 0.0;
+//			}
+//			return length;
+//		}
+//	}
 }

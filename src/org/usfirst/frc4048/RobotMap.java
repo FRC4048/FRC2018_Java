@@ -145,13 +145,13 @@ public class RobotMap {
         armextensionMotor = new WPI_TalonSRX(10);
         LiveWindow.addActuator("Arm", "extensionMotor", (WPI_TalonSRX) armextensionMotor);
         armextensionMotor.setInverted(false);
-        armrotationPot = new AnalogPotentiometer(4, 1.0, 0.0);
+        armrotationPot = new AnalogPotentiometer(4, 5.0, 0.0);
         LiveWindow.addSensor("Arm", "rotationPot", armrotationPot);
         
         armmovementMotor = new WPI_TalonSRX(11);
         
         
-        armextensionPot = new AnalogPotentiometer(7, 1.0, 0.0);
+        armextensionPot = new AnalogPotentiometer(7, 5.0, 0.0);
         LiveWindow.addSensor("Arm", "extensionPot", armextensionPot);
         
         intakeleftIntakeMotor = new Talon(0);
