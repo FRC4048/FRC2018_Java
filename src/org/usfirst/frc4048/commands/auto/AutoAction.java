@@ -16,6 +16,23 @@ public class AutoAction extends Command {
 	char scalePos;
 	Action autoAction;
 	
+	//NOTE: These messurements and speeds are not FINAL
+	public static final double LOCAL_SWITCH_SPEED = 0.3;
+	public static final double DISTANCE_TO_MIDDLE_OF_SWITCH = 145;
+	
+	public static final double DISTANCE_TO_MIDDLE_OF_LANE = 222;
+	
+	public static final double LOCAL_SCALE_SPEED = 0.35;
+	public static final double DISTANCE_TO_MIDDLE_OF_SCALE = 300;
+	
+	public static final double AUTO_RUN_DISTANCE = 112;
+	
+	public static final double TRAVEL_THROUGH_SWITCH = 180;
+	//200 is just a placeholder until we know a better messurement
+	public static final double TRAVEL_ACROSS_SWITCH = 200;
+	public static final double LANE_TO_SCALE = 80;
+	
+	
 	Command selectCmd;
 	
     public AutoAction() {
@@ -38,17 +55,17 @@ public class AutoAction extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	System.out.println(autoAction.toString());
+    	
     	//For the labeling of the commands (Ex: AutoScaleRR) the first letter is the 
     	//robot position and the second is the position of the switch/scale
     	switch(autoAction)
     	{
-    	case B:
+    	case Baseline:
     		selectCmd = new AutoBase();
   
     		break;
     		
-    	case CR:
+    	case RScale:
     		if(scalePos == 'R')
     		{
     			selectCmd = new AutoScaleRRGroup();
@@ -62,7 +79,7 @@ public class AutoAction extends Command {
     			selectCmd = new AutoBase();
     		}
     		break;
-    	case CL:
+    	case LScale:
     		if(scalePos == 'R')
     		{
     			selectCmd = new AutoScaleLRGroup();
@@ -76,12 +93,12 @@ public class AutoAction extends Command {
     			selectCmd = new AutoBase();
     		}
     		break;
-    	case WR:
-    		if(scalePos == 'R')
+    	case RSwitch:
+    		if(switchPos == 'R')
     		{
     			selectCmd = new AutoSwitchRRGroup();
     		}
-    		else if(scalePos == 'L')
+    		else if(switchPos == 'L')
     		{
     			selectCmd = new AutoSwitchRLGroup();
     		}
@@ -90,12 +107,12 @@ public class AutoAction extends Command {
     			selectCmd = new AutoBase();
     		}
     		break;
-    	case WL:
-    		if(scalePos == 'R')
+    	case LSwitch:
+    		if(switchPos == 'R')
     		{
     			selectCmd = new AutoSwitchLRGroup();
     		}
-    		else if(scalePos == 'L')
+    		else if(switchPos == 'L')
     		{
     			selectCmd = new AutoSwitchLLGroup();
     		}
@@ -104,7 +121,35 @@ public class AutoAction extends Command {
     			selectCmd = new AutoBase();
     		}
     		break;
-    	case LR:
+    	case RLocalSwitchPriority:
+    		if(switchPos == 'R')
+    		{
+    			selectCmd = new AutoSwitchRRGroup();
+    		}
+    		else if (scalePos == 'R')
+    		{
+    			selectCmd = new AutoScaleRRGroup();
+    		}
+    		else
+    		{
+    			selectCmd = new AutoBase();
+    		}
+    		break;
+    	case LLocalSwitchPriority:
+    		if(switchPos == 'L')
+    		{
+    			selectCmd = new AutoSwitchLLGroup();
+    		}
+    		else if (scalePos == 'L')
+    		{
+    			selectCmd = new AutoScaleLLGroup();
+    		}
+    		else
+    		{
+    			selectCmd = new AutoBase();
+    		}
+    		break;
+    	case RLocalScalePriority:
     		if(scalePos == 'R')
     		{
     			selectCmd = new AutoScaleRRGroup();
@@ -118,7 +163,7 @@ public class AutoAction extends Command {
     			selectCmd = new AutoBase();
     		}
     		break;
-    	case LL:
+    	case LLocalScalePriority:
     		if(scalePos == 'L')
     		{
     			selectCmd = new AutoScaleLLGroup();
@@ -132,10 +177,13 @@ public class AutoAction extends Command {
     			selectCmd = new AutoBase();
     		}
     		break;
+    	case Nothing:
+    		break;
     	default:
     		
     		break;
     	}
+    	SmartDashboard.putString("Running Auto Command ", selectCmd.getName());    	
     	selectCmd.start();
     }
 
