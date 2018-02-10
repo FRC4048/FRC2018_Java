@@ -4,6 +4,7 @@ import org.usfirst.frc4048.RobotMap;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /*
  *   MotorStall object should be instantiated in init() method of a command
@@ -14,8 +15,9 @@ public class MotorUtils {
 	public static final double DEFAULT_TIMEOUT = 0.15;
 	private double timeout;
 	private double time;
-	int PDPChannel;
-	double currentThreshold;
+	final int PDPChannel;
+	final double currentThreshold;
+	private static boolean DEBUG = false;
 	
 	public MotorUtils(int PDPPort, double currentThreshold)
 	{
@@ -31,19 +33,26 @@ public class MotorUtils {
 		this.timeout = timeout;
 	}
 	
-	
-	
 	public boolean isStalled()
 	{
-		if (RobotMap.pdp.getCurrent(PDPChannel) < currentThreshold)
+		final double currentValue = RobotMap.pdp.getCurrent(PDPChannel);
+		final double now = Timer.getFPGATimestamp();
+		if (DEBUG)
+			SmartDashboard.putNumber(String.format("PDP%d.Current",  PDPChannel), currentValue);
+		if (currentValue < currentThreshold)
 		{
-			time = Timer.getFPGATimestamp();
+			time = now;
+			if (DEBUG)
+				SmartDashboard.putNumber(String.format("PDP%d.StalledTime",  PDPChannel), 0);
 		}
 		else
 		{
-			if (Timer.getFPGATimestamp() - time > timeout)
+			DriverStation.reportError("Motor stall, PDP Channel=" + PDPChannel, false);
+			final double timeStalled = now - time;
+			if (DEBUG)
+				SmartDashboard.putNumber(String.format("PDP%d.StalledTime",  PDPChannel), timeStalled);
+			if (now - time > timeout)
 			{
-				DriverStation.reportError("Motor stall, PDP Channel=" + PDPChannel, false);
 				return true;
 			}
 			
