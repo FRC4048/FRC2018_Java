@@ -39,12 +39,12 @@ public class ToggleIntake extends Command {
 		} else if (!Robot.intake.isLowered() && Robot.intake.isRaised()) {
 			lowerIntake.start();
 			if (DEBUG) {
-				DriverStation.reportError("raiseIntake running", true);
+				DriverStation.reportError("lowerIntake running", true);
 			}
 		} else if (!Robot.intake.isRaised() && Robot.intake.isLowered()) {
 			raiseIntake.start();
 			if (DEBUG) {
-				DriverStation.reportError("lowerIntake running", true);
+				DriverStation.reportError("raiseIntake running", true);
 			}
 		} else {
 			// When we can't tell if the intake is up or down, favor up because it's the
