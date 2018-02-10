@@ -4,6 +4,8 @@ import org.usfirst.frc4048.commands.DriveDistance;
 import org.usfirst.frc4048.commands.PrintCommand;
 import org.usfirst.frc4048.commands.RotateAngle;
 import org.usfirst.frc4048.commands.arm.MoveArm;
+import org.usfirst.frc4048.commands.arm.MoveClaw;
+import org.usfirst.frc4048.commands.arm.OpenClaw;
 import org.usfirst.frc4048.subsystems.Arm.ArmPositions;
 import org.usfirst.frc4048.commands.auto.*;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -39,6 +41,7 @@ public class AutoScaleLLGroup extends CommandGroup {
     	//addSequential(new PrintCommand());
     	addSequential(new RotateAngle(90));
     	addSequential(new DriveDistance(5, 0,AutoAction.LOCAL_SCALE_SPEED,0));
-    	//Use addSequential to drop the cube
+    	//addSequential(new MoveClaw()); TODO fix this
+    	addSequential(new OpenClaw());
     }
 }

@@ -16,6 +16,7 @@ public class AutoAction extends Command {
 	char scalePos;
 	Action autoAction;
 	
+	//NOTE: These messurements and speeds are not FINAL
 	public static final double LOCAL_SWITCH_SPEED = 0.3;
 	public static final double DISTANCE_TO_MIDDLE_OF_SWITCH = 145;
 	
