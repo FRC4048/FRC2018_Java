@@ -1,6 +1,14 @@
 package org.usfirst.frc4048.commands.auto;
 
+import org.usfirst.frc4048.commands.DriveDistance;
+import org.usfirst.frc4048.commands.RotateAngle;
+import org.usfirst.frc4048.commands.arm.MoveArm;
+import org.usfirst.frc4048.commands.arm.MoveClaw;
+import org.usfirst.frc4048.commands.arm.OpenClaw;
+import org.usfirst.frc4048.subsystems.Arm.ArmPositions;
+
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.WaitForChildren;
 
 /**
  *
@@ -24,5 +32,15 @@ public class AutoScaleRLGroup extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
+    	
+    	addSequential(new DriveDistance(AutoAction.DISTANCE_TO_MIDDLE_OF_LANE, AutoAction.LOCAL_SCALE_SPEED,0,0));
+    	addSequential(new MoveArm(ArmPositions.HighScale));
+    	//WaitForChildren() waits for the parallel commands to finish
+    	addSequential(new WaitForChildren());
+    	addSequential(new DriveDistance(AutoAction.TRAVEL_ACROSS_SWITCH, 0, -AutoAction.LOCAL_SCALE_SPEED,0));
+    	addSequential(new RotateAngle(90));
+    	//addSequential(new DriveDistance(AutoAction., AutoAction.LOCAL_SWITCH_SPEED,0,0)); //TODO Add this back with better messurements
+    	//addSequential(new MoveClaw(angle)); //TODO set the angle to the correct position
+    	addSequential(new OpenClaw());
     }
 }

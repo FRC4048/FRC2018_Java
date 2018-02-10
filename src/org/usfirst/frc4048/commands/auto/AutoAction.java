@@ -17,14 +17,18 @@ public class AutoAction extends Command {
 	Action autoAction;
 	
 	public static final double LOCAL_SWITCH_SPEED = 0.3;
-	public static final double LOCAL_SWITCH_DISTANCE = 145;
+	public static final double DISTANCE_TO_MIDDLE_OF_SWITCH = 145;
 	
-	public static final double LOCAL_SCALE_SPEED = 0.3;
-	public static final double LOCAL_SCALE_DISTANCE = 300;
+	public static final double DISTANCE_TO_MIDDLE_OF_LANE = 222;
+	
+	public static final double LOCAL_SCALE_SPEED = 0.35;
+	public static final double DISTANCE_TO_MIDDLE_OF_SCALE = 300;
 	
 	public static final double AUTO_RUN_DISTANCE = 112;
 	
 	public static final double TRAVEL_THROUGH_SWITCH = 180;
+	//200 is just a placeholder until we know a better messurement
+	public static final double TRAVEL_ACROSS_SWITCH = 200;
 	
 	Command selectCmd;
 	

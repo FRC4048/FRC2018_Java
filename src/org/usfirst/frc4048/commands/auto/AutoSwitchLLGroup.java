@@ -7,6 +7,7 @@ import org.usfirst.frc4048.commands.PrintCommand;
 import org.usfirst.frc4048.commands.RotateAngle;
 import org.usfirst.frc4048.subsystems.Arm.ArmPositions;
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.WaitForChildren;
 
 /**
  *
@@ -31,11 +32,13 @@ public class AutoSwitchLLGroup extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     	
-    	addParallel(new DriveDistance(AutoAction.LOCAL_SWITCH_DISTANCE, AutoAction.LOCAL_SWITCH_SPEED,0,0));
+    	addParallel(new DriveDistance(AutoAction.DISTANCE_TO_MIDDLE_OF_SWITCH, AutoAction.LOCAL_SWITCH_SPEED,0,0));
     	//addSequential(new MoveArm(ArmPositions.Switch)); //TODO add this back
     	addSequential(new PrintCommand());
+    	//WaitForChildren() waits for the parallel commands to finish
+    	addSequential(new WaitForChildren());
     	addSequential(new RotateAngle(90));
-    	addSequential(new DriveDistance(5, AutoAction.LOCAL_SWITCH_SPEED,0,0));
+    	addSequential(new DriveDistance(5, 0,	AutoAction.LOCAL_SWITCH_SPEED,0));
     	//Use addSequential to drop the cube
     }
 }

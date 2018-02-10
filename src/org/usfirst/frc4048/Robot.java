@@ -198,5 +198,6 @@ public class Robot extends TimedRobot {
     		SmartDashboard.putNumber("Distance", RobotMap.swerveDriveEncoder.getDistance());
     	}
     	SmartDashboard.putString("Action for Auto", autoAction.toString());
+    	SmartDashboard.putNumber("Gyro Value", Robot.drivetrain.getGyro());
     }
  }

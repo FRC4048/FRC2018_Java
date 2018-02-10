@@ -3,8 +3,11 @@ package org.usfirst.frc4048.commands.auto;
 import org.usfirst.frc4048.commands.DriveDistance;
 import org.usfirst.frc4048.commands.PrintCommand;
 import org.usfirst.frc4048.commands.RotateAngle;
+import org.usfirst.frc4048.commands.arm.MoveArm;
+import org.usfirst.frc4048.subsystems.Arm.ArmPositions;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.WaitForChildren;
 
 /**
  *
@@ -29,11 +32,13 @@ public class AutoScaleRRGroup extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     	
-    	addParallel(new DriveDistance(AutoAction.LOCAL_SCALE_DISTANCE, AutoAction.LOCAL_SCALE_SPEED,0,0));
-    	//addSequential(new MoveArm(ArmPositions.HighScale)); //TODO add this back
-    	addSequential(new PrintCommand());
+    	addSequential(new DriveDistance(AutoAction.DISTANCE_TO_MIDDLE_OF_SCALE, AutoAction.LOCAL_SCALE_SPEED,0,0));
+    	addSequential(new MoveArm(ArmPositions.HighScale)); //TODO add this back
+    	//addSequential(new PrintCommand());
+    	//WaitForChildren() waits for the parallel commands to finish
+    	addSequential(new WaitForChildren());
     	addSequential(new RotateAngle(-90));
-    	addSequential(new DriveDistance(5, AutoAction.LOCAL_SCALE_SPEED,0,0));
+    	addSequential(new DriveDistance(5, 0, -AutoAction.LOCAL_SWITCH_SPEED,0));
     	//Use addSequential to drop the cube
     }
 }
