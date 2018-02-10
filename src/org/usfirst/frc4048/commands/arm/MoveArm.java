@@ -5,6 +5,7 @@ import org.usfirst.frc4048.subsystems.Arm.ArmPositions;
 import edu.wpi.first.wpilibj.command.Command;
 
 import org.usfirst.frc4048.Robot;
+import org.usfirst.frc4048.commands.GroupCommandNotifier;
 
 /**
  *
@@ -21,7 +22,7 @@ public class MoveArm extends Command {
     }
 
     
-    // Called just before this Command runs the first time
+	// Called just before this Command runs the first time
     protected void initialize() {
     	setTimeout(3.0);
     }

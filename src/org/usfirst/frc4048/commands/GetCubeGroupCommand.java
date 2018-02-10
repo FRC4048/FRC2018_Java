@@ -11,21 +11,28 @@ import org.usfirst.frc4048.subsystems.Claw;
 import org.usfirst.frc4048.subsystems.Arm.ArmPositions;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.Scheduler;
 
-public class GetCubeGroupCommand extends CommandGroup {
+public class GetCubeGroupCommand extends CommandGroup implements GroupCommandNotifier {
 
     public GetCubeGroupCommand() {
-    	addParallel(new MoveArm(ArmPositions.Intake));
-    	addParallel(new LowerIntake());
+    	final GroupCommandNotifier n = this;
+    	addParallel(new MoveArm(n, ArmPositions.Intake));
+    	addParallel(new LowerIntake(n));
     	
-    	addSequential(new IntakeCube());
-    	addSequential(new OpenClaw());
-    	addSequential(new MoveClaw(Claw.WristPostion.Level));
-    	addSequential(new GrabCube());
+    	addSequential(new IntakeCube(n));
+    	addSequential(new OpenClaw(n));
+    	addSequential(new MoveClaw(n, Claw.WristPostion.Level));
+    	addSequential(new GrabCube(n));
     	
-    	addSequential(new MoveArm(ArmPositions.Home));
-    	addSequential(new MoveClaw(Claw.WristPostion.Compact));
-    	addParallel(new RaiseIntake());
+    	addSequential(new MoveArm(n, ArmPositions.Home));
+    	addSequential(new MoveClaw(n, Claw.WristPostion.Compact));
+    	addParallel(new RaiseIntake(n, ));
     	}
+
+	@Override
+	public void stop() {
+		Scheduler.getInstance().removeAll();
+	}
 
 }
