@@ -13,6 +13,8 @@ public class ToggleIntake extends Command {
 	Command lowerIntake;
 	Command raiseIntake;
 	
+	private static final boolean DEBUG = false;
+	
     public ToggleIntake() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
@@ -23,23 +25,35 @@ public class ToggleIntake extends Command {
     protected void initialize() {
     	lowerIntake = new LowerIntake();
     	raiseIntake = new RaiseIntake();
-    	//DriverStation.reportError("A Thing: " + Robot.intake.isLowered() + ", " + !Robot.intake.isRaised() + ", " + !Robot.intake.hasCube(), true);
-    	DriverStation.reportError("isRaised: "+ Robot.intake.isRaised(), true);
-    	DriverStation.reportError("isLowered: "+ Robot.intake.isLowered(), true);
-    	System.out.println("Test!");
-    	if (Robot.intake.hasCube()) {
-    		//Do nothing, since it has a cube
-    		DriverStation.reportError("There's a cube.", true);
-    	}else if(!Robot.intake.isLowered() && Robot.intake.isRaised()) {
-    		raiseIntake.start();
-    		DriverStation.reportError("raiseIntake running", true);
-    	}else if(!Robot.intake.isRaised() && Robot.intake.isLowered()) {
-    		lowerIntake.start();
-    		DriverStation.reportError("lowerIntake running", true);
-    	}else{ //TODO Decide what the default intake position should be (Up or Down)
-    		raiseIntake.start();
-    		DriverStation.reportError("raiseIntake running", true);
-    	}
+		if (DEBUG) {
+			// DriverStation.reportError("A Thing: " + Robot.intake.isLowered() + ", " +
+			// !Robot.intake.isRaised() + ", " + !Robot.intake.hasCube(), true);
+			DriverStation.reportError("isRaised: " + Robot.intake.isRaised(), true);
+			DriverStation.reportError("isLowered: " + Robot.intake.isLowered(), true);
+		}
+		if (Robot.intake.hasCube()) {
+			// Do nothing, since it has a cube
+			if (DEBUG) {
+				DriverStation.reportError("There's a cube.", true);
+			}
+		} else if (!Robot.intake.isLowered() && Robot.intake.isRaised()) {
+			lowerIntake.start();
+			if (DEBUG) {
+				DriverStation.reportError("lowerIntake running", true);
+			}
+		} else if (!Robot.intake.isRaised() && Robot.intake.isLowered()) {
+			raiseIntake.start();
+			if (DEBUG) {
+				DriverStation.reportError("raiseIntake running", true);
+			}
+		} else {
+			// When we can't tell if the intake is up or down, favor up because it's the
+			// safer choice.
+			raiseIntake.start();
+			if (DEBUG) {
+				DriverStation.reportError("raiseIntake running", true);
+			}
+		}
     }	
 
     // Called repeatedly when this Command is scheduled to run

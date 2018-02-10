@@ -124,20 +124,20 @@ public class Intake extends Subsystem {
     }
     
     /**
-     * Returns true when the switch is NOT pressed
+     * Returns true when the intake is deployed to the lower position.
      * @return
      */
     public boolean isLowered()
     {
-    	return lowerLimit.get(); 
+    	return !lowerLimit.get(); 
     }
     /**
-     * Returns true when the switch is NOT pressed
+     * Returns true when the intake is in the stowed or raised position.
      * @return
      */
     public boolean isRaised()
     {
-    	return upperLimit.get();
+    	return !upperLimit.get();
     }
     
 }
