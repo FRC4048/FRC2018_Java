@@ -29,7 +29,7 @@ char x;
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	if(Timer.getFPGATimestamp() - time > 10)
+    	if(Timer.getFPGATimestamp() - time > 5)
     		return true;
     	else 
     		return false;

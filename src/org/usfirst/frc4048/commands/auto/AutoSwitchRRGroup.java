@@ -1,11 +1,13 @@
 package org.usfirst.frc4048.commands.auto;
 
+import org.usfirst.frc4048.commands.CalculateSonarDistance;
 import org.usfirst.frc4048.commands.DriveDistance;
 import org.usfirst.frc4048.commands.PrintCommand;
 import org.usfirst.frc4048.commands.RotateAngle;
 import org.usfirst.frc4048.commands.arm.MoveArm;
 import org.usfirst.frc4048.commands.arm.OpenClaw;
 import org.usfirst.frc4048.subsystems.Arm.ArmPositions;
+import org.usfirst.frc4048.subsystems.Drivetrain.SonarSide;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.WaitForChildren;
@@ -33,15 +35,20 @@ public class AutoSwitchRRGroup extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     	
+    	//DRIVE TO SWITCH AND RAISE ARM
     	addParallel(new DriveDistance(AutoAction.DISTANCE_TO_MIDDLE_OF_SWITCH, AutoAction.LOCAL_SWITCH_SPEED,0,0));
-    	addSequential(new MoveArm(ArmPositions.Switch)); //TODO add this back
-    	//WaitForChildren() waits for the parallel commands to finish
-    	addSequential(new WaitForChildren());
-    	//addSequential(new PrintCommand());
+    	addSequential(new MoveArm(ArmPositions.Switch));
+    	addSequential(new WaitForChildren());//WaitForChildren() waits for the parallel commands to finish
+    	
+    	//ADJUST ANGLE AND DISTANCE FROM WALL
+    	addSequential(new RotateAngle(0));
+    	addSequential(new CalculateSonarDistance(SonarSide.RIGHT, AutoAction.DISTANCE_FROM_WALL));
+    	addSequential(new DriveDistance(0, 0, 0, 0));
+    	
+    	//ROTATE 90 AND DROP ON SWITCH
     	addSequential(new RotateAngle(-90));
-    	addSequential(new DriveDistance(5, 0,-AutoAction.LOCAL_SWITCH_SPEED,0));
-    	//addSequential(new MoveClaw()); TODO fix this
-    	addSequential(new OpenClaw());
+    	addSequential(new DriveDistance(5, 0, -AutoAction.LOCAL_SWITCH_SPEED,0));
+    	addSequential(new OpenClaw());   
     }
 }
 	

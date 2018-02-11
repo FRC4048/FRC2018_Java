@@ -83,6 +83,15 @@ public class Drivetrain extends Subsystem {
     private final boolean REVERSE_ENCODER = true;
     private final boolean REVERSE_OUTPUT = true;
     
+    private final AnalogInput leftSonar = RobotMap.leftSonarPort;
+   // private final AnalogInput rightSonar = RobotMap.rightSonarPort;
+    private final double SCALE_FACTOR = 2.45; //Scale factor for the sonar (MB1240/20 = 2.45, MB1230 = 1.84(not verified by datasheet)) 
+    public static enum SonarSide {RIGHT, LEFT};
+    //This \/ is used to schedual the drive distance after calling CalculateSonarDistance()
+    public double globalDriveDistance;
+    public double globalDriveDirSpeed;
+    
+    
     //Absolute Encoder Zero Consts
     /*
      * 1 = Front Right
@@ -178,6 +187,9 @@ public class Drivetrain extends Subsystem {
 		encoder.setDistancePerPulse(RobotMap.SWERVE_DRIVE_ENCODER_DISTANCE_PER_TICK);
 		
 		resetQuadEncoder();
+		
+		globalDriveDirSpeed = 0;
+		globalDriveDistance = 0;
     }
     
     private void initSteerMotor(WPI_TalonSRX steerMotor)
@@ -276,6 +288,15 @@ public class Drivetrain extends Subsystem {
     	
     	
     	swerveDrivetrain.move(fwd, str, rcw, getGyro());
+    }
+    
+    public double getSonar(SonarSide side) {
+    	if(side == SonarSide.LEFT)
+    		return (5* (leftSonar.getVoltage() / SCALE_FACTOR)*40); //Distance in inches
+//    	else if(side == SonarSide.RIGHT)
+//    		return (5* (rightSonar.getVoltage() / SCALE_FACTOR)*40); //Distance in inches
+    	else 
+    		return 0;
     }
     
     public void stop()

@@ -36,6 +36,12 @@ public class DriveDistance extends Command {
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		Robot.drivetrain.setZero();
+		//The reason for checking if the distance is zero is ONLY for using the sonar distance and speed instead of the actual distance
+		//We only use this is autonomous
+		if(distance == 0) {
+			distance = Robot.drivetrain.globalDriveDistance;
+			dir = Robot.drivetrain.globalDriveDirSpeed;
+		}
 		lastDistance = Robot.drivetrain.getDistance();
 		distanceLeft = distance;
 		done = false;

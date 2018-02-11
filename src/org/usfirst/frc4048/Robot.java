@@ -22,6 +22,7 @@ import java.time.temporal.IsoFields;
 import org.usfirst.frc4048.commands.*;
 import org.usfirst.frc4048.commands.auto.AutoAction;
 import org.usfirst.frc4048.subsystems.*;
+import org.usfirst.frc4048.subsystems.Drivetrain.SonarSide;
 import org.usfirst.frc4048.commands.auto.Action;
 import org.usfirst.frc4048.swerve.math.*;
 /**
@@ -140,6 +141,7 @@ public class Robot extends TimedRobot {
     	
     	Action autoAction = chooser.getSelected();
     	System.out.println("Action in Auto " + autoAction.toString());
+    	System.out.println("Game Data: " + gameData);
     	autonomousCommand = new AutoAction(switchPos, scalePos, autoAction);
     	
         // schedule the autonomous command (example)
@@ -164,8 +166,6 @@ public class Robot extends TimedRobot {
         // this line or comment it out.
     	
     	autoAction = chooser.getSelected();
-    	System.out.println("Action in teleop " + autoAction.toString());
-    	
         if (autonomousCommand != null) autonomousCommand.cancel();
         
     }
@@ -198,6 +198,7 @@ public class Robot extends TimedRobot {
     	}
     	SmartDashboard.putString("Action for Auto", autoAction.toString());
     	SmartDashboard.putNumber("Gyro Value", Robot.drivetrain.getGyro());
-    	SmartDashboard.putData(new PrintGroup());
+    	SmartDashboard.putData(new CalculateSonarDistance(SonarSide.LEFT, 30));
+    	SmartDashboard.putNumber("Sensor Value", Robot.drivetrain.getSonar(SonarSide.LEFT));
     }
  }
