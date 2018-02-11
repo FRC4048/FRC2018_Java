@@ -83,7 +83,7 @@ public class RobotMap {
     /**
      * TODO Determine correct timeout for intake motors.
      */
-    public static final double TIMEOUT_INTAKE_MOTOR=0.20;
+    public static final double TIMEOUT_INTAKE_MOTOR = 0.20;
     
     public static AnalogInput swerveDriveAnalogInputFrontRight;
     public static AnalogInput swerveDriveAnalogInputFrontLeft;

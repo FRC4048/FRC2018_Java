@@ -76,6 +76,7 @@ public class Arm extends Subsystem {
      */
     private final double FINETUNE_RATE = 0.01;
     
+    // TODO ALL OF THESE SETPOINTS ARE NOT VALID
     private final int MARGIN_VALUE = 5;
     private final int EXCHANGE_SETPOINT = 200;
     private final int SWITCH_SETPOINT = 500;
@@ -83,7 +84,7 @@ public class Arm extends Subsystem {
     private final int HIGHSCALE_SETPOINT = 1000;
     private final int CLIMBER_SETPOINT = 1200;
     private final int HOME_SETPOINT = 300;
-    private final int INTAKE_SETPOINT = EXCHANGE_SETPOINT; // TODO -- the Intake setpoint is a placeholder!!
+    private final int INTAKE_SETPOINT = EXCHANGE_SETPOINT;
     
     private final double ARM_POT_MIN = 0.0;
     private final double ARM_POT_MAX = 5.0;

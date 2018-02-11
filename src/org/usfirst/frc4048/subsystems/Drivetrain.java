@@ -108,7 +108,7 @@ public class Drivetrain extends Subsystem {
     private final double RIGHT_JOY_X_MIN_DEADZONE = -0.0078125;
     private final double RIGHT_JOY_X_MAX_DEADZONE = 0.031496062874794006;
         
-    private final int TIMEOUT = 100;    //TODO Is this timeout right?
+    private final int TIMEOUT = 100;
     
     
     /**
@@ -174,8 +174,7 @@ public class Drivetrain extends Subsystem {
 		rearLeftWheel.setReverseSteerMotor(REVERSE_OUTPUT);
 		rearRightWheel.setReverseSteerMotor(REVERSE_OUTPUT);
 		
-		encoder.reset();
-		encoder.setDistancePerPulse(RobotMap.SWERVE_DRIVE_ENCODER_DISTANCE_PER_TICK);
+		resetDriveEncoder();
 		
 		resetQuadEncoder();
     }
@@ -213,6 +212,12 @@ public class Drivetrain extends Subsystem {
     	frontLeftSteerMotor.set(ControlMode.Position, 0);
     	rearLeftSteerMotor.set(ControlMode.Position, 0);
     	rearRightSteerMotor.set(ControlMode.Position, 0);
+    }
+    
+    public void resetDriveEncoder()
+    {
+    	encoder.reset();
+		encoder.setDistancePerPulse(RobotMap.SWERVE_DRIVE_ENCODER_DISTANCE_PER_TICK);
     }
     
     @SuppressWarnings("unused")
