@@ -2,6 +2,7 @@ package org.usfirst.frc4048.commands.intake;
 
 import org.usfirst.frc4048.Robot;
 import org.usfirst.frc4048.RobotMap;
+import org.usfirst.frc4048.commands.GroupCommandCallback;
 import org.usfirst.frc4048.utils.MotorUtils;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -15,6 +16,7 @@ public class IntakeCube extends Command {
 	private MotorUtils rightMotor;
 	private final IntakeMode mode;
 	private PullSide pullSide = PullSide.LEFT;
+	private final GroupCommandCallback callback;
 	
 	private enum PullSide {
 		LEFT, RIGHT,
@@ -33,16 +35,16 @@ public class IntakeCube extends Command {
 		STRAIGHT_PULL
 	}
 
-	public IntakeCube() {
+	public IntakeCube(final GroupCommandCallback callback, final IntakeMode mode) {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
+		this.callback = callback;
 		requires(Robot.intake);
-		this.mode = IntakeMode.STRAIGHT_PULL;
+		this.mode = mode; // IntakeMode.STRAIGHT_PULL;
 	}
 
 	public IntakeCube(IntakeMode event) {
-		requires(Robot.intake);
-		this.mode = event;
+		this(GroupCommandCallback.NONE, event);
 	}
 
 	// Called just before this Command runs the first time
@@ -95,6 +97,7 @@ public class IntakeCube extends Command {
 
 	// Called once after isFinished returns true
 	protected void end() {
+		callback.doCancel(isTimedOut());
 		Robot.intake.stopIntake();
 	}
 

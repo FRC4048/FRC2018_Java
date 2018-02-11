@@ -1,20 +1,22 @@
 package org.usfirst.frc4048.commands.arm;
 
 import org.usfirst.frc4048.Robot;
+import org.usfirst.frc4048.commands.GroupCommandCallback;
 import org.usfirst.frc4048.utils.MotorUtils;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-/**
- *
- */
 public class GrabCube extends Command {
+	private final GroupCommandCallback callback;
 	
 //	MotorUtils currentCheck 
 	
-	//TODO Add motorutils into this command
+	public GrabCube() {
+		this(GroupCommandCallback.NONE);
+	}
 	
-    public GrabCube() {
+    public GrabCube(final GroupCommandCallback callback) {
+    	this.callback = callback;
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     }
@@ -37,6 +39,7 @@ public class GrabCube extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	callback.doCancel(isTimedOut());
     	Robot.claw.stopGrip();
     }
 
