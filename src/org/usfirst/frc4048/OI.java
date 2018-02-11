@@ -140,13 +140,12 @@ public class OI {
         reconfigEncoders.whenPressed(new ReconfigEncoders());
         
         xboxController = new XboxController(2);
+        
         xboxTriggerRight = new XboxTriggerRight(xboxController);
-		if (false) {
-			// Use this for testing only
-			xboxTriggerRight.whenActive(new IntakeCube(IntakeMode.STRAIGHT_PULL));
-		} else {
-			xboxTriggerRight.whenActive(new GetCubeGroupCommand());
-		}
+        // Use this trigger for the straight intake for testing only.
+        // xboxTriggerRight.whenActive(new IntakeCube(IntakeMode.STRAIGHT_PULL));
+        xboxTriggerRight.whenActive(new GetCubeGroupCommand());
+		
         xboxTriggerLeft = new XboxTriggerLeft(xboxController);
         xboxTriggerLeft.whenActive(new IntakeCube(IntakeMode.TOGGLE_PULL_LEFT_OR_RIGHT));
         
