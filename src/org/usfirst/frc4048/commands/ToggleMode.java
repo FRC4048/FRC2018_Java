@@ -15,7 +15,7 @@ import org.usfirst.frc4048.Robot;
 import org.usfirst.frc4048.RobotMap;
 
 /**
- *
+ * Toggle Swerve Drive mode between field and robot centric.
  */
 public class ToggleMode extends Command {
 

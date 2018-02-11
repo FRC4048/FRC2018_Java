@@ -1,6 +1,7 @@
 package org.usfirst.frc4048.commands.intake;
 
 import org.usfirst.frc4048.Robot;
+import org.usfirst.frc4048.commands.GroupCommandCallback;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -8,8 +9,14 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class RaiseIntake extends Command {
+	private final GroupCommandCallback callback;
+	
+	public RaiseIntake() {
+		this(GroupCommandCallback.NONE);
+	}
 
-    public RaiseIntake() {
+    public RaiseIntake(final GroupCommandCallback callback) {
+    	this.callback = callback;
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.intake);
@@ -33,6 +40,7 @@ public class RaiseIntake extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	callback.doCancel(isTimedOut());
     	Robot.intake.stopLowerOrRaiseIntake();
     }
 
