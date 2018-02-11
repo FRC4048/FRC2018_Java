@@ -59,6 +59,7 @@ public class AutoAction extends Command {
     	
     	//For the labeling of the commands (Ex: AutoScaleRR) the first letter is the 
     	//robot position and the second is the position of the switch/scale
+    	selectCmd = new AutoBase();
     	switch(autoAction)
     	{
     	case Baseline:
@@ -73,25 +74,17 @@ public class AutoAction extends Command {
     		}
     		else if(scalePos == 'L')
     		{
-    			selectCmd = new AutoScaleRLGroup();
-    		}
-    		else 
-    		{
-    			selectCmd = new AutoBase();
+    			//selectCmd = new AutoScaleRLGroup();
     		}
     		break;
     	case LScale:
     		if(scalePos == 'R')
     		{
-    			selectCmd = new AutoScaleLRGroup();
+    			//selectCmd = new AutoScaleLRGroup();
     		}
     		else if(scalePos == 'L')
     		{
     			selectCmd = new AutoScaleLLGroup();
-    		}
-    		else 
-    		{
-    			selectCmd = new AutoBase();
     		}
     		break;
     	case RSwitch:
@@ -101,25 +94,17 @@ public class AutoAction extends Command {
     		}
     		else if(switchPos == 'L')
     		{
-    			selectCmd = new AutoSwitchRLGroup();
-    		}
-    		else 
-    		{
-    			selectCmd = new AutoBase();
+    			//selectCmd = new AutoSwitchRLGroup();
     		}
     		break;
     	case LSwitch:
     		if(switchPos == 'R')
     		{
-    			selectCmd = new AutoSwitchLRGroup();
+    			//selectCmd = new AutoSwitchLRGroup();
     		}
     		else if(switchPos == 'L')
     		{
     			selectCmd = new AutoSwitchLLGroup();
-    		}
-    		else 
-    		{
-    			selectCmd = new AutoBase();
     		}
     		break;
     	case RLocalSwitchPriority:
@@ -131,10 +116,6 @@ public class AutoAction extends Command {
     		{
     			selectCmd = new AutoScaleRRGroup();
     		}
-    		else
-    		{
-    			selectCmd = new AutoBase();
-    		}
     		break;
     	case LLocalSwitchPriority:
     		if(switchPos == 'L')
@@ -144,10 +125,6 @@ public class AutoAction extends Command {
     		else if (scalePos == 'L')
     		{
     			selectCmd = new AutoScaleLLGroup();
-    		}
-    		else
-    		{
-    			selectCmd = new AutoBase();
     		}
     		break;
     	case RLocalScalePriority:
@@ -159,10 +136,6 @@ public class AutoAction extends Command {
     		{
     			selectCmd = new AutoSwitchRRGroup();
     		}
-    		else
-    		{
-    			selectCmd = new AutoBase();
-    		}
     		break;
     	case LLocalScalePriority:
     		if(scalePos == 'L')
@@ -173,9 +146,15 @@ public class AutoAction extends Command {
     		{
     			selectCmd = new AutoSwitchLLGroup();
     		}
-    		else
+    		break;
+    	case MiddleSwitch:
+    		if(switchPos == 'L')
     		{
-    			selectCmd = new AutoBase();
+    			selectCmd = new AutoSwitchMLGroup();
+    		}
+    		else if (switchPos == 'R')
+    		{
+    			selectCmd = new AutoSwitchMRGroup();
     		}
     		break;
     	case Nothing:
