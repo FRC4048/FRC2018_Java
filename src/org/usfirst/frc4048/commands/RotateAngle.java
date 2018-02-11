@@ -4,6 +4,7 @@ import org.usfirst.frc4048.Robot;
 
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -11,12 +12,10 @@ import edu.wpi.first.wpilibj.command.Command;
 public class RotateAngle extends Command {
 
 	private double angle;
-	
-	private final double PID_P = 310.0;
     private final double ANGLE_TOLERANCE = 3;	//Defines angle tolernace used when going to a specific location
-    private final double MAX_SPEED = 0.22;
-    private final double SPEED_LOWER = 0.14;
-	
+    private final double MAX_SPEED = 0.7;
+    private final double MIN_SPEED = 0.2;
+    
     public RotateAngle(double angle) {
     	requires(Robot.drivetrain);
     	
@@ -30,16 +29,16 @@ public class RotateAngle extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	double error;
+    	double speed = 0.0;
     	final double currAngle = Robot.drivetrain.getGyro();
     	
     	if(Math.abs(angle - currAngle) < ANGLE_TOLERANCE)
     	{
-    		Robot.drivetrain.move(0, 0, 0);
+    		speed = 0.0;
     	}
     	else
-    	{
-	    	double speed = 0.0;
-	    	
+    	{	
 	    	if(Math.abs(currAngle - angle) > 180)
 	    	{
 	    		if(currAngle > angle)
@@ -47,22 +46,18 @@ public class RotateAngle extends Command {
 	    		else
 	    			angle -= 360;
 	    	}
+	    	//180 is the maximum error
+	    	error = angle - currAngle;
 	    	
-	    	speed = (angle - currAngle) / PID_P;
-	        if (angle > currAngle) {
-	            speed += SPEED_LOWER;
-	        } else {
-	            speed -= SPEED_LOWER;
-	        }
-	        if (Math.abs(speed) > MAX_SPEED) {
-	            if (speed > 0) speed = MAX_SPEED;
-	            else speed = -MAX_SPEED;
-	        }
+	    	speed = (error / 180) * (MAX_SPEED - MIN_SPEED);
+	    	if (error < 0)
+	    		speed -= MIN_SPEED;
+	    	else
+	    		speed += MIN_SPEED;
 	    	
 	        if (Math.abs(angle - currAngle) < ANGLE_TOLERANCE) speed = 0;	
-	        
-	    	Robot.drivetrain.move(0.0, 0.0, speed);
     	}
+    	Robot.drivetrain.move(0.0, 0.0, speed);
     }
 
     // Make this return true when this Command no longer needs to run execute()

@@ -7,6 +7,7 @@ import org.usfirst.frc4048.utils.MotorUtils;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
+ * <a href="https://docs.google.com/document/d/1OgAongLY_8LNqdwn1yhQ4sSoWiFGtY9wH-Y8xEroo0Y/edit">spec</a>
  *
  */
 public class IntakeCube extends Command {
@@ -14,7 +15,7 @@ public class IntakeCube extends Command {
 	private MotorUtils rightMotor;
 	private final IntakeMode mode;
 	private PullSide pullSide = PullSide.LEFT;
-
+	
 	private enum PullSide {
 		LEFT, RIGHT,
 	};

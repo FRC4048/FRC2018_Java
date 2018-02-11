@@ -6,10 +6,12 @@ import org.usfirst.frc4048.commands.intake.LowerIntake;
 import org.usfirst.frc4048.commands.arm.GrabCube;
 import org.usfirst.frc4048.commands.arm.ArmFinetune;
 import org.usfirst.frc4048.commands.arm.MoveArm;
-import org.usfirst.frc4048.commands.arm.MoveClaw;
+import org.usfirst.frc4048.commands.arm.SetClawPosition;
 import org.usfirst.frc4048.commands.arm.OpenClaw;
 import org.usfirst.frc4048.subsystems.Arm;
 import org.usfirst.frc4048.subsystems.Arm.ArmPositions;
+import org.usfirst.frc4048.subsystems.Claw;
+
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
@@ -37,7 +39,7 @@ public class GetCube extends Command {
     	moveArmExchange = new MoveArm(ArmPositions.Exchange);
     	lowerIntake = new LowerIntake();
     	intakeCube = new IntakeCube();
-    	levelClaw = new MoveClaw(0.0);
+    	levelClaw = new SetClawPosition(Claw.WristPostion.Level);
     	openClaw = new OpenClaw();
     	closeClaw = new GrabCube();
     	finetuneDown = new ArmFinetune();
@@ -63,7 +65,7 @@ public class GetCube extends Command {
     				if(!finetuneDown.isRunning() && !finetuneDown.isCompleted()) {
     					finetuneDown.start();
     				} else {
-    					if(Robot.claw.aboveCube() && !closeClaw.isRunning() && !closeClaw.isCompleted()) {
+    					if(Robot.claw.cubePresent() && !closeClaw.isRunning() && !closeClaw.isCompleted()) {
     						closeClaw.start();
     						finetuneDown.cancel();
     					} else {

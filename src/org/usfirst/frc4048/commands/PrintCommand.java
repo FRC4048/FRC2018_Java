@@ -8,25 +8,28 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class PrintCommand extends Command {
 double time;
-    public PrintCommand() {
+char x;
+    public PrintCommand(char x) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
+    	this.x = x;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	
     	time = Timer.getFPGATimestamp();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+    	System.out.print(x);
     	
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	if(Timer.getFPGATimestamp() - time > 1)
+    	if(Timer.getFPGATimestamp() - time > 10)
     		return true;
     	else 
     		return false;
