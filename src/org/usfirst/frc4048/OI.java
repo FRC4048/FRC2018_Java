@@ -101,19 +101,19 @@ public class OI {
 
         controller = new Joystick(2);
         
-        cancelFunction = new JoystickButton(controller, 7);
-        cancelFunction.whileHeld(new CancelCommand());
-        moveToClimb = new JoystickButton(controller, 8);
+        cancelFunction = new JoystickButton(controller, 7);		//Back Button
+        cancelFunction.whileHeld(new CancelCommand());			
+        moveToClimb = new JoystickButton(controller, 8);		//Start Button
         moveToClimb.whenPressed(new MoveArm(ArmPositions.Climb));
-        moveToExchange = new JoystickButton(controller, 3);
+        moveToExchange = new JoystickButton(controller, 3);		//X Button
         moveToExchange.whenPressed(new MoveArm(ArmPositions.Exchange));
-        moveToHighScale = new JoystickButton(controller, 4);
+        moveToHighScale = new JoystickButton(controller, 4);	//Y Button 
         moveToHighScale.whenPressed(new MoveArm(ArmPositions.HighScale));
-        moveToLowScale = new JoystickButton(controller, 2);
+        moveToLowScale = new JoystickButton(controller, 2);		//B Button
         moveToLowScale.whenPressed(new MoveArm(ArmPositions.LowScale));
-        moveToSwitch = new JoystickButton(controller, 1);
+        moveToSwitch = new JoystickButton(controller, 1);		//A Button
         moveToSwitch.whenPressed(new MoveArm(ArmPositions.Switch));
-        grabCube = new JoystickButton(controller, 6);
+        grabCube = new JoystickButton(controller, 6);			//Right Bumper
         grabCube.whenPressed(new GrabCube());
         releaseCube = new JoystickButton(controller, 5);
         releaseCube.whenPressed(new OpenClaw());

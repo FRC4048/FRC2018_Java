@@ -63,12 +63,12 @@ public class Arm extends Subsystem {
     
     private final int TIMEOUT = 100;
     
-    private final double EXT_P = 10.0;
+    private final double EXT_P = 1.0;
     private final double EXT_I = 0.0;
     private final double EXT_D = 0.0;
     
-    private final double ARM_P = 10.0;
-    private final double ARM_I = 0.0;
+    private final double ARM_P = 1.0;
+    private final double ARM_I = 1.0;
     private final double ARM_D = 0.0;
     
     /**
@@ -77,14 +77,14 @@ public class Arm extends Subsystem {
     private final double FINETUNE_RATE = 0.01;
     
     // TODO ALL OF THESE SETPOINTS ARE NOT VALID
-    private final int MARGIN_VALUE = 5;
-    private final int EXCHANGE_SETPOINT = 200;
-    private final int SWITCH_SETPOINT = 500;
-    private final int LOWSCALE_SETPOINT = 800;
-    private final int HIGHSCALE_SETPOINT = 1000;
-    private final int CLIMBER_SETPOINT = 1200;
-    private final int HOME_SETPOINT = 300;
-    private final int INTAKE_SETPOINT = EXCHANGE_SETPOINT;
+    private final double MARGIN_VALUE = 0.1;
+    private final double EXCHANGE_SETPOINT = 1.5;
+    private final double SWITCH_SETPOINT = 2.2;
+    private final double LOWSCALE_SETPOINT = 3.1;
+    private final double HIGHSCALE_SETPOINT = 4.1;
+    private final double CLIMBER_SETPOINT = 4.9;
+    private final double HOME_SETPOINT = 0.0;
+    private final double INTAKE_SETPOINT = EXCHANGE_SETPOINT;
     
     private final double ARM_POT_MIN = 0.0;
     private final double ARM_POT_MAX = 5.0;
@@ -249,9 +249,11 @@ public class Arm extends Subsystem {
 			armSetpoint = SWITCH_SETPOINT;
 			break;
 		case LowScale:
+			System.out.println("GOING TO LOWSCALE");
 			armSetpoint = LOWSCALE_SETPOINT;
 			break;
 		case HighScale:
+			System.out.println("GOING TO HIGHSCALE");
 			armSetpoint = HIGHSCALE_SETPOINT;
 			break;
 		case Climb:
@@ -263,6 +265,7 @@ public class Arm extends Subsystem {
 		default:
 			break;
 		}
+    	System.out.println(armSetpoint);
     }
     
     /**
