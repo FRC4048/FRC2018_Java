@@ -1,45 +1,28 @@
 package org.usfirst.frc4048.commands.arm;
 
 import org.usfirst.frc4048.Robot;
-import org.usfirst.frc4048.subsystems.Claw.WristPostion;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class MoveClaw extends Command {
+public class ResetClawGyro extends Command {
 
-    public MoveClaw() {
+    public ResetClawGyro() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	
     	requires(Robot.claw);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	
+    	Robot.claw.recalibrateClawGyro();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if(Robot.claw.getPosition() == WristPostion.Compact)
-    	{
-    		if(!Robot.claw.clawUp())
-    		{
-    			Robot.claw.angleUp();
-    		}
-    		else
-    		{
-    			Robot.claw.stopWrist();
-    		}
-    	}
-    	if(Robot.claw.getPosition() == WristPostion.Level)
-    	{
-    		Robot.claw.moveClawToLevelWithPID();
-    		// PID: Robot.claw.moveClawToLevelWithPID();
-    	}
+    	Robot.claw.recalibrateClawGyro();
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -55,5 +38,4 @@ public class MoveClaw extends Command {
     // subsystems is scheduled to run
     protected void interrupted() {
     }
-    
 }

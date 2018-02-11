@@ -4,7 +4,7 @@ import org.usfirst.frc4048.commands.DriveDistance;
 import org.usfirst.frc4048.commands.PrintCommand;
 import org.usfirst.frc4048.commands.RotateAngle;
 import org.usfirst.frc4048.commands.arm.MoveArm;
-import org.usfirst.frc4048.commands.arm.MoveClaw;
+import org.usfirst.frc4048.commands.arm.SetClawPosition;
 import org.usfirst.frc4048.commands.arm.OpenClaw;
 import org.usfirst.frc4048.subsystems.Arm.ArmPositions;
 
