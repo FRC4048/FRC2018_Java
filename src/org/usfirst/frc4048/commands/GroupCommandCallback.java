@@ -19,12 +19,12 @@ public interface GroupCommandCallback {
 	 * command needs to be stopped. The sub command needs to call this function in
 	 * the end() method.
 	 */
-	public void handleTimeout(final boolean isTimedOut);
+	public void doCancel(final boolean isTimedOut);
 
 	static public final GroupCommandCallback NONE = new GroupCommandCallback() {
 
 		@Override
-		public void handleTimeout(final boolean isTimedOut) {
+		public void doCancel(final boolean isTimedOut) {
 		}
 
 	};

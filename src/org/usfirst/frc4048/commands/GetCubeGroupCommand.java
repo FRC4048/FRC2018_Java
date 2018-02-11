@@ -33,7 +33,7 @@ public class GetCubeGroupCommand extends CommandGroup implements GroupCommandCal
 	}
 
 	@Override
-	public void handleTimeout(final boolean isTimedOut) {
+	public void doCancel(final boolean isTimedOut) {
 		if (isTimedOut) {
 			Scheduler.getInstance().removeAll();
 		}

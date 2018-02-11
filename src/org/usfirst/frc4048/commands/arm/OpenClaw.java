@@ -41,7 +41,7 @@ public class OpenClaw extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	callback.handleTimeout(isTimedOut());
+    	callback.doCancel(isTimedOut());
     	Robot.claw.stopGrip();
     }
 
