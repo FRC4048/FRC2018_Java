@@ -41,6 +41,7 @@ public class Arm extends Subsystem {
 
 	public static enum ArmPositions
 	{
+		Intake,
 		Exchange,
 		Switch,
 		LowScale,
@@ -82,6 +83,7 @@ public class Arm extends Subsystem {
     private final int HIGHSCALE_SETPOINT = 1000;
     private final int CLIMBER_SETPOINT = 1200;
     private final int HOME_SETPOINT = 300;
+    private final int INTAKE_SETPOINT = EXCHANGE_SETPOINT; // TODO -- the Intake setpoint is a placeholder!!
     
     private final double ARM_POT_MIN = 0.0;
     private final double ARM_POT_MAX = 5.0;
@@ -213,6 +215,8 @@ public class Arm extends Subsystem {
 //    	int armPos = getArmPos();
     	double armPos = getArmPos();
     	switch (position) {
+    	case Intake:
+			return armPos >= INTAKE_SETPOINT - MARGIN_VALUE && armPos <= INTAKE_SETPOINT + MARGIN_VALUE;	
 		case Exchange:			
 			return armPos >= EXCHANGE_SETPOINT - MARGIN_VALUE && armPos <= EXCHANGE_SETPOINT + MARGIN_VALUE;	
 		case Switch:
@@ -234,6 +238,9 @@ public class Arm extends Subsystem {
     public void moveToPos(ArmPositions pos)
     {
     	switch (pos) {
+    	case Intake:
+    		armSetpoint = INTAKE_SETPOINT;
+    		break;
 		case Exchange:			
 			armSetpoint = EXCHANGE_SETPOINT;
 			break;
