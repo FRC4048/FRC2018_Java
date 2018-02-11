@@ -1,6 +1,7 @@
 	package org.usfirst.frc4048.commands.arm;
 
 import org.usfirst.frc4048.Robot;
+import org.usfirst.frc4048.commands.GroupCommandCallback;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -8,8 +9,14 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class OpenClaw extends Command {
+	private final GroupCommandCallback callback;
 
-    public OpenClaw() {
+	public OpenClaw() {
+		this(GroupCommandCallback.NONE);
+	}
+	
+    public OpenClaw(final GroupCommandCallback callback) {
+    	this.callback = callback;
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.claw);
@@ -34,6 +41,7 @@ public class OpenClaw extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	callback.handleTimeout(isTimedOut());
     	Robot.claw.stopGrip();
     }
 

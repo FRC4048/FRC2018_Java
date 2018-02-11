@@ -5,19 +5,23 @@ import org.usfirst.frc4048.subsystems.Arm.ArmPositions;
 import edu.wpi.first.wpilibj.command.Command;
 
 import org.usfirst.frc4048.Robot;
-import org.usfirst.frc4048.commands.GroupCommandNotifier;
+import org.usfirst.frc4048.commands.GroupCommandCallback;
 
 /**
  *
  */
 public class MoveArm extends Command {
-
+	private final GroupCommandCallback callback;
 	ArmPositions position; 
 	
-    public MoveArm(ArmPositions position) {
+    public MoveArm(final ArmPositions position) {
+    	this(GroupCommandCallback.NONE, position);
+    }
+	
+    public MoveArm(final GroupCommandCallback callback, ArmPositions position) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	
+    	this.callback = callback;
     	this.position = position;
     }
 
@@ -40,6 +44,7 @@ public class MoveArm extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	callback.handleTimeout(isTimedOut());
     	Robot.arm.stopArm();
     }
 

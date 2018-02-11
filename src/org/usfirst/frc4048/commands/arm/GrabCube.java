@@ -6,7 +6,7 @@ import org.usfirst.frc4048.utils.MotorUtils;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * TODO - if this command has a timeout then we need to add the callback for the group command cancel.
  */
 public class GrabCube extends Command {
 	

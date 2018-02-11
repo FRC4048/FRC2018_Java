@@ -1,6 +1,7 @@
 package org.usfirst.frc4048.commands.arm;
 
 import org.usfirst.frc4048.Robot;
+import org.usfirst.frc4048.commands.GroupCommandCallback;
 import org.usfirst.frc4048.subsystems.Claw;
 import org.usfirst.frc4048.subsystems.Claw.WristPostion;
 
@@ -10,12 +11,17 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class MoveClaw extends Command {
+	private final GroupCommandCallback callback;
+	private final WristPostion position;
 
-	private WristPostion position;
-	
     public MoveClaw(Claw.WristPostion position) {
+    	this(GroupCommandCallback.NONE, position);
+    }
+
+    public MoveClaw(final GroupCommandCallback callback, Claw.WristPostion position) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
+    	this.callback = callback;
     	
     	requires(Robot.claw);
     	
@@ -47,6 +53,7 @@ public class MoveClaw extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	callback.handleTimeout(isTimedOut());
     }
 
     // Called when another command which requires one or more of the same

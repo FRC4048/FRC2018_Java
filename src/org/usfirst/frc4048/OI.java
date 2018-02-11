@@ -16,6 +16,7 @@ import org.usfirst.frc4048.commands.BlankCommand;
 import org.usfirst.frc4048.commands.CancelCommand;
 import org.usfirst.frc4048.commands.Drive;
 import org.usfirst.frc4048.commands.DriveDistance;
+import org.usfirst.frc4048.commands.GetCubeGroupCommand;
 import org.usfirst.frc4048.commands.ReconfigEncoders;
 import org.usfirst.frc4048.commands.RotateAngle;
 import org.usfirst.frc4048.commands.ToggleMode;
@@ -140,9 +141,12 @@ public class OI {
         
         xboxController = new XboxController(2);
         xboxTriggerRight = new XboxTriggerRight(xboxController);
-        // TODO -- This command is temporary - it will be replaced with GetCube
-        xboxTriggerRight.whenActive(new IntakeCube(IntakeMode.STRAIGHT_PULL));
-        
+		if (false) {
+			// Use this for testing only
+			xboxTriggerRight.whenActive(new IntakeCube(IntakeMode.STRAIGHT_PULL));
+		} else {
+			xboxTriggerRight.whenActive(new GetCubeGroupCommand());
+		}
         xboxTriggerLeft = new XboxTriggerLeft(xboxController);
         xboxTriggerLeft.whenActive(new IntakeCube(IntakeMode.TOGGLE_PULL_LEFT_OR_RIGHT));
         

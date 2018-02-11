@@ -1,6 +1,7 @@
 package org.usfirst.frc4048.commands.intake;
 
 import org.usfirst.frc4048.Robot;
+import org.usfirst.frc4048.commands.GroupCommandCallback;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
@@ -10,8 +11,14 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class LowerIntake extends Command {
 	private static final boolean DEBUG = false;
+	private final GroupCommandCallback callback;
 
     public LowerIntake() {
+    	this(GroupCommandCallback.NONE);
+    }
+
+    public LowerIntake(GroupCommandCallback callback) {
+    	this.callback = callback;
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.intake);
@@ -35,6 +42,7 @@ public class LowerIntake extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	callback.handleTimeout(isTimedOut());
     	if (DEBUG) {
     		DriverStation.reportError("ending LowerIntake!", true);
     	}
