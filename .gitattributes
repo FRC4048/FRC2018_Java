@@ -1,0 +1,11 @@
+*.java  text
+*.md	text
+*.json  text
+*.xml   text
+*.txt   text
+*.properties text
+*.yaml  text
+*.prefs text
+.classpath text
+.gitignore text
+.project   text
