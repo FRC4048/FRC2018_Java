@@ -23,7 +23,7 @@ import org.usfirst.frc4048.commands.ToggleMode;
 import org.usfirst.frc4048.commands.arm.GrabCube;
 import org.usfirst.frc4048.commands.arm.MoveArm;
 import org.usfirst.frc4048.commands.arm.OpenClaw;
-import org.usfirst.frc4048.commands.auto.AutoAction;
+import org.usfirst.frc4048.commands.auto.AutoAction;               
 import org.usfirst.frc4048.commands.intake.FlushCube;
 import org.usfirst.frc4048.commands.intake.IntakeCube;
 import org.usfirst.frc4048.commands.intake.IntakeCube.IntakeMode;

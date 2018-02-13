@@ -86,6 +86,7 @@ public class Drivetrain extends Subsystem {
     private final AnalogInput leftSonar = RobotMap.leftSonarPort;
    // private final AnalogInput rightSonar = RobotMap.rightSonarPort;
     private final double SCALE_FACTOR = 2.45; //Scale factor for the sonar (MB1240/20 = 2.45, MB1230 = 1.84(not verified by datasheet)) 
+    private final double MB1023_SCALE_FACTOR = 40.3149606; // 1024/(2*5)/2.54
     public static enum SonarSide {RIGHT, LEFT};
     //This \/ is used to schedual the drive distance after calling CalculateSonarDistance()
     public double globalDriveDistance;
@@ -276,7 +277,7 @@ public class Drivetrain extends Subsystem {
     	return encoder.getDirection();
     }
     
-    public void move(double fwd, double str, double rcw)
+    public void  move(double fwd, double str, double rcw)
     {
     	if(fwd <= LEFT_JOY_X_MAX_DEADZONE && fwd >= LEFT_JOY_X_MIN_DEADZONE)
     		fwd = 0.0;
@@ -291,9 +292,13 @@ public class Drivetrain extends Subsystem {
     }
     
     public double getSonar(SonarSide side) {
+    	SmartDashboard.putNumber("Voltage", leftSonar.getVoltage());
+    	
     	if(side == SonarSide.LEFT)
-    		return (5* (leftSonar.getVoltage() / SCALE_FACTOR)*40); //Distance in inches
+    		return(leftSonar.getVoltage()*MB1023_SCALE_FACTOR);
+    		//return (5* (leftSonar.getVoltage() / SCALE_FACTOR)*40); //Distance in inches
 //    	else if(side == SonarSide.RIGHT)
+    		//return(rightSonar.getVoltage()*MB1023_SCALE_FACTOR);
 //    		return (5* (rightSonar.getVoltage() / SCALE_FACTOR)*40); //Distance in inches
     	else 
     		return 0;
