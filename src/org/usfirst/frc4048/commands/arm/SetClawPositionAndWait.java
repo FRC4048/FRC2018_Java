@@ -12,7 +12,8 @@ public class SetClawPositionAndWait extends SetClawPosition {
 	
     public SetClawPositionAndWait(final Claw.WristPostion position) {
     	super(position);
-    	this.callback = GroupCommandCallback.NONE; 
+    	this.callback = GroupCommandCallback.NONE;
+    	setTimeout(3.0);
     }
     
     public SetClawPositionAndWait(final GroupCommandCallback callback, final Claw.WristPostion position) {
