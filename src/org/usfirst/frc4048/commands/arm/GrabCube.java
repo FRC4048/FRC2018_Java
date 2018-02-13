@@ -17,6 +17,7 @@ public class GrabCube extends Command {
 	
     public GrabCube(final GroupCommandCallback callback) {
     	this.callback = callback;
+    	requires(Robot.claw);
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     }

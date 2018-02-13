@@ -184,8 +184,7 @@ public class Drivetrain extends Subsystem {
 		rearLeftWheel.setReverseSteerMotor(REVERSE_OUTPUT);
 		rearRightWheel.setReverseSteerMotor(REVERSE_OUTPUT);
 		
-		encoder.reset();
-		encoder.setDistancePerPulse(RobotMap.SWERVE_DRIVE_ENCODER_DISTANCE_PER_TICK);
+		resetDriveEncoder();
 		
 		resetQuadEncoder();
 
@@ -226,6 +225,12 @@ public class Drivetrain extends Subsystem {
     	frontLeftSteerMotor.set(ControlMode.Position, 0);
     	rearLeftSteerMotor.set(ControlMode.Position, 0);
     	rearRightSteerMotor.set(ControlMode.Position, 0);
+    }
+    
+    public void resetDriveEncoder()
+    {
+    	encoder.reset();
+		encoder.setDistancePerPulse(RobotMap.SWERVE_DRIVE_ENCODER_DISTANCE_PER_TICK);
     }
     
     @SuppressWarnings("unused")

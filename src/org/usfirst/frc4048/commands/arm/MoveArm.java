@@ -1,8 +1,10 @@
 package org.usfirst.frc4048.commands.arm;
 
+import org.usfirst.frc4048.subsystems.Arm;
 import org.usfirst.frc4048.subsystems.Arm.ArmPositions;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc4048.Robot;
 import org.usfirst.frc4048.commands.GroupCommandCallback;
@@ -21,9 +23,9 @@ public class MoveArm extends Command {
     public MoveArm(final GroupCommandCallback callback, ArmPositions position) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
+		requires(Robot.arm);
     	this.callback = callback;
     	this.position = position;
-    	requires(Robot.arm);
     }
 
     
@@ -34,7 +36,6 @@ public class MoveArm extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if(!Robot.arm.armAtPosition(position))
     		Robot.arm.moveToPos(position);
     }
 
@@ -52,7 +53,6 @@ public class MoveArm extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	callback.doCancel(true);
     	Robot.arm.stopArm();
     }
 }
