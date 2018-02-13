@@ -116,6 +116,7 @@ public class Claw extends Subsystem {
     	pitchMotor.configNominalOutputForward(0, TIMEOUT);
     	pitchMotor.configNominalOutputReverse(0, TIMEOUT);
 		pitchMotor.setNeutralMode(NeutralMode.Brake);
+		
 		gyro.calibrate();
     }
     
@@ -241,7 +242,7 @@ public class Claw extends Subsystem {
     
     public double getGyroVal()
     {
-    	return gyro.getAngle();
+    	return Math.abs(gyro.getAngle() % 360.0);
     }
 }
 
