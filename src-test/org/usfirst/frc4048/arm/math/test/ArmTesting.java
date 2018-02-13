@@ -55,19 +55,31 @@ public class ArmTesting {
 			throw new AssertionError("SEVEN ANGLE TEST ERROR: " + strat.getExtensionLength(7.0));
 		}
 		
-		if(!(((strat.getExtensionLength(15.0) - 22.112)) < 0.001))
+		if(!(((strat.getExtensionLength(10.0) == 0.00))))
+		{
+			throw new AssertionError("10 ANGLE TEST ERROR: " + strat.getExtensionLength(10.0));
+		}
+		
+		System.out.println("15 ANGLE TEST RESULT: " + strat.getExtensionLength(15.0));
+		if(!(((strat.getExtensionLength(15.0) == 15))))
 		{
 			throw new AssertionError("15 ANGLE TEST ERROR: " + strat.getExtensionLength(15.0));
 		}
 		
-		if(!(strat.getExtensionLength(68.0) == 0.0))
+		if(!(((strat.getExtensionLength(68.0) == 0.00))))
 		{
 			throw new AssertionError("68 ANGLE TEST ERROR: " + strat.getExtensionLength(68.0));
 		}
 		
-		if(!(((strat.getExtensionLength(80.0) - 0.982)) < 0.001))
+		System.out.println("80 ANGLE TEST RESULT: " + strat.getExtensionLength(80.0));
+		if(!((Math.abs(strat.getExtensionLength(80.0) - 0.982)) < 0.001))
 		{
 			throw new AssertionError("80 ANGLE TEST ERROR: " + strat.getExtensionLength(80.0));
+		}
+		
+		if(!(((strat.getExtensionLength(136.0) == 15.00))))
+		{
+			throw new AssertionError("136 ANGLE TEST ERROR: " + strat.getExtensionLength(136.0));
 		}
 		
 		if(!(strat.getExtensionLength(190.0) == 0.0))

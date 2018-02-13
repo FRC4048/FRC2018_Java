@@ -19,7 +19,7 @@ public class LinearMoveStrat implements ArmStrat{
 	 */
 	public static final double START_EXT_LENGTH = 0.0;
 	/**
-	 * Angle that when above begins the linear math
+	 * Angle that when above begins the linear math.
 	 */
 	public static final double HOME_MAX_ANGLE = Math.toRadians(32.0);
 	public static final double MAX_ANGLE = Math.toRadians(158.0);
@@ -30,7 +30,13 @@ public class LinearMoveStrat implements ArmStrat{
 	/**
 	 * Maximum length of extension
 	 */
-	public static final double MAX_EXTENSION = 16.0;
+	public static final double MAX_EXTENSION = 15.0;//changed to match the EXT_MAX_LENGTH in ArmTesting.java
+	
+	//added constructor to resolve error in ArmTesting
+	public LinearMoveStrat()
+	{
+		
+	}
 	
 	/**
 	 * Converts angle of arm into extension length. Meant to be used only when placing cube.
