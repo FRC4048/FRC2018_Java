@@ -103,10 +103,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void disabledInit(){
-        // TODO - MOve to subsystem
-		RobotMap.swerveDriveEncoder.reset();
-		RobotMap.swerveDriveEncoder.setDistancePerPulse(RobotMap.SWERVE_DRIVE_ENCODER_DISTANCE_PER_TICK);
-
+		Robot.drivetrain.resetDriveEncoder();
     }
 
     @Override
