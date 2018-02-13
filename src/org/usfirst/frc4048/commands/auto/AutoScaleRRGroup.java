@@ -40,7 +40,7 @@ public class AutoScaleRRGroup extends CommandGroup {
     	addSequential(new MoveArm(ArmPositions.HighScale)); //TODO add this back
     	//WaitForChildren() waits for the parallel commands to finish
     	addSequential(new WaitForChildren());
-    	addSequential(new RotateAngle(0));
+    	addSequential(new RotateAngle(-90));
     	
     	//ADJUST ANGLE AND DISTANCE FROM WALL
     	addSequential(new CalculateSonarDistance(SonarSide.RIGHT, AutoAction.DISTANCE_FROM_WALL));
@@ -56,7 +56,6 @@ public class AutoScaleRRGroup extends CommandGroup {
     	addSequential(new DriveDistance(0, 0, 0, 0));
     	
     	//ROTATE AND DROP CUBE (on scale?)
-    	addSequential(new RotateAngle(90));
     	addSequential(new DriveDistance(5, 0, -AutoAction.LOCAL_SCALE_SPEED,0));
       	addSequential(new OpenClaw());
     }

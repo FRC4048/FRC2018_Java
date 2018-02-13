@@ -205,10 +205,12 @@ public class Robot extends TimedRobot {
     		Robot.arm.armData();
     		Robot.oi.dashboardButtons();
     		SmartDashboard.putNumber("Distance", RobotMap.swerveDriveEncoder.getDistance());
+        	SmartDashboard.putNumber("Robot Gyro Value", Robot.drivetrain.getGyro());
+        	SmartDashboard.putNumber("Left Sonar Distance", Robot.drivetrain.getSonar(SonarSide.LEFT));
+        	//SmartDashboard.putNumber("Right Sonar Distance", Robot.drivetrain.getSonar(SonarSide.RIGHT));
     	}
     	SmartDashboard.putString("Action for Auto", autoAction.toString());
-    	SmartDashboard.putNumber("Gyro Value", Robot.drivetrain.getGyro());
-    	SmartDashboard.putData(new CalculateSonarDistance(SonarSide.LEFT, 30));
-    	SmartDashboard.putNumber("Sensor Value", Robot.drivetrain.getSonar(SonarSide.LEFT));
+    	SmartDashboard.putNumber("Claw Gyro Value", Robot.claw.getGyroVal());
+    	SmartDashboard.putData(new ResetClawGyro());
     }
  }
