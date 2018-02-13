@@ -22,5 +22,14 @@ public class CancelIfCubeInClaw extends Command {
 	protected boolean isFinished() {
 		return true;
 	}
+	
+	@Override
+	protected void end() {
+	}
+	
+	@Override
+	protected void interrupted() {
+		callback.doCancel(true);
+	}
 
 }
