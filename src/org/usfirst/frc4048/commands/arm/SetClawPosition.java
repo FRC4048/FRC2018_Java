@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class SetClawPosition extends Command {
 
-	private WristPostion position;
+	protected final WristPostion position;
 	
     public SetClawPosition(Claw.WristPostion position) {
         // Use requires() here to declare subsystem dependencies
