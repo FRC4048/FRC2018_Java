@@ -10,6 +10,7 @@ public class CancelIfCubeInClaw extends Command {
 
 	public CancelIfCubeInClaw(GroupCommandCallback callback) {
 		this.callback = callback;
+		requires(Robot.claw);
 	}
 
 	public void execute() {
