@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.command.WaitForChildren;
 import org.usfirst.frc4048.commands.arm.GrabCube;
 import org.usfirst.frc4048.commands.arm.MoveClaw;
 import org.usfirst.frc4048.commands.arm.OpenClaw;
+import org.usfirst.frc4048.commands.arm.SetClawPosition;
 import org.usfirst.frc4048.subsystems.Claw;
 
 public class GetCubeGroupCommand extends CommandGroup implements GroupCommandCallback {
@@ -24,11 +25,11 @@ public class GetCubeGroupCommand extends CommandGroup implements GroupCommandCal
 
 		addSequential(new IntakeCube(this, IntakeCube.IntakeMode.STRAIGHT_PULL));
 		addSequential(new OpenClaw(this));
-		addSequential(new MoveClaw(this, Claw.WristPostion.Level));
+		addSequential(new SetClawPosition(Claw.WristPostion.Level));
 		addSequential(new GrabCube(this));
 
 		addSequential(new MoveArm(this, ArmPositions.Home));
-		addSequential(new MoveClaw(this, Claw.WristPostion.Compact));
+		addSequential(new SetClawPosition(Claw.WristPostion.Compact));
 		addParallel(new RaiseIntake(this));
 	}
 
