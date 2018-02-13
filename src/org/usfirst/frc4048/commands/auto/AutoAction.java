@@ -18,20 +18,21 @@ public class AutoAction extends Command {
 	
 	//NOTE: These messurements and speeds are not FINAL
 	public static final double LOCAL_SWITCH_SPEED = 0.3;
-	public static final double DISTANCE_TO_MIDDLE_OF_SWITCH = 145;
+	public static final double DISTANCE_TO_MIDDLE_OF_SWITCH = 148;
 	
-	public static final double DISTANCE_TO_MIDDLE_OF_LANE = 222;
+	public static final double DISTANCE_TO_MIDDLE_OF_LANE = 222; //NOTE: We are not currently using this
 	
 	public static final double LOCAL_SCALE_SPEED = 0.35;
-	public static final double DISTANCE_TO_MIDDLE_OF_SCALE = 300;
+	public static final double DISTANCE_TO_MIDDLE_OF_SCALE = 305;
 	
-	public static final double AUTO_RUN_DISTANCE = 112;
+	public static final double AUTO_RUN_DISTANCE = 90;
 	
 	public static final double TRAVEL_THROUGH_SWITCH = 180;
 	//200 is just a placeholder until we know a better messurement
 	public static final double TRAVEL_ACROSS_SWITCH = 200;
 	public static final double LANE_TO_SCALE = 80;
 	
+	public static final double DISTANCE_FROM_WALL = 25;
 	
 	Command selectCmd;
 	
@@ -58,6 +59,7 @@ public class AutoAction extends Command {
     	
     	//For the labeling of the commands (Ex: AutoScaleRR) the first letter is the 
     	//robot position and the second is the position of the switch/scale
+    	selectCmd = new AutoBase();
     	switch(autoAction)
     	{
     	case Baseline:
@@ -72,25 +74,17 @@ public class AutoAction extends Command {
     		}
     		else if(scalePos == 'L')
     		{
-    			selectCmd = new AutoScaleRLGroup();
-    		}
-    		else 
-    		{
-    			selectCmd = new AutoBase();
+    			//selectCmd = new AutoScaleRLGroup();
     		}
     		break;
     	case LScale:
     		if(scalePos == 'R')
     		{
-    			selectCmd = new AutoScaleLRGroup();
+    			//selectCmd = new AutoScaleLRGroup();
     		}
     		else if(scalePos == 'L')
     		{
     			selectCmd = new AutoScaleLLGroup();
-    		}
-    		else 
-    		{
-    			selectCmd = new AutoBase();
     		}
     		break;
     	case RSwitch:
@@ -100,25 +94,17 @@ public class AutoAction extends Command {
     		}
     		else if(switchPos == 'L')
     		{
-    			selectCmd = new AutoSwitchRLGroup();
-    		}
-    		else 
-    		{
-    			selectCmd = new AutoBase();
+    			//selectCmd = new AutoSwitchRLGroup();
     		}
     		break;
     	case LSwitch:
     		if(switchPos == 'R')
     		{
-    			selectCmd = new AutoSwitchLRGroup();
+    			//selectCmd = new AutoSwitchLRGroup();
     		}
     		else if(switchPos == 'L')
     		{
     			selectCmd = new AutoSwitchLLGroup();
-    		}
-    		else 
-    		{
-    			selectCmd = new AutoBase();
     		}
     		break;
     	case RLocalSwitchPriority:
@@ -130,10 +116,6 @@ public class AutoAction extends Command {
     		{
     			selectCmd = new AutoScaleRRGroup();
     		}
-    		else
-    		{
-    			selectCmd = new AutoBase();
-    		}
     		break;
     	case LLocalSwitchPriority:
     		if(switchPos == 'L')
@@ -143,10 +125,6 @@ public class AutoAction extends Command {
     		else if (scalePos == 'L')
     		{
     			selectCmd = new AutoScaleLLGroup();
-    		}
-    		else
-    		{
-    			selectCmd = new AutoBase();
     		}
     		break;
     	case RLocalScalePriority:
@@ -158,10 +136,6 @@ public class AutoAction extends Command {
     		{
     			selectCmd = new AutoSwitchRRGroup();
     		}
-    		else
-    		{
-    			selectCmd = new AutoBase();
-    		}
     		break;
     	case LLocalScalePriority:
     		if(scalePos == 'L')
@@ -172,9 +146,15 @@ public class AutoAction extends Command {
     		{
     			selectCmd = new AutoSwitchLLGroup();
     		}
-    		else
+    		break;
+    	case MiddleSwitch:
+    		if(switchPos == 'L')
     		{
-    			selectCmd = new AutoBase();
+    			selectCmd = new AutoSwitchMLGroup();
+    		}
+    		else if (switchPos == 'R')
+    		{
+    			selectCmd = new AutoSwitchMRGroup();
     		}
     		break;
     	case Nothing:

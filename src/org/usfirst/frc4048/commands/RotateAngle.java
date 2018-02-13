@@ -13,7 +13,7 @@ public class RotateAngle extends Command {
 
 	private double angle;
     private final double ANGLE_TOLERANCE = 3;	//Defines angle tolernace used when going to a specific location
-    private final double MAX_SPEED = 0.7;
+    private final double MAX_SPEED = 0.5;
     private final double MIN_SPEED = 0.2;
     
     public RotateAngle(double angle) {

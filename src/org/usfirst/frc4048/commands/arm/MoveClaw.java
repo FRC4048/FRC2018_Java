@@ -1,6 +1,8 @@
 package org.usfirst.frc4048.commands.arm;
 
 import org.usfirst.frc4048.Robot;
+import org.usfirst.frc4048.commands.GroupCommandCallback;
+import org.usfirst.frc4048.subsystems.Claw;
 import org.usfirst.frc4048.subsystems.Claw.WristPostion;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -19,7 +21,6 @@ public class MoveClaw extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -55,5 +56,4 @@ public class MoveClaw extends Command {
     // subsystems is scheduled to run
     protected void interrupted() {
     }
-    
 }
