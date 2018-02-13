@@ -23,6 +23,7 @@ public class MoveArm extends Command {
         // eg. requires(chassis);
     	this.callback = callback;
     	this.position = position;
+    	requires(Robot.arm);
     }
 
     
