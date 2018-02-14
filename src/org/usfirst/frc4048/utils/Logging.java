@@ -36,32 +36,34 @@ public class Logging {
 					System.out.println("Failed to create Log directory!");
 				}
 			}
-			Date date = new Date();
+			Date date = new Date() ;
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
 			dateFormat.setTimeZone(TimeZone.getTimeZone("EST5EDT"));
 			this.log = new PrintWriter("/home/lvuser/Logs/" + dateFormat.format(date) + "-Log.txt", "UTF-8");
 			log.println(FileHeading());
 			log.flush();
 		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
 	}
+
 	
 	private String FileHeading()
 	{
-		return "ARM \t Arm Position \t Extention Position";
+		return "Arm Position \t Extention Position";
 	}
 	
 	public void print() {
 		log.println(
 				//ARM
 				Robot.arm.getArmPos() + "\t" +
-				Robot.arm.getExtPos() + "\t" +
-				"debug"
+				Robot.arm.getExtPos() + "\t"
 				);
-		
 		log.flush();
 		
 	}
