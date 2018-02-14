@@ -36,7 +36,13 @@ public class MoveArm extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    		Robot.arm.moveToPos(position);
+		Robot.arm.moveToPos(position);
+		
+		if(position == ArmPositions.Home)
+		{
+			Robot.arm.setAutoExtension(false);
+			Robot.arm.retractExtension();
+		}
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -48,11 +54,13 @@ public class MoveArm extends Command {
     protected void end() {
     	callback.doCancel(isTimedOut());
     	Robot.arm.stopArm();
+    	Robot.arm.setAutoExtension(true);
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
     	Robot.arm.stopArm();
+    	Robot.arm.setAutoExtension(true);
     }
 }

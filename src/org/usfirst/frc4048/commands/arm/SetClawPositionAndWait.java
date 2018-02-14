@@ -21,6 +21,7 @@ public class SetClawPositionAndWait extends SetClawPosition {
     	this.callback = callback; 
     }
 
+    //TODO Get position returns an enum, and should not be used for determining current position
     protected boolean isFinished() {
         return Robot.claw.getPosition().equals(position) || isTimedOut();
     }

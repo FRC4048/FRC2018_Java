@@ -70,14 +70,14 @@ public class Arm extends Subsystem {
 	private final double FINETUNE_RATE = 1.0;
 
 	// TODO ALL OF THESE SETPOINTS ARE NOT VALID
-	private final double MARGIN_VALUE = 5.0;
-	private final double EXCHANGE_SETPOINT = 180.0;
-	private final double SWITCH_SETPOINT = 320.0;
-	private final double LOWSCALE_SETPOINT = 550.0;
-	private final double HIGHSCALE_SETPOINT = 780.0;
-	private final double CLIMBER_SETPOINT = 1010;
-	private final double HOME_SETPOINT = 0.0;
-	private final double INTAKE_SETPOINT = 140.0;
+	public static final double MARGIN_VALUE = 5.0;
+	public static final double EXCHANGE_SETPOINT = 180.0;
+	public static final double SWITCH_SETPOINT = 320.0;
+	public static final double LOWSCALE_SETPOINT = 550.0;
+	public static final double HIGHSCALE_SETPOINT = 780.0;
+	public static final double CLIMBER_SETPOINT = 1010;
+	public static final double HOME_SETPOINT = 0.0;
+	public static final double INTAKE_SETPOINT = 140.0;
 
 	private final double ARM_POT_MIN = 0.0;
 	private final double ARM_POT_MAX = 1023.0;
@@ -87,7 +87,7 @@ public class Arm extends Subsystem {
 	private final double EXT_POT_MAX = 920.0;
 	private final double EXT_LENGTH_MIN = 0.0;
 	private final double EXT_LENGTH_MAX = 16.0;
-    
+	
     private double armSetpoint;
     private double extSetpoint;
     private ArmMath armMath = new ArmMath();
@@ -267,6 +267,15 @@ public class Arm extends Subsystem {
     	autoExtension = value;
     }
     
+    /**
+     * Set extension to fully retracted position, or home position.
+     * Only functions if set auto extension is false, else the extension will not be affected
+     */
+    public void retractExtension()
+    {
+    	extSetpoint = HOME_SETPOINT;
+    }
+    
 	/**
 	 * Uses arm math to calculate new position for extension
 	 */
@@ -277,11 +286,11 @@ public class Arm extends Subsystem {
 			SmartDashboard.putNumber("ARM ANGLE", angle);
 			extSetpoint = armMath.convertArmAngleToExtPot(EXT_POT_MIN, EXT_LENGTH_MIN, EXT_POT_MAX, EXT_LENGTH_MAX,
 					angle);
-			SmartDashboard.putNumber("EXTENSION SETPOINT", extSetpoint);
-			extensionMotor.set(ControlMode.Position, (int) extSetpoint);
-			
-//			extController.setSetpoint(extSetpoint);
+			SmartDashboard.putNumber("EXTENSION SETPOINT", extSetpoint);			
 		}
+		
+		extensionMotor.set(ControlMode.Position, (int) extSetpoint);
+//		extController.setSetpoint(extSetpoint);
 	}
     
 	/**
