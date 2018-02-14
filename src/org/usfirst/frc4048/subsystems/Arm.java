@@ -56,76 +56,73 @@ public class Arm extends Subsystem {
     
     private final int TIMEOUT = 100;
     
-    private final double EXT_P = 10.0;
-    private final double EXT_I = 0.0;
-    private final double EXT_D = 0.0;
+	private final double EXT_P = 1.0;
+	private final double EXT_I = 0.0;
+	private final double EXT_D = 0.0;
+
+	private final double ARM_P = 1.0;
+	private final double ARM_I = 1.0;
+	private final double ARM_D = 0.0;
     
-    private final double ARM_P = 10.0;
-    private final double ARM_I = 0.0;
-    private final double ARM_D = 0.0;
-    
-    /**
-     * Is not a speed, but a setpoint adjustment value
-     */
-    private final double FINETUNE_RATE = 0.01;
-    
-    private final int MARGIN_VALUE = 5;
-    private final int EXCHANGE_SETPOINT = 200;
-    private final int SWITCH_SETPOINT = 500;
-    private final int LOWSCALE_SETPOINT = 800;
-    private final int HIGHSCALE_SETPOINT = 1000;
-    private final int CLIMBER_SETPOINT = 1200;
-    private final int HOME_SETPOINT = 300;
-    private final int INTAKE_SETPOINT = EXCHANGE_SETPOINT; // TODO -- the Intake setpoint is a placeholder!!
-    
-    private final double ARM_POT_MIN = 0.0;
-    private final double ARM_POT_MAX = 5.0;
-    private final double ARM_ANGLE_MIN = 0.0;
-    private final double ARM_ANGLE_MAX = 158.0;
-    private final double EXT_POT_MIN = 0.0;
-    private final double EXT_POT_MAX = 5.0;
-    private final double EXT_LENGTH_MIN = 0.0;
-    private final double EXT_LENGTH_MAX = 16.0;
+	/**
+	 * Is not a speed, but a setpoint adjustment value
+	 */
+	private final double FINETUNE_RATE = 1.0;
+
+	// TODO ALL OF THESE SETPOINTS ARE NOT VALID
+	private final double MARGIN_VALUE = 5.0;
+	private final double EXCHANGE_SETPOINT = 180.0;
+	private final double SWITCH_SETPOINT = 320.0;
+	private final double LOWSCALE_SETPOINT = 550.0;
+	private final double HIGHSCALE_SETPOINT = 780.0;
+	private final double CLIMBER_SETPOINT = 1010;
+	private final double HOME_SETPOINT = 0.0;
+	private final double INTAKE_SETPOINT = 140.0;
+
+	private final double ARM_POT_MIN = 0.0;
+	private final double ARM_POT_MAX = 1023.0;
+	private final double ARM_ANGLE_MIN = 0.0;
+	private final double ARM_ANGLE_MAX = 158.0;
+	private final double EXT_POT_MIN = 11.0;
+	private final double EXT_POT_MAX = 920.0;
+	private final double EXT_LENGTH_MIN = 0.0;
+	private final double EXT_LENGTH_MAX = 16.0;
     
     private double armSetpoint;
     private double extSetpoint;
     private ArmMath armMath = new ArmMath();
     private boolean autoExtension = true;
-    private PIDController armController = new PIDController(ARM_P, ARM_I, ARM_D, rotationPot, movementMotor);
-	private PIDController extController = new PIDController(EXT_P, EXT_I, EXT_D, extensionPot, extensionMotor);
+//  private PIDController armController = new PIDController(ARM_P, ARM_I, ARM_D, rotationPot, movementMotor);
+//	private PIDController extController = new PIDController(EXT_P, EXT_I, EXT_D, extensionPot, extensionMotor);
 	
 	public Arm() {
 		super("Arm");
 		
 		extensionMotor.configSelectedFeedbackSensor(FeedbackDevice.Analog, 0, TIMEOUT);
 		extensionMotor.selectProfileSlot(0, 0);
-    	extensionMotor.configPeakOutputForward(1, TIMEOUT);
-    	extensionMotor.configPeakOutputReverse(-1, TIMEOUT);
-    	extensionMotor.configNominalOutputForward(0, TIMEOUT);
-    	extensionMotor.configNominalOutputReverse(0, TIMEOUT);
+		extensionMotor.configNominalOutputForward(0, TIMEOUT);
+		extensionMotor.configNominalOutputReverse(0, TIMEOUT);
 		extensionMotor.setNeutralMode(NeutralMode.Brake);
 		extensionMotor.configAllowableClosedloopError(0, 4, TIMEOUT);
 		extensionMotor.config_kP(0, EXT_P, TIMEOUT);
 		extensionMotor.config_kI(0, EXT_I, TIMEOUT);
 		extensionMotor.config_kD(0, EXT_D, TIMEOUT);
-		
+
 		movementMotor.configSelectedFeedbackSensor(FeedbackDevice.Analog, 0, TIMEOUT);
 		movementMotor.selectProfileSlot(0, 0);
-    	movementMotor.configPeakOutputForward(1, TIMEOUT);
-    	movementMotor.configPeakOutputReverse(-1, TIMEOUT);
-    	movementMotor.configNominalOutputForward(0, TIMEOUT);
-    	movementMotor.configNominalOutputReverse(0, TIMEOUT);
+		movementMotor.configNominalOutputForward(0, TIMEOUT);
+		movementMotor.configNominalOutputReverse(0, TIMEOUT);
 		movementMotor.setNeutralMode(NeutralMode.Brake);
 		movementMotor.configAllowableClosedloopError(0, 4, TIMEOUT);
 		movementMotor.config_kP(0, ARM_P, TIMEOUT);
 		movementMotor.config_kI(0, ARM_I, TIMEOUT);
 		movementMotor.config_kD(0, ARM_D, TIMEOUT);
 		
-		armSetpoint = getArmPos();
+		armSetpoint = HOME_SETPOINT;
 		
-		//Used for test bed
-		armController.enable();
-		extController.enable();
+		// Used for test bed
+//		armController.enable();
+//		extController.enable();
 	}
 	
     @Override
@@ -172,37 +169,34 @@ public class Arm extends Subsystem {
     
     public void stopArm()
     {
-//    	movementMotor.set(ControlMode.Position, armSetpoint);
-    	armController.setSetpoint(armSetpoint);
+    	movementMotor.set(ControlMode.Position, armSetpoint);
+//    	armController.setSetpoint(armSetpoint);
     }
     
-//    public int getArmPos()
-//    {
-//    	return movementMotor.getSelectedSensorPosition(0);
-//    }
-    
-    //Used for software pid
-    public double getArmPos()
-    {
-    	return rotationPot.get();
-    }
-    
-    public double getExtPos()
-    {
-    	return extensionPot.get();
-    }
-    
-//    public int getExtPos()
-//    {
-//    	return extensionMotor.getSelectedSensorPosition(0);
-//    }
+	//TODO Confirm if value is negative on real robot
+	public int getArmPos() {
+		return -movementMotor.getSelectedSensorPosition(0);
+	}
+
+	public int getExtPos() {
+		return extensionMotor.getSelectedSensorPosition(0);
+	}
+
+	// // Used for software pid
+	// public double getArmPos() {
+	// return rotationPot.get();
+	// }
+	//
+	// // Used for software pid
+	// public double getExtPos() {
+	// return extensionPot.get();
+	// }
     
     /**
      * Checks to see if the arm is within the correct position
      * @param position
      * @return True if arm is in correct position., False otherwise
      */
-    //TODO Test this!!!
     public boolean armAtPosition(ArmPositions position)
     {
 //    	int armPos = getArmPos();
@@ -227,7 +221,6 @@ public class Arm extends Subsystem {
 		}
     }
     
-    //TODO Test this!!!
     public void moveToPos(ArmPositions pos)
     {
     	switch (pos) {
@@ -274,29 +267,30 @@ public class Arm extends Subsystem {
     	autoExtension = value;
     }
     
-    /**
-     * Uses arm math to calculate new position for extension
-     */
-    private void moveExtension()
-    {
-    	if(autoExtension)
-    	{
-	    	double angle = armMath.convertPotToAngle(ARM_POT_MIN, ARM_ANGLE_MIN, ARM_POT_MAX, ARM_ANGLE_MAX, getArmPos());
-	    	SmartDashboard.putNumber("ARM ANGLE", angle);
-	    	extSetpoint = armMath.convertArmAngleToExtPot(EXT_POT_MIN, EXT_LENGTH_MIN, EXT_POT_MAX, EXT_LENGTH_MAX, angle);
-	    	SmartDashboard.putNumber("EXTENSION SETPOINT", extSetpoint);
-	    	extController.setSetpoint(extSetpoint);
-    	}
-    }
+	/**
+	 * Uses arm math to calculate new position for extension
+	 */
+	private void moveExtension() {
+		if (autoExtension) {
+			double angle = armMath.convertPotToAngle(ARM_POT_MIN, ARM_ANGLE_MIN, ARM_POT_MAX, ARM_ANGLE_MAX,
+					getArmPos());
+			SmartDashboard.putNumber("ARM ANGLE", angle);
+			extSetpoint = armMath.convertArmAngleToExtPot(EXT_POT_MIN, EXT_LENGTH_MIN, EXT_POT_MAX, EXT_LENGTH_MAX,
+					angle);
+			SmartDashboard.putNumber("EXTENSION SETPOINT", extSetpoint);
+			extensionMotor.set(ControlMode.Position, (int) extSetpoint);
+			
+//			extController.setSetpoint(extSetpoint);
+		}
+	}
     
-    /**
-     * Keeps arm locked to its current setpoint position
-     */
-    private void moveArm()
-    {
-//    	movementMotor.set(ControlMode.Position, (int) armSetpoint);
-    	
-    	//Used for software pid
-    	armController.setSetpoint(armSetpoint);
-    }
+	/**
+	 * Keeps arm locked to its current setpoint position
+	 */
+	private void moveArm() {
+		 movementMotor.set(ControlMode.Position, (int) armSetpoint);
+
+		// Used for software pid
+//		armController.setSetpoint(armSetpoint);
+	}
 }
