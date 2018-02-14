@@ -61,9 +61,9 @@ public class Drivetrain extends Subsystem {
     //Gear ratio of swerve wheels
     private final double GEAR_RATIO = (1988/1.2);
     //Width between drivetrain wheels
-    private final double WIDTH = 27.5;
+    private final double WIDTH = 22.0;
     //Length between drivetrain wheels
-    private final double LENGTH = 19;
+    private final double LENGTH = 23.25;
     
     public SwerveDrive swerveDrivetrain;
     private CanTalonSwerveEnclosure frontLeftWheel;

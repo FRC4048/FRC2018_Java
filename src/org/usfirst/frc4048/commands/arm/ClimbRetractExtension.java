@@ -9,18 +9,17 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class RetractExtension extends Command {
+public class ClimbRetractExtension extends Command {
 
 	GroupCommandCallback callback;
 	
-    public RetractExtension() {
+    public ClimbRetractExtension() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.arm);
-    	callback = GroupCommandCallback.NONE;
+    	this(GroupCommandCallback.NONE);
     }
     
-    public RetractExtension(GroupCommandCallback callback) {
+    public ClimbRetractExtension(GroupCommandCallback callback) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.arm);

@@ -68,17 +68,21 @@ public class Arm extends Subsystem {
 	 * Is not a speed, but a setpoint adjustment value
 	 */
 	private final double FINETUNE_RATE = 1.0;
+	/**
+	 * Is not a speed, but a setpoint adjustment value
+	 */
+	private final double EXTENSION_EXTEND_RATE = 3.0;
 
 	// TODO ALL OF THESE SETPOINTS ARE NOT VALID
 	public static final double MARGIN_VALUE = 5.0;
+	public static final double INTAKE_SETPOINT = 140.0;
 	public static final double EXCHANGE_SETPOINT = 180.0;
 	public static final double SWITCH_SETPOINT = 320.0;
 	public static final double LOWSCALE_SETPOINT = 550.0;
 	public static final double HIGHSCALE_SETPOINT = 780.0;
 	public static final double CLIMBER_SETPOINT = 1010;
 	public static final double HOME_SETPOINT = 0.0;
-	public static final double INTAKE_SETPOINT = 140.0;
-
+	
 	private final double ARM_POT_MIN = 0.0;
 	private final double ARM_POT_MAX = 1023.0;
 	private final double ARM_ANGLE_MIN = 0.0;
@@ -91,7 +95,7 @@ public class Arm extends Subsystem {
     private double armSetpoint;
     private double extSetpoint;
     private ArmMath armMath = new ArmMath();
-    private boolean autoExtension = true;
+//    private boolean autoExtension = true;
 //  private PIDController armController = new PIDController(ARM_P, ARM_I, ARM_D, rotationPot, movementMotor);
 //	private PIDController extController = new PIDController(EXT_P, EXT_I, EXT_D, extensionPot, extensionMotor);
 	
@@ -250,26 +254,26 @@ public class Arm extends Subsystem {
 		}
     }
     
-    /**
-     * Returns if the arm is currently automatically extending
-     * @return - true if extension is automatic, false if extension is manual
-     */
-    public boolean getAutoExtension()
-    {
-    	return autoExtension;
-    }
-    /**
-     * Sets the automatic extension value
-     * @param value - true if extension is automatic, false if extension is manual
-     */
-    public void setAutoExtension(boolean value)
-    {
-    	autoExtension = value;
-    }
+//    /**
+//     * Returns if the arm is currently automatically extending
+//     * @return - true if extension is automatic, false if extension is manual
+//     */
+//    public boolean getAutoExtension()
+//    {
+//    	return autoExtension;
+//    }
+//    /**
+//     * Sets the automatic extension value
+//     * @param value - true if extension is automatic, false if extension is manual
+//     */
+//    public void setAutoExtension(boolean value)
+//    {
+//    	autoExtension = value;
+//    }
     
     /**
      * Set extension to fully retracted position, or home position.
-     * Only functions if set auto extension is false, else the extension will not be affected
+     * 
      */
     public void retractExtension()
     {
@@ -280,12 +284,11 @@ public class Arm extends Subsystem {
 	 * Uses arm math to calculate new position for extension
 	 */
 	private void moveExtension() {
-		if (autoExtension) {
-			double angle = armMath.convertPotToAngle(ARM_POT_MIN, ARM_ANGLE_MIN, ARM_POT_MAX, ARM_ANGLE_MAX,
-					getArmPos());
+		double armPos = getArmPos();
+		if () {
+			double angle = armMath.convertPotToAngle(ARM_POT_MIN, ARM_ANGLE_MIN, ARM_POT_MAX, ARM_ANGLE_MAX, getArmPos());
 			SmartDashboard.putNumber("ARM ANGLE", angle);
-			extSetpoint = armMath.convertArmAngleToExtPot(EXT_POT_MIN, EXT_LENGTH_MIN, EXT_POT_MAX, EXT_LENGTH_MAX,
-					angle);
+			extSetpoint = armMath.convertArmAngleToExtPot(EXT_POT_MIN, EXT_LENGTH_MIN, EXT_POT_MAX, EXT_LENGTH_MAX, angle);
 			SmartDashboard.putNumber("EXTENSION SETPOINT", extSetpoint);			
 		}
 		
