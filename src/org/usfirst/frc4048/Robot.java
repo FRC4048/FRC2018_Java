@@ -184,6 +184,8 @@ public class Robot extends TimedRobot {
         dashboardData();
         SmartDashboard.putNumber("Claw Gyro", Robot.claw.getGyroVal());
         SmartDashboard.putNumber("Pitch Motor Val", RobotMap.clawpitchMotor.getMotorOutputPercent());
+        SmartDashboard.putNumber("Front Left Steer Motor Encoder Value", RobotMap.drivetrainfrontLeftSteerMotor.getSelectedSensorPosition(0));
+        
 
 //        Robot.drivetrain.outputAbsEncValues();
     }

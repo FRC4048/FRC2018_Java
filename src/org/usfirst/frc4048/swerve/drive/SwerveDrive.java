@@ -15,6 +15,10 @@ public class SwerveDrive {
 	
 	private final SwerveMath swerveMath;
 	
+	private SwerveDirective[] swerveDirectives = {
+			new SwerveDirective(), new SwerveDirective(), new SwerveDirective(), new SwerveDirective()
+	};
+	
 	public SwerveDrive(SwerveEnclosure swerveEnclosure1,
 					   SwerveEnclosure swerveEnclosure2,
 					   SwerveEnclosure swerveEnclosure3,
@@ -27,16 +31,17 @@ public class SwerveDrive {
 		this.swerveEnclosure4 = swerveEnclosure4;
 		
 		swerveMath = new SwerveMath(width, length);
+		
 	}
 	
 	public void move(double fwd, double str, double rcw, Double gyroValue)
 	{
-		List<SwerveDirective> swerveDirectives = swerveMath.move(fwd, str, rcw, gyroValue);
+		swerveMath.move(fwd, str, rcw, gyroValue, swerveDirectives);
 		
-		swerveEnclosure1.move(swerveDirectives.get(0).getSpeed(), swerveDirectives.get(0).getAngle());
-		swerveEnclosure2.move(swerveDirectives.get(1).getSpeed(), swerveDirectives.get(1).getAngle());
-		swerveEnclosure3.move(swerveDirectives.get(2).getSpeed(), swerveDirectives.get(2).getAngle());
-		swerveEnclosure4.move(swerveDirectives.get(3).getSpeed(), swerveDirectives.get(3).getAngle());
+		swerveEnclosure1.move(swerveDirectives[0].getSpeed(), swerveDirectives[0].getAngle());
+		swerveEnclosure2.move(swerveDirectives[1].getSpeed(), swerveDirectives[1].getAngle());
+		swerveEnclosure3.move(swerveDirectives[2].getSpeed(), swerveDirectives[2].getAngle());
+		swerveEnclosure4.move(swerveDirectives[3].getSpeed(), swerveDirectives[3].getAngle());
 	}
 	
 	public void stop()

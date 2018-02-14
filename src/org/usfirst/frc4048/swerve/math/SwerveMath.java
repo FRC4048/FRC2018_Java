@@ -42,7 +42,7 @@ public class SwerveMath {
 			}
 	}
 
-	public List<SwerveDirective> move(double fwd, double str, double rcw, Double gyroValue) {
+	public void move(double fwd, double str, double rcw, Double gyroValue, SwerveDirective[] result) {
 		if ((gyroValue == null) && centricMode.equals(CentricMode.FIELD)) {
 			throw new IllegalStateException("Cannot use field centric mode without a Gryo value"); 
 		}
@@ -85,13 +85,19 @@ public class SwerveMath {
 		ws2*=SCALE_SPEED; 
 		ws3*=SCALE_SPEED; 
 		ws4*=SCALE_SPEED; 
-		SwerveDirective d1 = new SwerveDirective(wa1, ws1); 
-		SwerveDirective d2 = new SwerveDirective(wa2, ws2); 
-		SwerveDirective d3 = new SwerveDirective(wa3, ws3); 
-		SwerveDirective d4 = new SwerveDirective(wa4, ws4); 
-		return Arrays.asList(d1, d2, d3, d4); 
+		
+		setDirective(result[0], wa1, ws1);
+		setDirective(result[1], wa2, ws2);
+		setDirective(result[2], wa3, ws3);
+		setDirective(result[3], wa4, ws4);
+
 	}
 
+	private void setDirective(SwerveDirective swerveDirective, double angle, double speed) {
+		swerveDirective.setAngle(angle);
+		swerveDirective.setSpeed(speed);
+	}
+	
 	private boolean isFieldCentric() {
 		return centricMode.equals(CentricMode.FIELD);
 	}
