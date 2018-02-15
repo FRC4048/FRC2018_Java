@@ -106,6 +106,7 @@ public class Logging {
 				e.printStackTrace();
 			}
 		}
+		log.flush();
 		
 		// Trace subsystems only when robot is enabled
 		if (DriverStation.getInstance().isEnabled())
@@ -117,7 +118,6 @@ public class Logging {
 					);
 			log.flush();
 		}
-
 	}
 
 	

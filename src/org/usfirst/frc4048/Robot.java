@@ -55,6 +55,7 @@ public class Robot extends TimedRobot {
     //use this to see the debug commands and values for smart dashboard
     public Boolean enableDebug = false;
     Action autoAction;
+    Action oldAutoAction;
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -110,17 +111,21 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void disabledInit(){
-    	logging.traceMessage(Logging.MessageLevel.InfoMessage, "Robot Disabled");
+    	logging.traceMessage(Logging.MessageLevel.InfoMessage, "---------------------------- Robot Disabled ----------------------------");
 		Robot.drivetrain.resetDriveEncoder();
     }
 
     @Override
     public void disabledPeriodic() {
-        Scheduler.getInstance().run();
-//        SmartDashboard.putString("DB/String 1", "" + Robot.drivetrain.analogInput1.getValue());
-        
+        Scheduler.getInstance().run();        
         
         autoAction = chooser.getSelected();
+        if (autoAction != oldAutoAction)
+        {
+        	// every time the driver changes autonomous selection
+        	logging.traceMessage(Logging.MessageLevel.InfoMessage,  "AutoAction user selection:" + autoAction.toString());
+            oldAutoAction = autoAction;
+        }
     	
     	dashboardData();
         //SmartDashboard.putNumber("JoyStick Left X", oi.getLeftJoystick().getX());
@@ -130,11 +135,13 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-    	logging.traceMessage(Logging.MessageLevel.InfoMessage, "Autonomous mode starting");
+    	logging.traceMessage(Logging.MessageLevel.InfoMessage, "---------------------------- Autonomous mode starting ----------------------------");
     	Robot.drivetrain.swerveDrivetrain.setModeField();
         char switchPos = 'X';
         char scalePos = 'X';
         String gameData = DriverStation.getInstance().getGameSpecificMessage();
+    	logging.traceMessage(Logging.MessageLevel.InfoMessage,  "Field plate selection:" + gameData);
+
         if(gameData.length() < 2)
         {
         	DriverStation.reportError("Bad game specific data recieved " + gameData, false);
@@ -156,6 +163,8 @@ public class Robot extends TimedRobot {
     	System.out.println("Action in Auto " + autoAction.toString());
     	System.out.println("Game Data: " + gameData);
     	autonomousCommand = new AutoAction(switchPos, scalePos, autoAction);
+    	logging.traceMessage(Logging.MessageLevel.InfoMessage,  "Autonomous Command:" + autonomousCommand.getName());
+
     	
         // schedule the autonomous command (example)
     	
@@ -177,7 +186,7 @@ public class Robot extends TimedRobot {
         // teleop starts running. If you want the autonomous to
         // continue until interrupted by another command, remove
         // this line or comment it out.
-    	logging.traceMessage(Logging.MessageLevel.InfoMessage, "Teleop mode starting");
+    	logging.traceMessage(Logging.MessageLevel.InfoMessage, "---------------------------- Teleop mode starting ----------------------------");
 
     	Robot.drivetrain.swerveDrivetrain.setModeField();
     	
