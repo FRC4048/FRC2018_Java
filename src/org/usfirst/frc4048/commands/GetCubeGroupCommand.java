@@ -16,6 +16,7 @@ import org.usfirst.frc4048.commands.arm.OpenClaw;
 import org.usfirst.frc4048.commands.arm.SetClawPosition;
 import org.usfirst.frc4048.subsystems.Claw;
 
+//TODO Is this command still being used?
 public class GetCubeGroupCommand extends CommandGroup implements GroupCommandCallback {
 
 	public GetCubeGroupCommand() {

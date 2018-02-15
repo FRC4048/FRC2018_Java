@@ -133,7 +133,7 @@ public class Claw extends Subsystem {
     {
     	return cubeSwitch.get();
     }
-
+    
     public boolean gripClosed()
     {
     	return gripMotor.getSensorCollection().isRevLimitSwitchClosed();
@@ -159,24 +159,44 @@ public class Claw extends Subsystem {
     	gripMotor.stopMotor();
     }
     
+    /**
+     * Angles the grip upward towards the compact position
+     */
     public void angleUp()
     {
     	pitchMotor.set(ControlMode.PercentOutput, ANGLE_UP_SPEED);
     }
     
+    /**
+     * Angles the grip downward
+     */
     public void angleDown()
     {
     	pitchMotor.set(ControlMode.PercentOutput, ANGLE_DOWN_SPEED);
     }
     
+    /**
+     * Returns if the claw is in the compact position
+     * @return True if compact, false if not
+     */
     public boolean clawUp()
     {
     	return pitchMotor.getSensorCollection().isFwdLimitSwitchClosed();
     }
     
+    /**
+     * Returns if the claw is fully down (hitting lower limit switch)
+     * @return True if fully down, false if not
+     */
     public boolean clawDown()
     {
     	return pitchMotor.getSensorCollection().isRevLimitSwitchClosed();
+    }
+    
+    public boolean isLevel()
+    {
+    	double gyro = getGyroVal();
+    	return gyro >= LEVEL_GYRO_VAL - LEVEL_GYRO_TOLERANCE && gyro <= LEVEL_GYRO_VAL + LEVEL_GYRO_TOLERANCE;
     }
     
     public void stopWrist()
@@ -184,12 +204,15 @@ public class Claw extends Subsystem {
     	pitchMotor.stopMotor();
     }
     
-    //TODO: can delete later if this is unnecessary
     public void recalibrateClawGyro()
     {
     	gyro.calibrate();
     }
     
+    /**
+     * Returns the enum value that the claw is traveling to
+     * @return Enum that arm is traveling to
+     */
     public WristPostion getPosition()
     {
     	return position;
