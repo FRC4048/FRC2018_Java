@@ -33,26 +33,25 @@ public class ClimbRetractExtension extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if(Robot.arm.getExtPos() > Arm.HOME_SETPOINT + Arm.MARGIN_VALUE)
+    	if(Robot.arm.getExtPos() > Arm.EXT_HOME_SETPOINT + Arm.POS_MARGIN_VALUE)
     	{
-    		Robot.arm.setAutoExtension(false);
-    		Robot.arm.retractExtension();
+    		Robot.arm.extensionToHome();
     	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return Robot.arm.getExtPos() <= Arm.HOME_SETPOINT + Arm.MARGIN_VALUE || isTimedOut();
+        return Robot.arm.getExtPos() <= Arm.HOME_SETPOINT + Arm.POS_MARGIN_VALUE || isTimedOut();
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	
+    	callback.doCancel(isTimedOut());
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	Robot.arm.setAutoExtension(true);
+
     }
 }

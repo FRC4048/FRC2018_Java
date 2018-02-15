@@ -38,17 +38,13 @@ public class MoveArm extends Command {
     protected void execute() {
 		if(position == ArmPositions.Home)
 		{
-			Robot.arm.setAutoExtension(false);
-			Robot.arm.retractExtension();
-			if(Robot.arm.getExtPos() <= Arm.HOME_SETPOINT + Arm.MARGIN_VALUE)
-			{
-				Robot.arm.moveToPos(position);
-			}
+			Robot.arm.extensionToHome();
 		}
-		else
+		else if(position == ArmPositions.Climb)
 		{
-			Robot.arm.moveToPos(position);
+			Robot.arm.extensionToClimb();
 		}
+		Robot.arm.moveToPos(position);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -60,13 +56,11 @@ public class MoveArm extends Command {
     protected void end() {
     	callback.doCancel(isTimedOut());
     	Robot.arm.stopArm();
-    	Robot.arm.setAutoExtension(true);
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
     	Robot.arm.stopArm();
-    	Robot.arm.setAutoExtension(true);
     }
 }

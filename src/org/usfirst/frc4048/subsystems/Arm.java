@@ -68,21 +68,29 @@ public class Arm extends Subsystem {
 	 * Is not a speed, but a setpoint adjustment value
 	 */
 	private final double FINETUNE_RATE = 1.0;
-	/**
-	 * Is not a speed, but a setpoint adjustment value
-	 */
-	private final double EXTENSION_EXTEND_RATE = 3.0;
 
 	// TODO ALL OF THESE SETPOINTS ARE NOT VALID
-	public static final double MARGIN_VALUE = 5.0;
+	/*
+	 * All of these setpoints are used for the arm
+	 */
+	public static final double POS_MARGIN_VALUE = 5.0;
+	public static final double MATH_MARGIN_VALUE = 100.0;
+	public static final double HOME_SETPOINT = 0.0;
 	public static final double INTAKE_SETPOINT = 140.0;
 	public static final double EXCHANGE_SETPOINT = 180.0;
 	public static final double SWITCH_SETPOINT = 320.0;
 	public static final double LOWSCALE_SETPOINT = 550.0;
 	public static final double HIGHSCALE_SETPOINT = 780.0;
 	public static final double CLIMBER_SETPOINT = 1010;
-	public static final double HOME_SETPOINT = 0.0;
-	
+	/*
+	 * All of these setpoints are used for the extension
+	 */
+	public static final double EXT_HOME_SETPOINT = 0.0;
+	public static final double EXT_INTAKE_SETPOINT = 450.0;
+	public static final double EXT_CLIMB_SETPOINT = 1020;
+	/*
+	 * All of these values are used for the extension math
+	 */
 	private final double ARM_POT_MIN = 0.0;
 	private final double ARM_POT_MAX = 1023.0;
 	private final double ARM_ANGLE_MIN = 0.0;
@@ -94,6 +102,7 @@ public class Arm extends Subsystem {
 	
     private double armSetpoint;
     private double extSetpoint;
+    private double manualExtSetpoint;
     private ArmMath armMath = new ArmMath();
 //    private boolean autoExtension = true;
 //  private PIDController armController = new PIDController(ARM_P, ARM_I, ARM_D, rotationPot, movementMotor);
@@ -207,19 +216,19 @@ public class Arm extends Subsystem {
     	double armPos = getArmPos();
     	switch (position) {
     	case Intake:
-			return armPos >= INTAKE_SETPOINT - MARGIN_VALUE && armPos <= INTAKE_SETPOINT + MARGIN_VALUE;	
+			return armPos >= INTAKE_SETPOINT - POS_MARGIN_VALUE && armPos <= INTAKE_SETPOINT + POS_MARGIN_VALUE;	
 		case Exchange:			
-			return armPos >= EXCHANGE_SETPOINT - MARGIN_VALUE && armPos <= EXCHANGE_SETPOINT + MARGIN_VALUE;	
+			return armPos >= EXCHANGE_SETPOINT - POS_MARGIN_VALUE && armPos <= EXCHANGE_SETPOINT + POS_MARGIN_VALUE;	
 		case Switch:
-			return armPos >= SWITCH_SETPOINT - MARGIN_VALUE && armPos <= SWITCH_SETPOINT + MARGIN_VALUE;
+			return armPos >= SWITCH_SETPOINT - POS_MARGIN_VALUE && armPos <= SWITCH_SETPOINT + POS_MARGIN_VALUE;
 		case LowScale:
-			return armPos >= LOWSCALE_SETPOINT - MARGIN_VALUE && armPos <= LOWSCALE_SETPOINT + MARGIN_VALUE;
+			return armPos >= LOWSCALE_SETPOINT - POS_MARGIN_VALUE && armPos <= LOWSCALE_SETPOINT + POS_MARGIN_VALUE;
 		case HighScale:
-			return armPos >= HIGHSCALE_SETPOINT - MARGIN_VALUE && armPos <= HIGHSCALE_SETPOINT + MARGIN_VALUE;
+			return armPos >= HIGHSCALE_SETPOINT - POS_MARGIN_VALUE && armPos <= HIGHSCALE_SETPOINT + POS_MARGIN_VALUE;
 		case Climb:
-			return armPos >= CLIMBER_SETPOINT - MARGIN_VALUE && armPos <= CLIMBER_SETPOINT + MARGIN_VALUE;
+			return armPos >= CLIMBER_SETPOINT - POS_MARGIN_VALUE && armPos <= CLIMBER_SETPOINT + POS_MARGIN_VALUE;
 		case Home:
-			return armPos >= HOME_SETPOINT - MARGIN_VALUE && armPos <= HOME_SETPOINT + MARGIN_VALUE;
+			return armPos >= HOME_SETPOINT - POS_MARGIN_VALUE && armPos <= HOME_SETPOINT + POS_MARGIN_VALUE;
 		default:
 			return false;
 		}
@@ -273,27 +282,39 @@ public class Arm extends Subsystem {
     
     /**
      * Set extension to fully retracted position, or home position.
-     * 
      */
-    public void retractExtension()
+    public void extensionToHome()
     {
-    	extSetpoint = HOME_SETPOINT;
+    	manualExtSetpoint = EXT_HOME_SETPOINT;
+    }
+    
+    public void extensionToIntake()
+    {
+    	manualExtSetpoint = EXT_INTAKE_SETPOINT;
+    }
+    
+    public void extensionToClimb()
+    {
+    	manualExtSetpoint = EXT_CLIMB_SETPOINT;
     }
     
 	/**
 	 * Uses arm math to calculate new position for extension
+	 * This math only applies within the exchange and high scale positions
 	 */
 	private void moveExtension() {
 		double armPos = getArmPos();
-		if () {
+		if (armPos >= EXCHANGE_SETPOINT - MATH_MARGIN_VALUE && armPos <= HIGHSCALE_SETPOINT + MATH_MARGIN_VALUE) {
 			double angle = armMath.convertPotToAngle(ARM_POT_MIN, ARM_ANGLE_MIN, ARM_POT_MAX, ARM_ANGLE_MAX, getArmPos());
 			SmartDashboard.putNumber("ARM ANGLE", angle);
 			extSetpoint = armMath.convertArmAngleToExtPot(EXT_POT_MIN, EXT_LENGTH_MIN, EXT_POT_MAX, EXT_LENGTH_MAX, angle);
-			SmartDashboard.putNumber("EXTENSION SETPOINT", extSetpoint);			
+			SmartDashboard.putNumber("EXTENSION SETPOINT", extSetpoint);
+			extensionMotor.set(ControlMode.Position, (int) extSetpoint);
 		}
-		
-		extensionMotor.set(ControlMode.Position, (int) extSetpoint);
-//		extController.setSetpoint(extSetpoint);
+		else
+		{
+			extensionMotor.set(ControlMode.Position, (int) manualExtSetpoint);
+		}
 	}
     
 	/**
