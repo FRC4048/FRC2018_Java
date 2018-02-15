@@ -2,6 +2,7 @@ package org.usfirst.frc4048.commands.getcube;
 
 import org.usfirst.frc4048.commands.GroupCommandCallback;
 import org.usfirst.frc4048.commands.arm.GrabCube;
+import org.usfirst.frc4048.commands.arm.LowerArmToCube;
 import org.usfirst.frc4048.commands.arm.MoveArm;
 import org.usfirst.frc4048.commands.arm.OpenClaw;
 import org.usfirst.frc4048.commands.arm.SetClawPositionAndWait;
@@ -29,6 +30,7 @@ public class GetCubeGroupCommand extends CommandGroup implements GroupCommandCal
 		addSequential(new OpenClaw(this));
 		addSequential(new SetClawPositionAndWait(this, Claw.WristPostion.Level));
 		addSequential(new MoveArm(this, ArmPositions.Intake));
+		addSequential(new LowerArmToCube(this));
 		addSequential(new GrabCube(this));
 
 		addSequential(new SetClawPositionAndWait(this, Claw.WristPostion.Compact));

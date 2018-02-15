@@ -44,6 +44,10 @@ public class MoveArm extends Command {
 		{
 			Robot.arm.extensionToClimb();
 		}
+		else if(position == Arm.ArmPositions.Intake)
+		{
+			Robot.arm.extensionToIntake();
+		}
 		Robot.arm.moveToPos(position);
     }
 
