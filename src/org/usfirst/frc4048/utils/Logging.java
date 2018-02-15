@@ -11,15 +11,24 @@ import java.util.TimerTask;
 
 import org.usfirst.frc4048.Robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
+
 
 public class Logging {
+	
+	public static enum MessageLevel {
+		InfoMessage, WarningMessage, ErroorMessage
+	}
+	private static final int MSG_QUEUE_DEPTH = 512;
 	private java.util.Timer executor;
 	private long period;
+	private WorkQueue wq;
 
 	PrintWriter log;
 
-	public Logging(long period) {
+	public Logging(long period, WorkQueue wq) {
 		this.period = period;
+		this.wq = wq;
 	}
 
 	public void startThread() {
@@ -52,6 +61,32 @@ public class Logging {
 
 	}
 
+	public void traceMessage(MessageLevel ml, String message)
+	{
+		int size = wq.size();
+		if (size < MSG_QUEUE_DEPTH)
+		{
+			try {
+				wq.append(ml.name() + " " + message);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else if (size == MSG_QUEUE_DEPTH)
+		{
+			try {
+				wq.append("LOGGING GAP!!!");
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else
+		{
+			// we don't want to overflow the queue if logger is not reading fast enough...
+		}
+	}
 	
 	private String FileHeading()
 	{
@@ -59,15 +94,32 @@ public class Logging {
 	}
 	
 	public void print() {
-		log.println(
-				//ARM
-				Robot.arm.getArmPos() + "\t" +
-				Robot.arm.getExtPos() + "\t"
-				);
-		log.flush();
+		String message;
+		// Log all events, we want this done also when the robot is disabled
+		int size = wq.size();
+		for (int i = 0 ; i < size ; i++)
+		{
+			try {
+				message = wq.getNext();
+				log.println(message);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 		
+		// Trace subsystems only when robot is enabled
+		if (DriverStation.getInstance().isEnabled())
+		{
+			log.println(
+					//ARM
+					Robot.arm.getArmPos() + "\t" +
+					Robot.arm.getExtPos() + "\t"
+					);
+			log.flush();
+		}
+
 	}
-	
+
 	
 	private class ConsolePrintTask extends TimerTask {
 		private Logging console;
