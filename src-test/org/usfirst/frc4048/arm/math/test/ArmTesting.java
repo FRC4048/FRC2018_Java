@@ -1,41 +1,99 @@
 package org.usfirst.frc4048.arm.math.test;
 
+import java.io.FileWriter;
+import java.io.IOException;
+
 import org.usfirst.frc4048.arm.math.*;
 import org.usfirst.frc4048.subsystems.Arm;
 
 public class ArmTesting {
 
+	public static double FIXED_ARM_LENGTH = 44;
 	public static double ARM_MIN_POT = 1.0;
 	public static double ARM_MAX_POT = 3.5;
-	public static double ARM_MIN_ANGLE = 00.0;
-	public static double ARM_MAX_ANGLE = 158.0;
+	public static double ARM_MIN_ANGLE = 35.0;
+	public static double ARM_MAX_ANGLE = 165.0;
 	
 	public static double EXT_MIN_POT = 0.0;
 	public static double EXT_MAX_POT = 5.0;
 	public static double EXT_MIN_LENGTH = 2.0;
 	public static double EXT_MAX_LENGTH = 15.0;
 	
-	public static void main(String[] args)
+	public static void main(String[] args) throws IOException
 	{
 		LinearMoveStrat stratLinear = new LinearMoveStrat();
-		System.out.println("STARTING LINEAR TEST");
+		/*System.out.println("STARTING LINEAR TEST");
 		testLinearStrat(stratLinear);
-		System.out.println("ENDING LINEAR TEST");
+		System.out.println("ENDING LINEAR TEST");*/
 		
 		FixedAngleStrat stratFixed = new FixedAngleStrat();
-		System.out.println("STARTING FIXED ANGLE TEST");
+		/*System.out.println("STARTING FIXED ANGLE TEST");
 		testFixedAngleStrat(stratFixed);
-		System.out.println("ENDING FIXED ANGLE TEST");
+		System.out.println("ENDING FIXED ANGLE TEST");*/
 		
 		CubePositionStrat stratCube = new CubePositionStrat();
-		System.out.println("STARTING CUBE ANGLE TEST");
+		/*System.out.println("STARTING CUBE ANGLE TEST");
 		testCubePosStrat(stratCube);
-		System.out.println("ENDING CUBE ANGLE TEST");
+		System.out.println("ENDING CUBE ANGLE TEST");*/
 		
-		ArmMath armMath = new ArmMath();
-		System.out.println("START ARM MATH TEST");
+		//ArmMath armMath = new ArmMath();
+		/*System.out.println("START ARM MATH TEST");
 		testArmMath(armMath);
-		System.out.println("END ARM MATH TEST");
+		System.out.println("END ARM MATH TEST");*/
+		
+		FileWriter linearWriter = new FileWriter("LinearStrat.csv");
+		FileWriter fixedAngleWriter = new FileWriter("FixedAngleStrat.csv");
+		FileWriter cubePositionWriter = new FileWriter("CubePositionStrat.csv");
+		
+		String[] stratStrings = new String[3];
+		
+		for(int i = 0; i < stratStrings.length; i++)
+		{
+			stratStrings[i]="Angle";
+			stratStrings[i]+=',';
+			stratStrings[i]+="Horizontal Length of Arm";
+			stratStrings[i]+=',';
+			stratStrings[i]+="Extension Length";
+			stratStrings[i]+='\n';
+		}	
+		
+		for(double angle = ARM_MIN_ANGLE-22; angle < ARM_MAX_ANGLE-22; angle+=5)
+		{
+			stratStrings[0]+=angle;
+			stratStrings[0]+=',';
+			stratStrings[0]+=(stratLinear.getExtensionLength(angle) + FIXED_ARM_LENGTH)*Math.sin(Math.toRadians(angle+22));
+			stratStrings[0]+=',';
+			stratStrings[0]+=stratLinear.getExtensionLength(angle);
+			stratStrings[0]+='\n';
+			
+			stratStrings[1]+=angle;
+			stratStrings[1]+=(',');
+			stratStrings[1]+=((stratFixed.getExtensionLength(angle) + FIXED_ARM_LENGTH)*Math.sin(Math.toRadians(angle+22)));
+			stratStrings[1]+=(',');
+			stratStrings[1]+=stratFixed.getExtensionLength(angle);
+			stratStrings[1]+=('\n');
+			
+			stratStrings[2]+=(angle);
+			stratStrings[2]+=(',');
+			stratStrings[2]+=((stratCube.getExtensionLength(angle) + FIXED_ARM_LENGTH)*Math.sin(Math.toRadians(angle+22)));
+			stratStrings[2]+=(',');
+			stratStrings[2]+=stratCube.getExtensionLength(angle);
+			stratStrings[2]+=('\n');
+			
+		}
+		
+		linearWriter.append(stratStrings[0].toString());
+		fixedAngleWriter.append(stratStrings[1].toString());
+		cubePositionWriter.append(stratStrings[2].toString());
+		
+		linearWriter.flush();
+		linearWriter.close();
+		fixedAngleWriter.flush();
+		fixedAngleWriter.close();
+		cubePositionWriter.flush();
+		cubePositionWriter.close();
+		
+		System.out.println("done");
 	}
 	
 	public static void testLinearStrat(LinearMoveStrat strat)
