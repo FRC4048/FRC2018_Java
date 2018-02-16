@@ -49,7 +49,7 @@ public class Robot extends TimedRobot {
     public static Arm arm;
     public static Intake intake;
     public static Climber climber;
-    public Logging logging;
+    public static Logging logging;
     public WorkQueue wq;
 
     //use this to see the debug commands and values for smart dashboard
@@ -202,9 +202,6 @@ public class Robot extends TimedRobot {
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
         dashboardData();
-        SmartDashboard.putNumber("Claw Gyro", Robot.claw.getGyroVal());
-        SmartDashboard.putNumber("Pitch Motor Val", RobotMap.clawpitchMotor.getMotorOutputPercent());
-
 //        Robot.drivetrain.outputAbsEncValues();
     }
     
@@ -224,6 +221,8 @@ public class Robot extends TimedRobot {
     		SmartDashboard.putNumber("Distance", RobotMap.swerveDriveEncoder.getDistance());
         	SmartDashboard.putNumber("Robot Gyro Value", Robot.drivetrain.getGyro());
         	SmartDashboard.putNumber("Left Sonar Distance", Robot.drivetrain.getSonar(SonarSide.LEFT));
+            SmartDashboard.putNumber("Claw Gyro", Robot.claw.getGyroVal());
+            SmartDashboard.putNumber("Pitch Motor Val", RobotMap.clawpitchMotor.getMotorOutputPercent());
         	//SmartDashboard.putNumber("Right Sonar Distance", Robot.drivetrain.getSonar(SonarSide.RIGHT));
     	}
     	SmartDashboard.putString("Action for Auto", autoAction.toString());
