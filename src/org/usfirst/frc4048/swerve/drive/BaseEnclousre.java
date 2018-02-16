@@ -1,5 +1,7 @@
 package org.usfirst.frc4048.swerve.drive;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public abstract class BaseEnclousre implements SwerveEnclosure{
 	
 	private String name;
@@ -47,16 +49,18 @@ public abstract class BaseEnclousre implements SwerveEnclosure{
 	
 	private boolean shouldReverse(double wa, double encoderValue)
 	{
-		double ea = SwerveUtils.convertEncoderValue(encoderValue, encoderValue);
+		double ea = SwerveUtils.convertEncoderValue(encoderValue, gearRatio);
 		
 		if(wa < 0)	wa += 1;
 		
 		double longDiff = Math.abs(wa - ea);
 		
 		double diff = Math.min(longDiff, 1.0-longDiff);
+		SmartDashboard.putNumber("Encoder Difference", diff);
 		
 		if(diff > 0.25) return true;
 		else return false;
+		//return false;
 	}
 	
 	private double convertAngle(double angle, double encoderValue)

@@ -15,7 +15,7 @@ import org.usfirst.frc4048.commands.GroupCommandCallback;
 public class MoveArm extends Command {
 	private final GroupCommandCallback callback;
 	ArmPositions position; 
-	
+		
     public MoveArm(final ArmPositions position) {
     	this(GroupCommandCallback.NONE, position);
     }
@@ -36,7 +36,19 @@ public class MoveArm extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    		Robot.arm.moveToPos(position);
+		if(position == ArmPositions.Home)
+		{
+			Robot.arm.extensionToHome();
+		}
+		else if(position == ArmPositions.Climb)
+		{
+			Robot.arm.extensionToClimb();
+		}
+		else if(position == Arm.ArmPositions.Intake)
+		{
+			Robot.arm.extensionToIntake();
+		}
+		Robot.arm.moveToPos(position);
     }
 
     // Make this return true when this Command no longer needs to run execute()
