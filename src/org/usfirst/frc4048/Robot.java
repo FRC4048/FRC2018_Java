@@ -123,7 +123,7 @@ public class Robot extends TimedRobot {
         if (autoAction != oldAutoAction)
         {
         	// every time the driver changes autonomous selection
-        	logging.traceMessage(Logging.MessageLevel.InfoMessage,  "AutoAction user selection:" + autoAction.toString());
+        	logging.traceMessage(Logging.MessageLevel.InfoMessage,  "AutoAction user selection: " + autoAction.toString());
             oldAutoAction = autoAction;
         }
     	

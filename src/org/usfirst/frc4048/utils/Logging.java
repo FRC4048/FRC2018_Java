@@ -14,27 +14,32 @@ import org.usfirst.frc4048.Robot;
 import org.usfirst.frc4048.subsystems.Claw;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Timer;
 import sun.rmi.runtime.Log;
 
 
 public class Logging {
-	
+
 	public static enum MessageLevel {
 		InfoMessage, WarningMessage, ErrorMessage
 	}
 	public static enum Subsystems {
 		ARM, CLAW, DRIVETRAIN, INTAKE, CLIMBER
 	}
-	
+
 	private static final int MSG_QUEUE_DEPTH = 512;
 	private java.util.Timer executor;
 	private long period;
 	private WorkQueue wq;
+	public static DecimalFormat df5 = new DecimalFormat(".#####");
 	public static DecimalFormat df4 = new DecimalFormat(".####");
-
+	public static DecimalFormat df3 = new DecimalFormat(".###");
+	private int counter;
+	
 	public Logging(long period, WorkQueue wq) {
 		this.period = period;
 		this.wq = wq;
+		counter = 0;
 	}
 
 	public void startThread() {
@@ -46,29 +51,32 @@ public class Logging {
 	}
 	public void traceSubsystem(Subsystems s, String message)
 	{
-		int size = wq.size();
-		if (size < MSG_QUEUE_DEPTH)
-		{
-			try {
-				wq.append(s.name() + " " + message);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		if(DriverStation.getInstance().isEnabled() && counter%5 == 0) {
+			int size = wq.size();
+			if (size < MSG_QUEUE_DEPTH)
+			{
+				try {
+					wq.append(df3.format(Timer.getFPGATimestamp()) + "\t" + s.name() + "\t" + message);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			else if (size == MSG_QUEUE_DEPTH)
+			{
+				try {
+					wq.append("LOGGING GAP!!!");
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			else
+			{
+				// we don't want to overflow the queue if logger is not reading fast enough...
 			}
 		}
-		else if (size == MSG_QUEUE_DEPTH)
-		{
-			try {
-				wq.append("LOGGING GAP!!!");
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		else
-		{
-			// we don't want to overflow the queue if logger is not reading fast enough...
-		}
+		counter++;
 	}
 	public void traceMessage(MessageLevel ml, String message)
 	{
@@ -76,7 +84,7 @@ public class Logging {
 		if (size < MSG_QUEUE_DEPTH)
 		{
 			try {
-				wq.append(ml.name() + " " + message);
+				wq.append(df3.format(Timer.getFPGATimestamp()) + "\t" + ml.name() + "\t" + message);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -97,17 +105,17 @@ public class Logging {
 		}
 	}
 
-	
+
 	private class ConsolePrintTask extends TimerTask {
 		PrintWriter log;
 		WorkQueue wq;
 		Logging l;
-		
+
 		private ConsolePrintTask(WorkQueue wq, Logging l) {
 			this.l = l;
 			this.wq = wq;
 			try {
-				
+
 				File file = new File("/home/lvuser/Logs");
 				if (!file.exists()) {
 					if (file.mkdir()) {
@@ -130,12 +138,12 @@ public class Logging {
 				e.printStackTrace();
 			}
 		}
-		
+
 		private String FileHeading()
 		{
 			return "Arm Position \t Extention Position";
 		}
-		
+
 		public void print() {
 			String message;
 			// Log all events, we want this done also when the robot is disabled
@@ -151,7 +159,7 @@ public class Logging {
 			}
 			log.flush();
 		}
-		
+
 		/**
 		 * Called periodically in its own thread
 		 */
