@@ -74,14 +74,18 @@ public class RobotMap {
     /**
      * TODO THE 2 PDP values are setup for the test bed -- Need to fixed
      */
-    public static final int PDP_RIGHT_INTAKE_MOTOR=6;
-    public static final int PDP_LEFT_INTAKE_MOTOR=5;
-    
+    public static final int PDP_RIGHT_INTAKE_MOTOR = 6;
+    public static final int PDP_LEFT_INTAKE_MOTOR = 5;
+    public static final int PDP_ARM_MOTOR = 4;
+    public static final int PDP_WRIST_MOTOR = 15;
+    public static final int PDP_GRIP_MOTOR = 14;
     /**
      * TODO Determine correct values for Current threshold for intake motors.
      */
-    public static final double CURRENT_THRESHOLD_INTAKE_MOTOR=1.0;
-
+    public static final double CURRENT_THRESHOLD_INTAKE_MOTOR = 1.0;
+    public static final double CURRENT_THRESHOLD_ARM_CUBE_PICKUP = 10.0;
+    public static final double CURRENT_THRESHOLD_WRIST_MOTOR = 12.0;
+    public static final double CURRENT_THRESHOLD_GRIP_MOTOR = 12.0;
     /**
      * TODO Determine correct timeout for intake motors.
      */
@@ -147,14 +151,14 @@ public class RobotMap {
         armextensionMotor = new WPI_TalonSRX(10);
         LiveWindow.addActuator("Arm", "extensionMotor", (WPI_TalonSRX) armextensionMotor);
         armextensionMotor.setInverted(false);
-        armrotationPot = new AnalogPotentiometer(11, 5.0, 0.0);
-        LiveWindow.addSensor("Arm", "rotationPot", armrotationPot);
+//        armrotationPot = new AnalogPotentiometer(11, 5.0, 0.0);
+//        LiveWindow.addSensor("Arm", "rotationPot", armrotationPot);
         
         armmovementMotor = new WPI_TalonSRX(11);
         
         
-        armextensionPot = new AnalogPotentiometer(10, 5.0, 0.0);
-        LiveWindow.addSensor("Arm", "extensionPot", armextensionPot);
+//        armextensionPot = new AnalogPotentiometer(10, 5.0, 0.0);
+//        LiveWindow.addSensor("Arm", "extensionPot", armextensionPot);
         
         intakeleftIntakeMotor = new Talon(0);
         LiveWindow.addActuator("Intake", "leftIntakeMotor", (Talon) intakeleftIntakeMotor);

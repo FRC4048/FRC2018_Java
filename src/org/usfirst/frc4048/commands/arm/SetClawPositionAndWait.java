@@ -9,6 +9,7 @@ import org.usfirst.frc4048.subsystems.Claw.WristPostion;
  *
  */
 public class SetClawPositionAndWait extends SetClawPosition {
+	
 	private final GroupCommandCallback callback;
 	
     public SetClawPositionAndWait(final Claw.WristPostion position) {
@@ -30,10 +31,12 @@ public class SetClawPositionAndWait extends SetClawPosition {
     
     protected void end() {
     	callback.doCancel(isTimedOut());
+    	Robot.claw.stopWrist();
     }
 
     protected void interrupted() {
     	callback.doCancel(true);
+    	Robot.claw.stopWrist();
     }
 
 }

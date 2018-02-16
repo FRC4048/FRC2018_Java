@@ -12,6 +12,7 @@
 package org.usfirst.frc4048;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -35,7 +36,7 @@ import org.usfirst.frc4048.swerve.math.*;
  * creating this project, you must also update the build.properties file in 
  * the project.
  */
-public class Robot extends TimedRobot {
+public class Robot extends IterativeRobot {
 
     Command autonomousCommand;
     SendableChooser<Action> chooser = new SendableChooser<>();
@@ -168,7 +169,7 @@ public class Robot extends TimedRobot {
         // teleop starts running. If you want the autonomous to
         // continue until interrupted by another command, remove
         // this line or comment it out.
-    	Robot.drivetrain.swerveDrivetrain.setModeField();
+//    	Robot.drivetrain.swerveDrivetrain.setModeField();
     	
     	autoAction = chooser.getSelected();
         if (autonomousCommand != null) autonomousCommand.cancel();
