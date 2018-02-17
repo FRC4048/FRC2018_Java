@@ -34,9 +34,9 @@ public class PowerDistPanel extends Subsystem {
     	 *  Swerve Steer Motors
     	 *  
     	 */
-    	Robot.logging.traceSubsystem(Logging.Subsystems.POWERDISTPANEL, "");//header
-    	Robot.logging.traceSubsystem(Logging.Subsystems.POWERDISTPANEL, Logging.df5.format(leftSonar.getVoltage()) + "\t" + "\t" +
-    								 Logging.df3.format(getSonar(SonarSide.LEFT)));//value
+    	Robot.logging.traceSubsystem(Logging.Subsystems.POWERDISTPANEL, 
+    			"Total Voltage \t Total Current \t FR Steer \t FL Steer \t RL Steer \t RR Steer \t FR Drive \t FL Drive \t RL Drive \t RL Drive \t Intake Deploy \t Right Intake \t Left Intake \t Arm Motor \t Extension Motor \t Wrist Motor \t Gripper Motor");//header
+    	Robot.logging.traceSubsystem(Logging.Subsystems.POWERDISTPANEL, Logging.df5.format(pdp.getVoltage()) + "\t", );//value
     }
 }
 
