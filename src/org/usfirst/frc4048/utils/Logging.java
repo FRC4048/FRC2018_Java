@@ -44,56 +44,36 @@ public class Logging {
 		this.executor.schedule(new ConsolePrintTask(wq, this), 0L, this.period);
 	}
 
-	private void printLog(String message) {
-		System.out.println(message);
+	public void traceSubsystem(Subsystems s, double... vals) {
+		traceSubsystem(s, vals, (String[]) null);
 	}
 
-	public void traceSubsystem(Subsystems s, double vals[]) {
+	public void traceSubsystem(Subsystems s, String... vals) {
+		traceSubsystem(s, (double[]) null, vals);
+	}
+
+	public void traceSubsystem(Subsystems s, String vals1[], double... vals2) {
+		traceSubsystem(s, vals2, vals1);
+	}
+
+	public void traceSubsystem(Subsystems s, double vals1[], String... vals2) {
 		if (DriverStation.getInstance().isEnabled() && counter % 5 == 0) {
 			final StringBuilder sb = new StringBuilder();
 			sb.append(df3.format(Timer.getFPGATimestamp()));
 			sb.append(",");
 			sb.append(s.name());
 			sb.append(",");
-			for (final double v : vals) {
-				sb.append(df5.format(v));
-				sb.append(",");
+			if (vals1 != null) {
+				for (final double v : vals1) {
+					sb.append(df5.format(v));
+					sb.append(",");
+				}
 			}
-			traceMessage(sb);
-		}
-		counter += 1;
-	}
-
-	public void traceSubsystem(Subsystems s, String vals[]) {
-		if (DriverStation.getInstance().isEnabled() && counter % 5 == 0) {
-			final StringBuilder sb = new StringBuilder();
-			sb.append(df3.format(Timer.getFPGATimestamp()));
-			sb.append(",");
-			sb.append(s.name());
-			sb.append(",");
-			for (final String v : vals) {
-				sb.append("\"").append(v).append("\"");
-				sb.append(",");
-			}
-			traceMessage(sb);
-		}
-		counter += 1;
-	}
-
-	public void traceSubsystem(Subsystems s, double vals1[], String vals2[]) {
-		if (DriverStation.getInstance().isEnabled() && counter % 5 == 0) {
-			final StringBuilder sb = new StringBuilder();
-			sb.append(df3.format(Timer.getFPGATimestamp()));
-			sb.append(",");
-			sb.append(s.name());
-			sb.append(",");
-			for (final double v : vals1) {
-				sb.append(df5.format(v));
-				sb.append(",");
-			}
-			for (final String v : vals2) {
-				sb.append("\"").append(v).append("\"");
-				sb.append(",");
+			if (vals2 != null) {
+				for (final String v : vals2) {
+					sb.append("\"").append(v).append("\"");
+					sb.append(",");
+				}
 			}
 			traceMessage(sb);
 		}
@@ -119,7 +99,6 @@ public class Logging {
 		traceMessage(sb);
 	}
 
-		
 	private class ConsolePrintTask extends TimerTask {
 		PrintWriter log;
 		final WorkQueue wq;
