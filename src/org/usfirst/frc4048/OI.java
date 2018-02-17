@@ -87,7 +87,7 @@ public class OI {
     public JoystickButton moveToLowScale;
     public JoystickButton moveToHighScale;
     public JoystickButton moveToExchange;
-    public JoystickButton moveToClimb;
+//    public JoystickButton moveToClimb;
     public JoystickButton cancelFunction;
     public Joystick controller;
     public final XboxTriggerRight xboxTriggerRight;
@@ -107,8 +107,8 @@ public class OI {
         
 		cancelFunction = new JoystickButton(controller, 7); // Back Button
         cancelFunction.whileHeld(new CancelCommand());
-		moveToClimb = new JoystickButton(controller, 8); // Start Button
-        moveToClimb.whenPressed(new MoveArm(ArmPositions.Climb));
+//		moveToClimb = new JoystickButton(controller, 8); // Start Button
+//        moveToClimb.whenPressed(new MoveArm(ArmPositions.Climb));
 		moveToExchange = new JoystickButton(controller, 3); // X Button
         moveToExchange.whenPressed(new MoveArm(ArmPositions.Exchange));
 		moveToHighScale = new JoystickButton(controller, 4); // Y Button
