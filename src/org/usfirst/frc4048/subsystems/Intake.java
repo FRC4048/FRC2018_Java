@@ -140,5 +140,8 @@ public class Intake extends Subsystem {
     	return !upperLimit.get();
     }
     
+    public String intakeHeadings() {
+    	return "";
+    }
 }
 

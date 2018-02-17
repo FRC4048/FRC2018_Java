@@ -10,6 +10,8 @@ import java.util.Date;
 import java.util.TimeZone;
 import java.util.TimerTask;
 
+import org.usfirst.frc4048.Robot;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 
@@ -98,7 +100,15 @@ public class Logging {
 		sb.append("\"").append(message).append("\"");
 		traceMessage(sb);
 	}
-
+	
+	public void printHeadings()
+	{
+		traceSubsystem(Subsystems.DRIVETRAIN, Robot.drivetrain.drivetrianHeadings());
+		traceSubsystem(Subsystems.ARM, Robot.arm.armHeadings());
+		traceSubsystem(Subsystems.CLAW, Robot.claw.clawHeadings());
+		traceSubsystem(Subsystems.INTAKE, Robot.intake.intakeHeadings());
+	}
+	
 	private class ConsolePrintTask extends TimerTask {
 		PrintWriter log;
 		final WorkQueue wq;
@@ -121,7 +131,9 @@ public class Logging {
 				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
 				dateFormat.setTimeZone(TimeZone.getTimeZone("EST5EDT"));
 				this.log = new PrintWriter("/home/lvuser/Logs/" + dateFormat.format(date) + "-Log.txt", "UTF-8");
-				log.println(FileHeading());
+				
+				printHeadings();
+				
 				log.flush();
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
@@ -133,7 +145,7 @@ public class Logging {
 		}
 
 		private String FileHeading() {
-			return "Arm Position \t Extention Position";
+			return "";
 		}
 
 		public void print() {

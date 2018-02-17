@@ -326,4 +326,7 @@ public class Arm extends Subsystem {
 		// Used for software pid
 //		armController.setSetpoint(armSetpoint);
 	}
+    public String armHeadings() {
+    	return "";
+    }
 }
