@@ -11,22 +11,21 @@ import java.util.TimeZone;
 import java.util.TimerTask;
 
 import org.usfirst.frc4048.Robot;
-import org.usfirst.frc4048.subsystems.Claw;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
-import sun.rmi.runtime.Log;
-
 
 public class Logging {
 
 	public static enum MessageLevel {
 		InfoMessage, WarningMessage, ErrorMessage
 	}
+
 	public static enum Subsystems {
 		ARM, CLAW, DRIVETRAIN, INTAKE, CLIMBER, POWERDISTPANEL
 	}
 
+	private boolean writeLoggingGap = false;
 	private static final int MSG_QUEUE_DEPTH = 512;
 	private java.util.Timer executor;
 	private long period;
@@ -35,7 +34,7 @@ public class Logging {
 	public static DecimalFormat df4 = new DecimalFormat(".####");
 	public static DecimalFormat df3 = new DecimalFormat(".###");
 	private int counter;
-	
+
 	public Logging(long period, WorkQueue wq) {
 		this.period = period;
 		this.wq = wq;
@@ -46,70 +45,74 @@ public class Logging {
 		this.executor = new java.util.Timer();
 		this.executor.schedule(new ConsolePrintTask(wq, this), 0L, this.period);
 	}
-	private void printLog(String message) {
-		System.out.println(message);
-	}
-	public void traceSubsystem(Subsystems s, String message)
-	{
-		if(DriverStation.getInstance().isEnabled() && counter%5 == 0) {
-			int size = wq.size();
-			if (size < MSG_QUEUE_DEPTH)
-			{
-				try {
-					wq.append(df3.format(Timer.getFPGATimestamp()) + "\t" + s.name() + "\t" + message);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			else if (size == MSG_QUEUE_DEPTH)
-			{
-				try {
-					wq.append("LOGGING GAP!!!");
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			else
-			{
-				// we don't want to overflow the queue if logger is not reading fast enough...
-			}
-		}
-		counter++;
-	}
-	public void traceMessage(MessageLevel ml, String message)
-	{
-		int size = wq.size();
-		if (size < MSG_QUEUE_DEPTH)
-		{
-			try {
-				wq.append(df3.format(Timer.getFPGATimestamp()) + "\t" + ml.name() + "\t" + message);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		else if (size == MSG_QUEUE_DEPTH)
-		{
-			try {
-				wq.append("LOGGING GAP!!!");
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		else
-		{
-			// we don't want to overflow the queue if logger is not reading fast enough...
-		}
+
+	public void traceSubsystem(Subsystems s, double... vals) {
+		traceSubsystem(s, vals, (String[]) null);
 	}
 
+	public void traceSubsystem(Subsystems s, String... vals) {
+		traceSubsystem(s, (double[]) null, vals);
+	}
 
+	public void traceSubsystem(Subsystems s, String vals1[], double... vals2) {
+		traceSubsystem(s, vals2, vals1);
+	}
+
+	public void traceSubsystem(Subsystems s, double vals1[], String... vals2) {
+		if (DriverStation.getInstance().isEnabled() && counter % 5 == 0) {
+			final StringBuilder sb = new StringBuilder();
+			sb.append(df3.format(Timer.getFPGATimestamp()));
+			sb.append(",");
+			sb.append(s.name());
+			sb.append(",");
+			if (vals1 != null) {
+				for (final double v : vals1) {
+					sb.append(df5.format(v));
+					sb.append(",");
+				}
+			}
+			if (vals2 != null) {
+				for (final String v : vals2) {
+					sb.append("\"").append(v).append("\"");
+					sb.append(",");
+				}
+			}
+			traceMessage(sb);
+		}
+		counter += 1;
+	}
+
+	private void traceMessage(final StringBuilder sb) {
+		if (writeLoggingGap) {
+			if (wq.append("LOGGING GAP!!"))
+				writeLoggingGap = false;
+		}
+		if (!wq.append(sb.toString()))
+			writeLoggingGap = true;
+	}
+
+	public void traceMessage(MessageLevel ml, String message) {
+		final StringBuilder sb = new StringBuilder();
+		sb.append(df3.format(Timer.getFPGATimestamp()));
+		sb.append(",");
+		sb.append(ml.name());
+		sb.append(",");
+		sb.append("\"").append(message).append("\"");
+		traceMessage(sb);
+	}
+	
+	public void printHeadings()
+	{
+		traceSubsystem(Subsystems.DRIVETRAIN, Robot.drivetrain.drivetrianHeadings());
+		traceSubsystem(Subsystems.ARM, Robot.arm.armHeadings());
+		traceSubsystem(Subsystems.CLAW, Robot.claw.clawHeadings());
+		traceSubsystem(Subsystems.INTAKE, Robot.intake.intakeHeadings());
+	}
+	
 	private class ConsolePrintTask extends TimerTask {
 		PrintWriter log;
-		WorkQueue wq;
-		Logging l;
+		final WorkQueue wq;
+		final Logging l;
 
 		private ConsolePrintTask(WorkQueue wq, Logging l) {
 			this.l = l;
@@ -124,11 +127,13 @@ public class Logging {
 						System.out.println("Failed to create Log directory!");
 					}
 				}
-				Date date = new Date() ;
+				Date date = new Date();
 				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
 				dateFormat.setTimeZone(TimeZone.getTimeZone("EST5EDT"));
 				this.log = new PrintWriter("/home/lvuser/Logs/" + dateFormat.format(date) + "-Log.txt", "UTF-8");
-				log.println(FileHeading());
+				
+				printHeadings();
+				
 				log.flush();
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
@@ -139,23 +144,18 @@ public class Logging {
 			}
 		}
 
-		private String FileHeading()
-		{
-			return "Arm Position \t Extention Position";
+		private String FileHeading() {
+			return "";
 		}
 
 		public void print() {
-			String message;
 			// Log all events, we want this done also when the robot is disabled
-			int size = wq.size();
-			for (int i = 0 ; i < size ; i++)
-			{
-				try {
-					message = wq.getNext();
+			for (;;) {
+				final String message = wq.getNext();
+				if (message != null)
 					log.println(message);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
+				else
+					break;
 			}
 			log.flush();
 		}
