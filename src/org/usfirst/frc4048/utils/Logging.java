@@ -107,6 +107,7 @@ public class Logging {
 		traceSubsystem(Subsystems.ARM, Robot.arm.armHeadings());
 		traceSubsystem(Subsystems.CLAW, Robot.claw.clawHeadings());
 		traceSubsystem(Subsystems.INTAKE, Robot.intake.intakeHeadings());
+		traceSubsytem(Subsystems.POWERDISTPANEL, Robot.powerdistpanel.pdpHeadings());
 	}
 	
 	private class ConsolePrintTask extends TimerTask {
