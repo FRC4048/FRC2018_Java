@@ -214,7 +214,7 @@ public class RobotMap {
         
         pdp = new PowerDistributionPanel(0);
         
-        intakeArmMotor = new Spark(3);
+        intakeArmMotor = new Spark(4);
         intakeOpenLimit = new DigitalInput(10);
         intakeCloseLimit = new DigitalInput(11);
     }
