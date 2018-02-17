@@ -73,7 +73,7 @@ public class Arm extends Subsystem {
 	/*
 	 * All of these setpoints are used for the arm
 	 */
-	public static final double POS_MARGIN_VALUE = 5.0;
+	public static final double POT_MARGIN_VALUE = 5.0;
 	public static final double MATH_MARGIN_VALUE = 100.0;
 	public static final double HOME_SETPOINT = 0.0;
 	public static final double INTAKE_SETPOINT = 140.0;
@@ -216,19 +216,19 @@ public class Arm extends Subsystem {
     	double armPos = getArmPos();
     	switch (position) {
     	case Intake:
-			return armPos >= INTAKE_SETPOINT - POS_MARGIN_VALUE && armPos <= INTAKE_SETPOINT + POS_MARGIN_VALUE;	
+			return armPos >= INTAKE_SETPOINT - POT_MARGIN_VALUE && armPos <= INTAKE_SETPOINT + POT_MARGIN_VALUE;	
 		case Exchange:			
-			return armPos >= EXCHANGE_SETPOINT - POS_MARGIN_VALUE && armPos <= EXCHANGE_SETPOINT + POS_MARGIN_VALUE;	
+			return armPos >= EXCHANGE_SETPOINT - POT_MARGIN_VALUE && armPos <= EXCHANGE_SETPOINT + POT_MARGIN_VALUE;	
 		case Switch:
-			return armPos >= SWITCH_SETPOINT - POS_MARGIN_VALUE && armPos <= SWITCH_SETPOINT + POS_MARGIN_VALUE;
+			return armPos >= SWITCH_SETPOINT - POT_MARGIN_VALUE && armPos <= SWITCH_SETPOINT + POT_MARGIN_VALUE;
 		case LowScale:
-			return armPos >= LOWSCALE_SETPOINT - POS_MARGIN_VALUE && armPos <= LOWSCALE_SETPOINT + POS_MARGIN_VALUE;
+			return armPos >= LOWSCALE_SETPOINT - POT_MARGIN_VALUE && armPos <= LOWSCALE_SETPOINT + POT_MARGIN_VALUE;
 		case HighScale:
-			return armPos >= HIGHSCALE_SETPOINT - POS_MARGIN_VALUE && armPos <= HIGHSCALE_SETPOINT + POS_MARGIN_VALUE;
+			return armPos >= HIGHSCALE_SETPOINT - POT_MARGIN_VALUE && armPos <= HIGHSCALE_SETPOINT + POT_MARGIN_VALUE;
 		case Climb:
-			return armPos >= CLIMBER_SETPOINT - POS_MARGIN_VALUE && armPos <= CLIMBER_SETPOINT + POS_MARGIN_VALUE;
+			return armPos >= CLIMBER_SETPOINT - POT_MARGIN_VALUE && armPos <= CLIMBER_SETPOINT + POT_MARGIN_VALUE;
 		case Home:
-			return armPos >= HOME_SETPOINT - POS_MARGIN_VALUE && armPos <= HOME_SETPOINT + POS_MARGIN_VALUE;
+			return armPos >= HOME_SETPOINT - POT_MARGIN_VALUE && armPos <= HOME_SETPOINT + POT_MARGIN_VALUE;
 		default:
 			return false;
 		}
@@ -288,23 +288,36 @@ public class Arm extends Subsystem {
     	manualExtSetpoint = EXT_HOME_SETPOINT;
     }
     
+    public boolean extensionAtHome()
+    {
+    	double extension = getExtPos();
+    	return 	extension <= EXT_HOME_SETPOINT + POT_MARGIN_VALUE &&
+    			extension >= EXT_HOME_SETPOINT - POT_MARGIN_VALUE;
+    }
+    
     public void extensionToIntake()
     {
     	manualExtSetpoint = EXT_INTAKE_SETPOINT;
     }
     
-    public void extensionToClimb()
+    public boolean extensionAtIntake()
     {
-    	manualExtSetpoint = EXT_CLIMB_SETPOINT;
+    	double extension = getExtPos();
+    	return 	extension <= EXT_INTAKE_SETPOINT + POT_MARGIN_VALUE &&
+    			extension >= EXT_INTAKE_SETPOINT - POT_MARGIN_VALUE;
     }
+    
+//    public void extensionToClimb()
+//    {
+//    	manualExtSetpoint = EXT_CLIMB_SETPOINT;
+//    }
     
 	/**
 	 * Uses arm math to calculate new position for extension
 	 * This math only applies within the exchange and high scale positions
 	 */
 	private void moveExtension() {
-		double armPos = getArmPos();
-		if (armPos >= EXCHANGE_SETPOINT - MATH_MARGIN_VALUE && armPos <= HIGHSCALE_SETPOINT + MATH_MARGIN_VALUE) {
+		if (inAutoRange()) {
 			double angle = armMath.convertPotToAngle(ARM_POT_MIN, ARM_ANGLE_MIN, ARM_POT_MAX, ARM_ANGLE_MAX, getArmPos());
 			SmartDashboard.putNumber("ARM ANGLE", angle);
 			extSetpoint = armMath.convertArmAngleToExtPot(EXT_POT_MIN, EXT_LENGTH_MIN, EXT_POT_MAX, EXT_LENGTH_MAX, angle);
@@ -317,6 +330,12 @@ public class Arm extends Subsystem {
 		}
 	}
     
+	public boolean inAutoRange()
+	{
+		double armPos = getArmPos();
+		return armPos >= EXCHANGE_SETPOINT - MATH_MARGIN_VALUE && armPos <= HIGHSCALE_SETPOINT + MATH_MARGIN_VALUE;
+	}
+	
 	/**
 	 * Keeps arm locked to its current setpoint position
 	 */

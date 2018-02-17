@@ -25,6 +25,7 @@ import org.usfirst.frc4048.arm.*;
 import org.usfirst.frc4048.commands.arm.ResetClawGyro;
 import org.usfirst.frc4048.commands.arm.SetClawPosition;
 import org.usfirst.frc4048.commands.auto.AutoAction;
+import org.usfirst.frc4048.commands.getcube.GetCubeGroupCommand;
 import org.usfirst.frc4048.commands.intake.*;
 import org.usfirst.frc4048.subsystems.*;
 import org.usfirst.frc4048.subsystems.Arm.ArmPositions;

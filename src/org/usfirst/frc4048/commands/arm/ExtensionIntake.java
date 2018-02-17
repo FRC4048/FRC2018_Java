@@ -9,17 +9,17 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class ClimbRetractExtension extends Command {
+public class ExtensionIntake extends Command {
 
 	GroupCommandCallback callback;
 	
-    public ClimbRetractExtension() {
+    public ExtensionIntake() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	this(GroupCommandCallback.NONE);
     }
     
-    public ClimbRetractExtension(GroupCommandCallback callback) {
+    public ExtensionIntake(GroupCommandCallback callback) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.arm);
@@ -33,15 +33,15 @@ public class ClimbRetractExtension extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if(Robot.arm.getExtPos() > Arm.EXT_HOME_SETPOINT + Arm.POS_MARGIN_VALUE)
+    	if(!Robot.arm.extensionAtIntake())
     	{
-    		Robot.arm.extensionToHome();
+    		Robot.arm.extensionToIntake();
     	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return Robot.arm.getExtPos() <= Arm.HOME_SETPOINT + Arm.POS_MARGIN_VALUE || isTimedOut();
+        return Robot.arm.extensionAtHome() || isTimedOut();
     }
 
     // Called once after isFinished returns true
@@ -52,6 +52,6 @@ public class ClimbRetractExtension extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-
+    	callback.doCancel(true);
     }
 }
