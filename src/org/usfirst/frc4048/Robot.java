@@ -20,10 +20,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import java.time.temporal.IsoFields;
 import org.usfirst.frc4048.commands.*;
+import org.usfirst.frc4048.commands.arm.*;
+import org.usfirst.frc4048.arm.*;
 import org.usfirst.frc4048.commands.arm.ResetClawGyro;
 import org.usfirst.frc4048.commands.arm.SetClawPosition;
 import org.usfirst.frc4048.commands.auto.AutoAction;
+import org.usfirst.frc4048.commands.intake.*;
 import org.usfirst.frc4048.subsystems.*;
+import org.usfirst.frc4048.subsystems.Arm.ArmPositions;
 import org.usfirst.frc4048.subsystems.Drivetrain.SonarSide;
 import org.usfirst.frc4048.subsystems.Claw.WristPostion;
 import org.usfirst.frc4048.commands.auto.Action;
@@ -54,6 +58,8 @@ public class Robot extends TimedRobot {
 
     //use this to see the debug commands and values for smart dashboard
     public Boolean enableDebug = false;
+    public Boolean enableTesting= true;
+  
     Action autoAction;
     Action oldAutoAction;
     /**
@@ -225,6 +231,28 @@ public class Robot extends TimedRobot {
             SmartDashboard.putNumber("Claw Gyro", Robot.claw.getGyroVal());
             SmartDashboard.putNumber("Pitch Motor Val", RobotMap.clawpitchMotor.getMotorOutputPercent());
         	//SmartDashboard.putNumber("Right Sonar Distance", Robot.drivetrain.getSonar(SonarSide.RIGHT));
+    	}
+    	if (enableTesting) {
+    		
+    		SmartDashboard.putData("Drive Command", new Drive());
+    		//SmartDashboard.putData("Reset drive encoder", Robot.drivetrain.resetDriveEncoder());
+    		SmartDashboard.putData("Get Cube Command", new GetCubeGroupCommand());
+    		SmartDashboard.putData("Reset Quad Encoders", new ReconfigEncoders());
+    		SmartDashboard.putData("Rotate Angle", new RotateAngle(90));//Rotates robot by 90 degrees
+    		SmartDashboard.putData("Toggle Drive Mode", new ToggleMode());
+    		SmartDashboard.putData("grab Cube", new GrabCube());
+    		SmartDashboard.putData("Move Arm", new MoveArm(ArmPositions.Intake));//Sets Arm position to Intake position
+    		SmartDashboard.putData("Lower Arm to Cube", new LowerArmToCube());
+    		SmartDashboard.putData("Move Claw", new MoveClaw());
+    		SmartDashboard.putData("Open Claw", new OpenClaw());
+    		SmartDashboard.putData("Reset Claw Gyro", new ResetClawGyro());
+    		SmartDashboard.putData("Set Claw Position", new SetClawPosition(Claw.WristPostion.Level));//Sets claw position to level
+    		SmartDashboard.putData("Flush Cube", new FlushCube());
+    		SmartDashboard.putData("Lower intake", new LowerIntake());
+    		SmartDashboard.putData("Raise Intake", new RaiseIntake());
+    		SmartDashboard.putData("Toggle Intake", new ToggleIntake());
+    		
+    		
     	}
     	SmartDashboard.putString("Action for Auto", autoAction.toString());
     	SmartDashboard.putNumber("Claw Gyro Value", Robot.claw.getGyroVal());
