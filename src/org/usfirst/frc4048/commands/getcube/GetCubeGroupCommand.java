@@ -6,9 +6,11 @@ import org.usfirst.frc4048.commands.arm.LowerArmToCube;
 import org.usfirst.frc4048.commands.arm.MoveArm;
 import org.usfirst.frc4048.commands.arm.OpenClaw;
 import org.usfirst.frc4048.commands.arm.SetClawPositionAndWait;
+import org.usfirst.frc4048.commands.intake.GripIntake;
 import org.usfirst.frc4048.commands.intake.IntakeCube;
 import org.usfirst.frc4048.commands.intake.LowerIntake;
 import org.usfirst.frc4048.commands.intake.RaiseIntake;
+import org.usfirst.frc4048.commands.intake.GripIntake.GripPosition;
 import org.usfirst.frc4048.subsystems.Arm.ArmPositions;
 import org.usfirst.frc4048.subsystems.Claw;
 
@@ -30,12 +32,14 @@ public class GetCubeGroupCommand extends CommandGroup implements GroupCommandCal
 		addSequential(new OpenClaw(this));
 		addSequential(new SetClawPositionAndWait(this, Claw.WristPostion.Level));
 		addSequential(new MoveArm(this, ArmPositions.Intake));
-		addSequential(new LowerArmToCube(this));
+		addParallel(new LowerArmToCube(this));
+		addSequential(new GripIntake(this, GripPosition.Open));
 		addSequential(new GrabCube(this));
 
 		addSequential(new SetClawPositionAndWait(this, Claw.WristPostion.Compact));
+		addSequential(new GripIntake(this, GripPosition.Close));
 		// TODO -- need to do a retract and go to home instead of switch?
-		addSequential(new MoveArm(this, ArmPositions.Switch));
+		addSequential(new MoveArm(this, ArmPositions.Home));
 		addSequential(new RaiseIntake(this));
 	}
 
