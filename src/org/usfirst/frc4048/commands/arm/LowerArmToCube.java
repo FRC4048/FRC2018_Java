@@ -25,7 +25,6 @@ public class LowerArmToCube extends Command {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.arm);
-    	requires(Robot.claw);
     	this.callback = callback;
     }
 
@@ -47,7 +46,8 @@ public class LowerArmToCube extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	callback.doCancel(isTimedOut() || util.isStalled());
+    	//TODO Is stalling needed for canceling?
+    	callback.doCancel(isTimedOut());// || util.isStalled());
     	Robot.arm.stopArm();
     }
 
