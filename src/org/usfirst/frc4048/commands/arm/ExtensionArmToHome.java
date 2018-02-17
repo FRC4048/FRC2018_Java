@@ -19,8 +19,7 @@ public class ExtensionArmToHome extends CommandGroup implements GroupCommandCall
 	public ExtensionArmToHome()
 	{
 		this.realCallback = this;
-		addSequential(new ExtensionHome(this));
-    	addSequential(new MoveArm(this, ArmPositions.Home));
+		addSteps();
 	}
 	
     public ExtensionArmToHome(GroupCommandCallback callback) {
@@ -42,6 +41,11 @@ public class ExtensionArmToHome extends CommandGroup implements GroupCommandCall
         // arm.
     	
     	this.realCallback = callback;
+    	addSteps();
+    }
+    
+    private void addSteps()
+    {
     	addSequential(new ExtensionHome(this));
     	addSequential(new MoveArm(this, ArmPositions.Home));
     }

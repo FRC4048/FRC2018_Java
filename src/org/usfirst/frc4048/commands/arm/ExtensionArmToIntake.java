@@ -17,8 +17,7 @@ public class ExtensionArmToIntake extends CommandGroup implements GroupCommandCa
 	public ExtensionArmToIntake()
 	{
 		this.realCallback = this;
-		addParallel(new MoveArm(this.realCallback, ArmPositions.Intake));
-    	addSequential(new ExtensionIntake(this.realCallback));
+		addSteps();
 	}
     
 	public ExtensionArmToIntake(GroupCommandCallback callback) {
@@ -39,10 +38,14 @@ public class ExtensionArmToIntake extends CommandGroup implements GroupCommandCa
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     	this.realCallback = callback;
-    	addParallel(new MoveArm(this.realCallback, ArmPositions.Intake));
-    	addSequential(new ExtensionIntake(this.realCallback));
+    	addSteps();
     }
     
+	private void addSteps()
+	{
+		addParallel(new MoveArm(this.realCallback, ArmPositions.Intake));
+    	addSequential(new ExtensionIntake(this.realCallback));
+	}
 	
     @Override
 	public void doCancel(final boolean flag) {

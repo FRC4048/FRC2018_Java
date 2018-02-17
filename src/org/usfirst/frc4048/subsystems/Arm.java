@@ -17,6 +17,7 @@ import org.usfirst.frc4048.arm.math.ArmStrat;
 import org.usfirst.frc4048.arm.math.LinearMoveStrat;
 import org.usfirst.frc4048.commands.*;
 import org.usfirst.frc4048.commands.arm.ArmFinetune;
+import org.usfirst.frc4048.commands.arm.ArmFinetuneManual;
 import org.usfirst.frc4048.*;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -74,20 +75,31 @@ public class Arm extends Subsystem {
 	 * All of these setpoints are used for the arm
 	 */
 	public static final double POT_MARGIN_VALUE = 5.0;
-	public static final double MATH_MARGIN_VALUE = 100.0;
+	public static final double CRITICAL_MARGIN_VALUE = 15.0;
 	public static final double HOME_SETPOINT = 0.0;
-	public static final double INTAKE_SETPOINT = 140.0;
-	public static final double EXCHANGE_SETPOINT = 180.0;
-	public static final double SWITCH_SETPOINT = 320.0;
-	public static final double LOWSCALE_SETPOINT = 550.0;
-	public static final double HIGHSCALE_SETPOINT = 780.0;
-	public static final double CLIMBER_SETPOINT = 1010;
+	public static final double INTAKE_SETPOINT = 14.0;
+	public static final double EXCHANGE_SETPOINT = 40.0;
+	public static final double SWITCH_SETPOINT = 80.0;
+	public static final double LOWSCALE_SETPOINT = 140.0;
+	public static final double HIGHSCALE_SETPOINT = 145.0;
+//	public static final double POT_MARGIN_VALUE = 5.0;
+//	public static final double MATH_MARGIN_VALUE = 100.0;
+//	public static final double HOME_SETPOINT = 0.0;
+//	public static final double INTAKE_SETPOINT = 140.0;
+//	public static final double EXCHANGE_SETPOINT = 180.0;
+//	public static final double SWITCH_SETPOINT = 320.0;
+//	public static final double LOWSCALE_SETPOINT = 550.0;
+//	public static final double HIGHSCALE_SETPOINT = 780.0;
+//	public static final double CLIMBER_SETPOINT = 1010;
 	/*
 	 * All of these setpoints are used for the extension
 	 */
 	public static final double EXT_HOME_SETPOINT = 0.0;
 	public static final double EXT_INTAKE_SETPOINT = 450.0;
 	public static final double EXT_CLIMB_SETPOINT = 1020;
+//	public static final double EXT_HOME_SETPOINT = 0.0;
+//	public static final double EXT_INTAKE_SETPOINT = 450.0;
+//	public static final double EXT_CLIMB_SETPOINT = 1020;
 	/*
 	 * All of these values are used for the extension math
 	 */
@@ -101,9 +113,11 @@ public class Arm extends Subsystem {
 	private final double EXT_LENGTH_MAX = 16.0;
 	
     private double armSetpoint;
+    private double armAngle;
     private double manualExtSetpoint;
+    private double extLength;
     private ArmMath armMath = new ArmMath();
-//    private boolean autoExtension = true;
+
 //  private PIDController armController = new PIDController(ARM_P, ARM_I, ARM_D, rotationPot, movementMotor);
 //	private PIDController extController = new PIDController(EXT_P, EXT_I, EXT_D, extensionPot, extensionMotor);
 	
@@ -151,7 +165,11 @@ public class Arm extends Subsystem {
 
         // Set the default command for a subsystem here.
         // setDefaultCommand(new MySpecialCommand());
-    	setDefaultCommand(new ArmFinetune());
+    	
+    	//TODO Change this to automatic when tested
+//    	setDefaultCommand(new ArmFinetune());
+    	setDefaultCommand(new ArmFinetuneManual());
+    	
     }
 
     @Override
@@ -183,6 +201,16 @@ public class Arm extends Subsystem {
     {
     	armSetpoint -= FINETUNE_RATE;
     }
+
+    public void finetuneDownManual()
+    {
+    	movementMotor.set(ControlMode.PercentOutput, 0.2);
+    }
+    
+    public void finetuneUpManual()
+    {
+    	movementMotor.set(ControlMode.PercentOutput, -0.2);
+    }
     
     public void stopArm()
     {
@@ -192,7 +220,7 @@ public class Arm extends Subsystem {
     
 	//TODO Confirm if value is negative on real robot
 	public int getArmPos() {
-		return -movementMotor.getSelectedSensorPosition(0);
+		return movementMotor.getSelectedSensorPosition(0);
 	}
 
 	public int getExtPos() {
@@ -337,7 +365,7 @@ public class Arm extends Subsystem {
 	public boolean inAutoRange()
 	{
 		double armPos = getArmPos();
-		return armPos >= EXCHANGE_SETPOINT - MATH_MARGIN_VALUE && armPos <= HIGHSCALE_SETPOINT + MATH_MARGIN_VALUE;
+		return armPos >= EXCHANGE_SETPOINT - CRITICAL_MARGIN_VALUE && armPos <= HIGHSCALE_SETPOINT + CRITICAL_MARGIN_VALUE;
 	}
 	
 	/**
@@ -345,8 +373,5 @@ public class Arm extends Subsystem {
 	 */
 	private void moveArm() {
 		 movementMotor.set(ControlMode.Position, (int) armSetpoint);
-
-		// Used for software pid
-//		armController.setSetpoint(armSetpoint);
 	}
 }

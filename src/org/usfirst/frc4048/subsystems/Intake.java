@@ -44,7 +44,7 @@ public class Intake extends Subsystem {
     private final double RAISE_SPEED =  0.3*Robot.GLOBAL_SCALE_FACTOR;
     private final double LOWER_SPEED = -0.15*Robot.GLOBAL_SCALE_FACTOR;
     private final DigitalInput closeLimit = RobotMap.intakeCloseLimit;
-    private final DigitalInput openLimit = RobotMap.intakeOpenLimit
+    private final DigitalInput openLimit = RobotMap.intakeOpenLimit;
     
     private final double CLOSE_SPEED = -0.05*Robot.GLOBAL_SCALE_FACTOR;
     private final double OPEN_SPEED = 0.05*Robot.GLOBAL_SCALE_FACTOR;
