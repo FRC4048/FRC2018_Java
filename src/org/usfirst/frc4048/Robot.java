@@ -90,7 +90,6 @@ public class Robot extends TimedRobot {
         WorkQueue wq = new WorkQueue(512);
         logging = new Logging(100, wq);
 		logging.startThread(); //Starts the logger
-		drivetrain.drivetrianHeadings();
 		
         chooser.addDefault("Autorun(cross the base line)", Action.Baseline);
         chooser.addObject("Robot on LEFT, do SWITCH", Action.LSwitch);

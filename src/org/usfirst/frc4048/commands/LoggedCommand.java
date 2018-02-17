@@ -1,5 +1,8 @@
 package org.usfirst.frc4048.commands;
 
+import org.usfirst.frc4048.Robot;
+import org.usfirst.frc4048.utils.Logging.MessageLevel;
+
 import edu.wpi.first.wpilibj.command.Command;
 
 abstract public class LoggedCommand extends Command {
@@ -11,14 +14,14 @@ abstract public class LoggedCommand extends Command {
 
 	private void log(final String text) {
 		final String logEntry = this.getClass().getSimpleName() + " " + ident + " " + text;
-		System.out.println(logEntry);
+		Robot.logging.traceMessage(MessageLevel.InfoMessage,logEntry);
 	}
 
 	@Override
 	final protected boolean isFinished() {
 		final boolean result = loggedIsFinished();
 		if (result)
-			log(String.format("isFinished() == %d", result ? 1 : 0));
+			log(String.format("isFinished()"));
 		return result;
 	}
 
@@ -30,7 +33,7 @@ abstract public class LoggedCommand extends Command {
 		loggedInitialize();
 	}
 
-	abstract protected boolean loggedInitialize();
+	abstract protected void loggedInitialize();
 
 	@Override
 	final protected void execute() {
@@ -60,7 +63,7 @@ abstract public class LoggedCommand extends Command {
 	final protected synchronized boolean isTimedOut() {
 		final boolean result = super.isTimedOut();
 		if (result)
-			log(String.format("isTimedOut() == %d", result ? 1 : 0));
+			log(String.format("isTimedOut()"));
 		return result;
 	}
 
