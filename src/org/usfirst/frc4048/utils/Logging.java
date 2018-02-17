@@ -24,7 +24,7 @@ public class Logging {
 		InfoMessage, WarningMessage, ErrorMessage
 	}
 	public static enum Subsystems {
-		ARM, CLAW, DRIVETRAIN, INTAKE, CLIMBER
+		ARM, CLAW, DRIVETRAIN, INTAKE, CLIMBER, POWERDISTPANEL
 	}
 
 	private static final int MSG_QUEUE_DEPTH = 512;
