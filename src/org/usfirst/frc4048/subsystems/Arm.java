@@ -115,6 +115,8 @@ public class Arm extends Subsystem {
 		extensionMotor.selectProfileSlot(0, 0);
 		extensionMotor.configNominalOutputForward(0, TIMEOUT);
 		extensionMotor.configNominalOutputReverse(0, TIMEOUT);
+		extensionMotor.configPeakOutputForward(Robot.GLOBAL_SCALE_FACTOR, TIMEOUT);
+		extensionMotor.configPeakOutputReverse(Robot.GLOBAL_SCALE_FACTOR, TIMEOUT);
 		extensionMotor.setNeutralMode(NeutralMode.Brake);
 		extensionMotor.configAllowableClosedloopError(0, 4, TIMEOUT);
 		extensionMotor.config_kP(0, EXT_P, TIMEOUT);
@@ -125,6 +127,8 @@ public class Arm extends Subsystem {
 		movementMotor.selectProfileSlot(0, 0);
 		movementMotor.configNominalOutputForward(0, TIMEOUT);
 		movementMotor.configNominalOutputReverse(0, TIMEOUT);
+		movementMotor.configPeakOutputForward(Robot.GLOBAL_SCALE_FACTOR, TIMEOUT);
+		movementMotor.configPeakOutputReverse(Robot.GLOBAL_SCALE_FACTOR, TIMEOUT);
 		movementMotor.setNeutralMode(NeutralMode.Brake);
 		movementMotor.configAllowableClosedloopError(0, 4, TIMEOUT);
 		movementMotor.config_kP(0, ARM_P, TIMEOUT);
