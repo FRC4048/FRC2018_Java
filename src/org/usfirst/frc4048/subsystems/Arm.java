@@ -101,7 +101,6 @@ public class Arm extends Subsystem {
 	private final double EXT_LENGTH_MAX = 16.0;
 	
     private double armSetpoint;
-    private double extSetpoint;
     private double manualExtSetpoint;
     private ArmMath armMath = new ArmMath();
 //    private boolean autoExtension = true;
@@ -132,6 +131,7 @@ public class Arm extends Subsystem {
 		movementMotor.config_kD(0, ARM_D, TIMEOUT);
 		
 		armSetpoint = HOME_SETPOINT;
+		extensionToHome();
 		
 		// Used for test bed
 //		armController.enable();
@@ -320,7 +320,7 @@ public class Arm extends Subsystem {
 		if (inAutoRange()) {
 			double angle = armMath.convertPotToAngle(ARM_POT_MIN, ARM_ANGLE_MIN, ARM_POT_MAX, ARM_ANGLE_MAX, getArmPos());
 			SmartDashboard.putNumber("ARM ANGLE", angle);
-			extSetpoint = armMath.convertArmAngleToExtPot(EXT_POT_MIN, EXT_LENGTH_MIN, EXT_POT_MAX, EXT_LENGTH_MAX, angle);
+			double extSetpoint = armMath.convertArmAngleToExtPot(EXT_POT_MIN, EXT_LENGTH_MIN, EXT_POT_MAX, EXT_LENGTH_MAX, angle);
 			SmartDashboard.putNumber("EXTENSION SETPOINT", extSetpoint);
 			extensionMotor.set(ControlMode.Position, (int) extSetpoint);
 		}
