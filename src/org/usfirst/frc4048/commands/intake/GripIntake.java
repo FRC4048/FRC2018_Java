@@ -1,58 +1,70 @@
-package org.usfirst.frc4048.commands.arm;
+package org.usfirst.frc4048.commands.intake;
 
 import org.usfirst.frc4048.Robot;
-import org.usfirst.frc4048.RobotMap;
 import org.usfirst.frc4048.commands.GroupCommandCallback;
-import org.usfirst.frc4048.utils.MotorUtils;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class OpenClaw extends Command {
+public class GripIntake extends Command {
+
+	private GroupCommandCallback callback;
 	
-	private final GroupCommandCallback callback;
-	private final MotorUtils util = new MotorUtils(RobotMap.PDP_GRIP_MOTOR, RobotMap.CURRENT_THRESHOLD_GRIP_MOTOR);
+	private GripPosition state;
 	
-	public OpenClaw() {
-		this(GroupCommandCallback.NONE);
+	public enum GripPosition {
+		Open,
+		Close
 	}
 	
-    public OpenClaw(final GroupCommandCallback callback) {
-    	this.callback = callback;
+    public GripIntake(GripPosition state) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.claw);
+    	this(GroupCommandCallback.NONE, state);
+    }
+    
+    public GripIntake(GroupCommandCallback callback, GripPosition state) {
+    	requires(Robot.intake);
+		this.callback = callback;
+		this.state = state;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	setTimeout(2.0);
+    	setTimeout(3.0);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	//TODO Should it detect cube?
-    	if(!Robot.claw.gripOpen() && !isTimedOut() && !util.isStalled())
-    		Robot.claw.openClaw();
+    	switch (this.state) {
+		case Open:
+			Robot.intake.openIntake();
+			break;
+			
+		case Close:
+			Robot.intake.closeIntake();
+			break;
+		}
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return Robot.claw.gripOpen() || isTimedOut() || util.isStalled();
+        return isTimedOut() || (Robot.intake.intakeOpen() && state == GripPosition.Open)
+        					|| (Robot.intake.intakeClose() && state == GripPosition.Close);
     }
 
     // Called once after isFinished returns true
     protected void end() {
     	callback.doCancel(isTimedOut());
-    	Robot.claw.stopGrip();
+    	Robot.intake.stopIntake();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	Robot.intake.stopIntake();
     	callback.doCancel(true);
-    	Robot.claw.stopGrip();
     }
 }

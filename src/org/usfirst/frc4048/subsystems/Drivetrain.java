@@ -238,6 +238,8 @@ public class Drivetrain extends Subsystem {
 		encoder.setDistancePerPulse(RobotMap.SWERVE_DRIVE_ENCODER_DISTANCE_PER_TICK);
     }
     
+    
+    
     @SuppressWarnings("unused")
 	private void setGyro(double angle)
     {
@@ -296,8 +298,6 @@ public class Drivetrain extends Subsystem {
     	if(rcw <= RIGHT_JOY_X_MAX_DEADZONE && rcw >= RIGHT_JOY_X_MIN_DEADZONE)
     		rcw = 0.0;
     
-    	
-    	
     	swerveDrivetrain.move(fwd, str, rcw, getGyro());
     }
     
@@ -320,7 +320,5 @@ public class Drivetrain extends Subsystem {
     {
     	swerveDrivetrain.stop();
     }
-    
-   
 }
 

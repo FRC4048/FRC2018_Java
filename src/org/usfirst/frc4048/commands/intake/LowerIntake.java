@@ -1,7 +1,9 @@
 package org.usfirst.frc4048.commands.intake;
 
 import org.usfirst.frc4048.Robot;
+import org.usfirst.frc4048.RobotMap;
 import org.usfirst.frc4048.commands.GroupCommandCallback;
+import org.usfirst.frc4048.utils.MotorUtils;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
@@ -12,7 +14,8 @@ import edu.wpi.first.wpilibj.command.Command;
 public class LowerIntake extends Command {
 	private static final boolean DEBUG = false;
 	private final GroupCommandCallback callback;
-
+	private final MotorUtils util = new MotorUtils(RobotMap.PDP_INTAKE_DEPLOY_MOTOR, RobotMap.CURRENT_THRESHOLD_INTAKE_DEPLOY_MOTOR);
+	
     public LowerIntake() {
     	this(GroupCommandCallback.NONE);
     }
@@ -37,7 +40,7 @@ public class LowerIntake extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return !Robot.intake.isLowered() || isTimedOut();
+        return !Robot.intake.isLowered() || isTimedOut() || util.isStalled();
     }
 
     // Called once after isFinished returns true

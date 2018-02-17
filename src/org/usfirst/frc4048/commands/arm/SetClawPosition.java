@@ -17,7 +17,7 @@ public class SetClawPosition extends Command {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	
-    	requires(Robot.claw);
+    	//Does not require a subsystem because the default command would be cancelled
     	
     	this.position = position;
     }
@@ -29,7 +29,7 @@ public class SetClawPosition extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.claw.setPosition(position);
+    	
     }
 
     // Make this return true when this Command no longer needs to run execute()

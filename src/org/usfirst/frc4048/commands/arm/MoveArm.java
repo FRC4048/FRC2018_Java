@@ -13,8 +13,9 @@ import org.usfirst.frc4048.commands.GroupCommandCallback;
  *
  */
 public class MoveArm extends Command {
+	
 	private final GroupCommandCallback callback;
-	ArmPositions position; 
+	private final ArmPositions position; 
 		
     public MoveArm(final ArmPositions position) {
     	this(GroupCommandCallback.NONE, position);
@@ -31,7 +32,7 @@ public class MoveArm extends Command {
     
 	// Called just before this Command runs the first time
     protected void initialize() {
-    	setTimeout(3.0);
+    	setTimeout(6.0);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -39,16 +40,25 @@ public class MoveArm extends Command {
 		if(position == ArmPositions.Home)
 		{
 			Robot.arm.extensionToHome();
+			if(Robot.arm.getExtPos() <= Arm.EXT_HOME_SETPOINT + Arm.POS_MARGIN_VALUE)
+			{
+				Robot.arm.moveToPos(position);
+			}
 		}
 		else if(position == ArmPositions.Climb)
 		{
 			Robot.arm.extensionToClimb();
+			Robot.arm.moveToPos(position);
 		}
 		else if(position == Arm.ArmPositions.Intake)
 		{
 			Robot.arm.extensionToIntake();
+			Robot.arm.moveToPos(position);
 		}
-		Robot.arm.moveToPos(position);
+		else
+		{
+			Robot.arm.moveToPos(position);
+		}
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -66,5 +76,6 @@ public class MoveArm extends Command {
     // subsystems is scheduled to run
     protected void interrupted() {
     	Robot.arm.stopArm();
+    	callback.doCancel(true);
     }
 }
