@@ -55,5 +55,6 @@ public class MoveArm extends Command {
     // subsystems is scheduled to run
     protected void interrupted() {
     	Robot.arm.stopArm();
+    	callback.doCancel(true);
     }
 }

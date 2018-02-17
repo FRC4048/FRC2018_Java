@@ -55,5 +55,6 @@ public class LowerArmToCube extends Command {
     // subsystems is scheduled to run
     protected void interrupted() {
     	Robot.arm.stopArm();
+    	callback.doCancel(true);
     }
 }
