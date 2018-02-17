@@ -78,7 +78,7 @@ public class Robot extends TimedRobot {
         // pointers. Bad news. Don't move it.
         oi = new OI();
         
-        WorkQueue wq = new WorkQueue();
+        WorkQueue wq = new WorkQueue(512);
         logging = new Logging(100, wq);
 		logging.startThread(); //Starts the logger
         
