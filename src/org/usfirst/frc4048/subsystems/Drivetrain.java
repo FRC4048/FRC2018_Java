@@ -162,12 +162,12 @@ public class Drivetrain extends Subsystem {
     @Override
     public void periodic() {
         // Put code here to be run every loop
-    	Robot.logging.traceSubsystem(Logging.Subsystems.DRIVETRAIN, "LSonarV \t LSonarD");//header
-    	Robot.logging.traceSubsystem(Logging.Subsystems.DRIVETRAIN, Logging.df5.format(leftSonar.getVoltage()) + "\t" + "\t" +
-    								 Logging.df3.format(getSonar(SonarSide.LEFT)));//value
-    	
+    	Robot.logging.traceSubsystem(Logging.Subsystems.DRIVETRAIN, leftSonar.getVoltage(),
+        							 getSonar(SonarSide.LEFT));
     }
+    
 
+    
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
     public void init() {
@@ -306,15 +306,16 @@ public class Drivetrain extends Subsystem {
     	
     	if(side == SonarSide.LEFT)
     		return(leftSonar.getVoltage()*MB1023_SCALE_FACTOR);
-    		//return (5* (leftSonar.getVoltage() / SCALE_FACTOR)*40); //Distance in inches
 //    	else if(side == SonarSide.RIGHT)
     		//return(rightSonar.getVoltage()*MB1023_SCALE_FACTOR);
-//    		return (5* (rightSonar.getVoltage() / SCALE_FACTOR)*40); //Distance in inches
     	else 
     		return 0;
     }
     
-    
+    //This is for putting the Drivetrain headings to the log
+    public String drivetrianHeadings() {
+    	return "LeftSonarVoltage,LeftSonarDistance";
+    }
     
     public void stop()
     {
