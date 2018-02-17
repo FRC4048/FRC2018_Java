@@ -41,7 +41,7 @@ public class GetCubeGroupCommand extends CommandGroup implements GroupCommandCal
 		addSequential(new SetClawPositionAndWait(this, Claw.WristPostion.Compact));
 		addSequential(new GripIntake(this, GripPosition.Close));
 		// TODO -- need to do a retract and go to home instead of switch?
-		addSequential(new ExtensionArmToHome(this));
+		addSequential(new MoveArm(this, ArmPositions.Switch));
 		addSequential(new RaiseIntake(this));
 	}
 
