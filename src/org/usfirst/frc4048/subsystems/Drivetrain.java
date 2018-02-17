@@ -11,11 +11,13 @@
 
 package org.usfirst.frc4048.subsystems;
 
+import org.usfirst.frc4048.Robot;
 import org.usfirst.frc4048.RobotMap;
 import org.usfirst.frc4048.commands.*;
 import org.usfirst.frc4048.swerve.drive.CanTalonSwerveEnclosure;
 import org.usfirst.frc4048.swerve.drive.SwerveDrive;
 import org.usfirst.frc4048.swerve.math.CentricMode;
+import org.usfirst.frc4048.utils.Logging;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
@@ -160,7 +162,10 @@ public class Drivetrain extends Subsystem {
     @Override
     public void periodic() {
         // Put code here to be run every loop
-
+    	Robot.logging.traceSubsystem(Logging.Subsystems.DRIVETRAIN, "LSonarV \t LSonarD");//header
+    	Robot.logging.traceSubsystem(Logging.Subsystems.DRIVETRAIN, Logging.df5.format(leftSonar.getVoltage()) + "\t" + "\t" +
+    								 Logging.df3.format(getSonar(SonarSide.LEFT)));//value
+    	
     }
 
     // Put methods for controlling this subsystem
@@ -308,6 +313,8 @@ public class Drivetrain extends Subsystem {
     	else 
     		return 0;
     }
+    
+    
     
     public void stop()
     {
