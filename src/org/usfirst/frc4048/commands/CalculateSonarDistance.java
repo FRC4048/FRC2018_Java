@@ -70,7 +70,7 @@ public class CalculateSonarDistance extends Command {
 			System.out.println(Arrays.toString(sonarArray));
 			if(sonarArray[3] < 8 || Math.abs(sonarArray[3]-distance) > MAX_ADJUST) 
 			{
-				Robot.drivetrain.globalDriveDirSpeed = 0;
+				Robot.drivetrain.globalDriveDistance = 0;
 				Robot.drivetrain.globalDriveDirSpeed = 0;
 			}
 			else 
