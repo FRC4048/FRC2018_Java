@@ -71,7 +71,7 @@ public class RobotMap {
     public static AnalogInput leftSonarPort;
     //public static AnalogInput rightSonarPort;
     
-    public static SpeedController intakeArmMotor;
+    public static SpeedController intakeGripMotor;
     public static DigitalInput intakeOpenLimit;
     public static DigitalInput intakeCloseLimit;
     
@@ -214,7 +214,8 @@ public class RobotMap {
         
         pdp = new PowerDistributionPanel(0);
         
-        intakeArmMotor = new Spark(4);
+        intakeGripMotor = new Spark(4);
+        
         intakeOpenLimit = new DigitalInput(10);
         intakeCloseLimit = new DigitalInput(11);
     }
