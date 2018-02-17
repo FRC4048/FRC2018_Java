@@ -63,6 +63,9 @@ public class Robot extends TimedRobot {
   
     Action autoAction;
     Action oldAutoAction;
+    
+    public static double GLOBAL_SCALE_FACTOR = 0.1;
+    
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -110,6 +113,7 @@ public class Robot extends TimedRobot {
         SmartDashboard.putData("Move Claw to Compact", new SetClawPosition(WristPostion.Compact));
         SmartDashboard.putData("Move Claw to Level", new SetClawPosition(WristPostion.Level));
         SmartDashboard.putData("Reset Claw Gyro", new ResetClawGyro());
+        SmartDashboard.putNumber("Global Scale Factor", GLOBAL_SCALE_FACTOR);
     }
 
     /**
@@ -135,6 +139,7 @@ public class Robot extends TimedRobot {
         }
     	
     	dashboardData();
+    	//GLOBAL_SCALE_FACTOR = SmartDashboard.getNumber("Global Scale Factor", 0.0);
         //SmartDashboard.putNumber("JoyStick Left X", oi.getLeftJoystick().getX());
         //SmartDashboard.putNumber("JoyStick Left Y", oi.getLeftJoystick().getY());
         //SmartDashboard.putNumber("JoyStick Right X", oi.getRightJoystick().getX());
