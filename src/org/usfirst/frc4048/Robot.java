@@ -35,8 +35,6 @@ import org.usfirst.frc4048.swerve.math.*;
 import org.usfirst.frc4048.utils.Logging;
 import org.usfirst.frc4048.utils.WorkQueue;
 
-import com.sun.rowset.providers.RIOptimisticProvider;
-
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the TimedRobot
@@ -140,7 +138,7 @@ public class Robot extends TimedRobot {
         }
     	
     	dashboardData();
-    	GLOBAL_SCALE_FACTOR = SmartDashboard.getNumber("Global Scale Factor", 0.0);
+    	//GLOBAL_SCALE_FACTOR = SmartDashboard.getNumber("Global Scale Factor", 0.0);
         //SmartDashboard.putNumber("JoyStick Left X", oi.getLeftJoystick().getX());
         //SmartDashboard.putNumber("JoyStick Left Y", oi.getLeftJoystick().getY());
         //SmartDashboard.putNumber("JoyStick Right X", oi.getRightJoystick().getX());
@@ -217,9 +215,6 @@ public class Robot extends TimedRobot {
         Scheduler.getInstance().run();
         dashboardData();
 //        Robot.drivetrain.outputAbsEncValues();
-        SmartDashboard.putNumber("Inputted Global Scale Factor", GLOBAL_SCALE_FACTOR);
-        SmartDashboard.putData("Raise Intake", new RaiseIntake());
-        SmartDashboard.putNumber("Intake motor speed", RobotMap.intakedeployMotor.get());
     }
     
     @Override
