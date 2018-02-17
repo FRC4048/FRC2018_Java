@@ -108,7 +108,7 @@ public class OI {
 		cancelFunction = new JoystickButton(controller, 7); // Back Button
         cancelFunction.whileHeld(new CancelCommand());
 		moveToClimb = new JoystickButton(controller, 8); // Start Button
-        moveToClimb.whenPressed(new MoveArm(ArmPositions.Climb));
+//        moveToClimb.whenPressed(new MoveArm(ArmPositions.Climb));
 		moveToExchange = new JoystickButton(controller, 3); // X Button
         moveToExchange.whenPressed(new MoveArm(ArmPositions.Exchange));
 		moveToHighScale = new JoystickButton(controller, 4); // Y Button
