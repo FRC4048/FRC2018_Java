@@ -72,4 +72,30 @@ public class ArmMath {
 		potVal = Math.max(potVal, potMin);
 		return potVal;
 	}
+	
+	/**
+	 * Converts arm angle value into extension pot value
+	 * @param potVal - angle from starting position in degrees
+	 * @return
+	 */
+	public double convertLengthToExtPot(double potMin, double lengthMin, double potMax, double lengthMax, double length)
+	{		
+		double potVal = ((potMax - potMin)/(lengthMax - lengthMin)) * (length - lengthMin) + potMin;
+		potVal = Math.min(potVal, potMax);
+		potVal = Math.max(potVal, potMin);
+		return potVal;
+	}
+	
+	/**
+	 * Converts arm angle value into extension pot value
+	 * @param angle - angle from starting position in degrees
+	 * @return
+	 */
+	public double convertExtPotToLength(double potMin, double lengthMin, double potMax, double lengthMax, double angle)
+	{		
+		double potVal = ((potMax - potMin)/(lengthMax - lengthMin)) * (length - lengthMin) + potMin;
+		potVal = Math.min(potVal, potMax);
+		potVal = Math.max(potVal, potMin);
+		return potVal;
+	}
 }
