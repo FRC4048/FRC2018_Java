@@ -129,6 +129,7 @@ public class Arm extends Subsystem {
 		extensionMotor.configPeakOutputForward(Robot.GLOBAL_SCALE_FACTOR, TIMEOUT);
 		extensionMotor.configPeakOutputReverse(-Robot.GLOBAL_SCALE_FACTOR, TIMEOUT);
 		extensionMotor.setNeutralMode(NeutralMode.Brake);
+//		extensionMotor.setSensorPhase(true);
 		extensionMotor.configAllowableClosedloopError(0, 4, TIMEOUT);
 		extensionMotor.config_kP(0, EXT_P, TIMEOUT);
 		extensionMotor.config_kI(0, EXT_I, TIMEOUT);
@@ -138,9 +139,10 @@ public class Arm extends Subsystem {
 		movementMotor.selectProfileSlot(0, 0);
 		movementMotor.configNominalOutputForward(0, TIMEOUT);
 		movementMotor.configNominalOutputReverse(0, TIMEOUT);
-		movementMotor.configPeakOutputForward(-Robot.GLOBAL_SCALE_FACTOR, TIMEOUT);
-		movementMotor.configPeakOutputReverse(Robot.GLOBAL_SCALE_FACTOR, TIMEOUT);
+		movementMotor.configPeakOutputForward(Robot.GLOBAL_SCALE_FACTOR, TIMEOUT);
+		movementMotor.configPeakOutputReverse(-Robot.GLOBAL_SCALE_FACTOR, TIMEOUT);
 		movementMotor.setNeutralMode(NeutralMode.Brake);
+//		extensionMotor.setSensorPhase(true);
 		movementMotor.configAllowableClosedloopError(0, 4, TIMEOUT);
 		movementMotor.config_kP(0, ARM_P, TIMEOUT);
 		movementMotor.config_kI(0, ARM_I, TIMEOUT);
@@ -182,6 +184,8 @@ public class Arm extends Subsystem {
     	SmartDashboard.putNumber("ARM SETPOINT", armAngleSetpoint);
     	SmartDashboard.putNumber("ARM POT", getArmPos());
     	SmartDashboard.putNumber("EXT POT", getExtPos());
+    	SmartDashboard.putNumber("ARM ERROR", movementMotor.getClosedLoopError(0));
+    	SmartDashboard.putNumber("ARM VOLTAGE", movementMotor.getMotorOutputVoltage());
     }
     
     public void armData() {
