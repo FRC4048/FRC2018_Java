@@ -57,6 +57,8 @@ public class Arm extends Subsystem {
     
     private final int TIMEOUT = 100;
     
+    
+    
 	private final double EXT_P = 1.0;
 	private final double EXT_I = 0.0;
 	private final double EXT_D = 0.0;
@@ -126,8 +128,8 @@ public class Arm extends Subsystem {
 		extensionMotor.selectProfileSlot(0, 0);
 		extensionMotor.configNominalOutputForward(0, TIMEOUT);
 		extensionMotor.configNominalOutputReverse(0, TIMEOUT);
-		extensionMotor.configPeakOutputForward(Robot.GLOBAL_SCALE_FACTOR, TIMEOUT);
-		extensionMotor.configPeakOutputReverse(-Robot.GLOBAL_SCALE_FACTOR, TIMEOUT);
+		extensionMotor.configPeakOutputForward(Robot.ARM_SCALE_FACTOR, TIMEOUT);
+		extensionMotor.configPeakOutputReverse(-Robot.ARM_SCALE_FACTOR, TIMEOUT);
 		extensionMotor.setNeutralMode(NeutralMode.Brake);
 		extensionMotor.setSensorPhase(true);
 		extensionMotor.configAllowableClosedloopError(0, 4, TIMEOUT);
@@ -139,8 +141,8 @@ public class Arm extends Subsystem {
 		movementMotor.selectProfileSlot(0, 0);
 		movementMotor.configNominalOutputForward(0, TIMEOUT);
 		movementMotor.configNominalOutputReverse(0, TIMEOUT);
-		movementMotor.configPeakOutputForward(Robot.GLOBAL_SCALE_FACTOR, TIMEOUT);
-		movementMotor.configPeakOutputReverse(-Robot.GLOBAL_SCALE_FACTOR, TIMEOUT);
+		movementMotor.configPeakOutputForward(Robot.ARM_SCALE_FACTOR, TIMEOUT);
+		movementMotor.configPeakOutputReverse(-Robot.ARM_SCALE_FACTOR, TIMEOUT);
 		movementMotor.setNeutralMode(NeutralMode.Brake);
 		movementMotor.setSensorPhase(true);
 		movementMotor.configAllowableClosedloopError(0, 4, TIMEOUT);
