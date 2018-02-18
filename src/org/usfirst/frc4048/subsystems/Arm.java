@@ -17,6 +17,7 @@ import org.usfirst.frc4048.arm.math.ArmStrat;
 import org.usfirst.frc4048.arm.math.LinearMoveStrat;
 import org.usfirst.frc4048.commands.*;
 import org.usfirst.frc4048.commands.arm.ArmFinetune;
+import org.usfirst.frc4048.commands.arm.ArmFinetuneManual;
 import org.usfirst.frc4048.*;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -56,6 +57,8 @@ public class Arm extends Subsystem {
     
     private final int TIMEOUT = 100;
     
+    
+    
 	private final double EXT_P = 1.0;
 	private final double EXT_I = 0.0;
 	private final double EXT_D = 0.0;
@@ -67,44 +70,54 @@ public class Arm extends Subsystem {
 	/**
 	 * Is not a speed, but a setpoint adjustment value
 	 */
-	private final double FINETUNE_RATE = 1.0*Robot.GLOBAL_SCALE_FACTOR;
+	private final double FINETUNE_RATE = 1.0;
 
 	// TODO ALL OF THESE SETPOINTS ARE NOT VALID
 	/*
 	 * All of these setpoints are used for the arm
 	 */
-	public static final double POS_MARGIN_VALUE = 5.0;
-	public static final double MATH_MARGIN_VALUE = 100.0;
+	public static final double ANGLE_MARGIN_VALUE = 5.0;
+	public static final double CRITICAL_MARGIN_VALUE = 15.0;
 	public static final double HOME_SETPOINT = 0.0;
-	public static final double INTAKE_SETPOINT = 140.0;
-	public static final double EXCHANGE_SETPOINT = 180.0;
-	public static final double SWITCH_SETPOINT = 320.0;
-	public static final double LOWSCALE_SETPOINT = 550.0;
-	public static final double HIGHSCALE_SETPOINT = 780.0;
-	public static final double CLIMBER_SETPOINT = 1010;
+	public static final double INTAKE_SETPOINT = 14.0;
+	public static final double EXCHANGE_SETPOINT = 40.0;
+	public static final double SWITCH_SETPOINT = 80.0;
+	public static final double LOWSCALE_SETPOINT = 140.0;
+	public static final double HIGHSCALE_SETPOINT = 145.0;
+//	public static final double POT_MARGIN_VALUE = 5.0;
+//	public static final double MATH_MARGIN_VALUE = 100.0;
+//	public static final double HOME_SETPOINT = 0.0;
+//	public static final double INTAKE_SETPOINT = 140.0;
+//	public static final double EXCHANGE_SETPOINT = 180.0;
+//	public static final double SWITCH_SETPOINT = 320.0;
+//	public static final double LOWSCALE_SETPOINT = 550.0;
+//	public static final double HIGHSCALE_SETPOINT = 780.0;
+//	public static final double CLIMBER_SETPOINT = 1010;
 	/*
 	 * All of these setpoints are used for the extension
 	 */
 	public static final double EXT_HOME_SETPOINT = 0.0;
-	public static final double EXT_INTAKE_SETPOINT = 450.0;
-	public static final double EXT_CLIMB_SETPOINT = 1020;
+	public static final double EXT_INTAKE_SETPOINT = 8.5;
+//	public static final double EXT_CLIMB_SETPOINT = 1020;
+//	public static final double EXT_HOME_SETPOINT = 0.0;
+//	public static final double EXT_INTAKE_SETPOINT = 450.0;
+//	public static final double EXT_CLIMB_SETPOINT = 1020;
 	/*
 	 * All of these values are used for the extension math
 	 */
-	private final double ARM_POT_MIN = 0.0;
-	private final double ARM_POT_MAX = 1023.0;
+	private final double ARM_POT_MIN = 935;
+	private final double ARM_POT_MAX = 84;
 	private final double ARM_ANGLE_MIN = 0.0;
 	private final double ARM_ANGLE_MAX = 158.0;
-	private final double EXT_POT_MIN = 11.0;
-	private final double EXT_POT_MAX = 920.0;
+	private final double EXT_POT_MIN = 613.0;
+	private final double EXT_POT_MAX = 326.0;
 	private final double EXT_LENGTH_MIN = 0.0;
-	private final double EXT_LENGTH_MAX = 16.0;
+	private final double EXT_LENGTH_MAX = 15.25;
 	
-    private double armSetpoint;
-    private double extSetpoint;
+    private double armAngleSetpoint;
     private double manualExtSetpoint;
     private ArmMath armMath = new ArmMath();
-//    private boolean autoExtension = true;
+
 //  private PIDController armController = new PIDController(ARM_P, ARM_I, ARM_D, rotationPot, movementMotor);
 //	private PIDController extController = new PIDController(EXT_P, EXT_I, EXT_D, extensionPot, extensionMotor);
 	
@@ -115,9 +128,10 @@ public class Arm extends Subsystem {
 		extensionMotor.selectProfileSlot(0, 0);
 		extensionMotor.configNominalOutputForward(0, TIMEOUT);
 		extensionMotor.configNominalOutputReverse(0, TIMEOUT);
-		extensionMotor.configPeakOutputForward(Robot.GLOBAL_SCALE_FACTOR, TIMEOUT);
-		extensionMotor.configPeakOutputReverse(Robot.GLOBAL_SCALE_FACTOR, TIMEOUT);
+		extensionMotor.configPeakOutputForward(Robot.ARM_SCALE_FACTOR, TIMEOUT);
+		extensionMotor.configPeakOutputReverse(-Robot.ARM_SCALE_FACTOR, TIMEOUT);
 		extensionMotor.setNeutralMode(NeutralMode.Brake);
+		extensionMotor.setSensorPhase(true);
 		extensionMotor.configAllowableClosedloopError(0, 4, TIMEOUT);
 		extensionMotor.config_kP(0, EXT_P, TIMEOUT);
 		extensionMotor.config_kI(0, EXT_I, TIMEOUT);
@@ -127,15 +141,17 @@ public class Arm extends Subsystem {
 		movementMotor.selectProfileSlot(0, 0);
 		movementMotor.configNominalOutputForward(0, TIMEOUT);
 		movementMotor.configNominalOutputReverse(0, TIMEOUT);
-		movementMotor.configPeakOutputForward(Robot.GLOBAL_SCALE_FACTOR, TIMEOUT);
-		movementMotor.configPeakOutputReverse(Robot.GLOBAL_SCALE_FACTOR, TIMEOUT);
+		movementMotor.configPeakOutputForward(Robot.ARM_SCALE_FACTOR, TIMEOUT);
+		movementMotor.configPeakOutputReverse(-Robot.ARM_SCALE_FACTOR, TIMEOUT);
 		movementMotor.setNeutralMode(NeutralMode.Brake);
+		movementMotor.setSensorPhase(true);
 		movementMotor.configAllowableClosedloopError(0, 4, TIMEOUT);
 		movementMotor.config_kP(0, ARM_P, TIMEOUT);
 		movementMotor.config_kI(0, ARM_I, TIMEOUT);
 		movementMotor.config_kD(0, ARM_D, TIMEOUT);
 		
-		armSetpoint = HOME_SETPOINT;
+		armAngleSetpoint = getArmAngle();
+//		extensionToHome();
 		
 		// Used for test bed
 //		armController.enable();
@@ -151,7 +167,11 @@ public class Arm extends Subsystem {
 
         // Set the default command for a subsystem here.
         // setDefaultCommand(new MySpecialCommand());
+    	
+    	//TODO Change this to automatic when tested
     	setDefaultCommand(new ArmFinetune());
+//    	setDefaultCommand(new ArmFinetuneManual());
+    	
     }
 
     @Override
@@ -159,16 +179,21 @@ public class Arm extends Subsystem {
         // Put code here to be run every loop
     	
     	moveArm();
-    	moveExtension();
-    	   	
-    	SmartDashboard.putNumber("ARM SETPOINT", armSetpoint);
+//    	moveExtension();
+    
+    	SmartDashboard.putNumber("ARM ANGLE", getArmAngle());
+    	SmartDashboard.putNumber("EXTENSION LENGTH", getExtLength());
+    	SmartDashboard.putNumber("ARM SETPOINT", armAngleSetpoint);
     	SmartDashboard.putNumber("ARM POT", getArmPos());
     	SmartDashboard.putNumber("EXT POT", getExtPos());
+    	SmartDashboard.putNumber("ARM ERROR", movementMotor.getClosedLoopError(0));
+    	SmartDashboard.putNumber("ARM VOLTAGE", movementMotor.getMotorOutputVoltage());
     }
     
     public void armData() {
-    	SmartDashboard.putNumber("Setpoint", armSetpoint);
-    	SmartDashboard.putNumber("Current Value", getArmPos());
+    	SmartDashboard.putNumber("Setpoint", armAngleSetpoint);
+    	SmartDashboard.putNumber("ARM POT", getArmPos());
+    	SmartDashboard.putNumber("EXT POT", getExtPos());
     }
     
     // Put methods for controlling this subsystem
@@ -176,23 +201,44 @@ public class Arm extends Subsystem {
     
     public void finetuneUp()
     {
-    	armSetpoint += FINETUNE_RATE;
+    	armAngleSetpoint += FINETUNE_RATE;
     }
     
     public void finetuneDown()
     {
-    	armSetpoint -= FINETUNE_RATE;
+    	armAngleSetpoint -= FINETUNE_RATE;
+    }
+
+    public void finetuneDownManual()
+    {
+    	movementMotor.set(ControlMode.PercentOutput, 0.2);
+    }
+    
+    public void finetuneUpManual()
+    {
+    	movementMotor.set(ControlMode.PercentOutput, -0.2);
     }
     
     public void stopArm()
     {
-    	movementMotor.set(ControlMode.Position, armSetpoint);
-//    	armController.setSetpoint(armSetpoint);
+    	movementMotor.set(ControlMode.Position, armAngleSetpoint);
+    }
+    
+    public double getArmAngle()
+    {
+    	return armMath.convertPotToAngle(ARM_POT_MIN, ARM_ANGLE_MIN, ARM_POT_MAX, ARM_ANGLE_MAX, getArmPos());
+    }
+    
+    public double getExtLength()
+    {
+    	//TODO Fix this conversion
+    	return 0.0;
+//    	return armMath.
     }
     
 	//TODO Confirm if value is negative on real robot
 	public int getArmPos() {
-		return -movementMotor.getSelectedSensorPosition(0);
+		return movementMotor.getSelectedSensorPosition(0);
 	}
 
 	public int getExtPos() {
@@ -216,23 +262,23 @@ public class Arm extends Subsystem {
      */
     public boolean armAtPosition(ArmPositions position)
     {
-//    	int armPos = getArmPos();
-    	double armPos = getArmPos();
+//    	double armPos = getArmPos();
+    	double armPos = getArmAngle();
     	switch (position) {
     	case Intake:
-			return armPos >= INTAKE_SETPOINT - POS_MARGIN_VALUE && armPos <= INTAKE_SETPOINT + POS_MARGIN_VALUE;	
+			return armPos >= INTAKE_SETPOINT - ANGLE_MARGIN_VALUE && armPos <= INTAKE_SETPOINT + ANGLE_MARGIN_VALUE;	
 		case Exchange:			
-			return armPos >= EXCHANGE_SETPOINT - POS_MARGIN_VALUE && armPos <= EXCHANGE_SETPOINT + POS_MARGIN_VALUE;	
+			return armPos >= EXCHANGE_SETPOINT - ANGLE_MARGIN_VALUE && armPos <= EXCHANGE_SETPOINT + ANGLE_MARGIN_VALUE;	
 		case Switch:
-			return armPos >= SWITCH_SETPOINT - POS_MARGIN_VALUE && armPos <= SWITCH_SETPOINT + POS_MARGIN_VALUE;
+			return armPos >= SWITCH_SETPOINT - ANGLE_MARGIN_VALUE && armPos <= SWITCH_SETPOINT + ANGLE_MARGIN_VALUE;
 		case LowScale:
-			return armPos >= LOWSCALE_SETPOINT - POS_MARGIN_VALUE && armPos <= LOWSCALE_SETPOINT + POS_MARGIN_VALUE;
+			return armPos >= LOWSCALE_SETPOINT - ANGLE_MARGIN_VALUE && armPos <= LOWSCALE_SETPOINT + ANGLE_MARGIN_VALUE;
 		case HighScale:
-			return armPos >= HIGHSCALE_SETPOINT - POS_MARGIN_VALUE && armPos <= HIGHSCALE_SETPOINT + POS_MARGIN_VALUE;
+			return armPos >= HIGHSCALE_SETPOINT - ANGLE_MARGIN_VALUE && armPos <= HIGHSCALE_SETPOINT + ANGLE_MARGIN_VALUE;
 		case Climb:
-			return armPos >= CLIMBER_SETPOINT - POS_MARGIN_VALUE && armPos <= CLIMBER_SETPOINT + POS_MARGIN_VALUE;
+			return armPos >= HOME_SETPOINT - ANGLE_MARGIN_VALUE && armPos <= HOME_SETPOINT + ANGLE_MARGIN_VALUE;
 		case Home:
-			return armPos >= HOME_SETPOINT - POS_MARGIN_VALUE && armPos <= HOME_SETPOINT + POS_MARGIN_VALUE;
+			return armPos >= HOME_SETPOINT - ANGLE_MARGIN_VALUE && armPos <= HOME_SETPOINT + ANGLE_MARGIN_VALUE;
 		default:
 			return false;
 		}
@@ -242,47 +288,30 @@ public class Arm extends Subsystem {
     {
     	switch (pos) {
     	case Intake:
-    		armSetpoint = INTAKE_SETPOINT;
+    		armAngleSetpoint = INTAKE_SETPOINT;
     		break;
 		case Exchange:			
-			armSetpoint = EXCHANGE_SETPOINT;
+			armAngleSetpoint = EXCHANGE_SETPOINT;
 			break;
 		case Switch:
-			armSetpoint = SWITCH_SETPOINT;
+			armAngleSetpoint = SWITCH_SETPOINT;
 			break;
 		case LowScale:
-			armSetpoint = LOWSCALE_SETPOINT;
+			armAngleSetpoint = LOWSCALE_SETPOINT;
 			break;
 		case HighScale:
-			armSetpoint = HIGHSCALE_SETPOINT;
+			armAngleSetpoint = HIGHSCALE_SETPOINT;
 			break;
 		case Climb:
-			armSetpoint = CLIMBER_SETPOINT;
+			armAngleSetpoint = HOME_SETPOINT;
 			break;
 		case Home:
-			armSetpoint = HOME_SETPOINT;
+			armAngleSetpoint = HOME_SETPOINT;
 			break;
 		default:
 			break;
 		}
     }
-    
-//    /**
-//     * Returns if the arm is currently automatically extending
-//     * @return - true if extension is automatic, false if extension is manual
-//     */
-//    public boolean getAutoExtension()
-//    {
-//    	return autoExtension;
-//    }
-//    /**
-//     * Sets the automatic extension value
-//     * @param value - true if extension is automatic, false if extension is manual
-//     */
-//    public void setAutoExtension(boolean value)
-//    {
-//    	autoExtension = value;
-//    }
     
     /**
      * Set extension to fully retracted position, or home position.
@@ -292,43 +321,63 @@ public class Arm extends Subsystem {
     	manualExtSetpoint = EXT_HOME_SETPOINT;
     }
     
+    public boolean extensionAtHome()
+    {
+    	double extension = getExtPos();
+    	return 	extension <= EXT_HOME_SETPOINT + ANGLE_MARGIN_VALUE &&
+    			extension >= EXT_HOME_SETPOINT - ANGLE_MARGIN_VALUE;
+    }
+    
     public void extensionToIntake()
     {
     	manualExtSetpoint = EXT_INTAKE_SETPOINT;
     }
     
-    public void extensionToClimb()
+    public boolean extensionAtIntake()
     {
-    	manualExtSetpoint = EXT_CLIMB_SETPOINT;
+    	double extension = getExtPos();
+    	return 	extension <= EXT_INTAKE_SETPOINT + ANGLE_MARGIN_VALUE &&
+    			extension >= EXT_INTAKE_SETPOINT - ANGLE_MARGIN_VALUE;
     }
+    
+//    public void extensionToClimb()
+//    {
+//    	manualExtSetpoint = EXT_CLIMB_SETPOINT;
+//    }
     
 	/**
 	 * Uses arm math to calculate new position for extension
 	 * This math only applies within the exchange and high scale positions
 	 */
 	private void moveExtension() {
-		double armPos = getArmPos();
-		if (armPos >= EXCHANGE_SETPOINT - MATH_MARGIN_VALUE && armPos <= HIGHSCALE_SETPOINT + MATH_MARGIN_VALUE) {
-			double angle = armMath.convertPotToAngle(ARM_POT_MIN, ARM_ANGLE_MIN, ARM_POT_MAX, ARM_ANGLE_MAX, getArmPos());
+		if (inAutoRange()) {
+			double angle = getArmAngle();
 			SmartDashboard.putNumber("ARM ANGLE", angle);
-			extSetpoint = armMath.convertArmAngleToExtPot(EXT_POT_MIN, EXT_LENGTH_MIN, EXT_POT_MAX, EXT_LENGTH_MAX, angle);
+			double extSetpoint = armMath.convertArmAngleToExtPot(EXT_POT_MIN, EXT_LENGTH_MIN, EXT_POT_MAX, EXT_LENGTH_MAX, angle);
 			SmartDashboard.putNumber("EXTENSION SETPOINT", extSetpoint);
 			extensionMotor.set(ControlMode.Position, (int) extSetpoint);
 		}
 		else
 		{
-			extensionMotor.set(ControlMode.Position, (int) manualExtSetpoint);
+			//TODO Fix this conversion
+//			double extPot = armMath.
+//			extensionMotor.set(ControlMode.Position, (int) extPot);
 		}
 	}
     
+	public boolean inAutoRange()
+	{
+		double armPos = getArmAngle();
+		return armPos >= EXCHANGE_SETPOINT - CRITICAL_MARGIN_VALUE && armPos <= HIGHSCALE_SETPOINT + CRITICAL_MARGIN_VALUE;
+	}
+	
 	/**
 	 * Keeps arm locked to its current setpoint position
 	 */
 	private void moveArm() {
-		 movementMotor.set(ControlMode.Position, (int) armSetpoint);
-
-		// Used for software pid
-//		armController.setSetpoint(armSetpoint);
+		double armSetpoint = armMath.convertAngleToPot(ARM_POT_MIN, ARM_ANGLE_MIN, ARM_POT_MAX, ARM_ANGLE_MAX, armAngleSetpoint) * -1.0;
+		SmartDashboard.putNumber("ARM POT SETPOINT", armSetpoint);
+		movementMotor.set(ControlMode.Position, (int) armSetpoint);
 	}
     public String armHeadings() {
     	return "";

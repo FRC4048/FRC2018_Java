@@ -1,6 +1,8 @@
 package org.usfirst.frc4048.commands.getcube;
 
 import org.usfirst.frc4048.commands.GroupCommandCallback;
+import org.usfirst.frc4048.commands.arm.ExtensionArmToHome;
+import org.usfirst.frc4048.commands.arm.ExtensionArmToIntake;
 import org.usfirst.frc4048.commands.arm.GrabCube;
 import org.usfirst.frc4048.commands.arm.LowerArmToCube;
 import org.usfirst.frc4048.commands.arm.MoveArm;
@@ -31,7 +33,7 @@ public class GetCubeGroupCommand extends CommandGroup implements GroupCommandCal
 		
 		addSequential(new OpenClaw(this));
 		addSequential(new SetClawPositionAndWait(this, Claw.WristPostion.Level));
-		addSequential(new MoveArm(this, ArmPositions.Intake));
+		addSequential(new ExtensionArmToIntake(this));
 		addParallel(new LowerArmToCube(this));
 		addSequential(new GripIntake(this, GripPosition.Open));
 		addSequential(new GrabCube(this));
@@ -39,7 +41,7 @@ public class GetCubeGroupCommand extends CommandGroup implements GroupCommandCal
 		addSequential(new SetClawPositionAndWait(this, Claw.WristPostion.Compact));
 		addSequential(new GripIntake(this, GripPosition.Close));
 		// TODO -- need to do a retract and go to home instead of switch?
-		addSequential(new MoveArm(this, ArmPositions.Home));
+		addSequential(new MoveArm(this, ArmPositions.Switch));
 		addSequential(new RaiseIntake(this));
 	}
 

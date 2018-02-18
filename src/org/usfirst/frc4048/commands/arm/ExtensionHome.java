@@ -1,48 +1,57 @@
 package org.usfirst.frc4048.commands.arm;
 
 import org.usfirst.frc4048.Robot;
+import org.usfirst.frc4048.commands.GroupCommandCallback;
+import org.usfirst.frc4048.subsystems.Arm;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class ArmFinetune extends Command {
+public class ExtensionHome extends Command {
 
-    public ArmFinetune() {
+	GroupCommandCallback callback;
+	
+    public ExtensionHome() {
+        // Use requires() here to declare subsystem dependencies
+        // eg. requires(chassis);
+    	this(GroupCommandCallback.NONE);
+    }
+    
+    public ExtensionHome(GroupCommandCallback callback) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.arm);
+    	this.callback = callback;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	setTimeout(3.0);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-//    	if(Robot.arm.inAutoRange())
-//    	{
-	    	if(Robot.oi.getLeftstickDown())
-	    		Robot.arm.finetuneDown();
-	    	if(Robot.oi.getLeftstickUp())
-	    		Robot.arm.finetuneUp();
-//    	}
+    	if(!Robot.arm.extensionAtHome())
+    	{
+    		Robot.arm.extensionToHome();
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return Robot.arm.extensionAtHome() || isTimedOut();
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.arm.stopArm();
+    	callback.doCancel(isTimedOut());
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	Robot.arm.stopArm();
+    	callback.doCancel(true);
     }
 }
