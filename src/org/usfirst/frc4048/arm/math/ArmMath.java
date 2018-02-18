@@ -27,6 +27,23 @@ public class ArmMath {
 	}
 	
 	/**
+	 * Converts the pot value for the arm to an angle relative to the towers
+	 * @param potMin --> pot value at starting configuration
+	 * @param angleMin --> angle at starting configuration
+	 * @param potMax --> pot value when arm is straight up, rotated ~180 deg
+	 * @param angleMax --> angle at the max pot
+	 * @param inputAngle
+	 * @return 
+	 */
+	public double convertAngleToPot(double potMin, double angleMin, double potMax, double angleMax, double inputAngle){	
+		//equation: point slope form given two     points: (angleMin, potMin) and (potMax, angleMax)
+		double pot = ((potMax - potMin)/(angleMax - angleMin))*(inputAngle - angleMin) + potMin;
+		/*pot = Math.min(pot, potMax);
+		pot = Math.max(pot, potMin);*/
+		return pot;
+	}
+	
+	/**
 	 * Converts arm angle value into extension pot value
 	 * @param angle - angle from starting position in degrees
 	 * @return

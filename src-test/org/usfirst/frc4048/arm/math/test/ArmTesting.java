@@ -9,18 +9,19 @@ import org.usfirst.frc4048.subsystems.Arm;
 public class ArmTesting {
 
 	public static double FIXED_ARM_LENGTH = 44;
-	public static double ARM_MIN_POT = 1.0;
-	public static double ARM_MAX_POT = 3.5;
-	public static double ARM_MIN_ANGLE = 35.0;
-	public static double ARM_MAX_ANGLE = 165.0;
+	public static double ARM_MIN_POT = 935;
+	public static double ARM_MAX_POT = 84;
+	public static double ARM_MIN_ANGLE = 0;
+	public static double ARM_MAX_ANGLE = 158;
 	
-	public static double EXT_MIN_POT = 0.0;
-	public static double EXT_MAX_POT = 5.0;
-	public static double EXT_MIN_LENGTH = 2.0;
-	public static double EXT_MAX_LENGTH = 15.0;
+	public static double EXT_MIN_POT = 638;
+	public static double EXT_MAX_POT = 321;
+	public static double EXT_MIN_LENGTH = 0.0;
+	public static double EXT_MAX_LENGTH = 15.25;
 	
 	public static void main(String[] args) throws IOException
 	{
+		ArmMath math = new ArmMath();
 		LinearMoveStrat stratLinear = new LinearMoveStrat();
 		/*System.out.println("STARTING LINEAR TEST");
 		testLinearStrat(stratLinear);
@@ -47,51 +48,57 @@ public class ArmTesting {
 		
 		String[] stratStrings = new String[3];
 		
-		for(int i = 0; i < stratStrings.length; i++)
-		{
-			stratStrings[i]="Angle";
-			stratStrings[i]+=',';
-			stratStrings[i]+="Horizontal Length of Arm";
-			stratStrings[i]+=',';
-			stratStrings[i]+="Extension Length";
-			stratStrings[i]+='\n';
-		}	
+//		for(int i = 0; i < stratStrings.length; i++)
+//		{
+			stratStrings[0]="Pot Value";
+			stratStrings[0]+=',';
+			stratStrings[0]+="Angle";
+			stratStrings[0]+=',';
+			stratStrings[0]+="Pot Value Back";
+			stratStrings[0]+=',';
+			stratStrings[0]+="Extension Length";
+			stratStrings[0]+="\n";
+//		}	
 		
-		for(double angle = ARM_MIN_ANGLE-22; angle < ARM_MAX_ANGLE-22; angle+=5)
+		for(double pot = ARM_MIN_POT; pot > ARM_MAX_POT; pot-=5)
 		{
-			stratStrings[0]+=angle;
+			stratStrings[0]+=pot;
 			stratStrings[0]+=',';
-			stratStrings[0]+=(stratLinear.getExtensionLength(angle) + FIXED_ARM_LENGTH)*Math.sin(Math.toRadians(angle+22));
+			double angle = math.convertPotToAngle(ARM_MIN_POT, ARM_MIN_ANGLE, ARM_MAX_POT, ARM_MAX_ANGLE, pot);
+			stratStrings[0]+= angle;
 			stratStrings[0]+=',';
-			stratStrings[0]+=stratLinear.getExtensionLength(angle);
+			stratStrings[0]+= math.convertAngleToPot(ARM_MIN_POT, ARM_MIN_ANGLE, ARM_MAX_POT, ARM_MAX_ANGLE, angle);
+//			stratStrings[0]+=(stratLinear.getExtensionLength(pot) + FIXED_ARM_LENGTH)*Math.sin(Math.toRadians(angle+22));
+			stratStrings[0]+=',';
+			stratStrings[0]+=stratLinear.getExtensionLength(pot);
 			stratStrings[0]+='\n';
 			
-			stratStrings[1]+=angle;
-			stratStrings[1]+=(',');
-			stratStrings[1]+=((stratFixed.getExtensionLength(angle) + FIXED_ARM_LENGTH)*Math.sin(Math.toRadians(angle+22)));
-			stratStrings[1]+=(',');
-			stratStrings[1]+=stratFixed.getExtensionLength(angle);
-			stratStrings[1]+=('\n');
-			
-			stratStrings[2]+=(angle);
-			stratStrings[2]+=(',');
-			stratStrings[2]+=((stratCube.getExtensionLength(angle) + FIXED_ARM_LENGTH)*Math.sin(Math.toRadians(angle+22)));
-			stratStrings[2]+=(',');
-			stratStrings[2]+=stratCube.getExtensionLength(angle);
-			stratStrings[2]+=('\n');
+//			stratStrings[1]+=angle;
+//			stratStrings[1]+=(',');
+//			stratStrings[1]+=((stratFixed.getExtensionLength(angle) + FIXED_ARM_LENGTH)*Math.sin(Math.toRadians(angle+22)));
+//			stratStrings[1]+=(',');
+//			stratStrings[1]+=stratFixed.getExtensionLength(angle);
+//			stratStrings[1]+=('\n');
+//			
+//			stratStrings[2]+=(angle);
+//			stratStrings[2]+=(',');
+//			stratStrings[2]+=((stratCube.getExtensionLength(angle) + FIXED_ARM_LENGTH)*Math.sin(Math.toRadians(angle+22)));
+//			stratStrings[2]+=(',');
+//			stratStrings[2]+=stratCube.getExtensionLength(angle);
+//			stratStrings[2]+=('\n');
 			
 		}
 		
 		linearWriter.append(stratStrings[0].toString());
-		fixedAngleWriter.append(stratStrings[1].toString());
-		cubePositionWriter.append(stratStrings[2].toString());
+//		fixedAngleWriter.append(stratStrings[1].toString());
+//		cubePositionWriter.append(stratStrings[2].toString());
 		
 		linearWriter.flush();
 		linearWriter.close();
-		fixedAngleWriter.flush();
-		fixedAngleWriter.close();
-		cubePositionWriter.flush();
-		cubePositionWriter.close();
+//		fixedAngleWriter.flush();
+//		fixedAngleWriter.close();
+//		cubePositionWriter.flush();
+//		cubePositionWriter.close();
 		
 		System.out.println("done");
 	}
