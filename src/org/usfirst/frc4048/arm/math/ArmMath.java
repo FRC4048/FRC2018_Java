@@ -68,8 +68,34 @@ public class ArmMath {
 	{		
 		double length = strat.getExtensionLength(angle);
 		double potVal = ((potMax - potMin)/(lengthMax - lengthMin)) * (length - lengthMin) + potMin;
-		potVal = Math.min(potVal, potMax);
-		potVal = Math.max(potVal, potMin);
+//		potVal = Math.min(potVal, potMax);
+//		potVal = Math.max(potVal, potMin);
+		return potVal;
+	}
+	
+	/**
+	 * Converts arm length value into extension pot value
+	 * @param length - length being converted
+	 * @return
+	 */
+	public double convertLengthToExtPot(double potMin, double lengthMin, double potMax, double lengthMax, double length)
+	{
+		double potVal = ((potMax - potMin)/(lengthMax - lengthMin)) * (length - lengthMin) + potMin;
+//		potVal = Math.min(potVal, potMax);
+//		potVal = Math.max(potVal, potMin);
+		return potVal;
+	}
+	
+	/**
+	 * Converts arm length value into extension pot value
+	 * @param pot - pot being converted
+	 * @return
+	 */
+	public double convertExtPotToLength(double potMin, double lengthMin, double potMax, double lengthMax, double potInput)
+	{
+		double potVal = ((lengthMax - lengthMin)/(potMax - potMin)) * (potInput - potMin) + lengthMin;
+//		potVal = Math.min(potVal, potMax);
+//		potVal = Math.max(potVal, potMin);
 		return potVal;
 	}
 }

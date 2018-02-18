@@ -65,7 +65,7 @@ public class Robot extends TimedRobot {
     Action oldAutoAction;
     
     public static double GLOBAL_SCALE_FACTOR = .25;
-    public static double ARM_SCALE_FACTOR = 0.5;
+    public static double ARM_SCALE_FACTOR = 0.75;
     
     /**
      * This function is run when the robot is first started up and should be
@@ -256,7 +256,8 @@ public class Robot extends TimedRobot {
     		SmartDashboard.putData("Move Claw", new MoveClaw());
     		SmartDashboard.putData("Open Claw", new OpenClaw());
     		SmartDashboard.putData("Reset Claw Gyro", new ResetClawGyro());
-    		SmartDashboard.putData("Set Claw Position", new SetClawPosition(Claw.WristPostion.Level));//Sets claw position to level
+    		SmartDashboard.putData("Set Claw Position Compact", new SetClawPosition(Claw.WristPostion.Compact));//Sets claw position to compact
+    		SmartDashboard.putData("Set Claw Position Level", new SetClawPosition(Claw.WristPostion.Level));//Sets claw position to level
     		SmartDashboard.putData("Flush Cube", new FlushCube());
     		SmartDashboard.putData("Lower intake", new LowerIntake());
     		SmartDashboard.putData("Raise Intake", new RaiseIntake());
