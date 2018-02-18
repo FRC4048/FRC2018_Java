@@ -225,12 +225,14 @@ public class Arm extends Subsystem {
     
     public double getArmAngle()
     {
-    	return armMath.convertValToVal(ARM_POT_MIN, ARM_ANGLE_MIN, ARM_POT_MAX, ARM_ANGLE_MAX, getArmPos());
+    	return armMath.convertPotToAngle(ARM_POT_MIN, ARM_ANGLE_MIN, ARM_POT_MAX, ARM_ANGLE_MAX, getArmPos());
     }
     
     public double getExtLength()
     {
-    	return armMath.convertValToVal(EXT_POT_MIN, EXT_LENGTH_MIN, EXT_POT_MAX, EXT_LENGTH_MAX, getExtPos());
+    	//TODO Fix this conversion
+    	return 0.0;
+//    	return armMath.
     }
     
 	//TODO Confirm if value is negative on real robot
@@ -373,8 +375,9 @@ public class Arm extends Subsystem {
 		}
 		else
 		{
-			double extPot = armMath.convertValToVal(EXT_LENGTH_MIN, EXT_POT_MIN, EXT_LENGTH_MAX, EXT_POT_MAX, manualExtSetpoint);
-			extensionMotor.set(ControlMode.Position, (int) extPot);
+			//TODO Fix this conversion
+//			double extPot = armMath.
+//			extensionMotor.set(ControlMode.Position, (int) extPot);
 		}
 	}
     
@@ -388,7 +391,7 @@ public class Arm extends Subsystem {
 	 * Keeps arm locked to its current setpoint position
 	 */
 	private void moveArm() {
-		double armSetpoint = armMath.convertValToVal(ARM_ANGLE_MIN, ARM_POT_MIN, ARM_ANGLE_MAX, ARM_POT_MAX, armAngleSetpoint);
+		double armSetpoint = armMath.convertAngleToPot(ARM_POT_MIN, ARM_ANGLE_MIN, ARM_POT_MAX, ARM_ANGLE_MAX, armAngleSetpoint);
 		movementMotor.set(ControlMode.Position, (int) armSetpoint);
 	}
 }

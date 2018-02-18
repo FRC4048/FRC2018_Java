@@ -11,19 +11,52 @@ public class ArmMath {
 	
 	/**
 	 * Converts the pot value for the arm to an angle relative to the towers
-	 * @param val1Min --> start config of val1
-	 * @param val2Min --> start config of val2 at val1
-	 * @param val1Max --> max value of val1
-	 * @param val2Max --> val2 at the max val1
-	 * @param val1Input
+	 * @param potMin --> pot value at starting configuration
+	 * @param angleMin --> angle at starting configuration
+	 * @param potMax --> pot value when arm is straight up, rotated ~180 deg
+	 * @param angleMax --> angle at the max pot
+	 * @param inputPot
 	 * @return 
 	 */
-	public double convertValToVal(double val1Min, double val2Min, double val1Max, double val2Max, double val1Input){	
+	public double convertPotToAngle(double potMin, double angleMin, double potMax, double angleMax, double inputPot){	
 		//equation: point slope form given two     points: (potMin, angleMin) and (potMax, angleMax)
-		double val2Output = ((val2Max - val2Min)/(val1Max - val1Min))*(val1Input - val1Min) + val2Min;
-		val2Output = Math.min(val2Output, val2Max);
-		val2Output = Math.max(val2Output, val2Min);
-		return val2Output;
+		double angle = ((angleMax - angleMin)/(potMax - potMin))*(inputPot - potMin) + angleMin;
+		if(angleMax > angleMin)
+		{
+			angle = Math.min(angle, angleMax);
+			angle = Math.max(angle, angleMin);
+		}
+		else
+		{
+			angle = Math.min(angle, angleMin);
+			angle = Math.max(angle, angleMax);
+		}
+		return angle;
+	}
+	
+	/**
+	 * Converts the pot value for the arm to an angle relative to the towers
+	 * @param potMin --> pot value at starting configuration
+	 * @param angleMin --> angle at starting configuration
+	 * @param potMax --> pot value when arm is straight up, rotated ~180 deg
+	 * @param angleMax --> angle at the max pot
+	 * @param inputAngle
+	 * @return 
+	 */
+	public double convertAngleToPot(double potMin, double angleMin, double potMax, double angleMax, double inputAngle){	
+		//equation: point slope form given two     points: (angleMin, potMin) and (potMax, angleMax)
+		double pot = ((potMax - potMin)/(angleMax - angleMin))*(inputAngle - angleMin) + potMin;
+		if(potMax > potMin)
+		{
+			pot = Math.min(pot, potMax);
+			pot = Math.max(pot, potMin);
+		}
+		else
+		{
+			pot = Math.min(pot, potMin);
+			pot = Math.max(pot, potMax);
+		}
+		return pot;
 	}
 	
 	/**
