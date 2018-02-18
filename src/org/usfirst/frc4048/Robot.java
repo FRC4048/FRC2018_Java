@@ -132,6 +132,8 @@ public class Robot extends TimedRobot {
     public void disabledPeriodic() {
         Scheduler.getInstance().run();        
         
+        Robot.arm.getPIDValues();
+        
         autoAction = chooser.getSelected();
         if (autoAction != oldAutoAction)
         {
