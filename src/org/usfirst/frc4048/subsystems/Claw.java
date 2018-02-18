@@ -267,5 +267,9 @@ public class Claw extends Subsystem {
     {
     	return Math.abs(gyro.getAngle() % 360.0);
     }
+    
+    public String clawHeadings() {
+    	return "";
+    }
 }
 

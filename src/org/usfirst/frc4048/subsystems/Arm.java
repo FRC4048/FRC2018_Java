@@ -379,4 +379,7 @@ public class Arm extends Subsystem {
 		SmartDashboard.putNumber("ARM POT SETPOINT", armSetpoint);
 		movementMotor.set(ControlMode.Position, (int) armSetpoint);
 	}
+    public String armHeadings() {
+    	return "";
+    }
 }
