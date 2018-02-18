@@ -68,7 +68,7 @@ public class Arm extends Subsystem {
 	/**
 	 * Is not a speed, but a setpoint adjustment value
 	 */
-	private final double FINETUNE_RATE = 1.0*Robot.GLOBAL_SCALE_FACTOR;
+	private final double FINETUNE_RATE = 1.0;
 
 	// TODO ALL OF THESE SETPOINTS ARE NOT VALID
 	/*
@@ -129,7 +129,7 @@ public class Arm extends Subsystem {
 		extensionMotor.configPeakOutputForward(Robot.GLOBAL_SCALE_FACTOR, TIMEOUT);
 		extensionMotor.configPeakOutputReverse(-Robot.GLOBAL_SCALE_FACTOR, TIMEOUT);
 		extensionMotor.setNeutralMode(NeutralMode.Brake);
-//		extensionMotor.setSensorPhase(true);
+		extensionMotor.setSensorPhase(true);
 		extensionMotor.configAllowableClosedloopError(0, 4, TIMEOUT);
 		extensionMotor.config_kP(0, EXT_P, TIMEOUT);
 		extensionMotor.config_kI(0, EXT_I, TIMEOUT);
@@ -142,7 +142,7 @@ public class Arm extends Subsystem {
 		movementMotor.configPeakOutputForward(Robot.GLOBAL_SCALE_FACTOR, TIMEOUT);
 		movementMotor.configPeakOutputReverse(-Robot.GLOBAL_SCALE_FACTOR, TIMEOUT);
 		movementMotor.setNeutralMode(NeutralMode.Brake);
-//		extensionMotor.setSensorPhase(true);
+		movementMotor.setSensorPhase(true);
 		movementMotor.configAllowableClosedloopError(0, 4, TIMEOUT);
 		movementMotor.config_kP(0, ARM_P, TIMEOUT);
 		movementMotor.config_kI(0, ARM_I, TIMEOUT);
@@ -167,7 +167,7 @@ public class Arm extends Subsystem {
         // setDefaultCommand(new MySpecialCommand());
     	
     	//TODO Change this to automatic when tested
-//    	setDefaultCommand(new ArmFinetune());
+    	setDefaultCommand(new ArmFinetune());
 //    	setDefaultCommand(new ArmFinetuneManual());
     	
     }
@@ -176,7 +176,7 @@ public class Arm extends Subsystem {
     public void periodic() {
         // Put code here to be run every loop
     	
-//    	moveArm();
+    	moveArm();
 //    	moveExtension();
     
     	SmartDashboard.putNumber("ARM ANGLE", getArmAngle());
@@ -220,7 +220,6 @@ public class Arm extends Subsystem {
     public void stopArm()
     {
     	movementMotor.set(ControlMode.Position, armAngleSetpoint);
-//    	armController.setSetpoint(armSetpoint);
     }
     
     public double getArmAngle()
@@ -312,23 +311,6 @@ public class Arm extends Subsystem {
 		}
     }
     
-//    /**
-//     * Returns if the arm is currently automatically extending
-//     * @return - true if extension is automatic, false if extension is manual
-//     */
-//    public boolean getAutoExtension()
-//    {
-//    	return autoExtension;
-//    }
-//    /**
-//     * Sets the automatic extension value
-//     * @param value - true if extension is automatic, false if extension is manual
-//     */
-//    public void setAutoExtension(boolean value)
-//    {
-//    	autoExtension = value;
-//    }
-    
     /**
      * Set extension to fully retracted position, or home position.
      */
@@ -391,7 +373,8 @@ public class Arm extends Subsystem {
 	 * Keeps arm locked to its current setpoint position
 	 */
 	private void moveArm() {
-		double armSetpoint = armMath.convertAngleToPot(ARM_POT_MIN, ARM_ANGLE_MIN, ARM_POT_MAX, ARM_ANGLE_MAX, armAngleSetpoint);
+		double armSetpoint = armMath.convertAngleToPot(ARM_POT_MIN, ARM_ANGLE_MIN, ARM_POT_MAX, ARM_ANGLE_MAX, armAngleSetpoint) * -1.0;
+		SmartDashboard.putNumber("ARM POT SETPOINT", armSetpoint);
 		movementMotor.set(ControlMode.Position, (int) armSetpoint);
 	}
 }

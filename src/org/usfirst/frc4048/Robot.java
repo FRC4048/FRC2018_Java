@@ -64,7 +64,7 @@ public class Robot extends TimedRobot {
     Action autoAction;
     Action oldAutoAction;
     
-    public static double GLOBAL_SCALE_FACTOR = 1;
+    public static double GLOBAL_SCALE_FACTOR = .25;
     
     /**
      * This function is run when the robot is first started up and should be
