@@ -25,6 +25,7 @@ import org.usfirst.frc4048.arm.*;
 import org.usfirst.frc4048.commands.arm.ResetClawGyro;
 import org.usfirst.frc4048.commands.arm.SetClawPosition;
 import org.usfirst.frc4048.commands.auto.AutoAction;
+import org.usfirst.frc4048.commands.getcube.GetCubeGroupCommand;
 import org.usfirst.frc4048.commands.intake.*;
 import org.usfirst.frc4048.subsystems.*;
 import org.usfirst.frc4048.subsystems.Arm.ArmPositions;
@@ -57,13 +58,14 @@ public class Robot extends TimedRobot {
     public WorkQueue wq;
 
     //use this to see the debug commands and values for smart dashboard
-    public Boolean enableDebug = false;
+    public Boolean enableDebug = true;
     public Boolean enableTesting= true;
   
     Action autoAction;
     Action oldAutoAction;
     
-    public static double GLOBAL_SCALE_FACTOR = 0.1;
+    public static double GLOBAL_SCALE_FACTOR = .25;
+    public static double ARM_SCALE_FACTOR = 0.5;
     
     /**
      * This function is run when the robot is first started up and should be

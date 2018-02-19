@@ -37,28 +37,7 @@ public class MoveArm extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-		if(position == ArmPositions.Home)
-		{
-			Robot.arm.extensionToHome();
-			if(Robot.arm.getExtPos() <= Arm.EXT_HOME_SETPOINT + Arm.POS_MARGIN_VALUE)
-			{
-				Robot.arm.moveToPos(position);
-			}
-		}
-		else if(position == ArmPositions.Climb)
-		{
-			Robot.arm.extensionToClimb();
-			Robot.arm.moveToPos(position);
-		}
-		else if(position == Arm.ArmPositions.Intake)
-		{
-			Robot.arm.extensionToIntake();
-			Robot.arm.moveToPos(position);
-		}
-		else
-		{
-			Robot.arm.moveToPos(position);
-		}
+		Robot.arm.moveToPos(position);
     }
 
     // Make this return true when this Command no longer needs to run execute()
