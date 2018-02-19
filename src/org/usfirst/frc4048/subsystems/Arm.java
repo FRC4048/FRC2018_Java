@@ -78,7 +78,7 @@ public class Arm extends Subsystem {
 	public static final double INTAKE_SETPOINT = 14.0;
 	public static final double EXCHANGE_SETPOINT = 40.0;
 	public static final double SWITCH_SETPOINT = 80.0;
-	public static final double LOWSCALE_SETPOINT = 140.0;
+	public static final double LOWSCALE_SETPOINT = 125.0;
 	public static final double HIGHSCALE_SETPOINT = 145.0;
 	// public static final double POT_MARGIN_VALUE = 5.0;
 	// public static final double MATH_MARGIN_VALUE = 100.0;
@@ -115,11 +115,6 @@ public class Arm extends Subsystem {
 	private double manualExtSetpoint;
 	private ArmMath armMath = new ArmMath();
 
-	// private PIDController armController = new PIDController(ARM_P, ARM_I, ARM_D,
-	// rotationPot, movementMotor);
-	// private PIDController extController = new PIDController(EXT_P, EXT_I, EXT_D,
-	// extensionPot, extensionMotor);
-
 	public Arm() {
 		super("Arm");
 
@@ -152,10 +147,6 @@ public class Arm extends Subsystem {
 		armAngleSetpoint = getArmAngle();
 		extensionToHome();
 
-		// Used for test bed
-		// armController.enable();
-		// extController.enable();
-
 		printPIDValues();
 	}
 
@@ -169,15 +160,15 @@ public class Arm extends Subsystem {
 		// setDefaultCommand(new MySpecialCommand());
 
 		// TODO Change this to automatic when tested
-//		setDefaultCommand(new ArmFinetune());
+		setDefaultCommand(new ArmFinetune());
 	}
 
 	@Override
 	public void periodic() {
 		// Put code here to be run every loop
 
-//		moveArm();
-//		moveExtension();
+		moveArm();
+		moveExtension();
 
 		SmartDashboard.putNumber("ARM ANGLE", getArmAngle());
 		SmartDashboard.putNumber("EXTENSION LENGTH", getExtLength());
@@ -261,16 +252,6 @@ public class Arm extends Subsystem {
 		return extensionMotor.getSelectedSensorPosition(0);
 	}
 
-	// // Used for software pid
-	// public double getArmPos() {
-	// return rotationPot.get();
-	// }
-	//
-	// // Used for software pid
-	// public double getExtPos() {
-	// return extensionPot.get();
-	// }
-
 	/**
 	 * Checks to see if the arm is within the correct position
 	 * 
@@ -328,7 +309,7 @@ public class Arm extends Subsystem {
 			break;
 		}
 	}
-
+	
 	/**
 	 * Set extension to fully retracted position, or home position.
 	 */
@@ -352,11 +333,17 @@ public class Arm extends Subsystem {
 				&& extension >= EXT_INTAKE_SETPOINT - ANGLE_MARGIN_VALUE;
 	}
 
-	// public void extensionToClimb()
-	// {
-	// manualExtSetpoint = EXT_CLIMB_SETPOINT;
-	// }
-
+	public void setArmToCurrentPos()
+	{
+		armAngleSetpoint = getArmAngle();
+	}
+	
+	public boolean inAutoRange() {
+		double armPos = getArmAngle();
+		return armPos >= EXCHANGE_SETPOINT - CRITICAL_MARGIN_VALUE
+				&& armPos <= HIGHSCALE_SETPOINT + CRITICAL_MARGIN_VALUE;
+	}
+	
 	/**
 	 * Uses arm math to calculate new position for extension This math only applies
 	 * within the exchange and high scale positions
@@ -375,18 +362,11 @@ public class Arm extends Subsystem {
 		}
 	}
 
-	public boolean inAutoRange() {
-		double armPos = getArmAngle();
-		return armPos >= EXCHANGE_SETPOINT - CRITICAL_MARGIN_VALUE
-				&& armPos <= HIGHSCALE_SETPOINT + CRITICAL_MARGIN_VALUE;
-	}
-
 	/**
 	 * Keeps arm locked to its current setpoint position
 	 */
 	private void moveArm() {
-		double armSetpoint = armMath.convertAngleToPot(ARM_POT_MIN, ARM_ANGLE_MIN, ARM_POT_MAX, ARM_ANGLE_MAX,
-				armAngleSetpoint) * -1.0;
+		double armSetpoint = armMath.convertAngleToPot(ARM_POT_MIN, ARM_ANGLE_MIN, ARM_POT_MAX, ARM_ANGLE_MAX, armAngleSetpoint) * -1.0;
 		SmartDashboard.putNumber("ARM POT SETPOINT", armSetpoint);
 		movementMotor.set(ControlMode.Position, (int) armSetpoint);
 	}
