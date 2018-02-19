@@ -40,7 +40,7 @@ public class MoveClaw extends Command {
     	}
     	if(Robot.claw.getPosition() == WristPostion.Level)
     	{
-    		Robot.claw.moveClawToLevelWithPID();
+    		Robot.claw.moveClawToLevel();
     	}
     }
 

@@ -240,7 +240,7 @@ public class Robot extends TimedRobot {
         	SmartDashboard.putNumber("Left Sonar Distance", Robot.drivetrain.getSonar(SonarSide.LEFT));
             SmartDashboard.putNumber("Claw Gyro", Robot.claw.getGyroVal());
             SmartDashboard.putNumber("Pitch Motor Val", RobotMap.clawpitchMotor.getMotorOutputPercent());
-        	//SmartDashboard.putNumber("Right Sonar Distance", Robot.drivetrain.getSonar(SonarSide.RIGHT));
+        	SmartDashboard.putNumber("Right Sonar Distance", Robot.drivetrain.getSonar(SonarSide.RIGHT));
     	}
     	if (enableTesting) {
     		

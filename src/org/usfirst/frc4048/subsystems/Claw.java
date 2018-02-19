@@ -265,9 +265,11 @@ public class Claw extends Subsystem {
     
     public void moveClawToLevel()
     {
-    	if(!(Math.abs(gyro.getAngle() - LEVEL_GYRO_VAL) < LEVEL_GYRO_TOLERANCE)){
-    		pitchMotor.set(ControlMode.PercentOutput, 
-    				(gyro.getAngle() < LEVEL_GYRO_VAL) ? ANGLE_DOWN_SPEED: ANGLE_UP_SPEED);
+    	if(getGyroVal() > LEVEL_GYRO_VAL + LEVEL_GYRO_TOLERANCE) {
+    		pitchMotor.set(ANGLE_UP_SPEED);
+    	}
+    	else if(getGyroVal() < LEVEL_GYRO_VAL - LEVEL_GYRO_TOLERANCE) {
+    		pitchMotor.set(ANGLE_DOWN_SPEED);
     	}
     	else
     	{
