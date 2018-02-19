@@ -230,6 +230,7 @@ public class Claw extends Subsystem {
     	double speed = 0.0;
     	final double currAngle = gyro.getAngle();
     	double angle = LEVEL_GYRO_VAL;
+    	double kP = 100;
     	
     	if(Math.abs(angle - currAngle) < LEVEL_GYRO_TOLERANCE)
     	{
@@ -247,7 +248,7 @@ public class Claw extends Subsystem {
 	    	//180 is the maximum error
 	    	error = angle - currAngle;
 	    	
-	    	speed = (error / 180) * (LEVEL_MAX_SPEED - LEVEL_MIN_SPEED);
+	    	speed = (error / kP);
 	    	if (error < 0)
 	    		speed -= LEVEL_MIN_SPEED;
 	    	else
