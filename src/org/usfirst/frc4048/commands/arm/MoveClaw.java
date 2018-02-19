@@ -2,6 +2,7 @@ package org.usfirst.frc4048.commands.arm;
 
 import org.usfirst.frc4048.Robot;
 import org.usfirst.frc4048.RobotMap;
+import org.usfirst.frc4048.subsystems.Arm.ArmPositions;
 import org.usfirst.frc4048.subsystems.Claw.WristPostion;
 import org.usfirst.frc4048.utils.MotorUtils;
 
@@ -40,6 +41,9 @@ public class MoveClaw extends Command {
     		}
     		else
     		{
+//    			if(Robot.arm.armAtPosition(ArmPositions.Home)) {
+//    				Robot.claw.recalibrateClawGyro();
+//    			}
     			Robot.claw.stopWrist();
     		}
     	}

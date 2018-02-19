@@ -75,7 +75,7 @@ public class Arm extends Subsystem {
 	/*
 	 * All of these setpoints are used for the arm
 	 */
-	public static final double ANGLE_MARGIN_VALUE = 5.0;
+	public static final double ANGLE_MARGIN_VALUE = 7.5;
 	public static final double CRITICAL_MARGIN_VALUE = 10.0;
 	public static final double HOME_SETPOINT = 0.0;
 	public static final double INTAKE_SETPOINT = 14.0;
