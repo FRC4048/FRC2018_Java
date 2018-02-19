@@ -59,45 +59,28 @@ public class Logging {
 	}
 
 	public void traceSubsystem(Subsystems s, boolean alwaysPrint, double vals1[], String... vals2) {
+		final StringBuilder sb = new StringBuilder();
+		sb.append(df3.format(Timer.getFPGATimestamp()));
+		sb.append(",");
+		sb.append(s.name());
+		sb.append(",");
+		if (vals1 != null) {
+			for (final double v : vals1) {
+				sb.append(df5.format(v));
+				sb.append(",");
+			}
+		}
+		if (vals2 != null) {
+			for (final String v : vals2) {
+				sb.append("\"").append(v).append("\"");
+				sb.append(",");
+			}
+		}
 		if (DriverStation.getInstance().isEnabled() && counter % 5 == 0 && alwaysPrint == false) {
-			final StringBuilder sb = new StringBuilder();
-			sb.append(df3.format(Timer.getFPGATimestamp()));
-			sb.append(",");
-			sb.append(s.name());
-			sb.append(",");
-			if (vals1 != null) {
-				for (final double v : vals1) {
-					sb.append(df5.format(v));
-					sb.append(",");
-				}
-			}
-			if (vals2 != null) {
-				for (final String v : vals2) {
-					sb.append("\"").append(v).append("\"");
-					sb.append(",");
-				}
-			}
 			traceMessage(sb);
 		}
 		else if (alwaysPrint == true)
 		{
-			final StringBuilder sb = new StringBuilder();
-			sb.append(df3.format(Timer.getFPGATimestamp()));
-			sb.append(",");
-			sb.append(s.name());
-			sb.append(",");
-			if (vals1 != null) {
-				for (final double v : vals1) {
-					sb.append(df5.format(v));
-					sb.append(",");
-				}
-			}
-			if (vals2 != null) {
-				for (final String v : vals2) {
-					sb.append("\"").append(v).append("\"");
-					sb.append(",");
-				}
-			}
 			traceMessage(sb);
 		}
 		counter += 1;
