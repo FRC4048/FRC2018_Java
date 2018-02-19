@@ -1,6 +1,6 @@
 package org.usfirst.frc4048.commands;
 
-import org.usfirst.frc4048.commands.arm.ExtensionArmToHome;
+import org.usfirst.frc4048.commands.arm.ExtensionAndArmToHome;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -18,7 +18,7 @@ public class CancelCommand extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	Scheduler.getInstance().removeAll();
-    	Scheduler.getInstance().add(new ExtensionArmToHome());
+    	Scheduler.getInstance().add(new ExtensionAndArmToHome());
     }
 
     // Called repeatedly when this Command is scheduled to run

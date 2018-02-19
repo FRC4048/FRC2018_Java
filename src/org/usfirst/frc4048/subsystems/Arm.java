@@ -55,25 +55,28 @@ public class Arm extends Subsystem {
 
 	private final int TIMEOUT = 100;
 
-	private double EXT_P = 5.0;
+	private double EXT_P = 10.0;
 	private double EXT_I = 0.0;
 	private double EXT_D = 0.0;
 
-	private final double ARM_P = 10.0;
-	private final double ARM_I = 0.0;
-	private final double ARM_D = 0.0;
+	private final double ARM_UP_P = 10.0;
+	private final double ARM_UP_I = 0.0;
+	private final double ARM_UP_D = 0.0;
+	private final double ARM_DOWN_P = 0.25;
+	private final double ARM_DOWN_I = 0.0;
+	private final double ARM_DOWN_D = 0.0;
 
 	/**
 	 * Is not a speed, but a setpoint adjustment value
 	 */
-	private final double FINETUNE_RATE = 1.0;
+	private final double FINETUNE_RATE = 0.1;
 
 	// TODO ALL OF THESE SETPOINTS ARE NOT VALID
 	/*
 	 * All of these setpoints are used for the arm
 	 */
 	public static final double ANGLE_MARGIN_VALUE = 5.0;
-	public static final double CRITICAL_MARGIN_VALUE = 15.0;
+	public static final double CRITICAL_MARGIN_VALUE = 10.0;
 	public static final double HOME_SETPOINT = 0.0;
 	public static final double INTAKE_SETPOINT = 14.0;
 	public static final double EXCHANGE_SETPOINT = 40.0;
@@ -92,7 +95,7 @@ public class Arm extends Subsystem {
 	/*
 	 * All of these setpoints are used for the extension
 	 */
-	public static final double EXT_MARGIN_VALUE = 0.5;
+	public static final double EXT_MARGIN_VALUE = 1.5;
 	public static final double EXT_HOME_SETPOINT = 0.0;
 	public static final double EXT_INTAKE_SETPOINT = 8.5;
 	// public static final double EXT_CLIMB_SETPOINT = 1020;
@@ -119,6 +122,8 @@ public class Arm extends Subsystem {
 	private double mathPotExtSetpoint = 0.0;
 	private ArmMath armMath = new ArmMath();
 
+	private boolean goingHome = false;
+	
 	public Arm() {
 		super("Arm");
 
@@ -126,8 +131,8 @@ public class Arm extends Subsystem {
 		extensionMotor.selectProfileSlot(0, 0);
 		extensionMotor.configNominalOutputForward(0, TIMEOUT);
 		extensionMotor.configNominalOutputReverse(0, TIMEOUT);
-		extensionMotor.configPeakOutputForward(Robot.ARM_SCALE_FACTOR, TIMEOUT);
-		extensionMotor.configPeakOutputReverse(-Robot.ARM_SCALE_FACTOR, TIMEOUT);
+		extensionMotor.configPeakOutputForward(Robot.EXT_SCALE_FACTOR, TIMEOUT);
+		extensionMotor.configPeakOutputReverse(-Robot.EXT_SCALE_FACTOR, TIMEOUT);
 		extensionMotor.setNeutralMode(NeutralMode.Brake);
 		extensionMotor.setSensorPhase(false);
 		extensionMotor.configAllowableClosedloopError(0, 4, TIMEOUT);
@@ -136,17 +141,20 @@ public class Arm extends Subsystem {
 		extensionMotor.config_kD(0, EXT_D, TIMEOUT);
 
 		movementMotor.configSelectedFeedbackSensor(FeedbackDevice.Analog, 0, TIMEOUT);
-		movementMotor.selectProfileSlot(0, 0);
 		movementMotor.configNominalOutputForward(0, TIMEOUT);
 		movementMotor.configNominalOutputReverse(0, TIMEOUT);
-		movementMotor.configPeakOutputForward(Robot.ARM_SCALE_FACTOR, TIMEOUT);
-		movementMotor.configPeakOutputReverse(-Robot.ARM_SCALE_FACTOR, TIMEOUT);
+		movementMotor.configPeakOutputForward(Robot.ARM_UP_SCALE_FACTOR, TIMEOUT);
+		movementMotor.configPeakOutputReverse(-Robot.ARM_DOWN_SCALE_FACTOR, TIMEOUT);
 		movementMotor.setNeutralMode(NeutralMode.Brake);
 		movementMotor.setSensorPhase(true);
 		movementMotor.configAllowableClosedloopError(0, 4, TIMEOUT);
-		movementMotor.config_kP(0, ARM_P, TIMEOUT);
-		movementMotor.config_kI(0, ARM_I, TIMEOUT);
-		movementMotor.config_kD(0, ARM_D, TIMEOUT);
+		movementMotor.config_kP(0, ARM_UP_P, TIMEOUT);
+		movementMotor.config_kI(0, ARM_UP_I, TIMEOUT);
+		movementMotor.config_kD(0, ARM_UP_D, TIMEOUT);
+		movementMotor.configAllowableClosedloopError(1, 4, TIMEOUT);
+		movementMotor.config_kP(1, ARM_DOWN_P, TIMEOUT);
+		movementMotor.config_kI(1, ARM_DOWN_I, TIMEOUT);
+		movementMotor.config_kD(1, ARM_DOWN_D, TIMEOUT);
 
 		armAngleSetpoint = getArmAngle();
 		extensionToHome();
@@ -215,9 +223,7 @@ public class Arm extends Subsystem {
 	}
 
 	public void printPIDValues() {
-		SmartDashboard.putNumber("ARM P", ARM_P);
-		SmartDashboard.putNumber("ARM I", ARM_I);
-		SmartDashboard.putNumber("ARM D", ARM_D);
+		
 
 		SmartDashboard.putNumber("EXT P", EXT_P);
 		SmartDashboard.putNumber("EXT I", EXT_I);
@@ -331,6 +337,11 @@ public class Arm extends Subsystem {
 		return extension <= EXT_HOME_SETPOINT + EXT_MARGIN_VALUE
 				&& extension >= EXT_HOME_SETPOINT - EXT_MARGIN_VALUE;
 	}
+	
+	public void setGoingHome(boolean val)
+	{
+		goingHome = val;
+	}
 
 	public void extensionToIntake() {
 		manualExtSetpoint = EXT_INTAKE_SETPOINT;
@@ -359,7 +370,7 @@ public class Arm extends Subsystem {
 	 * within the exchange and high scale positions
 	 */
 	private void moveExtension() {
-		if (inAutoRange()) {
+		if (inAutoRange() && !goingHome) {
 			double angle = getArmAngle();
 			double extSetpoint = armMath.convertArmAngleToExtPot(EXT_POT_MIN, EXT_LENGTH_MIN, EXT_POT_MAX, EXT_LENGTH_MAX, angle) * EXT_POT_INVERT;
 			mathPotExtSetpoint = extSetpoint;
@@ -376,6 +387,20 @@ public class Arm extends Subsystem {
 	private void moveArm() {
 		double armSetpoint = armMath.convertAngleToPot(ARM_POT_MIN, ARM_ANGLE_MIN, ARM_POT_MAX, ARM_ANGLE_MAX, armAngleSetpoint) * ARM_POT_INVERT;
 		SmartDashboard.putNumber("ARM POT SETPOINT", armSetpoint);
+		if(getArmPos() > armSetpoint)
+		{
+			SmartDashboard.putNumber("ARM P", ARM_DOWN_P);
+			SmartDashboard.putNumber("ARM I", ARM_DOWN_I);
+			SmartDashboard.putNumber("ARM D", ARM_DOWN_D);
+			movementMotor.selectProfileSlot(1, 0);
+		}
+		else
+		{
+			SmartDashboard.putNumber("ARM P", ARM_UP_P);
+			SmartDashboard.putNumber("ARM I", ARM_UP_I);
+			SmartDashboard.putNumber("ARM D", ARM_UP_D);
+			movementMotor.selectProfileSlot(0, 0);
+		}
 		movementMotor.set(ControlMode.Position, (int) armSetpoint);
 	}
 
