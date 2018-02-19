@@ -131,7 +131,7 @@ public class OI {
         moveToSwitch.whenPressed(new MoveArm(ArmPositions.Switch));
 		grabCube = new JoystickButton(controller, 6); // Right Bumper
         grabCube.whenPressed(new GrabCube());
-        releaseCube = new JoystickButton(controller, 5);
+        releaseCube = new JoystickButton(controller, 5);	//Left Bumper
         releaseCube.whenPressed(new OpenClaw());
         rightJoystick = new Joystick(1);
         

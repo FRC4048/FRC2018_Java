@@ -54,9 +54,8 @@ public class Claw extends Subsystem {
     private final ADXRS450_Gyro gyro = RobotMap.gyro;
     
     //TODO Figure out current value to be used by grab cube
-    private final double CURRENT_MAX_VALUE = 2.75;
-    private final double CLOSE_SPEED = -0.6*Robot.GLOBAL_SCALE_FACTOR;
-    private final double OPEN_SPEED = 0.6*Robot.GLOBAL_SCALE_FACTOR;
+    private final double CLOSE_SPEED = -0.6;//*Robot.GLOBAL_SCALE_FACTOR;
+    private final double OPEN_SPEED = 0.6;//*Robot.GLOBAL_SCALE_FACTOR;
     
     private final double ANGLE_UP_SPEED = 0.35;
     private final double ANGLE_DOWN_SPEED = -0.3;
@@ -86,7 +85,7 @@ public class Claw extends Subsystem {
 
         // Set the default command for a subsystem here.
         // setDefaultCommand(new MySpecialCommand());
-//    	setDefaultCommand(new MoveClaw());
+    	setDefaultCommand(new MoveClaw());
     }
 
     public Claw()

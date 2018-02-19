@@ -62,7 +62,7 @@ public class Arm extends Subsystem {
 	private final double ARM_UP_P = 10.0;
 	private final double ARM_UP_I = 0.0;
 	private final double ARM_UP_D = 0.0;
-	private final double ARM_DOWN_P = 0.25;
+	private final double ARM_DOWN_P = 2.5;
 	private final double ARM_DOWN_I = 0.0;
 	private final double ARM_DOWN_D = 0.0;
 
@@ -80,9 +80,9 @@ public class Arm extends Subsystem {
 	public static final double HOME_SETPOINT = 0.0;
 	public static final double INTAKE_SETPOINT = 14.0;
 	public static final double EXCHANGE_SETPOINT = 40.0;
-	public static final double SWITCH_SETPOINT = 80.0;
-	public static final double LOWSCALE_SETPOINT = 125.0;
-	public static final double HIGHSCALE_SETPOINT = 145.0;
+	public static final double SWITCH_SETPOINT = 78.0;
+	public static final double LOWSCALE_SETPOINT = 118.0;	//Is mid scale
+	public static final double HIGHSCALE_SETPOINT = 123.0;
 	// public static final double POT_MARGIN_VALUE = 5.0;
 	// public static final double MATH_MARGIN_VALUE = 100.0;
 	// public static final double HOME_SETPOINT = 0.0;
@@ -120,6 +120,7 @@ public class Arm extends Subsystem {
 	private double armAngleSetpoint;
 	private double manualExtSetpoint;
 	private double mathPotExtSetpoint = 0.0;
+//	private boolean autoExt = false;
 	private ArmMath armMath = new ArmMath();
 
 	private boolean goingHome = false;
@@ -365,19 +366,33 @@ public class Arm extends Subsystem {
 				&& armPos <= HIGHSCALE_SETPOINT + CRITICAL_MARGIN_VALUE;
 	}
 	
+	public boolean isArmMoving()
+	{
+		return !(getArmAngle() >= armAngleSetpoint + ANGLE_MARGIN_VALUE && getArmAngle() <= armAngleSetpoint - ANGLE_MARGIN_VALUE);
+	}
+	
+	public boolean isExtMoving()
+	{
+		return !(getArmAngle() >=  + EXT_MARGIN_VALUE && getArmAngle() <= armAngleSetpoint - ANGLE_MARGIN_VALUE);
+	}
+	
 	/**
 	 * Uses arm math to calculate new position for extension This math only applies
 	 * within the exchange and high scale positions
 	 */
 	private void moveExtension() {
-		if (inAutoRange() && !goingHome) {
+		if (inAutoRange() && !goingHome) {// && !isArmMoving()) {
+//			autoExt = true;
 			double angle = getArmAngle();
 			double extSetpoint = armMath.convertArmAngleToExtPot(EXT_POT_MIN, EXT_LENGTH_MIN, EXT_POT_MAX, EXT_LENGTH_MAX, angle) * EXT_POT_INVERT;
 			mathPotExtSetpoint = extSetpoint;
 			extensionMotor.set(ControlMode.Position, (int) extSetpoint);
-		} else {
-			 double extPot = armMath.convertLengthToExtPot(EXT_POT_MIN, EXT_LENGTH_MIN, EXT_POT_MAX, EXT_LENGTH_MAX, manualExtSetpoint) * EXT_POT_INVERT;
-			 extensionMotor.set(ControlMode.Position, (int) extPot);
+		} else {// if (!isArmMoving()) {
+//			autoExt = false;
+			double extPot = armMath.convertLengthToExtPot(EXT_POT_MIN, EXT_LENGTH_MIN, EXT_POT_MAX, EXT_LENGTH_MAX, manualExtSetpoint) * EXT_POT_INVERT;
+			extensionMotor.set(ControlMode.Position, (int) extPot);
+//		} //else if (isArmMoving()) {
+//			autoExt = false;
 		}
 	}
 
@@ -386,7 +401,14 @@ public class Arm extends Subsystem {
 	 */
 	private void moveArm() {
 		double armSetpoint = armMath.convertAngleToPot(ARM_POT_MIN, ARM_ANGLE_MIN, ARM_POT_MAX, ARM_ANGLE_MAX, armAngleSetpoint) * ARM_POT_INVERT;
+//		if(isExtMoving())
+//		{
+//			armSetpoint = getArmAngle();
+//		}
+		
 		SmartDashboard.putNumber("ARM POT SETPOINT", armSetpoint);
+		movementMotor.set(ControlMode.Position, (int) armSetpoint);
+		
 		if(getArmPos() > armSetpoint)
 		{
 			SmartDashboard.putNumber("ARM P", ARM_DOWN_P);
@@ -401,7 +423,7 @@ public class Arm extends Subsystem {
 			SmartDashboard.putNumber("ARM D", ARM_UP_D);
 			movementMotor.selectProfileSlot(0, 0);
 		}
-		movementMotor.set(ControlMode.Position, (int) armSetpoint);
+
 	}
 
 	public String armHeadings() {

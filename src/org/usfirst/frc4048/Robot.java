@@ -66,7 +66,7 @@ public class Robot extends TimedRobot {
     
     public static double GLOBAL_SCALE_FACTOR = .25;
     public static double ARM_UP_SCALE_FACTOR = 0.75;
-    public static double ARM_DOWN_SCALE_FACTOR = 0.50;
+    public static double ARM_DOWN_SCALE_FACTOR = 0.30;
     public static double EXT_SCALE_FACTOR = 1.00;
     
     /**

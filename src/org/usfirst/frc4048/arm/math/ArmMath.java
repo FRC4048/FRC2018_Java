@@ -6,7 +6,8 @@ public class ArmMath {
 	
 	public ArmMath()
 	{
-		this.strat = new LinearMoveStrat();
+//		this.strat = new LinearMoveStrat();
+		this.strat = new FixedAngleStrat();
 	}
 	
 	/**
