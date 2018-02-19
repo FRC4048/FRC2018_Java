@@ -150,7 +150,7 @@ public class Arm extends Subsystem {
 		movementMotor.config_kI(0, ARM_I, TIMEOUT);
 		movementMotor.config_kD(0, ARM_D, TIMEOUT);
 		
-		armAngleSetpoint = getArmAngle();
+//		armAngleSetpoint = getArmAngle();
 //		extensionToHome();
 		
 		// Used for test bed
@@ -178,7 +178,7 @@ public class Arm extends Subsystem {
     public void periodic() {
         // Put code here to be run every loop
     	
-    	moveArm();
+//    	moveArm();
 //    	moveExtension();
     
     	SmartDashboard.putNumber("ARM ANGLE", getArmAngle());
@@ -280,7 +280,7 @@ public class Arm extends Subsystem {
 		case Home:
 			return armPos >= HOME_SETPOINT - ANGLE_MARGIN_VALUE && armPos <= HOME_SETPOINT + ANGLE_MARGIN_VALUE;
 		default:
-			return false;
+			return true;
 		}
     }
     
