@@ -343,7 +343,8 @@ public class Arm extends Subsystem {
 	public boolean inAutoRange() {
 		double armPos = getArmAngle();
 		return armPos >= EXCHANGE_SETPOINT - CRITICAL_MARGIN_VALUE
-				&& armPos <= HIGHSCALE_SETPOINT + CRITICAL_MARGIN_VALUE;
+				&& armPos <= LOWSCALE_SETPOINT + CRITICAL_MARGIN_VALUE;
+//				&& armPos <= HIGHSCALE_SETPOINT + CRITICAL_MARGIN_VALUE;
 	}
 	
 	/**
