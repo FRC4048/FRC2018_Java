@@ -147,7 +147,7 @@ public class Arm extends Subsystem {
 		movementMotor.config_kD(0, ARM_D, TIMEOUT);
 
 		armAngleSetpoint = getArmAngle();
-		extensionToHome();
+//		extensionToHome();
 
 		printPIDValues();
 	}
