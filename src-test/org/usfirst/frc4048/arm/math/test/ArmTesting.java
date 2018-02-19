@@ -70,7 +70,7 @@ public class ArmTesting {
 			stratStrings[0]+= math.convertAngleToPot(ARM_MIN_POT, ARM_MIN_ANGLE, ARM_MAX_POT, ARM_MAX_ANGLE, angle) *-1;
 //			stratStrings[0]+=(stratLinear.getExtensionLength(pot) + FIXED_ARM_LENGTH)*Math.sin(Math.toRadians(angle+22));
 			stratStrings[0]+=',';
-			stratStrings[0]+=stratLinear.getExtensionLength(pot);
+			stratStrings[0]+=stratLinear.getExtensionLength(angle);
 			stratStrings[0]+='\n';
 			
 //			stratStrings[1]+=angle;

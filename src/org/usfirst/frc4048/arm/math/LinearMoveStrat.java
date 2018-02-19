@@ -21,8 +21,8 @@ public class LinearMoveStrat implements ArmStrat{
 	/**
 	 * Angle that when above begins the linear math.
 	 */
-	public static final double HOME_MAX_ANGLE = Math.toRadians(32.0);
-	public static final double MAX_ANGLE = Math.toRadians(165.0);
+	public static final double HOME_MAX_ANGLE = Math.toRadians(22.0);
+	public static final double MAX_ANGLE = Math.toRadians(180.0);
 	/**
 	 * Length of arm when at home
 	 */
@@ -30,7 +30,7 @@ public class LinearMoveStrat implements ArmStrat{
 	/**
 	 * Maximum length of extension
 	 */
-	public static final double MAX_EXTENSION = 15.0;//changed to match the EXT_MAX_LENGTH in ArmTesting.java
+	public static final double MAX_EXTENSION = 15.25;//changed to match the EXT_MAX_LENGTH in ArmTesting.java
 	
 	//added constructor to resolve error in ArmTesting
 	public LinearMoveStrat()
