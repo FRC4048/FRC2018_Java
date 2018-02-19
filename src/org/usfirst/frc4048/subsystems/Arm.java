@@ -55,7 +55,7 @@ public class Arm extends Subsystem {
 
 	private final int TIMEOUT = 100;
 
-	private double EXT_P = 1.0;
+	private double EXT_P = 5.0;
 	private double EXT_I = 0.0;
 	private double EXT_D = 0.0;
 
@@ -107,14 +107,16 @@ public class Arm extends Subsystem {
 	private final double ARM_ANGLE_MIN = 0.0;
 	private final double ARM_ANGLE_MAX = 158.0;
 	private final double ARM_POT_INVERT = -1.0;
-	private final double EXT_POT_MIN = 613.0;
-	private final double EXT_POT_MAX = 326.0;
+	
+	private final double EXT_POT_MIN = 840.0;
+	private final double EXT_POT_MAX = 551.0;
 	private final double EXT_LENGTH_MIN = 0.0;
 	private final double EXT_LENGTH_MAX = 15.25;
 	private final double EXT_POT_INVERT = 1.0;
 
 	private double armAngleSetpoint;
 	private double manualExtSetpoint;
+	private double mathPotExtSetpoint = 0.0;
 	private ArmMath armMath = new ArmMath();
 
 	public Arm() {
@@ -124,10 +126,10 @@ public class Arm extends Subsystem {
 		extensionMotor.selectProfileSlot(0, 0);
 		extensionMotor.configNominalOutputForward(0, TIMEOUT);
 		extensionMotor.configNominalOutputReverse(0, TIMEOUT);
-		extensionMotor.configPeakOutputForward(Robot.ARM_SCALE_FACTOR, TIMEOUT);
-		extensionMotor.configPeakOutputReverse(-Robot.ARM_SCALE_FACTOR, TIMEOUT);
+		extensionMotor.configPeakOutputForward(Robot.GLOBAL_SCALE_FACTOR, TIMEOUT);
+		extensionMotor.configPeakOutputReverse(-Robot.GLOBAL_SCALE_FACTOR, TIMEOUT);
 		extensionMotor.setNeutralMode(NeutralMode.Brake);
-		extensionMotor.setSensorPhase(true);
+		extensionMotor.setSensorPhase(false);
 		extensionMotor.configAllowableClosedloopError(0, 4, TIMEOUT);
 		extensionMotor.config_kP(0, EXT_P, TIMEOUT);
 		extensionMotor.config_kI(0, EXT_I, TIMEOUT);
@@ -147,7 +149,8 @@ public class Arm extends Subsystem {
 		movementMotor.config_kD(0, ARM_D, TIMEOUT);
 
 		armAngleSetpoint = getArmAngle();
-//		extensionToHome();
+		extensionToHome();
+		mathPotExtSetpoint = 0.0;
 
 		printPIDValues();
 	}
@@ -173,19 +176,23 @@ public class Arm extends Subsystem {
 		moveExtension();
 
 		SmartDashboard.putNumber("ARM ANGLE", getArmAngle());
-		SmartDashboard.putNumber("EXTENSION LENGTH", getExtLength());
-		SmartDashboard.putNumber("EXTENSION SETPOINT", manualExtSetpoint);
 		SmartDashboard.putNumber("ARM SETPOINT", armAngleSetpoint);
 		SmartDashboard.putNumber("ARM POT", getArmPos());
-		SmartDashboard.putNumber("EXT POT", getExtPos());
 		SmartDashboard.putNumber("ARM ERROR", movementMotor.getClosedLoopError(0));
 		SmartDashboard.putNumber("ARM VOLTAGE", movementMotor.getMotorOutputVoltage());
+		
+		SmartDashboard.putNumber("EXTENSION LENGTH", getExtLength());
+		SmartDashboard.putNumber("EXTENSION SETPOINT", manualExtSetpoint);
+		SmartDashboard.putNumber("EXT POT", getExtPos());
 	}
 
 	public void armData() {
 		SmartDashboard.putNumber("Setpoint", armAngleSetpoint);
 		SmartDashboard.putNumber("ARM POT", getArmPos());
+		
 		SmartDashboard.putNumber("EXT POT", getExtPos());
+		SmartDashboard.putNumber("EXTENSION LENGTH", getExtLength());
+		SmartDashboard.putNumber("EXTENSION POT SETPOINT", mathPotExtSetpoint);
 	}
 
 	// Put methods for controlling this subsystem
@@ -343,8 +350,8 @@ public class Arm extends Subsystem {
 	public boolean inAutoRange() {
 		double armPos = getArmAngle();
 		return armPos >= EXCHANGE_SETPOINT - CRITICAL_MARGIN_VALUE
-				&& armPos <= LOWSCALE_SETPOINT + CRITICAL_MARGIN_VALUE;
-//				&& armPos <= HIGHSCALE_SETPOINT + CRITICAL_MARGIN_VALUE;
+//				&& armPos <= LOWSCALE_SETPOINT + CRITICAL_MARGIN_VALUE;
+				&& armPos <= HIGHSCALE_SETPOINT + CRITICAL_MARGIN_VALUE;
 	}
 	
 	/**
@@ -355,6 +362,7 @@ public class Arm extends Subsystem {
 		if (inAutoRange()) {
 			double angle = getArmAngle();
 			double extSetpoint = armMath.convertArmAngleToExtPot(EXT_POT_MIN, EXT_LENGTH_MIN, EXT_POT_MAX, EXT_LENGTH_MAX, angle) * EXT_POT_INVERT;
+			mathPotExtSetpoint = extSetpoint;
 			extensionMotor.set(ControlMode.Position, (int) extSetpoint);
 		} else {
 			 double extPot = armMath.convertLengthToExtPot(EXT_POT_MIN, EXT_LENGTH_MIN, EXT_POT_MAX, EXT_LENGTH_MAX, manualExtSetpoint) * EXT_POT_INVERT;
