@@ -106,10 +106,12 @@ public class Arm extends Subsystem {
 	private final double ARM_POT_MAX = 84;
 	private final double ARM_ANGLE_MIN = 0.0;
 	private final double ARM_ANGLE_MAX = 158.0;
+	private final double ARM_POT_INVERT = -1.0;
 	private final double EXT_POT_MIN = 613.0;
 	private final double EXT_POT_MAX = 326.0;
 	private final double EXT_LENGTH_MIN = 0.0;
 	private final double EXT_LENGTH_MAX = 15.25;
+	private final double EXT_POT_INVERT = 1.0;
 
 	private double armAngleSetpoint;
 	private double manualExtSetpoint;
@@ -214,7 +216,7 @@ public class Arm extends Subsystem {
 		SmartDashboard.putNumber("EXT I", EXT_I);
 		SmartDashboard.putNumber("EXT D", EXT_D);
 	}
-
+	
 	public void finetuneUp() {
 		armAngleSetpoint += FINETUNE_RATE;
 	}
@@ -236,11 +238,11 @@ public class Arm extends Subsystem {
 	}
 
 	public double getArmAngle() {
-		return armMath.convertPotToAngle(ARM_POT_MIN, ARM_ANGLE_MIN, ARM_POT_MAX, ARM_ANGLE_MAX, getArmPos());
+		return armMath.convertPotToAngle(ARM_POT_MIN, ARM_ANGLE_MIN, ARM_POT_MAX, ARM_ANGLE_MAX, getArmPos() * ARM_POT_INVERT);
 	}
 
 	public double getExtLength() {
-		 return armMath.convertExtPotToLength(EXT_POT_MIN, EXT_LENGTH_MIN, EXT_POT_MAX, EXT_LENGTH_MAX, getExtPos());
+		 return armMath.convertExtPotToLength(EXT_POT_MIN, EXT_LENGTH_MIN, EXT_POT_MAX, EXT_LENGTH_MAX, getExtPos()* EXT_POT_INVERT);
 	}
 
 	// TODO Confirm if value is negative on real robot
@@ -351,13 +353,10 @@ public class Arm extends Subsystem {
 	private void moveExtension() {
 		if (inAutoRange()) {
 			double angle = getArmAngle();
-			SmartDashboard.putNumber("ARM ANGLE", angle);
-			double extSetpoint = armMath.convertArmAngleToExtPot(EXT_POT_MIN, EXT_LENGTH_MIN, EXT_POT_MAX,
-					EXT_LENGTH_MAX, angle);
-			SmartDashboard.putNumber("EXTENSION SETPOINT", extSetpoint);
+			double extSetpoint = armMath.convertArmAngleToExtPot(EXT_POT_MIN, EXT_LENGTH_MIN, EXT_POT_MAX, EXT_LENGTH_MAX, angle) * EXT_POT_INVERT;
 			extensionMotor.set(ControlMode.Position, (int) extSetpoint);
 		} else {
-			 double extPot = armMath.convertLengthToExtPot(EXT_POT_MIN, EXT_LENGTH_MIN, EXT_POT_MAX, EXT_LENGTH_MAX, manualExtSetpoint);
+			 double extPot = armMath.convertLengthToExtPot(EXT_POT_MIN, EXT_LENGTH_MIN, EXT_POT_MAX, EXT_LENGTH_MAX, manualExtSetpoint) * EXT_POT_INVERT;
 			 extensionMotor.set(ControlMode.Position, (int) extPot);
 		}
 	}
@@ -366,7 +365,7 @@ public class Arm extends Subsystem {
 	 * Keeps arm locked to its current setpoint position
 	 */
 	private void moveArm() {
-		double armSetpoint = armMath.convertAngleToPot(ARM_POT_MIN, ARM_ANGLE_MIN, ARM_POT_MAX, ARM_ANGLE_MAX, armAngleSetpoint) * -1.0;
+		double armSetpoint = armMath.convertAngleToPot(ARM_POT_MIN, ARM_ANGLE_MIN, ARM_POT_MAX, ARM_ANGLE_MAX, armAngleSetpoint) * ARM_POT_INVERT;
 		SmartDashboard.putNumber("ARM POT SETPOINT", armSetpoint);
 		movementMotor.set(ControlMode.Position, (int) armSetpoint);
 	}
