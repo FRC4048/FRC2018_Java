@@ -91,7 +91,7 @@ public class Robot extends TimedRobot {
         
         WorkQueue wq = new WorkQueue(512);
         logging = new Logging(100, wq);
-		logging.startThread(); //Starts the logger
+        logging.startThread(); //Starts the logger
 		
         chooser.addDefault("Autorun(cross the base line)", Action.Baseline);
         chooser.addObject("Robot on LEFT, do SWITCH", Action.LSwitch);
@@ -149,6 +149,7 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
     	logging.traceMessage(Logging.MessageLevel.InfoMessage, "---------------------------- Autonomous mode starting ----------------------------");
+    	logging.printHeadings();
     	Robot.drivetrain.swerveDrivetrain.setModeField();
         char switchPos = 'X';
         char scalePos = 'X';
@@ -201,7 +202,7 @@ public class Robot extends TimedRobot {
         // this line or comment it out.
 
     	logging.traceMessage(Logging.MessageLevel.InfoMessage, "---------------------------- Teleop mode starting ----------------------------");
-
+    	logging.printHeadings();
     	Robot.drivetrain.swerveDrivetrain.setModeField();
     	
     	autoAction = chooser.getSelected();

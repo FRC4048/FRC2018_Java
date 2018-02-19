@@ -163,7 +163,7 @@ public class Drivetrain extends Subsystem {
     @Override
     public void periodic() {
         // Put code here to be run every loop
-    	Robot.logging.traceSubsystem(Logging.Subsystems.DRIVETRAIN, leftSonar.getVoltage(),
+    	Robot.logging.traceSubsystem(Logging.Subsystems.DRIVETRAIN, false, leftSonar.getVoltage(),
         							 getSonar(SonarSide.LEFT));
     }
     

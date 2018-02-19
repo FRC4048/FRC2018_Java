@@ -46,20 +46,41 @@ public class Logging {
 		this.executor.schedule(new ConsolePrintTask(wq, this), 0L, this.period);
 	}
 
-	public void traceSubsystem(Subsystems s, double... vals) {
-		traceSubsystem(s, vals, (String[]) null);
+	public void traceSubsystem(Subsystems s, boolean alwaysPrint, double... vals) {
+		traceSubsystem(s, alwaysPrint, vals, (String[]) null);
 	}
 
-	public void traceSubsystem(Subsystems s, String... vals) {
-		traceSubsystem(s, (double[]) null, vals);
+	public void traceSubsystem(Subsystems s, boolean alwaysPrint, String... vals) {
+		traceSubsystem(s, true, (double[]) null, vals);
 	}
 
 	public void traceSubsystem(Subsystems s, String vals1[], double... vals2) {
-		traceSubsystem(s, vals2, vals1);
+		traceSubsystem(s, false, vals2, vals1);
 	}
 
-	public void traceSubsystem(Subsystems s, double vals1[], String... vals2) {
-		if (DriverStation.getInstance().isEnabled() && counter % 5 == 0) {
+	public void traceSubsystem(Subsystems s, boolean alwaysPrint, double vals1[], String... vals2) {
+		if (DriverStation.getInstance().isEnabled() && counter % 5 == 0 && alwaysPrint == false) {
+			final StringBuilder sb = new StringBuilder();
+			sb.append(df3.format(Timer.getFPGATimestamp()));
+			sb.append(",");
+			sb.append(s.name());
+			sb.append(",");
+			if (vals1 != null) {
+				for (final double v : vals1) {
+					sb.append(df5.format(v));
+					sb.append(",");
+				}
+			}
+			if (vals2 != null) {
+				for (final String v : vals2) {
+					sb.append("\"").append(v).append("\"");
+					sb.append(",");
+				}
+			}
+			traceMessage(sb);
+		}
+		else if (alwaysPrint == true)
+		{
 			final StringBuilder sb = new StringBuilder();
 			sb.append(df3.format(Timer.getFPGATimestamp()));
 			sb.append(",");
@@ -103,10 +124,10 @@ public class Logging {
 	
 	public void printHeadings()
 	{
-		traceSubsystem(Subsystems.DRIVETRAIN, Robot.drivetrain.drivetrianHeadings());
-		traceSubsystem(Subsystems.ARM, Robot.arm.armHeadings());
-		traceSubsystem(Subsystems.CLAW, Robot.claw.clawHeadings());
-		traceSubsystem(Subsystems.INTAKE, Robot.intake.intakeHeadings());
+		traceSubsystem(Subsystems.DRIVETRAIN, true, Robot.drivetrain.drivetrianHeadings());
+		traceSubsystem(Subsystems.ARM, true, Robot.arm.armHeadings());
+		traceSubsystem(Subsystems.CLAW, true, Robot.claw.clawHeadings());
+		traceSubsystem(Subsystems.INTAKE, true, Robot.intake.intakeHeadings());
 	}
 	
 	private class ConsolePrintTask extends TimerTask {
@@ -118,21 +139,25 @@ public class Logging {
 			this.l = l;
 			this.wq = wq;
 			try {
-
 				File file = new File("/home/lvuser/Logs");
 				if (!file.exists()) {
 					if (file.mkdir()) {
 						System.out.println("Log Directory is created!");
-					} else {
+					}else {
 						System.out.println("Failed to create Log directory!");
 					}
 				}
 				Date date = new Date();
 				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
 				dateFormat.setTimeZone(TimeZone.getTimeZone("EST5EDT"));
-				this.log = new PrintWriter("/home/lvuser/Logs/" + dateFormat.format(date) + "-Log.txt", "UTF-8");
-				
-				printHeadings();
+				try
+				{
+					this.log = new PrintWriter("/media/sda1/" + dateFormat.format(date) + "-Log.csv", "UTF-8");
+				}
+				catch (Exception e)
+				{
+					this.log = new PrintWriter("/home/lvuser/Logs/" + dateFormat.format(date) + "-Log.txt", "UTF-8");
+				}
 				
 				log.flush();
 			} catch (FileNotFoundException e) {
@@ -142,10 +167,6 @@ public class Logging {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
-
-		private String FileHeading() {
-			return "";
 		}
 
 		public void print() {
@@ -159,7 +180,7 @@ public class Logging {
 			}
 			log.flush();
 		}
-
+	
 		/**
 		 * Called periodically in its own thread
 		 */
