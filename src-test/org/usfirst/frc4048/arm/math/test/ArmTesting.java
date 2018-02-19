@@ -60,14 +60,14 @@ public class ArmTesting {
 			stratStrings[0]+="\n";
 //		}	
 		
-		for(double pot = ARM_MIN_POT; pot > ARM_MAX_POT; pot-=5)
+		for(double pot = -ARM_MIN_POT; pot < -ARM_MAX_POT; pot+=5)
 		{
 			stratStrings[0]+=pot;
 			stratStrings[0]+=',';
-			double angle = math.convertPotToAngle(ARM_MIN_POT, ARM_MIN_ANGLE, ARM_MAX_POT, ARM_MAX_ANGLE, pot);
+			double angle = math.convertPotToAngle(ARM_MIN_POT, ARM_MIN_ANGLE, ARM_MAX_POT, ARM_MAX_ANGLE, pot*-1);
 			stratStrings[0]+= angle;
 			stratStrings[0]+=',';
-			stratStrings[0]+= math.convertAngleToPot(ARM_MIN_POT, ARM_MIN_ANGLE, ARM_MAX_POT, ARM_MAX_ANGLE, angle);
+			stratStrings[0]+= math.convertAngleToPot(ARM_MIN_POT, ARM_MIN_ANGLE, ARM_MAX_POT, ARM_MAX_ANGLE, angle) *-1;
 //			stratStrings[0]+=(stratLinear.getExtensionLength(pot) + FIXED_ARM_LENGTH)*Math.sin(Math.toRadians(angle+22));
 			stratStrings[0]+=',';
 			stratStrings[0]+=stratLinear.getExtensionLength(pot);
