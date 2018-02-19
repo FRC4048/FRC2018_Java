@@ -57,8 +57,9 @@ public class Claw extends Subsystem {
     private final double CLOSE_SPEED = -0.6;//*Robot.GLOBAL_SCALE_FACTOR;
     private final double OPEN_SPEED = 0.6;//*Robot.GLOBAL_SCALE_FACTOR;
     
-    private final double ANGLE_UP_SPEED = 0.35;
-    private final double ANGLE_DOWN_SPEED = -0.3;
+    private final double ANGLE_UP_SPEED = 0.6;
+    private final double ANGLE_LEVEL_UP_SPEED = 0.4;
+    private final double ANGLE_LEVEL_DOWN_SPEED = -0.4;
     private final double LEVEL_GYRO_VAL = 109.0;
     private final double LEVEL_GYRO_TOLERANCE = 3.0;
     
@@ -173,7 +174,7 @@ public class Claw extends Subsystem {
      */
     public void angleDown()
     {
-    	pitchMotor.set(ControlMode.PercentOutput, ANGLE_DOWN_SPEED);
+    	pitchMotor.set(ControlMode.PercentOutput, ANGLE_LEVEL_DOWN_SPEED);
     }
     
     /**
@@ -266,10 +267,10 @@ public class Claw extends Subsystem {
     public void moveClawToLevel()
     {
     	if(getGyroVal() > LEVEL_GYRO_VAL + LEVEL_GYRO_TOLERANCE) {
-    		pitchMotor.set(ANGLE_UP_SPEED);
+    		pitchMotor.set(ANGLE_LEVEL_UP_SPEED);
     	}
     	else if(getGyroVal() < LEVEL_GYRO_VAL - LEVEL_GYRO_TOLERANCE) {
-    		pitchMotor.set(ANGLE_DOWN_SPEED);
+    		pitchMotor.set(ANGLE_LEVEL_DOWN_SPEED);
     	}
     	else
     	{

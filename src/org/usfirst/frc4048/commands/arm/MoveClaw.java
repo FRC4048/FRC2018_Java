@@ -27,6 +27,11 @@ public class MoveClaw extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	if(Robot.arm.isGoingHome())
+    	{
+    		Robot.claw.setPosition(WristPostion.Compact);
+    	}
+    	
     	if(Robot.claw.getPosition() == WristPostion.Compact)
     	{
     		if(!Robot.claw.clawUp())
@@ -38,7 +43,7 @@ public class MoveClaw extends Command {
     			Robot.claw.stopWrist();
     		}
     	}
-    	if(Robot.claw.getPosition() == WristPostion.Level)
+    	else if(Robot.claw.getPosition() == WristPostion.Level)
     	{
     		Robot.claw.moveClawToLevel();
     	}

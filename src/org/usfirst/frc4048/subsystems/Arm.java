@@ -343,6 +343,11 @@ public class Arm extends Subsystem {
 	{
 		goingHome = val;
 	}
+	
+	public boolean isGoingHome()
+	{
+		return goingHome;
+	}
 
 	public void extensionToIntake() {
 		manualExtSetpoint = EXT_INTAKE_SETPOINT;
