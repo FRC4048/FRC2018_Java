@@ -260,7 +260,7 @@ public class Arm extends Subsystem {
 	}
 
 	// TODO Confirm if value is negative on real robot
-	public int getArmPos() {
+ 	public int getArmPos() {
 		return movementMotor.getSelectedSensorPosition(0);
 	}
 
@@ -294,7 +294,7 @@ public class Arm extends Subsystem {
 		case Home:
 			return armPos >= HOME_SETPOINT - ANGLE_MARGIN_VALUE && armPos <= HOME_SETPOINT + ANGLE_MARGIN_VALUE;
 		default:
-			return false;
+			return true;
 		}
 	}
 

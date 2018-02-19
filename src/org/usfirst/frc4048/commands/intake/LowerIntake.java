@@ -40,7 +40,7 @@ public class LowerIntake extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return !Robot.intake.isLowered() || isTimedOut() || util.isStalled();
+        return Robot.intake.isLowered() || isTimedOut() || util.isStalled();
     }
 
     // Called once after isFinished returns true

@@ -102,7 +102,6 @@ public class Drivetrain extends Subsystem {
      * 3 = Back Left
      * 4 = Back Right
      */
-    
     private final int FR_ZERO = 1028;
     private final int FL_ZERO = 1784;
     private final int RL_ZERO = 301;

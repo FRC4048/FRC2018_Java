@@ -78,17 +78,17 @@ public class RobotMap {
     /**
      * TODO THE 2 PDP values are setup for the test bed -- Need to fixed
      */
-    public static final int PDP_INTAKE_DEPLOY_MOTOR = 3;
-    public static final int PDP_RIGHT_INTAKE_MOTOR = 6;
-    public static final int PDP_LEFT_INTAKE_MOTOR = 5;
+    public static final int PDP_INTAKE_DEPLOY_MOTOR = 6;
+    public static final int PDP_RIGHT_INTAKE_MOTOR = 8;
+    public static final int PDP_LEFT_INTAKE_MOTOR = 9;
     public static final int PDP_ARM_MOTOR = 4;
     public static final int PDP_WRIST_MOTOR = 15;
     public static final int PDP_GRIP_MOTOR = 14;
     /**
      * TODO Determine correct values for Current threshold for intake motors.
      */
-    public static final double CURRENT_THRESHOLD_INTAKE_MOTOR = 1.0;
-    public static final double CURRENT_THRESHOLD_INTAKE_DEPLOY_MOTOR = 10.0;
+    public static final double CURRENT_THRESHOLD_INTAKE_MOTOR = 10.0;
+    public static final double CURRENT_THRESHOLD_INTAKE_DEPLOY_MOTOR = 25.0;
     public static final double CURRENT_THRESHOLD_ARM_CUBE_PICKUP = 10.0;
     public static final double CURRENT_THRESHOLD_WRIST_MOTOR = 12.0;
     public static final double CURRENT_THRESHOLD_GRIP_MOTOR = 8.0;
@@ -171,7 +171,7 @@ public class RobotMap {
         intakeleftIntakeMotor.setInverted(false);
         intakerightIntakeMotor = new Talon(1);
         LiveWindow.addActuator("Intake", "rightIntakeMotor", (Talon) intakerightIntakeMotor);
-        intakerightIntakeMotor.setInverted(false);
+        intakerightIntakeMotor.setInverted(true);
         intakecubeSwitch = new DigitalInput(7);
         
         LiveWindow.addSensor("Intake", "cubeSwitch", intakecubeSwitch);

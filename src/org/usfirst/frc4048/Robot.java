@@ -27,6 +27,8 @@ import org.usfirst.frc4048.commands.arm.SetClawPosition;
 import org.usfirst.frc4048.commands.auto.AutoAction;
 import org.usfirst.frc4048.commands.getcube.GetCubeGroupCommand;
 import org.usfirst.frc4048.commands.intake.*;
+import org.usfirst.frc4048.commands.intake.GripIntake.GripPosition;
+import org.usfirst.frc4048.commands.intake.IntakeCube.IntakeMode;
 import org.usfirst.frc4048.subsystems.*;
 import org.usfirst.frc4048.subsystems.Arm.ArmPositions;
 import org.usfirst.frc4048.subsystems.Drivetrain.SonarSide;
@@ -64,7 +66,7 @@ public class Robot extends TimedRobot {
     Action autoAction;
     Action oldAutoAction;
     
-    public static double GLOBAL_SCALE_FACTOR = .25;
+    public static double GLOBAL_SCALE_FACTOR = 1;
     public static double ARM_UP_SCALE_FACTOR = 0.75;
     public static double ARM_DOWN_SCALE_FACTOR = 0.30;
     public static double EXT_SCALE_FACTOR = 1.00;
@@ -266,6 +268,10 @@ public class Robot extends TimedRobot {
     		SmartDashboard.putData("Lower intake", new LowerIntake());
     		SmartDashboard.putData("Raise Intake", new RaiseIntake());
     		SmartDashboard.putData("Toggle Intake", new ToggleIntake());
+    		SmartDashboard.putData("Intake Cube Straight", new IntakeCube(IntakeMode.STRAIGHT_PULL));
+    		SmartDashboard.putData("Intake Cube Toggle", new IntakeCube(IntakeMode.TOGGLE_PULL_LEFT_OR_RIGHT));
+    		SmartDashboard.putData("Open Intake", new GripIntake(GripPosition.Open));
+    		SmartDashboard.putData("Close Intake", new GripIntake(GripPosition.Close));
     		
     		
     	}
