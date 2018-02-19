@@ -49,7 +49,7 @@ public class ExtensionAndArmToHome extends CommandGroup implements GroupCommandC
     	addSequential(new SetGoingHome(true));
     	addSequential(new ExtensionHome(this));
     	addSequential(new MoveArm(this, ArmPositions.Home));
-    	addSequential(new SetGoingHome(true));
+    	addSequential(new SetGoingHome(false));
     }
     
     @Override

@@ -33,7 +33,7 @@ public class LinearMoveStrat implements ArmStrat{
 	/**
 	 * Maximum length of extension
 	 */
-	public static final double MAX_EXTENSION = 15.25;//changed to match the EXT_MAX_LENGTH in ArmTesting.java
+	public static final double MAX_EXTENSION = 13.0;//changed to match the EXT_MAX_LENGTH in ArmTesting.java
 	
 	//added constructor to resolve error in ArmTesting
 	public LinearMoveStrat()
