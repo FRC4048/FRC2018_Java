@@ -37,6 +37,14 @@ public interface GroupCommandCallback {
 			return "DummyGroupCommand";
 		}
 
+		@Override
+		public boolean hasGroupBeenCanceled()
+		{
+			return false;
+		}
+		
 	};
+	
+	public boolean hasGroupBeenCanceled();
 
 }

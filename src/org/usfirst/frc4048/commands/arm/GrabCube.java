@@ -28,12 +28,11 @@ public class GrabCube extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	setTimeout(5);    	
-//    	this.setInterruptible(false);
     }
     
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if(!Robot.claw.gripClosed() && !isTimedOut())
+    	if(!Robot.claw.gripClosed() && !isTimedOut() && !callback.hasGroupBeenCanceled())
     		Robot.claw.closeClaw();
     }
 

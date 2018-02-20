@@ -41,16 +41,19 @@ public class GripIntake extends LoggedCommand {
     }
 
     // Called repeatedly when this Command is scheduled to run
-    protected void loggedExecute() {
-    	switch (this.state) {
-		case Open:
-			Robot.intake.openIntake();
-			break;
-			
-		case Close:
-			Robot.intake.closeIntake();
-			break;
-		}
+    protected void loggedExecute() {   
+    	if(!callback.hasGroupBeenCanceled())
+    	{
+	    	switch (this.state) {
+			case Open:
+				Robot.intake.openIntake();
+				break;
+				
+			case Close:
+				Robot.intake.closeIntake();
+				break;
+			}
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()

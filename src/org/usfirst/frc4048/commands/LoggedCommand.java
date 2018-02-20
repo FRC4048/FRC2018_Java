@@ -82,6 +82,7 @@ abstract public class LoggedCommand extends Command {
 	@Override
 	final protected void interrupted() {
 		log("interrupted()");
+		super.interrupted();
 		loggedInterrupted();
 	}
 
@@ -101,6 +102,7 @@ abstract public class LoggedCommand extends Command {
 	@Override
 	final public synchronized void cancel() {
 		log("cancel()");
+		super.cancel();
 		loggedCancel();
 	}
 

@@ -125,7 +125,9 @@ public class Claw extends Subsystem {
     @Override
     public void periodic() {
         // Put code here to be run every loop
-
+    	
+    	SmartDashboard.putBoolean("Has Cube", cubePresent());
+    	
     }
 
     // Put methods for controlling this subsystem
