@@ -44,7 +44,7 @@ public class AutoSwitchRRGroup extends CommandGroup {
     	
     	//ADJUST ANGLE AND DISTANCE FROM WALL
     	addSequential(new RotateAngle(0));
-    	addSequential(new CalculateSonarDistance(SonarSide.RIGHT, AutoAction.DISTANCE_FROM_WALL_SCALE));
+    	addSequential(new CalculateSonarDistance(SonarSide.RIGHT, AutoAction.DISTANCE_FROM_WALL_SWITCH));
     	addSequential(new DriveDistance(0, 0, 0, 0));
     	
     	//ROTATE 90 AND DROP ON SWITCH

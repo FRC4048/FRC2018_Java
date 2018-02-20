@@ -458,7 +458,8 @@ public class Arm extends Subsystem {
 
 	}
 
-	public String armHeadings() {
-		return "";
+	public String[] armHeadings() {
+		String logs[] = {""};
+		return logs;
 	}
 }
