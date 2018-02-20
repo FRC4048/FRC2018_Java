@@ -2,6 +2,7 @@ package org.usfirst.frc4048.commands.arm;
 
 import org.usfirst.frc4048.Robot;
 import org.usfirst.frc4048.RobotMap;
+import org.usfirst.frc4048.commands.LoggedCommand;
 import org.usfirst.frc4048.subsystems.Arm;
 import org.usfirst.frc4048.subsystems.Arm.ArmPositions;
 import org.usfirst.frc4048.subsystems.Claw.WristPostion;
@@ -12,11 +13,12 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class MoveClaw extends Command {
+public class MoveClaw extends LoggedCommand {
 
 	MotorUtils util = new MotorUtils(RobotMap.PDP_WRIST_MOTOR, RobotMap.CURRENT_THRESHOLD_WRIST_MOTOR);
 	
     public MoveClaw() {
+    	super(String.format("command is running"));
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	
@@ -24,11 +26,11 @@ public class MoveClaw extends Command {
     }
 
     // Called just before this Command runs the first time
-    protected void initialize() {
+    protected void loggedInitialize() {
     }
 
     // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
+    protected void loggedExecute() {
     	if(Robot.arm.isGoingHome() || Robot.arm.getArmAngle() <= (Arm.HOME_MAX_ANGLE))
     	{
     		Robot.claw.setPosition(WristPostion.Compact);
@@ -59,19 +61,25 @@ public class MoveClaw extends Command {
     }
 
     // Make this return true when this Command no longer needs to run execute()
-    protected boolean isFinished() {
+    protected boolean loggedIsFinished() {
     	return false;
 //        return util.isStalled();
     }
 
     // Called once after isFinished returns true
-    protected void end() {
+    protected void loggedEnd() {
     	Robot.claw.stopWrist();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
-    protected void interrupted() {
+    protected void loggedInterrupted() {
     	Robot.claw.stopWrist();
     }
+
+	@Override
+	protected void loggedCancel() {
+		// TODO Auto-generated method stub
+		
+	}
 }
