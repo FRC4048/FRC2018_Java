@@ -2,6 +2,7 @@ package org.usfirst.frc4048.commands.arm;
 
 import org.usfirst.frc4048.Robot;
 import org.usfirst.frc4048.RobotMap;
+import org.usfirst.frc4048.subsystems.Arm;
 import org.usfirst.frc4048.subsystems.Arm.ArmPositions;
 import org.usfirst.frc4048.subsystems.Claw.WristPostion;
 import org.usfirst.frc4048.utils.MotorUtils;
@@ -28,7 +29,7 @@ public class MoveClaw extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if(Robot.arm.isGoingHome())
+    	if(Robot.arm.isGoingHome() || Robot.arm.getArmAngle() <= (Arm.EXCHANGE_SETPOINT - Arm.ANGLE_MARGIN_VALUE))
     	{
     		Robot.claw.setPosition(WristPostion.Compact);
     	}
