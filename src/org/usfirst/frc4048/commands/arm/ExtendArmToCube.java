@@ -30,13 +30,13 @@ public class ExtendArmToCube extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	setTimeout(3.0);
+    	setTimeout(4.0);
     	Robot.arm.setExtIntakePID();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if(!Robot.claw.cubePresent() && !isTimedOut() && !util.isStalled())
+    	if(!Robot.claw.cubePresent() && !isTimedOut() && !util.isStalled() && !callback.hasGroupBeenCanceled())
     	{
     		Robot.arm.extensionToIntakeEnd();
     	}

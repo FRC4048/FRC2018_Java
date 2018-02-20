@@ -66,4 +66,10 @@ public class ExtensionAndArmToHome extends CommandGroup implements GroupCommandC
     		}
     	}
 	}
+    
+    @Override
+	public boolean hasGroupBeenCanceled()
+	{
+		return isCanceled();
+	}
 }

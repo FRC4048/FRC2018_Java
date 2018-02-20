@@ -26,7 +26,15 @@ public interface GroupCommandCallback {
 		@Override
 		public void doCancel(final boolean isTimedOut) {
 		}
-
+		
+		@Override
+		public boolean hasGroupBeenCanceled()
+		{
+			return false;
+		}
+		
 	};
+	
+	public boolean hasGroupBeenCanceled();
 
 }
