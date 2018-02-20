@@ -4,7 +4,6 @@ import org.usfirst.frc4048.commands.GroupCommandCallback;
 import org.usfirst.frc4048.commands.arm.ExtendArmToCube;
 import org.usfirst.frc4048.commands.arm.ExtensionAndArmToIntake;
 import org.usfirst.frc4048.commands.arm.GrabCube;
-import org.usfirst.frc4048.commands.arm.GrabCube2;
 import org.usfirst.frc4048.commands.arm.MoveArm;
 import org.usfirst.frc4048.commands.arm.MoveClawToLevel;
 import org.usfirst.frc4048.commands.arm.OpenClaw;
