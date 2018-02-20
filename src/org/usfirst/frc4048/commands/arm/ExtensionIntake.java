@@ -33,7 +33,7 @@ public class ExtensionIntake extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if(!Robot.arm.extensionAtIntake())
+    	if(!Robot.arm.extensionAtIntake() && !callback.hasGroupBeenCanceled())
     	{
     		Robot.arm.extensionToIntakeBegin();
     	}
