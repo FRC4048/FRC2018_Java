@@ -35,8 +35,8 @@ public class LowerIntake extends LoggedCommand {
     }
 
     // Called repeatedly when this Command is scheduled to run
-
-    protected void loggedexecute() {
+    @Override
+    protected void loggedExecute() {
     	if(!isTimedOut() && !callback.hasGroupBeenCanceled())
     		Robot.intake.lowerIntake();
     }
@@ -61,12 +61,6 @@ public class LowerIntake extends LoggedCommand {
 		callback.doCancel(true);
     	Robot.intake.stopLowerOrRaiseIntake();
     }
-
-	@Override
-	protected void loggedExecute() {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	protected void loggedCancel() {
