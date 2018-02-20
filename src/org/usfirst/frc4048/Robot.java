@@ -67,7 +67,9 @@ public class Robot extends TimedRobot {
     Action oldAutoAction;
     
     public static double GLOBAL_SCALE_FACTOR = 1;
-    public static double ARM_SCALE_FACTOR = 0.5;
+    public static double ARM_UP_SCALE_FACTOR = 0.75;
+    public static double ARM_DOWN_SCALE_FACTOR = 0.30;
+    public static double EXT_SCALE_FACTOR = 1.00;
     
     /**
      * This function is run when the robot is first started up and should be
@@ -127,12 +129,16 @@ public class Robot extends TimedRobot {
     @Override
     public void disabledInit(){
     	logging.traceMessage(Logging.MessageLevel.InfoMessage, "---------------------------- Robot Disabled ----------------------------");
+    	
+    	Robot.arm.setArmToCurrentPos();
 		Robot.drivetrain.resetDriveEncoder();
     }
 
     @Override
     public void disabledPeriodic() {
         Scheduler.getInstance().run();        
+        
+        Robot.arm.getPIDValues();
         
         autoAction = chooser.getSelected();
         if (autoAction != oldAutoAction)
@@ -240,7 +246,7 @@ public class Robot extends TimedRobot {
         	SmartDashboard.putNumber("Left Sonar Distance", Robot.drivetrain.getSonar(SonarSide.LEFT));
             SmartDashboard.putNumber("Claw Gyro", Robot.claw.getGyroVal());
             SmartDashboard.putNumber("Pitch Motor Val", RobotMap.clawpitchMotor.getMotorOutputPercent());
-        	//SmartDashboard.putNumber("Right Sonar Distance", Robot.drivetrain.getSonar(SonarSide.RIGHT));
+        	SmartDashboard.putNumber("Right Sonar Distance", Robot.drivetrain.getSonar(SonarSide.RIGHT));
     	}
     	if (enableTesting) {
     		
@@ -256,7 +262,8 @@ public class Robot extends TimedRobot {
     		SmartDashboard.putData("Move Claw", new MoveClaw());
     		SmartDashboard.putData("Open Claw", new OpenClaw());
     		SmartDashboard.putData("Reset Claw Gyro", new ResetClawGyro());
-    		SmartDashboard.putData("Set Claw Position", new SetClawPosition(Claw.WristPostion.Level));//Sets claw position to level
+    		SmartDashboard.putData("Set Claw Position Compact", new SetClawPosition(Claw.WristPostion.Compact));//Sets claw position to compact
+    		SmartDashboard.putData("Set Claw Position Level", new SetClawPosition(Claw.WristPostion.Level));//Sets claw position to level
     		SmartDashboard.putData("Flush Cube", new FlushCube());
     		SmartDashboard.putData("Lower intake", new LowerIntake());
     		SmartDashboard.putData("Raise Intake", new RaiseIntake());
@@ -265,7 +272,8 @@ public class Robot extends TimedRobot {
     		SmartDashboard.putData("Intake Cube Toggle", new IntakeCube(IntakeMode.TOGGLE_PULL_LEFT_OR_RIGHT));
     		SmartDashboard.putData("Open Intake", new GripIntake(GripPosition.Open));
     		SmartDashboard.putData("Close Intake", new GripIntake(GripPosition.Close));
-        	
+    		
+    		
     	}
     	SmartDashboard.putString("Action for Auto", autoAction.toString());
     	SmartDashboard.putNumber("Claw Gyro Value", Robot.claw.getGyroVal());

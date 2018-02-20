@@ -2,6 +2,7 @@ package org.usfirst.frc4048.commands.arm;
 
 import org.usfirst.frc4048.Robot;
 import org.usfirst.frc4048.RobotMap;
+import org.usfirst.frc4048.subsystems.Arm.ArmPositions;
 import org.usfirst.frc4048.subsystems.Claw.WristPostion;
 import org.usfirst.frc4048.utils.MotorUtils;
 
@@ -27,6 +28,11 @@ public class MoveClaw extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	if(Robot.arm.isGoingHome())
+    	{
+    		Robot.claw.setPosition(WristPostion.Compact);
+    	}
+    	
     	if(Robot.claw.getPosition() == WristPostion.Compact)
     	{
     		if(!Robot.claw.clawUp())
@@ -35,12 +41,15 @@ public class MoveClaw extends Command {
     		}
     		else
     		{
+//    			if(Robot.arm.armAtPosition(ArmPositions.Home)) {
+//    				Robot.claw.recalibrateClawGyro();
+//    			}
     			Robot.claw.stopWrist();
     		}
     	}
-    	if(Robot.claw.getPosition() == WristPostion.Level)
+    	else if(Robot.claw.getPosition() == WristPostion.Level)
     	{
-    		Robot.claw.moveClawToLevelWithPID();
+    		Robot.claw.moveClawToLevel();
     	}
     }
 

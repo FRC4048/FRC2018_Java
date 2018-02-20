@@ -5,24 +5,22 @@ import org.usfirst.frc4048.subsystems.Arm.ArmPositions;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-/**
- *
- */
-public class ExtensionArmToHome extends CommandGroup implements GroupCommandCallback {
 
+public class ExtensionAndArmToIntake extends CommandGroup implements GroupCommandCallback{
+	
 	/**
 	 * Stores the current callback being used.
 	 * Can either be the command itself acting as a callback, or a separate command
 	 */
 	private final GroupCommandCallback realCallback;
 	
-	public ExtensionArmToHome()
+	public ExtensionAndArmToIntake()
 	{
 		this.realCallback = this;
 		addSteps();
 	}
-	
-    public ExtensionArmToHome(GroupCommandCallback callback) {
+    
+	public ExtensionAndArmToIntake(GroupCommandCallback callback) {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
@@ -39,17 +37,16 @@ public class ExtensionArmToHome extends CommandGroup implements GroupCommandCall
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
-    	
     	this.realCallback = callback;
     	addSteps();
     }
     
-    private void addSteps()
-    {
-    	addSequential(new ExtensionHome(this));
-    	addSequential(new MoveArm(this, ArmPositions.Home));
-    }
-    
+	private void addSteps()
+	{
+		addParallel(new MoveArm(this.realCallback, ArmPositions.Intake));
+    	addSequential(new ExtensionIntake(this.realCallback));
+	}
+	
     @Override
 	public void doCancel(final boolean flag) {
     	boolean isCurrentCommand = this.realCallback == this;
