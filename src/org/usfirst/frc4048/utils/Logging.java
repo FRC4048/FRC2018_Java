@@ -107,7 +107,9 @@ public class Logging {
 		}
 		traceMessage(sb);
 	}
-
+	public void printToConsole(String message) {
+		System.out.println(message);
+	}
 	public void printHeadings() {
 		traceSubsystem(Subsystems.DRIVETRAIN, true, Robot.drivetrain.drivetrianHeadings());
 		traceSubsystem(Subsystems.ARM, true, Robot.arm.armHeadings());

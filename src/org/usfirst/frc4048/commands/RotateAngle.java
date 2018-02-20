@@ -17,7 +17,7 @@ public class RotateAngle extends LoggedCommand {
     private final double MIN_SPEED = 0.15;
     
     public RotateAngle(double angle) {
-    	super(String.format("You are running rotate angle, angleVal: %d", angle));
+    	super(String.format("You are running rotate angle, angleVal: %f", angle));
     	requires(Robot.drivetrain);
     	
     	this.angle = angle;

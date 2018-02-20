@@ -1,5 +1,6 @@
 package org.usfirst.frc4048.commands.auto;
 
+import org.usfirst.frc4048.Robot;
 import org.usfirst.frc4048.commands.CalculateSonarDistance;
 import org.usfirst.frc4048.commands.DriveDistance;
 import org.usfirst.frc4048.commands.PrintCommand;
@@ -9,6 +10,7 @@ import org.usfirst.frc4048.commands.arm.SetClawPosition;
 import org.usfirst.frc4048.commands.arm.OpenClaw;
 import org.usfirst.frc4048.subsystems.Arm.ArmPositions;
 import org.usfirst.frc4048.subsystems.Drivetrain.SonarSide;
+import org.usfirst.frc4048.utils.Logging.MessageLevel;
 import org.usfirst.frc4048.commands.auto.*;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.WaitForChildren;
@@ -35,7 +37,6 @@ public class AutoScaleLLGroup extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
-    	
     	//MOVE HALF WAY
     	addParallel(new DriveDistance(AutoAction.DISTANCE_TO_MIDDLE_OF_SCALE/2, AutoAction.LOCAL_SCALE_SPEED,0,0));
     	addSequential(new MoveArm(ArmPositions.HighScale)); //TODO add this back

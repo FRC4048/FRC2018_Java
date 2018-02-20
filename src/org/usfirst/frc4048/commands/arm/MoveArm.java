@@ -25,7 +25,7 @@ public class MoveArm extends LoggedCommand {
 	public MoveArm(final GroupCommandCallback callback, ArmPositions position) {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
-		super(String.format("Now running MoveArm, position: %s Subcommand from: %d", position.toString(), callback.getName()));
+		super(String.format("Now running MoveArm, position: %s Subcommand from: %s", position.toString(), callback.getName()));
 		requires(Robot.arm);
 		this.callback = callback;
 		this.position = position;

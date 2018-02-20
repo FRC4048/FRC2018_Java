@@ -26,7 +26,7 @@ public class DriveDistance extends LoggedCommand {
 	 * @param rot - sets clockwise/counter-clockwise speed robot travels at
 	 */
 	public DriveDistance(double distance, double fwd, double dir, double rot) {    	
-		super(String.format("You are running DriveDistance, distance: %d", distance));
+		super(String.format("You are running DriveDistance, distance: %f", distance));
 		requires(Robot.drivetrain);
 		this.distance = distance;
 		this.fwd = fwd;
