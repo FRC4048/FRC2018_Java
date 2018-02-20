@@ -15,8 +15,8 @@ public class CalculateSonarDistance extends Command {
 	SonarSide side;
 	double distance;
 	
-	private final double MIN_SPEED = 0.15;
-	private final double MAX_ADJUST = 50;
+	private final double MIN_SPEED = 0.25;
+	private final double MAX_ADJUST = 100;
 	
 	
 	double[] sonarArray;

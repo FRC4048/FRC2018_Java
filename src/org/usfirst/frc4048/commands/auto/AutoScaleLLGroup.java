@@ -6,9 +6,11 @@ import org.usfirst.frc4048.commands.DriveDistance;
 import org.usfirst.frc4048.commands.PrintCommand;
 import org.usfirst.frc4048.commands.RotateAngle;
 import org.usfirst.frc4048.commands.arm.MoveArm;
+import org.usfirst.frc4048.commands.arm.MoveClawToLevel;
 import org.usfirst.frc4048.commands.arm.SetClawPosition;
 import org.usfirst.frc4048.commands.arm.OpenClaw;
 import org.usfirst.frc4048.subsystems.Arm.ArmPositions;
+import org.usfirst.frc4048.subsystems.Claw.WristPostion;
 import org.usfirst.frc4048.subsystems.Drivetrain.SonarSide;
 import org.usfirst.frc4048.utils.Logging.MessageLevel;
 import org.usfirst.frc4048.commands.auto.*;
@@ -39,10 +41,9 @@ public class AutoScaleLLGroup extends CommandGroup {
         // arm.
     	//MOVE HALF WAY
     	addParallel(new DriveDistance(AutoAction.DISTANCE_TO_MIDDLE_OF_SCALE/2, AutoAction.LOCAL_SCALE_SPEED,0,0));
-    	addSequential(new MoveArm(ArmPositions.HighScale)); //TODO add this back
+    	addSequential(new MoveArm(ArmPositions.Switch)); //TODO add this back
     	//WaitForChildren() waits for the parallel commands to finish
     	addSequential(new WaitForChildren());
-    	addSequential(new RotateAngle(90));
     	
     	//ADJUST ANGLE AND DISTANCE FROM WALL
     	addSequential(new CalculateSonarDistance(SonarSide.LEFT, AutoAction.DISTANCE_FROM_WALL));
@@ -50,15 +51,18 @@ public class AutoScaleLLGroup extends CommandGroup {
     	addSequential(new RotateAngle(0));
     	
     	//MOVE FINAL DISTANCE
-    	addSequential(new DriveDistance(AutoAction.DISTANCE_TO_MIDDLE_OF_SCALE/2, AutoAction.LOCAL_SCALE_SPEED,0,0));
+    	//this number is not perminant
+    	addSequential(new DriveDistance(115, AutoAction.LOCAL_SCALE_SPEED,0,0));
     	addSequential(new RotateAngle(0));
     	
     	//ADJUST ANGLE AND DISTANCE FROM WALL
     	addSequential(new CalculateSonarDistance(SonarSide.LEFT, AutoAction.DISTANCE_FROM_WALL));
     	addSequential(new DriveDistance(0, 0, 0, 0));
-    	
+    	addSequential(new RotateAngle(45));
     	//ROTATE AND DROP CUBE (on scale?)
-    	addSequential(new DriveDistance(5, 0,AutoAction.LOCAL_SCALE_SPEED,0));
-      	addSequential(new OpenClaw());
+    	addParallel(new DriveDistance(20, 0,AutoAction.LOCAL_SCALE_SPEED,0));
+    	addSequential(new MoveClawToLevel());
+    	addSequential(new WaitForChildren());
+    	addSequential(new OpenClaw());
     }
 }

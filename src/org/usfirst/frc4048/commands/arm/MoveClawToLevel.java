@@ -9,6 +9,11 @@ public class MoveClawToLevel extends Command {
 
 	private final GroupCommandCallback callback;
 
+	public MoveClawToLevel()
+	{
+		this(GroupCommandCallback.NONE);
+	}
+	
 	public MoveClawToLevel(GroupCommandCallback callback) {
 		requires(Robot.claw);
 		this.callback = callback;
