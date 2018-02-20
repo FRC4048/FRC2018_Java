@@ -43,7 +43,7 @@ public class AutoScaleRRGroup extends CommandGroup {
     	addSequential(new RotateAngle(-90));
     	
     	//ADJUST ANGLE AND DISTANCE FROM WALL
-    	addSequential(new CalculateSonarDistance(SonarSide.RIGHT, AutoAction.DISTANCE_FROM_WALL));
+    	addSequential(new CalculateSonarDistance(SonarSide.RIGHT, AutoAction.DISTANCE_FROM_WALL_SCALE));
     	addSequential(new DriveDistance(0, 0, 0, 0));
     	addSequential(new RotateAngle(0));
     	
@@ -52,7 +52,7 @@ public class AutoScaleRRGroup extends CommandGroup {
     	addSequential(new RotateAngle(0));
     	
     	//ADJUST ANGLE AND DISTANCE FROM WALL
-    	addSequential(new CalculateSonarDistance(SonarSide.RIGHT, AutoAction.DISTANCE_FROM_WALL));
+    	addSequential(new CalculateSonarDistance(SonarSide.RIGHT, AutoAction.DISTANCE_FROM_WALL_SCALE));
     	addSequential(new DriveDistance(0, 0, 0, 0));
     	
     	//ROTATE AND DROP CUBE (on scale?)

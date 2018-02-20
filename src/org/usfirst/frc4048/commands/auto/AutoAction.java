@@ -32,7 +32,8 @@ public class AutoAction extends Command {
 	public static final double TRAVEL_ACROSS_SWITCH = 200;
 	public static final double LANE_TO_SCALE = 80;
 	
-	public static final double DISTANCE_FROM_WALL = 25;
+	public static final double DISTANCE_FROM_WALL_SCALE = 25;
+	public static final double DISTANCE_FROM_WALL_SWITCH = 35;
 	
 	Command selectCmd;
 	
