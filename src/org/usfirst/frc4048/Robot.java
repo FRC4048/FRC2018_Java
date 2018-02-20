@@ -259,7 +259,7 @@ public class Robot extends TimedRobot {
     		SmartDashboard.putData("Lower intake", new LowerIntake());
     		SmartDashboard.putData("Raise Intake", new RaiseIntake());
     		SmartDashboard.putData("Toggle Intake", new ToggleIntake());
-    		
+    		SmartDashboard.putData(new PrintCommand('t'));
     		
     	}
     	SmartDashboard.putString("Action for Auto", autoAction.toString());

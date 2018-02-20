@@ -49,7 +49,7 @@ public class Logging {
 	public void traceSubsystem(Subsystems s, boolean alwaysPrint, double... vals) {
 		traceSubsystem(s, alwaysPrint, vals, (String[]) null);
 	}
-
+	
 	public void traceSubsystem(Subsystems s, boolean alwaysPrint, String... vals) {
 		traceSubsystem(s, true, (double[]) null, vals);
 	}
@@ -78,9 +78,7 @@ public class Logging {
 		}
 		if (DriverStation.getInstance().isEnabled() && counter % 5 == 0 && alwaysPrint == false) {
 			traceMessage(sb);
-		}
-		else if (alwaysPrint == true)
-		{
+		} else if (alwaysPrint == true) {
 			traceMessage(sb);
 		}
 		counter += 1;
@@ -104,15 +102,14 @@ public class Logging {
 		sb.append("\"").append(message).append("\"");
 		traceMessage(sb);
 	}
-	
-	public void printHeadings()
-	{
+
+	public void printHeadings() {
 		traceSubsystem(Subsystems.DRIVETRAIN, true, Robot.drivetrain.drivetrianHeadings());
 		traceSubsystem(Subsystems.ARM, true, Robot.arm.armHeadings());
 		traceSubsystem(Subsystems.CLAW, true, Robot.claw.clawHeadings());
 		traceSubsystem(Subsystems.INTAKE, true, Robot.intake.intakeHeadings());
 	}
-	
+
 	private class ConsolePrintTask extends TimerTask {
 		PrintWriter log;
 		final WorkQueue wq;
@@ -121,35 +118,7 @@ public class Logging {
 		private ConsolePrintTask(WorkQueue wq, Logging l) {
 			this.l = l;
 			this.wq = wq;
-			try {
-				File file = new File("/home/lvuser/Logs");
-				if (!file.exists()) {
-					if (file.mkdir()) {
-						System.out.println("Log Directory is created!");
-					}else {
-						System.out.println("Failed to create Log directory!");
-					}
-				}
-				Date date = new Date();
-				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
-				dateFormat.setTimeZone(TimeZone.getTimeZone("EST5EDT"));
-				try
-				{
-					this.log = new PrintWriter("/media/sda1/" + dateFormat.format(date) + "-Log.csv", "UTF-8");
-				}
-				catch (Exception e)
-				{
-					this.log = new PrintWriter("/home/lvuser/Logs/" + dateFormat.format(date) + "-Log.txt", "UTF-8");
-				}
-				
-				log.flush();
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			log = null;
 		}
 
 		public void print() {
@@ -163,12 +132,41 @@ public class Logging {
 			}
 			log.flush();
 		}
-	
+
 		/**
 		 * Called periodically in its own thread
 		 */
 		public void run() {
-			print();
+			if (log == null) {
+				try {
+					File file = new File("/home/lvuser/Logs");
+					if (!file.exists()) {
+						if (file.mkdir()) {
+							System.out.println("Log Directory is created!");
+						} else {
+							System.out.println("Failed to create Log directory!");
+						}
+					}
+					Date date = new Date();
+					SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
+					dateFormat.setTimeZone(TimeZone.getTimeZone("EST5EDT"));
+					try {
+						this.log = new PrintWriter("/media/sda1/" + dateFormat.format(date) + "-Log.csv", "UTF-8");
+					} catch (Exception e) {
+						this.log = new PrintWriter("/home/lvuser/Logs/" + dateFormat.format(date) + "-Log.txt",
+								"UTF-8");
+					}
+
+					log.flush();
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (UnsupportedEncodingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				print();
+			}
 		}
 	}
 }
