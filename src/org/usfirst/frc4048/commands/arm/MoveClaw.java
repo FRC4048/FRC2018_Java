@@ -60,7 +60,8 @@ public class MoveClaw extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return util.isStalled();
+    	return false;
+//        return util.isStalled();
     }
 
     // Called once after isFinished returns true

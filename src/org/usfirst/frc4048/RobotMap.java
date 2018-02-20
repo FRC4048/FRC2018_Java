@@ -81,9 +81,9 @@ public class RobotMap {
     public static final int PDP_INTAKE_DEPLOY_MOTOR = 6;
     public static final int PDP_RIGHT_INTAKE_MOTOR = 8;
     public static final int PDP_LEFT_INTAKE_MOTOR = 9;
-    public static final int PDP_ARM_MOTOR = 4;
-    public static final int PDP_WRIST_MOTOR = 15;
-    public static final int PDP_GRIP_MOTOR = 14;
+    public static final int PDP_ARM_MOTOR = 12;
+    public static final int PDP_WRIST_MOTOR = 3;
+    public static final int PDP_GRIP_MOTOR = 7;
     /**
      * TODO Determine correct values for Current threshold for intake motors.
      */

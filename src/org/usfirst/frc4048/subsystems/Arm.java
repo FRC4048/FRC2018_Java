@@ -80,7 +80,7 @@ public class Arm extends Subsystem {
 	public static final double CRITICAL_MARGIN_VALUE = 10.0;
 	public static final double HOME_SETPOINT = 0.0;
 	public static final double HOME_MAX_ANGLE = 9.0;
-	public static final double INTAKE_SETPOINT = 13.0;
+	public static final double INTAKE_SETPOINT = 16.0;
 	public static final double EXCHANGE_SETPOINT = 40.0;
 	public static final double SWITCH_SETPOINT = 78.0;
 	public static final double LOWSCALE_SETPOINT = 118.0;	//Is mid scale
@@ -100,7 +100,7 @@ public class Arm extends Subsystem {
 	public static final double EXT_MARGIN_VALUE = 1.5;
 	public static final double EXT_HOME_SETPOINT = 0.0;
 	public static final double EXT_INTAKE_SETPOINT = 4.5;
-	public static final double EXT_INTAKE_SETPOINT_GOTO = 14.0;
+	public static final double EXT_INTAKE_SETPOINT_GOTO = 15.0;
 	// public static final double EXT_CLIMB_SETPOINT = 1020;
 	// public static final double EXT_HOME_SETPOINT = 0.0;
 	// public static final double EXT_INTAKE_SETPOINT = 450.0;

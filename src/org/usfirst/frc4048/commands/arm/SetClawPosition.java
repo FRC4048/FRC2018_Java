@@ -18,7 +18,7 @@ public class SetClawPosition extends Command {
         // eg. requires(chassis);
     	
     	//Does not require a subsystem because the default command would be cancelled
-    	
+    	requires(Robot.claw);
     	this.position = position;
     }
 
