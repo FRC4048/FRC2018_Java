@@ -79,11 +79,22 @@ public class RobotMap {
      * TODO THE 2 PDP values are setup for the test bed -- Need to fixed
      */
     public static final int PDP_INTAKE_DEPLOY_MOTOR = 6;
+
     public static final int PDP_RIGHT_INTAKE_MOTOR = 8;
     public static final int PDP_LEFT_INTAKE_MOTOR = 9;
     public static final int PDP_ARM_MOTOR = 12;
     public static final int PDP_WRIST_MOTOR = 3;
     public static final int PDP_GRIP_MOTOR = 7;
+    public static final int PDP_STEERING_FR = 11;
+    public static final int PDP_STEERING_FL = 4;
+    public static final int PDP_STEERING_RL = 5;
+    public static final int PDP_STEERING_RR = 10;
+    public static final int PDP_DRIVE_FR = 15;
+    public static final int PDP_DRIVE_FL = 0;
+    public static final int PDP_DRIVE_RL = 1;
+    public static final int PDP_DRIVE_RR = 14;
+    public static final int PDP_EXTENSION = 13;
+
     /**
      * TODO Determine correct values for Current threshold for intake motors.
      */

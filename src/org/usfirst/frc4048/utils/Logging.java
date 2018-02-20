@@ -22,7 +22,7 @@ public class Logging {
 	}
 
 	public static enum Subsystems {
-		ARM, CLAW, DRIVETRAIN, INTAKE, CLIMBER
+		ARM, CLAW, DRIVETRAIN, INTAKE, CLIMBER, POWERDISTPANEL
 	}
 
 	private boolean writeLoggingGap = false;
@@ -107,14 +107,14 @@ public class Logging {
 		}
 		traceMessage(sb);
 	}
-	public void printToConsole(String message) {
-		System.out.println(message);
-	}
-	public void printHeadings() {
-		traceSubsystem(Subsystems.DRIVETRAIN, true, Robot.drivetrain.drivetrianHeadings());
-		traceSubsystem(Subsystems.ARM, true, Robot.arm.armHeadings());
-		traceSubsystem(Subsystems.CLAW, true, Robot.claw.clawHeadings());
-		traceSubsystem(Subsystems.INTAKE, true, Robot.intake.intakeHeadings());
+
+	public void printHeadings()
+	{
+		traceSubsystem(Subsystems.DRIVETRAIN, Robot.drivetrain.drivetrianHeadings());
+		traceSubsystem(Subsystems.ARM, Robot.arm.armHeadings());
+		traceSubsystem(Subsystems.CLAW, Robot.claw.clawHeadings());
+		traceSubsystem(Subsystems.INTAKE, Robot.intake.intakeHeadings());
+		traceSubsytem(Subsystems.POWERDISTPANEL, Robot.powerdistpanel.pdpHeadings());
 	}
 
 	private class ConsolePrintTask extends TimerTask {
