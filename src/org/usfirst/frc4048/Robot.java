@@ -59,7 +59,7 @@ public class Robot extends TimedRobot {
 
     //use this to see the debug commands and values for smart dashboard
     public Boolean enableDebug = true;
-    public Boolean enableTesting= true;
+    public Boolean enableTesting= false;
   
     Action autoAction;
     Action oldAutoAction;
@@ -273,6 +273,7 @@ public class Robot extends TimedRobot {
     		SmartDashboard.putData("Extension Arm To Cube", new ExtensionAndArmToIntake());
     		
     	}
+    	SmartDashboard.putData(new GripIntake(GripPosition.Open));
     	SmartDashboard.putString("Action for Auto", autoAction.toString());
     	SmartDashboard.putNumber("Claw Gyro Value", Robot.claw.getGyroVal());
     }

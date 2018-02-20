@@ -165,8 +165,8 @@ public class Logging {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				print();
 			}
+			print();
 		}
 	}
 }
