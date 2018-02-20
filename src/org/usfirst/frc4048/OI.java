@@ -128,9 +128,9 @@ public class OI {
         moveToExchange.whenPressed(new MoveArm(ArmPositions.Exchange));
         
         moveToHighScale = new JoystickButton(controller, 4); // Y Button
-        moveToHighScale.whenPressed(new MoveArm(ArmPositions.Switch));
+        moveToHighScale.whenPressed(new MoveArm(ArmPositions.HighScale));
 		moveToLowScale = new JoystickButton(controller, 2); // B Button
-        moveToLowScale.whenPressed(new MoveArm(ArmPositions.Switch));
+        moveToLowScale.whenPressed(new MoveArm(ArmPositions.LowScale));
         
         /*
          * TODO ADD THIS BACK
@@ -236,5 +236,10 @@ public class OI {
 	public boolean getLeftstickDown() {
     	return xboxController.getY(Hand.kLeft) >= 0.75;
     }
+	
+	public boolean getGetCubeOverride()
+	{
+		return leftJoystick.getRawButton(7);
+	}
 }
 

@@ -37,7 +37,7 @@ public class LowerIntake extends LoggedCommand {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void loggedExecute() {
-    	if(!isTimedOut() && !callback.hasGroupBeenCanceled())
+    	if(!isTimedOut() && !Robot.intake.hasCube() && !callback.hasGroupBeenCanceled())
     		Robot.intake.lowerIntake();
     }
 
