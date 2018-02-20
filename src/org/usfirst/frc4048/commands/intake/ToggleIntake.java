@@ -1,6 +1,7 @@
 package org.usfirst.frc4048.commands.intake;
 
 import org.usfirst.frc4048.Robot;
+import org.usfirst.frc4048.commands.LoggedCommand;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
@@ -8,7 +9,7 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class ToggleIntake extends Command {
+public class ToggleIntake extends LoggedCommand {
 
 	Command lowerIntake;
 	Command raiseIntake;
@@ -16,13 +17,14 @@ public class ToggleIntake extends Command {
 	private static final boolean DEBUG = false;
 	
     public ToggleIntake() {
+    	super(String.format("command is running"));
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.intake);
     }
 
     // Called just before this Command runs the first time
-    protected void initialize() {
+    protected void loggedInitialize() {
     	lowerIntake = new LowerIntake();
     	raiseIntake = new RaiseIntake();
 		if (DEBUG) {
@@ -57,20 +59,26 @@ public class ToggleIntake extends Command {
     }	
 
     // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
+    protected void loggedExecute() {
     }
 
     // Make this return true when this Command no longer needs to run execute()
-    protected boolean isFinished() {
+    protected boolean loggedIsFinished() {
         return true;
     }
 
     // Called once after isFinished returns true
-    protected void end() {
+    protected void loggedEnd() {
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
-    protected void interrupted() {
+    protected void loggedInterrupted() {
     }
+
+	@Override
+	protected void loggedCancel() {
+		// TODO Auto-generated method stub
+		
+	}
 }

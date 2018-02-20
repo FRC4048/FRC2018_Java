@@ -4,8 +4,6 @@ import org.usfirst.frc4048.Robot;
 import org.usfirst.frc4048.commands.GroupCommandCallback;
 import org.usfirst.frc4048.commands.LoggedCommand;
 
-import com.sun.javafx.binding.StringFormatter;
-
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -29,7 +27,7 @@ public class GripIntake extends LoggedCommand {
     }
     
     public GripIntake(GroupCommandCallback callback, GripPosition state) {
-    	super(String.format("Now running Grip intake, state: %s", state.toString()));
+    	super(String.format("GripIntake to %s", state.toString()));
     	requires(Robot.intake);
 		this.callback = callback;
 		this.state = state;

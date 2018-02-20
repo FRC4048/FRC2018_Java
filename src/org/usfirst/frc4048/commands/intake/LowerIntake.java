@@ -22,7 +22,7 @@ public class LowerIntake extends LoggedCommand {
     }
 
     public LowerIntake(GroupCommandCallback callback) {
-    	super("Now running LowerIntake: ");
+    	super("LowerIntake");
     	this.callback = callback;
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
@@ -35,6 +35,7 @@ public class LowerIntake extends LoggedCommand {
     }
 
     // Called repeatedly when this Command is scheduled to run
+    @Override
     protected void loggedExecute() {
     	if(!isTimedOut() && !callback.hasGroupBeenCanceled())
     		Robot.intake.lowerIntake();

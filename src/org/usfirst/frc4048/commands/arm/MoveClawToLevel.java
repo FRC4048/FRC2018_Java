@@ -4,8 +4,9 @@ import org.usfirst.frc4048.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc4048.commands.GroupCommandCallback;
+import org.usfirst.frc4048.commands.LoggedCommand;
 
-public class MoveClawToLevel extends Command {
+public class MoveClawToLevel extends LoggedCommand {
 
 	private final GroupCommandCallback callback;
 
@@ -15,31 +16,39 @@ public class MoveClawToLevel extends Command {
 	}
 	
 	public MoveClawToLevel(GroupCommandCallback callback) {
+		super(String.format("Subcommand From: %s", callback.getName()));
 		requires(Robot.claw);
 		this.callback = callback;
 	}
 
-	protected void initialize() {
+	protected void loggedInitialize() {
 		setTimeout(5.0);
 	}
 
-	protected void execute() {
-		if (!Robot.claw.isLevel() && !callback.hasGroupBeenCanceled()) {
+
+	protected void loggedExecute() {
+		if (!Robot.claw.isLevel()&& !callback.hasGroupBeenCanceled()) {
 			Robot.claw.moveClawToLevel();
 		}
 	}
 
-	protected boolean isFinished() {
+	protected boolean loggedIsFinished() {
 		return Robot.claw.isLevel() || isTimedOut();
 	}
 
-	protected void end() {
+	protected void loggedEnd() {
 		Robot.claw.stopWrist();
 		callback.doCancel(isTimedOut());
 	}
 
-	protected void interrupted() {
+	protected void loggedInterrupted() {
 		Robot.claw.stopWrist();
 		callback.doCancel(true);
+	}
+
+	@Override
+	protected void loggedCancel() {
+		// TODO Auto-generated method stub
+		
 	}
 }
