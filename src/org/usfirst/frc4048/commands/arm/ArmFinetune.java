@@ -21,13 +21,13 @@ public class ArmFinetune extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-//    	if(Robot.arm.inAutoRange())
-//    	{
+    	if(Robot.arm.inAutoRange())
+    	{
 	    	if(Robot.oi.getLeftstickDown())
 	    		Robot.arm.finetuneDown();
 	    	if(Robot.oi.getLeftstickUp())
 	    		Robot.arm.finetuneUp();
-//    	}
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
