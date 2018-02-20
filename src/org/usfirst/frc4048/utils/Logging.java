@@ -78,7 +78,7 @@ public class Logging {
 		}
 		if (DriverStation.getInstance().isEnabled() && counter % 5 == 0 && alwaysPrint == false) {
 			traceMessage(sb);
-		} else if (alwaysPrint == true) {
+		} else if (DriverStation.getInstance().isEnabled() && alwaysPrint == true) {
 			traceMessage(sb);
 		}
 		counter += 1;
