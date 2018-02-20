@@ -13,7 +13,7 @@ public class SetGoingHome extends LoggedCommand {
 	boolean value;
 	
     public SetGoingHome(boolean value) {
-    	super(String.format("Subcommand From: %d", value));
+    	super(String.format("Subcommand From: %s", Boolean.toString(value)));
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	this.value = value;
