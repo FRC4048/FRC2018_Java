@@ -1,20 +1,53 @@
 package org.usfirst.frc4048.commands;
 
+import java.util.Set;
+import java.util.TreeSet;
+
 import org.usfirst.frc4048.Robot;
 import org.usfirst.frc4048.utils.Logging.MessageLevel;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Subsystem;
 
 abstract public class LoggedCommand extends Command {
 	private final String ident;
+	private final Set<String> requirements = new TreeSet<String>();
 
 	public LoggedCommand(final String ident) {
 		this.ident = ident;
 	}
 
 	private void log(final String text) {
-		final String logEntry = this.getClass().getSimpleName() + " " + ident + " " + text;
-		Robot.logging.traceMessage(MessageLevel.InfoMessage,logEntry);
+		final StringBuilder sb = new StringBuilder();
+		sb.append(this.getClass().getSimpleName());
+		sb.append(" ");
+		sb.append(ident);
+		sb.append("(req:");
+		sb.append(requirements.toString());
+		sb.append(")");
+		sb.append(" ");
+		sb.append(text);
+		Robot.logging.traceMessage(MessageLevel.InfoMessage,sb.toString());
+	}
+	
+	/**
+	 * Overrides Command.requires() so that LoggedCommand can log which subsystems
+	 * are required by the command.
+	 */
+	@Override
+	public synchronized void requires(Subsystem s) {
+		super.requires(s);
+		requirements.add(s.toString());
+	}
+
+	/**
+	 * Overrides Command.clearRequirements() so that LoggedCommand can log which
+	 * subsystems are required by the command.
+	 */
+	@Override
+	public synchronized void clearRequirements() {
+		super.clearRequirements();
+		requirements.clear();
 	}
 
 	@Override
@@ -57,6 +90,9 @@ abstract public class LoggedCommand extends Command {
 		loggedInterrupted();
 	}
 
+	/**
+	 * Called from Command.interrupted()
+	 */
 	abstract protected void loggedInterrupted();
 
 	@Override
@@ -73,5 +109,8 @@ abstract public class LoggedCommand extends Command {
 		loggedCancel();
 	}
 
+	/**
+	 * Called from Command.cancel()
+	 */
 	abstract protected void loggedCancel();
 }
