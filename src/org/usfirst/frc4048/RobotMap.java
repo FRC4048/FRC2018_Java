@@ -176,7 +176,7 @@ public class RobotMap {
         
         LiveWindow.addSensor("Intake", "cubeSwitch", intakecubeSwitch);
         
-        intakedeployMotor = new Spark(2);
+        intakedeployMotor = new Spark(4);
         LiveWindow.addActuator("Intake", "deployMotor", (Spark) intakedeployMotor);
         intakedeployMotor.setInverted(false);
         intakeupperLimit = new DigitalInput(1);
@@ -214,7 +214,7 @@ public class RobotMap {
         
         pdp = new PowerDistributionPanel(0);
         
-        intakeGripMotor = new Spark(4);
+        intakeGripMotor = new Spark(2);
         
         intakeOpenLimit = new DigitalInput(10);
         intakeCloseLimit = new DigitalInput(11);

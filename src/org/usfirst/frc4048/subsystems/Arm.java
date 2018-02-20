@@ -78,6 +78,7 @@ public class Arm extends Subsystem {
 	public static final double ANGLE_MARGIN_VALUE = 7.5;
 	public static final double CRITICAL_MARGIN_VALUE = 10.0;
 	public static final double HOME_SETPOINT = 0.0;
+	public static final double HOME_MAX_ANGLE = 9.0;
 	public static final double INTAKE_SETPOINT = 14.0;
 	public static final double EXCHANGE_SETPOINT = 40.0;
 	public static final double SWITCH_SETPOINT = 78.0;
@@ -386,6 +387,10 @@ public class Arm extends Subsystem {
 	 * within the exchange and high scale positions
 	 */
 	private void moveExtension() {
+		if(getArmAngle() <= HOME_MAX_ANGLE) {
+			manualExtSetpoint = EXT_HOME_SETPOINT;
+		}
+		
 		if (inAutoRange() && !goingHome) {// && !isArmMoving()) {
 //			autoExt = true;
 			double angle = getArmAngle();
@@ -406,6 +411,7 @@ public class Arm extends Subsystem {
 	 */
 	private void moveArm() {
 		double armSetpoint = armMath.convertAngleToPot(ARM_POT_MIN, ARM_ANGLE_MIN, ARM_POT_MAX, ARM_ANGLE_MAX, armAngleSetpoint) * ARM_POT_INVERT;
+		
 //		if(isExtMoving())
 //		{
 //			armSetpoint = getArmAngle();

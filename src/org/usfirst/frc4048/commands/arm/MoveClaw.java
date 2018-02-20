@@ -29,9 +29,13 @@ public class MoveClaw extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if(Robot.arm.isGoingHome() || Robot.arm.getArmAngle() <= (Arm.EXCHANGE_SETPOINT - Arm.ANGLE_MARGIN_VALUE))
+    	if(Robot.arm.isGoingHome() || Robot.arm.getArmAngle() <= (Arm.HOME_MAX_ANGLE))
     	{
     		Robot.claw.setPosition(WristPostion.Compact);
+    	}
+    	else
+    	{
+    		Robot.claw.setPosition(WristPostion.Level);
     	}
     	
     	if(Robot.claw.getPosition() == WristPostion.Compact)

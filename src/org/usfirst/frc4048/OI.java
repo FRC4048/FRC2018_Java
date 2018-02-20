@@ -117,10 +117,20 @@ public class OI {
          */
 		moveToExchange = new JoystickButton(controller, 1); // X Button
         moveToExchange.whenPressed(new MoveArm(ArmPositions.Exchange));
-		moveToHighScale = new JoystickButton(controller, 4); // Y Button
-        moveToHighScale.whenPressed(new MoveArm(ArmPositions.HighScale));
+        
+        moveToHighScale = new JoystickButton(controller, 4); // Y Button
+        moveToHighScale.whenPressed(new MoveArm(ArmPositions.Switch));
 		moveToLowScale = new JoystickButton(controller, 2); // B Button
-        moveToLowScale.whenPressed(new MoveArm(ArmPositions.LowScale));
+        moveToLowScale.whenPressed(new MoveArm(ArmPositions.Switch));
+        
+        /*
+         * TODO ADD THIS BACK
+         */
+        
+//		moveToHighScale = new JoystickButton(controller, 4); // Y Button
+//        moveToHighScale.whenPressed(new MoveArm(ArmPositions.HighScale));
+//		moveToLowScale = new JoystickButton(controller, 2); // B Button
+//        moveToLowScale.whenPressed(new MoveArm(ArmPositions.LowScale));
         
 //        moveToSwitch = new JoystickButton(controller, 1); // A Button
 //        moveToSwitch.whenPressed(new MoveArm(ArmPositions.Switch));

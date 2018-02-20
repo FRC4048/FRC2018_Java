@@ -22,8 +22,6 @@ import java.time.temporal.IsoFields;
 import org.usfirst.frc4048.commands.*;
 import org.usfirst.frc4048.commands.arm.*;
 import org.usfirst.frc4048.arm.*;
-import org.usfirst.frc4048.commands.arm.ResetClawGyro;
-import org.usfirst.frc4048.commands.arm.SetClawPosition;
 import org.usfirst.frc4048.commands.auto.AutoAction;
 import org.usfirst.frc4048.commands.getcube.GetCubeGroupCommand;
 import org.usfirst.frc4048.commands.intake.*;
@@ -272,6 +270,7 @@ public class Robot extends TimedRobot {
     		SmartDashboard.putData("Intake Cube Toggle", new IntakeCube(IntakeMode.TOGGLE_PULL_LEFT_OR_RIGHT));
     		SmartDashboard.putData("Open Intake", new GripIntake(GripPosition.Open));
     		SmartDashboard.putData("Close Intake", new GripIntake(GripPosition.Close));
+    		SmartDashboard.putData("Extension Arm To Cube", new ExtensionAndArmToIntake());
     		
     		
     	}

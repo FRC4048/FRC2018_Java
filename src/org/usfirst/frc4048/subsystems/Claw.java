@@ -60,8 +60,8 @@ public class Claw extends Subsystem {
     private final double ANGLE_UP_SPEED = 0.8;
     private final double ANGLE_LEVEL_UP_SPEED = 0.4;
     private final double ANGLE_LEVEL_DOWN_SPEED = -0.4;
-    private final double LEVEL_GYRO_VAL = 109.0;
-    private final double LEVEL_GYRO_TOLERANCE = 1.5;
+    private final double LEVEL_GYRO_VAL = 102.0;
+    private final double LEVEL_GYRO_TOLERANCE = 2.5;
     
     private final double LEVEL_MAX_SPEED = 0.5;
 	private final double LEVEL_MIN_SPEED = 0.1;
@@ -281,7 +281,7 @@ public class Claw extends Subsystem {
     
     public double getGyroVal()
     {
-    	return gyro.getAngle();
+    	return gyro.getAngle() *-1;
     }
     
     public String clawHeadings() {

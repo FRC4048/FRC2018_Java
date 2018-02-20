@@ -43,7 +43,8 @@ public class ExtensionAndArmToIntake extends CommandGroup implements GroupComman
     
 	private void addSteps()
 	{
-		addParallel(new MoveArm(this.realCallback, ArmPositions.Intake));
+		//Share the same subsystem so they need to be sequentially
+		addSequential(new MoveArm(this.realCallback, ArmPositions.Intake));
     	addSequential(new ExtensionIntake(this.realCallback));
 	}
 	

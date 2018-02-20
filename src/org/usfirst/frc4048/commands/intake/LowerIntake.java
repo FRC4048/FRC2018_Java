@@ -29,7 +29,7 @@ public class LowerIntake extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	setTimeout(2.0); //TODO Implement LowerIntake timeouts and test them (uncomment them, and make sure they work)
+    	setTimeout(4.0); //TODO Implement LowerIntake timeouts and test them (uncomment them, and make sure they work)
     }
 
     // Called repeatedly when this Command is scheduled to run
