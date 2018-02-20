@@ -284,8 +284,9 @@ public class Claw extends Subsystem {
     	return gyro.getAngle() *-1;
     }
     
-    public String clawHeadings() {
-    	return "";
+    public String[] clawHeadings() {
+    	String log[] = {""};
+    	return log;
     }
 }
 

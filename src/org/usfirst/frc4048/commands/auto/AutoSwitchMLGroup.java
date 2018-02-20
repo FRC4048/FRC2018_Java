@@ -3,6 +3,7 @@ package org.usfirst.frc4048.commands.auto;
 import org.usfirst.frc4048.commands.DriveDistance;
 import org.usfirst.frc4048.commands.RotateAngle;
 import org.usfirst.frc4048.commands.arm.MoveArm;
+import org.usfirst.frc4048.commands.arm.MoveClawToLevel;
 import org.usfirst.frc4048.commands.arm.OpenClaw;
 import org.usfirst.frc4048.subsystems.Arm.ArmPositions;
 
@@ -38,6 +39,7 @@ public class AutoSwitchMLGroup extends CommandGroup {
     	addSequential(new WaitForChildren());
     	addSequential(new RotateAngle(0));
     	addParallel(new DriveDistance(AutoAction.AUTO_RUN_DISTANCE, AutoAction.LOCAL_SWITCH_SPEED,0,0));
+    	addSequential(new MoveClawToLevel());
     	addSequential(new OpenClaw());
     }
 }
