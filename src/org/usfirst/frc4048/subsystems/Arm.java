@@ -70,7 +70,7 @@ public class Arm extends Subsystem {
 	/**
 	 * Is not a speed, but a setpoint adjustment value
 	 */
-	private final double FINETUNE_RATE = 0.1;
+	private final double FINETUNE_RATE = 0.25;
 
 	// TODO ALL OF THESE SETPOINTS ARE NOT VALID
 	/*
@@ -84,7 +84,7 @@ public class Arm extends Subsystem {
 	public static final double EXCHANGE_SETPOINT = 40.0;
 	public static final double SWITCH_SETPOINT = 78.0;
 	public static final double LOWSCALE_SETPOINT = 118.0;	//Is mid scale
-	public static final double HIGHSCALE_SETPOINT = 123.0;
+	public static final double HIGHSCALE_SETPOINT = 145.5;
 	// public static final double POT_MARGIN_VALUE = 5.0;
 	// public static final double MATH_MARGIN_VALUE = 100.0;
 	// public static final double HOME_SETPOINT = 0.0;

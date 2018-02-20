@@ -71,7 +71,7 @@ public class IntakeCube extends LoggedCommand {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void loggedExecute() {
-		if ((!Robot.intake.hasCube() || Robot.oi.getGetCubeOverride()) && Robot.intake.isLowered() && !isTimedOut() && !callback.hasGroupBeenCanceled()) {
+		if ((!Robot.intake.hasCube()) && Robot.intake.isLowered() && !isTimedOut() && !callback.hasGroupBeenCanceled()) {
 			switch (mode) {
 			case STRAIGHT_PULL:
 				Robot.intake.intakeCube();
@@ -94,7 +94,7 @@ public class IntakeCube extends LoggedCommand {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean loggedIsFinished() {
-		return Robot.intake.hasCube() || !Robot.intake.isLowered() || isTimedOut() || leftMotor.isStalled()
+		return Robot.intake.hasCube() || Robot.oi.getGetCubeOverride() || !Robot.intake.isLowered() || isTimedOut() || leftMotor.isStalled()
 				|| rightMotor.isStalled();
 	}
 

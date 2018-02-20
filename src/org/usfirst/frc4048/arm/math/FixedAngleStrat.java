@@ -34,7 +34,7 @@ public class FixedAngleStrat implements ArmStrat{
 	/*
 	 * 
 	 */
-	private static final double HOME_EXT_LENGTH = 0.0;
+	private static final double HOME_EXT_LENGTH = 6.0;
 	/**
 	 * Extension length within critical angle range
 	 */
