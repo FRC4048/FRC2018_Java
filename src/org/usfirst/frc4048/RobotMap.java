@@ -91,7 +91,7 @@ public class RobotMap {
     public static final double CURRENT_THRESHOLD_INTAKE_DEPLOY_MOTOR = 25.0;
     public static final double CURRENT_THRESHOLD_ARM_CUBE_PICKUP = 10.0;
     public static final double CURRENT_THRESHOLD_WRIST_MOTOR = 12.0;
-    public static final double CURRENT_THRESHOLD_GRIP_MOTOR = 8.0;
+    public static final double CURRENT_THRESHOLD_GRIP_MOTOR = 5.5;
     /**
      * TODO Determine correct timeout for intake motors.
      */

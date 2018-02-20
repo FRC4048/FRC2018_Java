@@ -24,7 +24,7 @@ public class MoveClawToLevel extends Command {
 	}
 
 	protected void execute() {
-		if (!Robot.claw.isLevel()) {
+		if (!Robot.claw.isLevel() && !callback.hasGroupBeenCanceled()) {
 			Robot.claw.moveClawToLevel();
 		}
 	}

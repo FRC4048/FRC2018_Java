@@ -56,7 +56,7 @@ public class Arm extends Subsystem {
 	private final int TIMEOUT = 100;
 
 	private double EXT_P = 20.0;
-	private double EXT_INTAKE_P = 5.0;
+	private double EXT_INTAKE_P = 10.0;
 	private double EXT_I = 0.0;
 	private double EXT_D = 0.0;
 
