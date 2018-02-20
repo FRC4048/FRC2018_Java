@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class DriveDistance extends Command {
+public class DriveDistance extends LoggedCommand {
 
 	private double distance;
 	private double distanceLeft = 0.0; //Distance left to travel
@@ -26,6 +26,7 @@ public class DriveDistance extends Command {
 	 * @param rot - sets clockwise/counter-clockwise speed robot travels at
 	 */
 	public DriveDistance(double distance, double fwd, double dir, double rot) {    	
+		super(String.format("You are running DriveDistance, distance: %d", distance));
 		requires(Robot.drivetrain);
 		this.distance = distance;
 		this.fwd = fwd;
@@ -34,7 +35,7 @@ public class DriveDistance extends Command {
 	}
 
 	// Called just before this Command runs the first time
-	protected void initialize() {
+	protected void loggedInitialize() {
 		Robot.drivetrain.setZero();
 		//The reason for checking if the distance is zero is ONLY for using the sonar distance and speed instead of the actual distance
 		//We only use this is autonomous
@@ -50,7 +51,7 @@ public class DriveDistance extends Command {
 	}
 
 	// Called repeatedly when this Command is scheduled to run
-	protected void execute() {
+	protected void loggedExecute() {
 
 		if(!done && Math.abs(Robot.drivetrain.getDistance() - lastDistance) < distanceLeft)
 		{
@@ -84,18 +85,24 @@ public class DriveDistance extends Command {
 
 
 	// Make this return true when this Command no longer needs to run execute()
-	protected boolean isFinished() {
+	protected boolean loggedIsFinished() {
 		return done;
 	}
 
 	// Called once after isFinished returns true
-	protected void end() {
+	protected void loggedEnd() {
 		Robot.drivetrain.stop();
 	}
 
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
-	protected void interrupted() {
+	protected void loggedInterrupted() {
 		Robot.drivetrain.stop();
+	}
+
+	@Override
+	protected void loggedCancel() {
+		// TODO Auto-generated method stub
+		
 	}
 }

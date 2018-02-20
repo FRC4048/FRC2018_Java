@@ -315,8 +315,7 @@ public class Drivetrain extends Subsystem {
     
     //This is for putting the Drivetrain headings to the log
     public String drivetrianHeadings() {
-    	
-    	return "LeftSonarVoltage, LeftSonarDistance";
+    	return "LeftSonarVoltage, LeftSonarDistance, RotateAngle, Distance";
     }
     
     public void stop()
