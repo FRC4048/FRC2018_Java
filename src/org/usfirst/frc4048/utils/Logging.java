@@ -93,13 +93,18 @@ public class Logging {
 			writeLoggingGap = true;
 	}
 
-	public void traceMessage(MessageLevel ml, String message) {
+	public void traceMessage(MessageLevel ml, String ...vals) {
 		final StringBuilder sb = new StringBuilder();
 		sb.append(df3.format(Timer.getFPGATimestamp()));
 		sb.append(",");
 		sb.append(ml.name());
 		sb.append(",");
-		sb.append("\"").append(message).append("\"");
+		if (vals != null) {
+			for (final String v : vals) {
+				sb.append("\"").append(v).append("\"");
+				sb.append(",");
+			}
+		}
 		traceMessage(sb);
 	}
 

@@ -22,12 +22,7 @@ abstract public class LoggedCommand extends Command {
 		sb.append(this.getClass().getSimpleName());
 		sb.append(" ");
 		sb.append(ident);
-		sb.append("(req:");
-		sb.append(requirements.toString());
-		sb.append(")");
-		sb.append(" ");
-		sb.append(text);
-		Robot.logging.traceMessage(MessageLevel.InfoMessage,sb.toString());
+		Robot.logging.traceMessage(MessageLevel.InfoMessage, sb.toString(), requirements.toString(), text);
 	}
 	
 	/**
