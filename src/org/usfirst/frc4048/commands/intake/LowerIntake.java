@@ -3,6 +3,7 @@ package org.usfirst.frc4048.commands.intake;
 import org.usfirst.frc4048.Robot;
 import org.usfirst.frc4048.RobotMap;
 import org.usfirst.frc4048.commands.GroupCommandCallback;
+import org.usfirst.frc4048.commands.LoggedCommand;
 import org.usfirst.frc4048.utils.MotorUtils;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -11,7 +12,7 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class LowerIntake extends Command {
+public class LowerIntake extends LoggedCommand {
 	private static final boolean DEBUG = false;
 	private final GroupCommandCallback callback;
 	private final MotorUtils util = new MotorUtils(RobotMap.PDP_INTAKE_DEPLOY_MOTOR, RobotMap.CURRENT_THRESHOLD_INTAKE_DEPLOY_MOTOR);
@@ -21,6 +22,7 @@ public class LowerIntake extends Command {
     }
 
     public LowerIntake(GroupCommandCallback callback) {
+    	super("Now running LowerIntake: ");
     	this.callback = callback;
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
@@ -28,23 +30,23 @@ public class LowerIntake extends Command {
     }
 
     // Called just before this Command runs the first time
-    protected void initialize() {
+    protected void loggedInitialize() {
     	setTimeout(4.0); //TODO Implement LowerIntake timeouts and test them (uncomment them, and make sure they work)
     }
 
     // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
+    protected void loggedExecute() {
     	if(!isTimedOut())
     		Robot.intake.lowerIntake();
     }
 
     // Make this return true when this Command no longer needs to run execute()
-    protected boolean isFinished() {
+    protected boolean loggedIsFinished() {
         return Robot.intake.isLowered() || isTimedOut() || util.isStalled();
     }
 
     // Called once after isFinished returns true
-    protected void end() {
+    protected void loggedEnd() {
     	callback.doCancel(isTimedOut());
     	if (DEBUG) {
     		DriverStation.reportError("ending LowerIntake!", true);
@@ -54,8 +56,14 @@ public class LowerIntake extends Command {
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
-    protected void interrupted() {
+    protected void loggedInterrupted() {
 		callback.doCancel(true);
     	Robot.intake.stopLowerOrRaiseIntake();
     }
+
+	@Override
+	protected void loggedCancel() {
+		// TODO Auto-generated method stub
+		
+	}
 }
