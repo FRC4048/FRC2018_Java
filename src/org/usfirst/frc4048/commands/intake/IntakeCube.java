@@ -68,7 +68,7 @@ public class IntakeCube extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		if (!Robot.intake.hasCube() && Robot.intake.isLowered() && !isTimedOut() && !callback.hasGroupBeenCanceled()) {
+		if ((!Robot.intake.hasCube() || Robot.oi.getGetCubeOverride()) && Robot.intake.isLowered() && !isTimedOut() && !callback.hasGroupBeenCanceled()) {
 			switch (mode) {
 			case STRAIGHT_PULL:
 				Robot.intake.intakeCube();
