@@ -49,7 +49,7 @@ public class AutoSwitchRRGroup extends CommandGroup {
     	
     	//ROTATE 90 AND DROP ON SWITCH
     	addSequential(new RotateAngle(-90));
-    	addParallel(new DriveDistance(5, 0, AutoAction.LOCAL_SWITCH_SPEED,0));
+    	addParallel(new DriveDistance(30, 0, AutoAction.LOCAL_SWITCH_SPEED,0));
     	addSequential(new SetClawPosition(WristPostion.Level));
     	addSequential(new WaitForChildren());
     	addSequential(new OpenClaw());   
