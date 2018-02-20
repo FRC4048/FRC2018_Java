@@ -6,6 +6,7 @@ import org.usfirst.frc4048.commands.GroupCommandCallback;
 import org.usfirst.frc4048.utils.MotorUtils;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Scheduler;
 
 public class GrabCube extends Command {
 	private final GroupCommandCallback callback;
@@ -32,48 +33,25 @@ public class GrabCube extends Command {
     
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	try {
     	if(!Robot.claw.gripClosed() && !isTimedOut())
     		Robot.claw.closeClaw();
-    	} catch (Throwable t) {
-    		t.printStackTrace(System.out);
-    		throw t;
-    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	try {
     	return Robot.claw.gripClosed() || isTimedOut() || pdpMotor.isStalled();
-    	} catch (Throwable t) {
-    		t.printStackTrace(System.out);
-    		throw t;
-    	}
-
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	try {
     	callback.doCancel(isTimedOut());
     	Robot.claw.stopGrip();
-    	} catch (Throwable t) {
-    		t.printStackTrace(System.out);
-    		throw t;
-    	}
-
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	try {
     	callback.doCancel(true);
-    	Robot.claw.stopGrip();
-    	} catch (Throwable t) {
-    		t.printStackTrace(System.out);
-    		throw t;
-    	}
-
+    	Robot.claw.stopGrip();	
     }
 }
