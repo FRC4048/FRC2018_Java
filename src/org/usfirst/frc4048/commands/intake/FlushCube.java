@@ -26,6 +26,7 @@ public class FlushCube extends LoggedCommand {
 
     // Called just before this Command runs the first time
     protected void loggedInitialize() {
+    	setTimeout(7.5);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -37,7 +38,7 @@ public class FlushCube extends LoggedCommand {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean loggedIsFinished() {
-        return false;
+        return isTimedOut();
     }
 
     // Called once after isFinished returns true
