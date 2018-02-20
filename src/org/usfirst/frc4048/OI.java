@@ -23,12 +23,17 @@ import org.usfirst.frc4048.commands.arm.GrabCube;
 import org.usfirst.frc4048.commands.arm.MoveArm;
 import org.usfirst.frc4048.commands.arm.OpenClaw;
 import org.usfirst.frc4048.commands.arm.SetClawPosition;
+import org.usfirst.frc4048.commands.arm.SetClawPositionAndWait;
 import org.usfirst.frc4048.commands.auto.AutoAction;
 import org.usfirst.frc4048.commands.getcube.GetCubeGroupCommand;
 import org.usfirst.frc4048.commands.intake.FlushCube;
+import org.usfirst.frc4048.commands.intake.GripIntake;
+import org.usfirst.frc4048.commands.intake.GripIntake.GripPosition;
 import org.usfirst.frc4048.commands.intake.IntakeCube;
 import org.usfirst.frc4048.commands.intake.IntakeCube.IntakeMode;
+import org.usfirst.frc4048.commands.intake.RaiseIntake;
 import org.usfirst.frc4048.commands.intake.ToggleIntake;
+import org.usfirst.frc4048.subsystems.Claw;
 import org.usfirst.frc4048.subsystems.Arm.ArmPositions;
 
 import org.usfirst.frc4048.subsystems.Claw.WristPostion;
@@ -88,8 +93,12 @@ public class OI {
     public JoystickButton moveToHighScale;
     public JoystickButton moveToExchange;
 //    public JoystickButton moveToClimb;
+    public JoystickButton gripIntake;
     public JoystickButton cancelFunction;
+    public JoystickButton intakeCube;
     public Joystick controller;
+    public JoystickButton raiseIntake;
+    public JoystickButton setClawPositionandWait;
     public final XboxTriggerRight xboxTriggerRight;
     public final XboxTriggerLeft xboxTriggerLeft;
 
@@ -154,6 +163,19 @@ public class OI {
         toggleIntake = new JoystickButton(rightJoystick, 7);
         toggleIntake.whenPressed(new ToggleIntake());
         leftJoystick = new Joystick(0);
+        
+   
+        intakeCube=new JoystickButton(leftJoystick, 9);
+        intakeCube.whenPressed(new IntakeCube((IntakeCube.IntakeMode.STRAIGHT_PULL)));
+        setClawPositionandWait= new JoystickButton(leftJoystick, 10);
+        setClawPositionandWait.whenPressed(new SetClawPositionAndWait(Claw.WristPostion.Level));
+        gripIntake= new JoystickButton(leftJoystick, 12);
+        gripIntake.whenPressed(new GripIntake(GripPosition.Close));
+        raiseIntake= new JoystickButton(leftJoystick, 8);
+        raiseIntake.whenPressed(new RaiseIntake());
+        
+        
+        
         
 
 
