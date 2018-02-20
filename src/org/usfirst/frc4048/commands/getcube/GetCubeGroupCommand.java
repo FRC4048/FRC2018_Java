@@ -21,8 +21,14 @@ public class GetCubeGroupCommand extends CommandGroup implements GroupCommandCal
 	// TODO - Determine which commands can be done in parallel - Maybe MoveArm and
 	// LowerIntake.
 	// Also use addSequential(new WaitForChildren());
-
 	public GetCubeGroupCommand() {
+		this(true, true);
+	}
+	
+	
+
+	public GetCubeGroupCommand(boolean part1, boolean part2) {
+		if (part1) {
 		addSequential(new CancelIfCubeInClaw(this));
 		
 		addSequential(new GripIntake(this, GripPosition.Close));
@@ -40,10 +46,13 @@ public class GetCubeGroupCommand extends CommandGroup implements GroupCommandCal
 		
 		addSequential(new ExtendArmToCube(this));
 		addSequential(new GrabCube(this));
+		}
 		
+		if (part2) {
 		addSequential(new MoveArm(this, ArmPositions.Switch));
 		addSequential(new GripIntake(this, GripPosition.Close));
 		addSequential(new RaiseIntake(this));
+		}
 	}
 
 	@Override
