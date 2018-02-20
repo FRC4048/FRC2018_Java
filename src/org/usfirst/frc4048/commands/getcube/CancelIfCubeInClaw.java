@@ -34,8 +34,8 @@ public class CancelIfCubeInClaw extends LoggedCommand {
 	}
 
 	@Override
-	protected boolean loggedInitialize() {
-		return false;
+	protected void loggedInitialize() {
+		
 	}
 
 	@Override

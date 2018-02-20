@@ -46,37 +46,39 @@ public class Logging {
 		this.executor.schedule(new ConsolePrintTask(wq, this), 0L, this.period);
 	}
 
-	public void traceSubsystem(Subsystems s, double... vals) {
-		traceSubsystem(s, vals, (String[]) null);
+	public void traceSubsystem(Subsystems s, boolean alwaysPrint, double... vals) {
+		traceSubsystem(s, alwaysPrint, vals, (String[]) null);
 	}
-
-	public void traceSubsystem(Subsystems s, String... vals) {
-		traceSubsystem(s, (double[]) null, vals);
+	
+	public void traceSubsystem(Subsystems s, boolean alwaysPrint, String... vals) {
+		traceSubsystem(s, true, (double[]) null, vals);
 	}
 
 	public void traceSubsystem(Subsystems s, String vals1[], double... vals2) {
-		traceSubsystem(s, vals2, vals1);
+		traceSubsystem(s, false, vals2, vals1);
 	}
 
-	public void traceSubsystem(Subsystems s, double vals1[], String... vals2) {
-		if (DriverStation.getInstance().isEnabled() && counter % 5 == 0) {
-			final StringBuilder sb = new StringBuilder();
-			sb.append(df3.format(Timer.getFPGATimestamp()));
-			sb.append(",");
-			sb.append(s.name());
-			sb.append(",");
-			if (vals1 != null) {
-				for (final double v : vals1) {
-					sb.append(df5.format(v));
-					sb.append(",");
-				}
+	public void traceSubsystem(Subsystems s, boolean alwaysPrint, double vals1[], String... vals2) {
+		final StringBuilder sb = new StringBuilder();
+		sb.append(df3.format(Timer.getFPGATimestamp()));
+		sb.append(",");
+		sb.append(s.name());
+		sb.append(",");
+		if (vals1 != null) {
+			for (final double v : vals1) {
+				sb.append(df5.format(v));
+				sb.append(",");
 			}
-			if (vals2 != null) {
-				for (final String v : vals2) {
-					sb.append("\"").append(v).append("\"");
-					sb.append(",");
-				}
+		}
+		if (vals2 != null) {
+			for (final String v : vals2) {
+				sb.append("\"").append(v).append("\"");
+				sb.append(",");
 			}
+		}
+		if (DriverStation.getInstance().isEnabled() && counter % 5 == 0 && alwaysPrint == false) {
+			traceMessage(sb);
+		} else if (DriverStation.getInstance().isEnabled() && alwaysPrint == true) {
 			traceMessage(sb);
 		}
 		counter += 1;
@@ -91,24 +93,28 @@ public class Logging {
 			writeLoggingGap = true;
 	}
 
-	public void traceMessage(MessageLevel ml, String message) {
+	public void traceMessage(MessageLevel ml, String ...vals) {
 		final StringBuilder sb = new StringBuilder();
 		sb.append(df3.format(Timer.getFPGATimestamp()));
 		sb.append(",");
 		sb.append(ml.name());
 		sb.append(",");
-		sb.append("\"").append(message).append("\"");
+		if (vals != null) {
+			for (final String v : vals) {
+				sb.append("\"").append(v).append("\"");
+				sb.append(",");
+			}
+		}
 		traceMessage(sb);
 	}
-	
-	public void printHeadings()
-	{
-		traceSubsystem(Subsystems.DRIVETRAIN, Robot.drivetrain.drivetrianHeadings());
-		traceSubsystem(Subsystems.ARM, Robot.arm.armHeadings());
-		traceSubsystem(Subsystems.CLAW, Robot.claw.clawHeadings());
-		traceSubsystem(Subsystems.INTAKE, Robot.intake.intakeHeadings());
+
+	public void printHeadings() {
+		traceSubsystem(Subsystems.DRIVETRAIN, true, Robot.drivetrain.drivetrianHeadings());
+		traceSubsystem(Subsystems.ARM, true, Robot.arm.armHeadings());
+		traceSubsystem(Subsystems.CLAW, true, Robot.claw.clawHeadings());
+		traceSubsystem(Subsystems.INTAKE, true, Robot.intake.intakeHeadings());
 	}
-	
+
 	private class ConsolePrintTask extends TimerTask {
 		PrintWriter log;
 		final WorkQueue wq;
@@ -117,35 +123,7 @@ public class Logging {
 		private ConsolePrintTask(WorkQueue wq, Logging l) {
 			this.l = l;
 			this.wq = wq;
-			try {
-
-				File file = new File("/home/lvuser/Logs");
-				if (!file.exists()) {
-					if (file.mkdir()) {
-						System.out.println("Log Directory is created!");
-					} else {
-						System.out.println("Failed to create Log directory!");
-					}
-				}
-				Date date = new Date();
-				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
-				dateFormat.setTimeZone(TimeZone.getTimeZone("EST5EDT"));
-				this.log = new PrintWriter("/home/lvuser/Logs/" + dateFormat.format(date) + "-Log.txt", "UTF-8");
-				
-				printHeadings();
-				
-				log.flush();
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-
-		private String FileHeading() {
-			return "";
+			log = null;
 		}
 
 		public void print() {
@@ -164,7 +142,36 @@ public class Logging {
 		 * Called periodically in its own thread
 		 */
 		public void run() {
-			print();
+			if (log == null) {
+				try {
+					File file = new File("/home/lvuser/Logs");
+					if (!file.exists()) {
+						if (file.mkdir()) {
+							System.out.println("Log Directory is created!");
+						} else {
+							System.out.println("Failed to create Log directory!");
+						}
+					}
+					Date date = new Date();
+					SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
+					dateFormat.setTimeZone(TimeZone.getTimeZone("EST5EDT"));
+					try {
+						this.log = new PrintWriter("/media/sda1/" + dateFormat.format(date) + "-Log.csv", "UTF-8");
+					} catch (Exception e) {
+						this.log = new PrintWriter("/home/lvuser/Logs/" + dateFormat.format(date) + "-Log.txt",
+								"UTF-8");
+					}
+
+					log.flush();
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (UnsupportedEncodingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				print();
+			}
 		}
 	}
 }

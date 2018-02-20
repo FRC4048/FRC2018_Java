@@ -20,6 +20,12 @@ public interface GroupCommandCallback {
 	 * the end() method.
 	 */
 	public void doCancel(final boolean isTimedOut);
+	
+	/**
+	 * Provides a name for the group command. Used in logging.
+	 * @return
+	 */
+	public String getName();
 
 	static public final GroupCommandCallback NONE = new GroupCommandCallback() {
 
@@ -27,6 +33,10 @@ public interface GroupCommandCallback {
 		public void doCancel(final boolean isTimedOut) {
 		}
 		
+		public String getName() {
+			return "DummyGroupCommand";
+		}
+
 		@Override
 		public boolean hasGroupBeenCanceled()
 		{
