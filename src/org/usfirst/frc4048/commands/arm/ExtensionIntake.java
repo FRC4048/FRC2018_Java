@@ -35,7 +35,7 @@ public class ExtensionIntake extends Command {
     protected void execute() {
     	if(!Robot.arm.extensionAtIntake())
     	{
-    		Robot.arm.extensionToIntake();
+    		Robot.arm.extensionToIntakeBegin();
     	}
     }
 

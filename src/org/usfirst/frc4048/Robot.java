@@ -256,7 +256,7 @@ public class Robot extends TimedRobot {
     		SmartDashboard.putData("Toggle Drive Mode", new ToggleMode());
     		SmartDashboard.putData("grab Cube", new GrabCube());
     		SmartDashboard.putData("Move Arm", new MoveArm(ArmPositions.Intake));//Sets Arm position to Intake position
-    		SmartDashboard.putData("Lower Arm to Cube", new LowerArmToCube());
+    		SmartDashboard.putData("Lower Arm to Cube", new ExtendArmToCube());
     		SmartDashboard.putData("Move Claw", new MoveClaw());
     		SmartDashboard.putData("Open Claw", new OpenClaw());
     		SmartDashboard.putData("Reset Claw Gyro", new ResetClawGyro());

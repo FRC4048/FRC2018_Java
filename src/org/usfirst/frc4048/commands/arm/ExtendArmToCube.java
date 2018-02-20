@@ -10,18 +10,18 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class LowerArmToCube extends Command {
+public class ExtendArmToCube extends Command {
 
 	GroupCommandCallback callback;
 	MotorUtils util = new MotorUtils(RobotMap.PDP_ARM_MOTOR, RobotMap.CURRENT_THRESHOLD_ARM_CUBE_PICKUP);
 	
-    public LowerArmToCube() {
+    public ExtendArmToCube() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	this(GroupCommandCallback.NONE);
     }
     
-    public LowerArmToCube(GroupCommandCallback callback) {
+    public ExtendArmToCube(GroupCommandCallback callback) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.arm);
@@ -31,12 +31,15 @@ public class LowerArmToCube extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	setTimeout(3.0);
+    	Robot.arm.setExtIntakePID();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	if(!Robot.claw.cubePresent() && !isTimedOut() && !util.isStalled())
-    		Robot.arm.finetuneDown();
+    	{
+    		Robot.arm.extensionToIntakeEnd();
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -48,13 +51,15 @@ public class LowerArmToCube extends Command {
     protected void end() {
     	//TODO Is stalling needed for canceling?
     	callback.doCancel(isTimedOut());// || util.isStalled());
-    	Robot.arm.stopArm();
+    	Robot.arm.setExtNormalPID();
+    	Robot.arm.setExtToCurrentPos();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	Robot.arm.stopArm();
     	callback.doCancel(true);
+    	Robot.arm.setExtNormalPID();
+    	Robot.arm.setExtToCurrentPos();
     }
 }

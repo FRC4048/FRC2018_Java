@@ -56,6 +56,7 @@ public class Arm extends Subsystem {
 	private final int TIMEOUT = 100;
 
 	private double EXT_P = 20.0;
+	private double EXT_INTAKE_P = 5.0;
 	private double EXT_I = 0.0;
 	private double EXT_D = 0.0;
 
@@ -79,7 +80,7 @@ public class Arm extends Subsystem {
 	public static final double CRITICAL_MARGIN_VALUE = 10.0;
 	public static final double HOME_SETPOINT = 0.0;
 	public static final double HOME_MAX_ANGLE = 9.0;
-	public static final double INTAKE_SETPOINT = 14.0;
+	public static final double INTAKE_SETPOINT = 13.0;
 	public static final double EXCHANGE_SETPOINT = 40.0;
 	public static final double SWITCH_SETPOINT = 78.0;
 	public static final double LOWSCALE_SETPOINT = 118.0;	//Is mid scale
@@ -98,7 +99,8 @@ public class Arm extends Subsystem {
 	 */
 	public static final double EXT_MARGIN_VALUE = 1.5;
 	public static final double EXT_HOME_SETPOINT = 0.0;
-	public static final double EXT_INTAKE_SETPOINT = 8.5;
+	public static final double EXT_INTAKE_SETPOINT = 4.5;
+	public static final double EXT_INTAKE_SETPOINT_GOTO = 11.0;
 	// public static final double EXT_CLIMB_SETPOINT = 1020;
 	// public static final double EXT_HOME_SETPOINT = 0.0;
 	// public static final double EXT_INTAKE_SETPOINT = 450.0;
@@ -141,6 +143,10 @@ public class Arm extends Subsystem {
 		extensionMotor.config_kP(0, EXT_P, TIMEOUT);
 		extensionMotor.config_kI(0, EXT_I, TIMEOUT);
 		extensionMotor.config_kD(0, EXT_D, TIMEOUT);
+		extensionMotor.configAllowableClosedloopError(1, 4, TIMEOUT);
+		extensionMotor.config_kP(1, EXT_INTAKE_P, TIMEOUT);
+		extensionMotor.config_kI(1, EXT_I, TIMEOUT);
+		extensionMotor.config_kD(1, EXT_D, TIMEOUT);
 
 		movementMotor.configSelectedFeedbackSensor(FeedbackDevice.Analog, 0, TIMEOUT);
 		movementMotor.configNominalOutputForward(0, TIMEOUT);
@@ -350,10 +356,29 @@ public class Arm extends Subsystem {
 		return goingHome;
 	}
 
-	public void extensionToIntake() {
+	public void extensionToIntakeBegin() {
 		manualExtSetpoint = EXT_INTAKE_SETPOINT;
 	}
+	
+	public void extensionToIntakeEnd() {
+		manualExtSetpoint = EXT_INTAKE_SETPOINT_GOTO;
+	}
+	
+	public void setExtToCurrentPos()
+	{
+		manualExtSetpoint = getExtLength();
+	}
+	
+	public void setExtIntakePID()
+	{
+		extensionMotor.selectProfileSlot(1, 0);
+	}
 
+	public void setExtNormalPID()
+	{
+		extensionMotor.selectProfileSlot(0, 0);
+	}
+	
 	public boolean extensionAtIntake() {
 		double extension = getExtLength();
 		return extension <= EXT_INTAKE_SETPOINT + ANGLE_MARGIN_VALUE
@@ -391,18 +416,14 @@ public class Arm extends Subsystem {
 			manualExtSetpoint = EXT_HOME_SETPOINT;
 		}
 		
-		if (inAutoRange() && !goingHome) {// && !isArmMoving()) {
-//			autoExt = true;
+		if (inAutoRange() && !goingHome) {
 			double angle = getArmAngle();
 			double extSetpoint = armMath.convertArmAngleToExtPot(EXT_POT_MIN, EXT_LENGTH_MIN, EXT_POT_MAX, EXT_LENGTH_MAX, angle) * EXT_POT_INVERT;
 			mathPotExtSetpoint = extSetpoint;
 			extensionMotor.set(ControlMode.Position, (int) extSetpoint);
-		} else {// if (!isArmMoving()) {
-//			autoExt = false;
+		} else {
 			double extPot = armMath.convertLengthToExtPot(EXT_POT_MIN, EXT_LENGTH_MIN, EXT_POT_MAX, EXT_LENGTH_MAX, manualExtSetpoint) * EXT_POT_INVERT;
 			extensionMotor.set(ControlMode.Position, (int) extPot);
-//		} //else if (isArmMoving()) {
-//			autoExt = false;
 		}
 	}
 
