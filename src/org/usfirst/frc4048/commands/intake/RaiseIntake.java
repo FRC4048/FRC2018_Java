@@ -33,8 +33,9 @@ public class RaiseIntake extends LoggedCommand {
     }
 
     // Called repeatedly when this Command is scheduled to runs
+
     protected void loggedExecute() {
-    	if(!isTimedOut())
+    	if(!isTimedOut() && !callback.hasGroupBeenCanceled())
     		Robot.intake.raiseIntake();
     }
 

@@ -20,8 +20,9 @@ public class MoveClawToLevel extends LoggedCommand {
 		setTimeout(5.0);
 	}
 
+
 	protected void loggedExecute() {
-		if (!Robot.claw.isLevel()) {
+		if (!Robot.claw.isLevel()&& !callback.hasGroupBeenCanceled()) {
 			Robot.claw.moveClawToLevel();
 		}
 	}

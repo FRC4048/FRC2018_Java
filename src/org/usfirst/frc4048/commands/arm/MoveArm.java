@@ -36,7 +36,8 @@ public class MoveArm extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		Robot.arm.moveToPos(position);
+		if(!callback.hasGroupBeenCanceled())
+			Robot.arm.moveToPos(position);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

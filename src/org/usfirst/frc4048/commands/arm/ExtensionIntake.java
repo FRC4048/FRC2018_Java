@@ -34,8 +34,9 @@ public class ExtensionIntake extends LoggedCommand {
     }
 
     // Called repeatedly when this Command is scheduled to run
+
     protected void loggedExecute() {
-    	if(!Robot.arm.extensionAtIntake())
+    	if(!Robot.arm.extensionAtIntake() && !callback.hasGroupBeenCanceled())
     	{
     		Robot.arm.extensionToIntakeBegin();
     	}
