@@ -32,7 +32,7 @@ public class RaiseIntake extends Command {
 
     // Called repeatedly when this Command is scheduled to runs
     protected void execute() {
-    	if(!isTimedOut() && !callback.hasGroupBeenCanceled())
+    	if(!isTimedOut() && !Robot.intake.hasCube() && !callback.hasGroupBeenCanceled())
     		Robot.intake.raiseIntake();
     }
 
