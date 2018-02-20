@@ -49,7 +49,7 @@ public class IntakeCube extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		setTimeout(3.0);
+		setTimeout(6.0);
 		leftMotor = new MotorUtils(RobotMap.PDP_LEFT_INTAKE_MOTOR, RobotMap.CURRENT_THRESHOLD_INTAKE_MOTOR,
 				RobotMap.TIMEOUT_INTAKE_MOTOR);
 		rightMotor = new MotorUtils(RobotMap.PDP_RIGHT_INTAKE_MOTOR, RobotMap.CURRENT_THRESHOLD_INTAKE_MOTOR,
