@@ -133,7 +133,7 @@ public class Claw extends Subsystem {
 
     public boolean cubePresent()
     {
-    	return cubeSwitch.get();
+    	return !cubeSwitch.get();
     }
     
     public boolean gripClosed()

@@ -100,7 +100,7 @@ public class Arm extends Subsystem {
 	public static final double EXT_MARGIN_VALUE = 1.5;
 	public static final double EXT_HOME_SETPOINT = 0.0;
 	public static final double EXT_INTAKE_SETPOINT = 4.5;
-	public static final double EXT_INTAKE_SETPOINT_GOTO = 11.0;
+	public static final double EXT_INTAKE_SETPOINT_GOTO = 14.0;
 	// public static final double EXT_CLIMB_SETPOINT = 1020;
 	// public static final double EXT_HOME_SETPOINT = 0.0;
 	// public static final double EXT_INTAKE_SETPOINT = 450.0;

@@ -32,15 +32,14 @@ public class GetCubeGroupCommand extends CommandGroup implements GroupCommandCal
 		addSequential(new IntakeCube(this, IntakeCube.IntakeMode.STRAIGHT_PULL));
 		
 		addSequential(new OpenClaw(this));
-		addSequential(new SetClawPositionAndWait(this, Claw.WristPostion.Level));
 		addSequential(new ExtensionAndArmToIntake(this));
-		addSequential(new ExtendArmToCube(this));
 		addSequential(new GripIntake(this, GripPosition.Open));
+		
+		addSequential(new ExtendArmToCube(this));
 		addSequential(new GrabCube(this));
 
-		addSequential(new SetClawPositionAndWait(this, Claw.WristPostion.Compact));
 		addSequential(new GripIntake(this, GripPosition.Close));
-		addSequential(new MoveArm(this, ArmPositions.Exchange));
+		addSequential(new MoveArm(this, ArmPositions.Switch));
 		addSequential(new RaiseIntake(this));
 	}
 
