@@ -60,5 +60,10 @@ public class GetCubeGroupCommand extends CommandGroup implements GroupCommandCal
 //			cancel();
 		}
 	}
+	
+	
+	public String toString() {
+		return this.getClass().getName();
+	}
 
 }
