@@ -128,19 +128,14 @@ public class OI {
 		moveToExchange = new JoystickButton(controller, 1); // X Button
         moveToExchange.whenPressed(new MoveArm(ArmPositions.Exchange));
         
-        moveToHighScale = new JoystickButton(controller, 4); // Y Button
+//        moveToHighScale = new JoystickButton(controller, 4); // Y Button
+//        moveToHighScale.whenPressed(new MoveArm(ArmPositions.Switch));
+//		moveToLowScale = new JoystickButton(controller, 2); // B Button
+//        moveToLowScale.whenPressed(new MoveArm(ArmPositions.Switch));
+		moveToHighScale = new JoystickButton(controller, 4); // Y Button
         moveToHighScale.whenPressed(new MoveArm(ArmPositions.HighScale));
 		moveToLowScale = new JoystickButton(controller, 2); // B Button
         moveToLowScale.whenPressed(new MoveArm(ArmPositions.LowScale));
-        
-        /*
-         * TODO ADD THIS BACK
-         */
-        
-//		moveToHighScale = new JoystickButton(controller, 4); // Y Button
-//        moveToHighScale.whenPressed(new MoveArm(ArmPositions.HighScale));
-//		moveToLowScale = new JoystickButton(controller, 2); // B Button
-//        moveToLowScale.whenPressed(new MoveArm(ArmPositions.LowScale));
         
 //        moveToSwitch = new JoystickButton(controller, 1); // A Button
 //        moveToSwitch.whenPressed(new MoveArm(ArmPositions.Switch));
@@ -170,7 +165,7 @@ public class OI {
         intakeCube.whenPressed(new IntakeCube((IntakeCube.IntakeMode.STRAIGHT_PULL)));
         setClawPositionandWait= new JoystickButton(leftJoystick, 10);
         setClawPositionandWait.whenPressed(new SetClawPositionAndWait(Claw.WristPostion.Level));
-        gripIntake= new JoystickButton(leftJoystick, 12);
+        gripIntake= new JoystickButton(leftJoystick, 11);
         gripIntake.whenPressed(new GripIntake(GripPosition.Close));
         raiseIntake= new JoystickButton(leftJoystick, 8);
         raiseIntake.whenPressed(new RaiseIntake());
