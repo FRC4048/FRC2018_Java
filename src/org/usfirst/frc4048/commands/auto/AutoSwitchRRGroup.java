@@ -5,6 +5,7 @@ import org.usfirst.frc4048.commands.DriveDistance;
 import org.usfirst.frc4048.commands.PrintCommand;
 import org.usfirst.frc4048.commands.RotateAngle;
 import org.usfirst.frc4048.commands.arm.MoveArm;
+import org.usfirst.frc4048.commands.arm.MoveClawToLevel;
 import org.usfirst.frc4048.commands.arm.OpenClaw;
 import org.usfirst.frc4048.commands.arm.SetClawPosition;
 import org.usfirst.frc4048.subsystems.Arm.ArmPositions;
@@ -49,8 +50,8 @@ public class AutoSwitchRRGroup extends CommandGroup {
     	
     	//ROTATE 90 AND DROP ON SWITCH
     	addSequential(new RotateAngle(-90));
-    	addParallel(new DriveDistance(30, 0, AutoAction.LOCAL_SWITCH_SPEED,0));
-    	addSequential(new SetClawPosition(WristPostion.Level));
+    	addParallel(new DriveDistance(18, 0, -AutoAction.LOCAL_SWITCH_SPEED,0));
+    	addSequential(new MoveClawToLevel());
     	addSequential(new WaitForChildren());
     	addSequential(new OpenClaw());   
     }

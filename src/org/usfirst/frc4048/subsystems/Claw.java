@@ -15,6 +15,7 @@ import org.usfirst.frc4048.Robot;
 import org.usfirst.frc4048.RobotMap;
 import org.usfirst.frc4048.commands.*;
 import org.usfirst.frc4048.commands.arm.MoveClaw;
+import org.usfirst.frc4048.utils.Logging;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -58,10 +59,10 @@ public class Claw extends Subsystem {
     private final double OPEN_SPEED = 0.6;//*Robot.GLOBAL_SCALE_FACTOR;
     
     private final double ANGLE_UP_SPEED = 0.8;
-    private final double ANGLE_LEVEL_UP_SPEED = 0.4;
-    private final double ANGLE_LEVEL_DOWN_SPEED = -0.4;
+    private final double ANGLE_LEVEL_UP_SPEED = 0.60;
+    private final double ANGLE_LEVEL_DOWN_SPEED = -0.55;
     private final double LEVEL_GYRO_VAL = 102.0;
-    private final double LEVEL_GYRO_TOLERANCE = 2.5;
+    private final double LEVEL_GYRO_TOLERANCE = 3.5;
     
     private final double LEVEL_MAX_SPEED = 0.5;
 	private final double LEVEL_MIN_SPEED = 0.1;
@@ -127,6 +128,11 @@ public class Claw extends Subsystem {
         // Put code here to be run every loop
     	
     	SmartDashboard.putBoolean("Has Cube", cubePresent());
+//    	String log[] = {"Gyro Angle", "Position", "Cube Present"};
+    	Robot.logging.traceSubsystem(Logging.Subsystems.CLAW, false, 
+    					""+gyro.getAngle(),
+    					position.toString(),
+    					""+cubePresent());
     	
     }
 
@@ -287,7 +293,7 @@ public class Claw extends Subsystem {
     }
     
     public String[] clawHeadings() {
-    	String log[] = {""};
+    	String log[] = {"Gyro Angle", "Position", "Cube Present"};
     	return log;
     }
 }

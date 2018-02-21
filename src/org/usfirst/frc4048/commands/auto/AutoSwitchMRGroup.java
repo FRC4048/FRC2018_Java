@@ -4,6 +4,8 @@ import org.usfirst.frc4048.commands.DriveDistance;
 import org.usfirst.frc4048.commands.arm.MoveArm;
 import org.usfirst.frc4048.commands.arm.MoveClawToLevel;
 import org.usfirst.frc4048.commands.arm.OpenClaw;
+import org.usfirst.frc4048.commands.intake.GripIntake;
+import org.usfirst.frc4048.commands.intake.GripIntake.GripPosition;
 import org.usfirst.frc4048.subsystems.Arm.ArmPositions;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -33,10 +35,12 @@ public class AutoSwitchMRGroup extends CommandGroup {
         // arm.
     	
     	//DRIVE TO SWITCH AND RAISE ARM
-    	addParallel(new DriveDistance(AutoAction.AUTO_RUN_DISTANCE, AutoAction.LOCAL_SWITCH_SPEED,0,0));
+    	addSequential(new GripIntake(GripPosition.Open));
+    	addParallel(new DriveDistance(AutoAction.AUTO_RUN_DISTANCE+10, AutoAction.LOCAL_SWITCH_SPEED, 0,0));
     	addSequential(new MoveArm(ArmPositions.Switch)); //TODO add this back
-    	//WaitForChildren() waits for the parallel commands to finish
     	addSequential(new WaitForChildren());
+    	addSequential(new DriveDistance(10, 0, .2, 0));
+    	//WaitForChildren() waits for the parallel commands to finish
     	addSequential(new MoveClawToLevel());
     	addSequential(new OpenClaw());
     }

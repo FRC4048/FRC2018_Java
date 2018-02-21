@@ -25,8 +25,8 @@ public class ToggleIntake extends LoggedCommand {
 
     // Called just before this Command runs the first time
     protected void loggedInitialize() {
-    	lowerIntake = new LowerIntake();
-    	raiseIntake = new RaiseIntake();
+    	lowerIntake = new LowerAndCloseIntake();
+    	raiseIntake = new RaiseAndOpenIntake();
 		if (DEBUG) {
 			// DriverStation.reportError("A Thing: " + Robot.intake.isLowered() + ", " +
 			// !Robot.intake.isRaised() + ", " + !Robot.intake.hasCube(), true);
