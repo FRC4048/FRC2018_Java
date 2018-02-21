@@ -3,6 +3,8 @@ package org.usfirst.frc4048.commands.intake;
 import org.usfirst.frc4048.Robot;
 import org.usfirst.frc4048.RobotMap;
 import org.usfirst.frc4048.commands.GroupCommandCallback;
+import org.usfirst.frc4048.commands.LoggedCommand;
+import org.usfirst.frc4048.commands.intake.GripIntake.GripPosition;
 import org.usfirst.frc4048.utils.MotorUtils;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -11,7 +13,7 @@ import edu.wpi.first.wpilibj.command.Command;
  * <a href="https://docs.google.com/document/d/1OgAongLY_8LNqdwn1yhQ4sSoWiFGtY9wH-Y8xEroo0Y/edit">spec</a>
  *
  */
-public class IntakeCube extends Command {
+public class IntakeCube extends LoggedCommand {
 	private MotorUtils leftMotor;
 	private MotorUtils rightMotor;
 	private final IntakeMode mode;
@@ -36,6 +38,7 @@ public class IntakeCube extends Command {
 	}
 
 	public IntakeCube(final GroupCommandCallback callback, final IntakeMode mode) {
+		super(String.format("Subcommand From: %s, Intake mode: %s", callback.getName(), mode.name()));
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 		this.callback = callback;
@@ -48,8 +51,8 @@ public class IntakeCube extends Command {
 	}
 
 	// Called just before this Command runs the first time
-	protected void initialize() {
-		setTimeout(3.0);
+	protected void loggedInitialize() {
+		setTimeout(6.0);
 		leftMotor = new MotorUtils(RobotMap.PDP_LEFT_INTAKE_MOTOR, RobotMap.CURRENT_THRESHOLD_INTAKE_MOTOR,
 				RobotMap.TIMEOUT_INTAKE_MOTOR);
 		rightMotor = new MotorUtils(RobotMap.PDP_RIGHT_INTAKE_MOTOR, RobotMap.CURRENT_THRESHOLD_INTAKE_MOTOR,
@@ -67,8 +70,8 @@ public class IntakeCube extends Command {
 	}
 
 	// Called repeatedly when this Command is scheduled to run
-	protected void execute() {
-		if (!Robot.intake.hasCube() && Robot.intake.isLowered() && !isTimedOut()) {
+	protected void loggedExecute() {
+		if (!Robot.intake.hasCube() && !Robot.oi.getGetCubeOverride() && Robot.intake.isLowered() && !isTimedOut() && !callback.hasGroupBeenCanceled()) {
 			switch (mode) {
 			case STRAIGHT_PULL:
 				Robot.intake.intakeCube();
@@ -90,21 +93,27 @@ public class IntakeCube extends Command {
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
-	protected boolean isFinished() {
-		return Robot.intake.hasCube() || !Robot.intake.isLowered() || isTimedOut() || leftMotor.isStalled()
+	protected boolean loggedIsFinished() {
+		return Robot.intake.hasCube() || Robot.oi.getGetCubeOverride() || !Robot.intake.isLowered() || isTimedOut() || leftMotor.isStalled()
 				|| rightMotor.isStalled();
 	}
 
 	// Called once after isFinished returns true
-	protected void end() {
+	protected void loggedEnd() {
 		callback.doCancel(isTimedOut());
 		Robot.intake.stopIntake();
 	}
 
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
-	protected void interrupted() {
+	protected void loggedInterrupted() {
 		callback.doCancel(true);
 		Robot.intake.stopIntake();
+	}
+
+	@Override
+	protected void loggedCancel() {
+		// TODO Auto-generated method stub
+		
 	}
 }

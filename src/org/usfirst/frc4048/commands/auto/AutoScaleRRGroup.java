@@ -5,6 +5,7 @@ import org.usfirst.frc4048.commands.DriveDistance;
 import org.usfirst.frc4048.commands.PrintCommand;
 import org.usfirst.frc4048.commands.RotateAngle;
 import org.usfirst.frc4048.commands.arm.MoveArm;
+import org.usfirst.frc4048.commands.arm.MoveClawToLevel;
 import org.usfirst.frc4048.commands.arm.OpenClaw;
 import org.usfirst.frc4048.subsystems.Arm.ArmPositions;
 import org.usfirst.frc4048.subsystems.Drivetrain.SonarSide;
@@ -40,10 +41,9 @@ public class AutoScaleRRGroup extends CommandGroup {
     	addSequential(new MoveArm(ArmPositions.HighScale)); //TODO add this back
     	//WaitForChildren() waits for the parallel commands to finish
     	addSequential(new WaitForChildren());
-    	addSequential(new RotateAngle(-90));
     	
     	//ADJUST ANGLE AND DISTANCE FROM WALL
-    	addSequential(new CalculateSonarDistance(SonarSide.RIGHT, AutoAction.DISTANCE_FROM_WALL));
+    	addSequential(new CalculateSonarDistance(SonarSide.RIGHT, AutoAction.DISTANCE_FROM_WALL_SCALE));
     	addSequential(new DriveDistance(0, 0, 0, 0));
     	addSequential(new RotateAngle(0));
     	
@@ -52,11 +52,14 @@ public class AutoScaleRRGroup extends CommandGroup {
     	addSequential(new RotateAngle(0));
     	
     	//ADJUST ANGLE AND DISTANCE FROM WALL
-    	addSequential(new CalculateSonarDistance(SonarSide.RIGHT, AutoAction.DISTANCE_FROM_WALL));
+    	addSequential(new CalculateSonarDistance(SonarSide.RIGHT, AutoAction.DISTANCE_FROM_WALL_SCALE));
     	addSequential(new DriveDistance(0, 0, 0, 0));
+    	addSequential(new RotateAngle(-45));
     	
     	//ROTATE AND DROP CUBE (on scale?)
-    	addSequential(new DriveDistance(5, 0, -AutoAction.LOCAL_SCALE_SPEED,0));
-      	addSequential(new OpenClaw());
+    	addParallel(new DriveDistance(20, 0,AutoAction.LOCAL_SCALE_SPEED,0));
+    	addSequential(new MoveClawToLevel());
+    	addSequential(new WaitForChildren());
+    	addSequential(new OpenClaw());
     }
 }

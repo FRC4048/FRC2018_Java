@@ -2,6 +2,7 @@ package org.usfirst.frc4048.commands.auto;
 
 import org.usfirst.frc4048.commands.DriveDistance;
 import org.usfirst.frc4048.commands.arm.MoveArm;
+import org.usfirst.frc4048.commands.arm.MoveClawToLevel;
 import org.usfirst.frc4048.commands.arm.OpenClaw;
 import org.usfirst.frc4048.subsystems.Arm.ArmPositions;
 
@@ -36,6 +37,7 @@ public class AutoSwitchMRGroup extends CommandGroup {
     	addSequential(new MoveArm(ArmPositions.Switch)); //TODO add this back
     	//WaitForChildren() waits for the parallel commands to finish
     	addSequential(new WaitForChildren());
+    	addSequential(new MoveClawToLevel());
     	addSequential(new OpenClaw());
     }
 }

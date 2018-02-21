@@ -79,11 +79,22 @@ public class RobotMap {
      * TODO THE 2 PDP values are setup for the test bed -- Need to fixed
      */
     public static final int PDP_INTAKE_DEPLOY_MOTOR = 6;
+
     public static final int PDP_RIGHT_INTAKE_MOTOR = 8;
     public static final int PDP_LEFT_INTAKE_MOTOR = 9;
-    public static final int PDP_ARM_MOTOR = 4;
-    public static final int PDP_WRIST_MOTOR = 15;
-    public static final int PDP_GRIP_MOTOR = 14;
+    public static final int PDP_ARM_MOTOR = 12;
+    public static final int PDP_WRIST_MOTOR = 3;
+    public static final int PDP_GRIP_MOTOR = 7;
+    public static final int PDP_STEERING_FR = 11;
+    public static final int PDP_STEERING_FL = 4;
+    public static final int PDP_STEERING_RL = 5;
+    public static final int PDP_STEERING_RR = 10;
+    public static final int PDP_DRIVE_FR = 15;
+    public static final int PDP_DRIVE_FL = 0;
+    public static final int PDP_DRIVE_RL = 1;
+    public static final int PDP_DRIVE_RR = 14;
+    public static final int PDP_EXTENSION = 13;
+
     /**
      * TODO Determine correct values for Current threshold for intake motors.
      */
@@ -91,7 +102,7 @@ public class RobotMap {
     public static final double CURRENT_THRESHOLD_INTAKE_DEPLOY_MOTOR = 25.0;
     public static final double CURRENT_THRESHOLD_ARM_CUBE_PICKUP = 10.0;
     public static final double CURRENT_THRESHOLD_WRIST_MOTOR = 12.0;
-    public static final double CURRENT_THRESHOLD_GRIP_MOTOR = 8.0;
+    public static final double CURRENT_THRESHOLD_GRIP_MOTOR = 5.5;
     /**
      * TODO Determine correct timeout for intake motors.
      */
@@ -176,7 +187,7 @@ public class RobotMap {
         
         LiveWindow.addSensor("Intake", "cubeSwitch", intakecubeSwitch);
         
-        intakedeployMotor = new Spark(2);
+        intakedeployMotor = new Spark(4);
         LiveWindow.addActuator("Intake", "deployMotor", (Spark) intakedeployMotor);
         intakedeployMotor.setInverted(false);
         intakeupperLimit = new DigitalInput(1);
@@ -214,7 +225,7 @@ public class RobotMap {
         
         pdp = new PowerDistributionPanel(0);
         
-        intakeGripMotor = new Spark(4);
+        intakeGripMotor = new Spark(2);
         
         intakeOpenLimit = new DigitalInput(10);
         intakeCloseLimit = new DigitalInput(11);

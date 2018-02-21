@@ -9,26 +9,27 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class RotateAngle extends Command {
+public class RotateAngle extends LoggedCommand {
 
-	private double angle;
+	public double angle;
     private final double ANGLE_TOLERANCE = 3;	//Defines angle tolernace used when going to a specific location
-    private final double MAX_SPEED = 0.5;
-    private final double MIN_SPEED = 0.2;
+    private final double MAX_SPEED = 0.3;
+    private final double MIN_SPEED = 0.15;
     
     public RotateAngle(double angle) {
+    	super(String.format("You are running rotate angle, angleVal: %f", angle));
     	requires(Robot.drivetrain);
     	
     	this.angle = angle;
     }
 
     // Called just before this Command runs the first time
-    protected void initialize() {
+    protected void loggedInitialize() {
     	
     }
 
     // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
+    protected void loggedExecute() {
     	double error;
     	double speed = 0.0;
     	final double currAngle = Robot.drivetrain.getGyro();
@@ -61,18 +62,24 @@ public class RotateAngle extends Command {
     }
 
     // Make this return true when this Command no longer needs to run execute()
-    protected boolean isFinished() {
+    protected boolean loggedIsFinished() {
         return Math.abs(angle - Robot.drivetrain.getGyro()) < ANGLE_TOLERANCE;
     }
 
     // Called once after isFinished returns true
-    protected void end() {
+    protected void loggedEnd() {
     	Robot.drivetrain.stop();
     } 
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
-    protected void interrupted() {
+    protected void loggedInterrupted() {
     	Robot.drivetrain.stop();
     }
+
+	@Override
+	protected void loggedCancel() {
+		// TODO Auto-generated method stub
+		
+	}
 }

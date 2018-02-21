@@ -57,11 +57,11 @@ public class Claw extends Subsystem {
     private final double CLOSE_SPEED = -0.6;//*Robot.GLOBAL_SCALE_FACTOR;
     private final double OPEN_SPEED = 0.6;//*Robot.GLOBAL_SCALE_FACTOR;
     
-    private final double ANGLE_UP_SPEED = 0.6;
+    private final double ANGLE_UP_SPEED = 0.8;
     private final double ANGLE_LEVEL_UP_SPEED = 0.4;
     private final double ANGLE_LEVEL_DOWN_SPEED = -0.4;
-    private final double LEVEL_GYRO_VAL = 109.0;
-    private final double LEVEL_GYRO_TOLERANCE = 1.5;
+    private final double LEVEL_GYRO_VAL = 102.0;
+    private final double LEVEL_GYRO_TOLERANCE = 2.5;
     
     private final double LEVEL_MAX_SPEED = 0.5;
 	private final double LEVEL_MIN_SPEED = 0.1;
@@ -125,7 +125,9 @@ public class Claw extends Subsystem {
     @Override
     public void periodic() {
         // Put code here to be run every loop
-
+    	
+    	SmartDashboard.putBoolean("Has Cube", cubePresent());
+    	
     }
 
     // Put methods for controlling this subsystem
@@ -133,7 +135,7 @@ public class Claw extends Subsystem {
 
     public boolean cubePresent()
     {
-    	return cubeSwitch.get();
+    	return !cubeSwitch.get();
     }
     
     public boolean gripClosed()
@@ -281,11 +283,12 @@ public class Claw extends Subsystem {
     
     public double getGyroVal()
     {
-    	return gyro.getAngle();
+    	return gyro.getAngle() *-1;
     }
     
-    public String clawHeadings() {
-    	return "";
+    public String[] clawHeadings() {
+    	String log[] = {""};
+    	return log;
     }
 }
 

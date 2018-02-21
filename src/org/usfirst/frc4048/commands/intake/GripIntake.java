@@ -2,13 +2,14 @@ package org.usfirst.frc4048.commands.intake;
 
 import org.usfirst.frc4048.Robot;
 import org.usfirst.frc4048.commands.GroupCommandCallback;
+import org.usfirst.frc4048.commands.LoggedCommand;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class GripIntake extends Command {
+public class GripIntake extends LoggedCommand {
 
 	private GroupCommandCallback callback;
 	
@@ -26,45 +27,55 @@ public class GripIntake extends Command {
     }
     
     public GripIntake(GroupCommandCallback callback, GripPosition state) {
+    	super(String.format("GripIntake to %s", state.toString()));
     	requires(Robot.intake);
 		this.callback = callback;
 		this.state = state;
     }
 
     // Called just before this Command runs the first time
-    protected void initialize() {
+    protected void loggedInitialize() {
     	setTimeout(3.0);
     }
 
     // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
-    	switch (this.state) {
-		case Open:
-			Robot.intake.openIntake();
-			break;
-			
-		case Close:
-			Robot.intake.closeIntake();
-			break;
-		}
+    protected void loggedExecute() {   
+    	if(!callback.hasGroupBeenCanceled())
+    	{
+	    	switch (this.state) {
+			case Open:
+				Robot.intake.openIntake();
+				break;
+				
+			case Close:
+				Robot.intake.closeIntake();
+				break;
+			}
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
-    protected boolean isFinished() {
+    protected boolean loggedIsFinished() {
         return isTimedOut() || (Robot.intake.intakeOpen() && state == GripPosition.Open)
         					|| (Robot.intake.intakeClose() && state == GripPosition.Close);
     }
 
     // Called once after isFinished returns true
-    protected void end() {
+    protected void loggedEnd() {
     	callback.doCancel(isTimedOut());
     	Robot.intake.stopIntake();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
-    protected void interrupted() {
+    protected void loggedInterrupted() {
     	Robot.intake.stopIntake();
     	callback.doCancel(true);
     }
+
+	@Override
+	protected void loggedCancel() {
+		// TODO Auto-generated method stub
+		
+	}
 }

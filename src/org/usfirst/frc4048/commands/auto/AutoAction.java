@@ -17,12 +17,12 @@ public class AutoAction extends Command {
 	Action autoAction;
 	
 	//NOTE: These messurements and speeds are not FINAL
-	public static final double LOCAL_SWITCH_SPEED = 0.3;
+	public static final double LOCAL_SWITCH_SPEED = 0.5;
 	public static final double DISTANCE_TO_MIDDLE_OF_SWITCH = 148;
 	
 	public static final double DISTANCE_TO_MIDDLE_OF_LANE = 222; //NOTE: We are not currently using this
 	
-	public static final double LOCAL_SCALE_SPEED = 0.35;
+	public static final double LOCAL_SCALE_SPEED = 0.52;
 	public static final double DISTANCE_TO_MIDDLE_OF_SCALE = 305;
 	
 	public static final double AUTO_RUN_DISTANCE = 90;
@@ -32,7 +32,8 @@ public class AutoAction extends Command {
 	public static final double TRAVEL_ACROSS_SWITCH = 200;
 	public static final double LANE_TO_SCALE = 80;
 	
-	public static final double DISTANCE_FROM_WALL = 25;
+	public static final double DISTANCE_FROM_WALL_SCALE = 25;
+	public static final double DISTANCE_FROM_WALL_SWITCH = 35;
 	
 	Command selectCmd;
 	

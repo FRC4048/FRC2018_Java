@@ -47,6 +47,8 @@ public class ExtensionAndArmToHome extends CommandGroup implements GroupCommandC
     private void addSteps()
     {
     	addSequential(new SetGoingHome(true));
+    	addParallel(new GrabCube(this));
+    	addParallel(new MoveClawToHome(this));
     	addSequential(new ExtensionHome(this));
     	addSequential(new MoveArm(this, ArmPositions.Home));
     	addSequential(new SetGoingHome(false));
@@ -66,4 +68,10 @@ public class ExtensionAndArmToHome extends CommandGroup implements GroupCommandC
     		}
     	}
 	}
+    
+    @Override
+    public boolean hasGroupBeenCanceled()
+    {
+    	return isCanceled();
+    }
 }

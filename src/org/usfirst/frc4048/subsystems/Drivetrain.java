@@ -162,8 +162,14 @@ public class Drivetrain extends Subsystem {
     @Override
     public void periodic() {
         // Put code here to be run every loop
-    	Robot.logging.traceSubsystem(Logging.Subsystems.DRIVETRAIN, leftSonar.getVoltage(),
-        							 getSonar(SonarSide.LEFT));
+    	Robot.logging.traceSubsystem(Logging.Subsystems.DRIVETRAIN, false, leftSonar.getVoltage(),
+        							 getSonar(SonarSide.LEFT),
+        							 rightSonar.getVoltage(),
+        							 getSonar(SonarSide.RIGHT),
+        							 analogInputFrontLeft.getValue(),
+        							 analogInputFrontRight.getValue(),
+        							 analogInputRearLeft.getValue(),
+        							 analogInputRearRight.getValue());
     }
     
 
@@ -314,8 +320,9 @@ public class Drivetrain extends Subsystem {
     }
     
     //This is for putting the Drivetrain headings to the log
-    public String drivetrianHeadings() {
-    	return "LeftSonarVoltage,LeftSonarDistance";
+    public String[] drivetrianHeadings() {
+    	String x[] = {"LeftSonarVoltage", "LeftSonarDistance", "RightSonarVoltage", "RightSonarDistance", "AbsFL", "AbsFR", "AbsRL", "AbsRR"};
+    	return x;
     }
     
     public void stop()
