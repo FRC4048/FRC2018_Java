@@ -50,7 +50,7 @@ public class GetCubeGroupCommand extends CommandGroup implements GroupCommandCal
 		
 		if (part2) {
 		addSequential(new MoveArm(this, ArmPositions.Switch));
-		addSequential(new GripIntake(this, GripPosition.Close));
+		addSequential(new GripIntake(this, GripPosition.Open));
 		addSequential(new RaiseIntake(this));
 		}
 	}
