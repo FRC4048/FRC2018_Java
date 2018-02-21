@@ -59,10 +59,10 @@ public class Claw extends Subsystem {
     private final double OPEN_SPEED = 0.6;//*Robot.GLOBAL_SCALE_FACTOR;
     
     private final double ANGLE_UP_SPEED = 0.8;
-    private final double ANGLE_LEVEL_UP_SPEED = 0.65;
-    private final double ANGLE_LEVEL_DOWN_SPEED = -0.6;
+    private final double ANGLE_LEVEL_UP_SPEED = 0.60;
+    private final double ANGLE_LEVEL_DOWN_SPEED = -0.55;
     private final double LEVEL_GYRO_VAL = 102.0;
-    private final double LEVEL_GYRO_TOLERANCE = 2.5;
+    private final double LEVEL_GYRO_TOLERANCE = 3.5;
     
     private final double LEVEL_MAX_SPEED = 0.5;
 	private final double LEVEL_MIN_SPEED = 0.1;
