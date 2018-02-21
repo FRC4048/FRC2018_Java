@@ -6,6 +6,7 @@ import org.usfirst.frc4048.Robot;
 import org.usfirst.frc4048.subsystems.Drivetrain.SonarSide;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -78,6 +79,7 @@ public class CalculateSonarDistance extends Command {
 				Robot.drivetrain.globalDriveDistance = Math.abs(sonarArray[3]-distance);
 				Robot.drivetrain.globalDriveDirSpeed = dirSpeed(sonarArray[3]);
 			}
+			SmartDashboard.putNumberArray("Sonar Array", sonarArray);
 			return true;
 		}
 		else

@@ -219,24 +219,24 @@ public class Arm extends Subsystem {
 			    extD
 				);
 
-		SmartDashboard.putNumber("ARM ANGLE", getArmAngle());
-		SmartDashboard.putNumber("ARM SETPOINT", armAngleSetpoint);
-		SmartDashboard.putNumber("ARM POT", getArmPos());
-		SmartDashboard.putNumber("ARM ERROR", movementMotor.getClosedLoopError(0));
-		SmartDashboard.putNumber("ARM VOLTAGE", movementMotor.getMotorOutputVoltage());
-		
-		SmartDashboard.putNumber("EXTENSION LENGTH", getExtLength());
-		SmartDashboard.putNumber("EXTENSION SETPOINT", manualExtSetpoint);
-		SmartDashboard.putNumber("EXT POT", getExtPos());
+//		SmartDashboard.putNumber("ARM ANGLE", getArmAngle());
+//		SmartDashboard.putNumber("ARM SETPOINT", armAngleSetpoint);
+//		SmartDashboard.putNumber("ARM POT", getArmPos());
+//		SmartDashboard.putNumber("ARM ERROR", movementMotor.getClosedLoopError(0));
+//		SmartDashboard.putNumber("ARM VOLTAGE", movementMotor.getMotorOutputVoltage());
+//		
+//		SmartDashboard.putNumber("EXTENSION LENGTH", getExtLength());
+//		SmartDashboard.putNumber("EXTENSION SETPOINT", manualExtSetpoint);
+//		SmartDashboard.putNumber("EXT POT", getExtPos());
 	}
 
 	public void armData() {
-		SmartDashboard.putNumber("Setpoint", armAngleSetpoint);
-		SmartDashboard.putNumber("ARM POT", getArmPos());
-		
-		SmartDashboard.putNumber("EXT POT", getExtPos());
-		SmartDashboard.putNumber("EXTENSION LENGTH", getExtLength());
-		SmartDashboard.putNumber("EXTENSION POT SETPOINT", mathPotExtSetpoint);
+//		SmartDashboard.putNumber("Setpoint", armAngleSetpoint);
+//		SmartDashboard.putNumber("ARM POT", getArmPos());
+//		
+//		SmartDashboard.putNumber("EXT POT", getExtPos());
+//		SmartDashboard.putNumber("EXTENSION LENGTH", getExtLength());
+//		SmartDashboard.putNumber("EXTENSION POT SETPOINT", mathPotExtSetpoint);
 	}
 
 	// Put methods for controlling this subsystem
@@ -261,9 +261,9 @@ public class Arm extends Subsystem {
 	public void printPIDValues() {
 		
 
-		SmartDashboard.putNumber("EXT P", EXT_P);
-		SmartDashboard.putNumber("EXT I", EXT_I);
-		SmartDashboard.putNumber("EXT D", EXT_D);
+//		SmartDashboard.putNumber("EXT P", EXT_P);
+//		SmartDashboard.putNumber("EXT I", EXT_I);
+//		SmartDashboard.putNumber("EXT D", EXT_D);
 	}
 	
 	public void finetuneUp() {
