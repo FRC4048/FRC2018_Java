@@ -34,7 +34,7 @@ public interface GroupCommandCallback {
 		}
 		
 		public String getName() {
-			return "DummyGroupCommand";
+			return "NULL";
 		}
 
 		@Override
