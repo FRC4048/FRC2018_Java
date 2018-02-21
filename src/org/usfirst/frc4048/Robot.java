@@ -244,7 +244,11 @@ public class Robot extends TimedRobot {
         	SmartDashboard.putNumber("Left Sonar Distance", Robot.drivetrain.getSonar(SonarSide.LEFT));
             SmartDashboard.putNumber("Claw Gyro", Robot.claw.getGyroVal());
             SmartDashboard.putNumber("Pitch Motor Val", RobotMap.clawpitchMotor.getMotorOutputPercent());
-        	SmartDashboard.putNumber("Right Sonar Distance", Robot.drivetrain.getSonar(SonarSide.RIGHT));
+        	SmartDashboard.putNumber("Global Distance", Robot.drivetrain.globalDriveDistance);
+        	SmartDashboard.putNumber("Global Speed", Robot.drivetrain.globalDriveDirSpeed);
+        	SmartDashboard.putData("Calc Right", new CalculateSonarDistance(SonarSide.RIGHT, AutoAction.DISTANCE_FROM_WALL_SWITCH));
+        	SmartDashboard.putData("Calc Left", new CalculateSonarDistance(SonarSide.LEFT, AutoAction.DISTANCE_FROM_WALL_SWITCH));
+
     	}
     	if (enableTesting) {
     		
@@ -270,9 +274,10 @@ public class Robot extends TimedRobot {
     		SmartDashboard.putData("Intake Cube Toggle", new IntakeCube(IntakeMode.TOGGLE_PULL_LEFT_OR_RIGHT));
     		SmartDashboard.putData("Open Intake", new GripIntake(GripPosition.Open));
     		SmartDashboard.putData("Close Intake", new GripIntake(GripPosition.Close));
+    		SmartDashboard.putData(new GripIntake(GripPosition.Open));
 //    		SmartDashboard.putData("Extension Arm To Cube", new ExtensionAndArmToIntake());	
     	}
-    	SmartDashboard.putData(new GripIntake(GripPosition.Open));
+    	
     	SmartDashboard.putString("Action for Auto", autoAction.toString());
     	SmartDashboard.putNumber("Claw Gyro Value", Robot.claw.getGyroVal());
     }
