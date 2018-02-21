@@ -17,6 +17,7 @@ import org.usfirst.frc4048.arm.math.LinearMoveStrat;
 import org.usfirst.frc4048.commands.*;
 import org.usfirst.frc4048.commands.arm.ArmFinetune;
 import org.usfirst.frc4048.commands.arm.ArmFinetuneManual;
+import org.usfirst.frc4048.utils.Logging;
 import org.usfirst.frc4048.*;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -128,6 +129,14 @@ public class Arm extends Subsystem {
 
 	private boolean goingHome = false;
 	
+	private double armP = -1;
+	private double armI = -1;
+	private double armD = -1;
+	
+	private double extP = -1;
+	private double extI = -1;
+	private double extD = -1;
+	
 	public Arm() {
 		super("Arm");
 
@@ -190,6 +199,25 @@ public class Arm extends Subsystem {
 
 		moveArm();
 		moveExtension();
+		
+//		String logs[] = {"Arm Pot", "Arm Angle", "Arm Angle Setpoint", "Extension Pot", "Extension Pot Setpoint", "Extension Length", "Extension Length Setpoint",
+//				"Arm P", "Arm I", "Arm D", "Ext P", "Ext I", "Ext D"};
+		
+		Robot.logging.traceSubsystem(Logging.Subsystems.ARM, false, 
+				getArmPos(),
+				getArmAngle(),
+				armAngleSetpoint,
+			    getExtPos(),
+			    mathPotExtSetpoint,
+			    getExtLength(),
+			    manualExtSetpoint,
+			    armP,
+			    armI,
+			    armD,
+			    extP,
+			    extI,
+			    extD
+				);
 
 		SmartDashboard.putNumber("ARM ANGLE", getArmAngle());
 		SmartDashboard.putNumber("ARM SETPOINT", armAngleSetpoint);
@@ -268,10 +296,16 @@ public class Arm extends Subsystem {
 
 	// TODO Confirm if value is negative on real robot
  	public int getArmPos() {
+ 		extP = EXT_P;
+		extI = EXT_I;
+		extD = EXT_D;
 		return movementMotor.getSelectedSensorPosition(0);
 	}
 
 	public int getExtPos() {
+		extP = EXT_INTAKE_P;
+		extI = EXT_I;
+		extD = EXT_D;
 		return extensionMotor.getSelectedSensorPosition(0);
 	}
 
@@ -446,6 +480,9 @@ public class Arm extends Subsystem {
 			SmartDashboard.putNumber("ARM P", ARM_DOWN_P);
 			SmartDashboard.putNumber("ARM I", ARM_DOWN_I);
 			SmartDashboard.putNumber("ARM D", ARM_DOWN_D);
+			armP = ARM_DOWN_P;
+			armI = ARM_DOWN_I;
+			armD = ARM_DOWN_D;
 			movementMotor.selectProfileSlot(1, 0);
 		}
 		else
@@ -453,13 +490,17 @@ public class Arm extends Subsystem {
 			SmartDashboard.putNumber("ARM P", ARM_UP_P);
 			SmartDashboard.putNumber("ARM I", ARM_UP_I);
 			SmartDashboard.putNumber("ARM D", ARM_UP_D);
+			armP = ARM_UP_P;
+			armI = ARM_UP_I;
+			armD = ARM_UP_D;
 			movementMotor.selectProfileSlot(0, 0);
 		}
 
 	}
 
 	public String[] armHeadings() {
-		String logs[] = {""};
+		String logs[] = {"Arm Pot", "Arm Angle", "Arm Angle Setpoint", "Extension Pot", "Extension Pot Setpoint", "Extension Length", "Extension Length Setpoint",
+				"Arm P", "Arm I", "Arm D", "Ext P", "Ext I", "Ext D"};
 		return logs;
 	}
 }
