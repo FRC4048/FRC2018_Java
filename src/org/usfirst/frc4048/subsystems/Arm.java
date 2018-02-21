@@ -71,7 +71,7 @@ public class Arm extends Subsystem {
 	/**
 	 * Is not a speed, but a setpoint adjustment value
 	 */
-	private final double FINETUNE_RATE = 0.25;
+	private final double FINETUNE_RATE = 1.0;
 
 	// TODO ALL OF THESE SETPOINTS ARE NOT VALID
 	/*
