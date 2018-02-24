@@ -2,6 +2,7 @@ package org.usfirst.frc4048.commands.auto;
 
 import org.usfirst.frc4048.Robot;
 import org.usfirst.frc4048.subsystems.Drivetrain;
+import org.usfirst.frc4048.utils.Logging;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
@@ -164,7 +165,8 @@ public class AutoAction extends Command {
     		
     		break;
     	}
-    	SmartDashboard.putString("Running Auto Command ", selectCmd.getName());    	
+    	SmartDashboard.putString("Running Auto Command ", selectCmd.getName());    
+    	Robot.logging.traceMessage(Logging.MessageLevel.INFORMATION,  "Autonomous Command:" + selectCmd.getName());
     	selectCmd.start();
     }
 

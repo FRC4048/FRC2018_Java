@@ -187,8 +187,6 @@ public class Robot extends TimedRobot {
     	System.out.println("Action in Auto " + autoAction.toString());
     	System.out.println("Game Data: " + gameData);
     	autonomousCommand = new AutoAction(switchPos, scalePos, autoAction);
-    	logging.traceMessage(Logging.MessageLevel.INFORMATION,  "Autonomous Command:" + autonomousCommand.getName());
-
     	
         // schedule the autonomous command (example)
     	
