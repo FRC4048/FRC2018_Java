@@ -52,8 +52,8 @@ public class CalculateSonarDistance extends Command {
 		if(runs%5 == 0) {
 			sonarArray[counter] = Robot.drivetrain.getSonar(side);
 			counter++;
-			runs++; //Make sure we don't get sonar more frequently than once every 5 runs
 		}	    
+		runs++; //Make sure we don't get sonar more frequently than once every 5 runs
 	}
 	private double dirSpeed(double currentDistance) {
 		double speed = 0;
