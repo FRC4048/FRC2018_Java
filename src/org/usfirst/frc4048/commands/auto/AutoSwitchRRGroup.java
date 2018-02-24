@@ -8,6 +8,8 @@ import org.usfirst.frc4048.commands.arm.MoveArm;
 import org.usfirst.frc4048.commands.arm.MoveClawToLevel;
 import org.usfirst.frc4048.commands.arm.OpenClaw;
 import org.usfirst.frc4048.commands.arm.SetClawPosition;
+import org.usfirst.frc4048.commands.intake.GripIntake;
+import org.usfirst.frc4048.commands.intake.GripIntake.GripPosition;
 import org.usfirst.frc4048.subsystems.Arm.ArmPositions;
 import org.usfirst.frc4048.subsystems.Wrist.WristPostion;
 import org.usfirst.frc4048.subsystems.Drivetrain.SonarSide;
@@ -38,6 +40,7 @@ public class AutoSwitchRRGroup extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     	
+       	addSequential(new GripIntake(GripPosition.Open));
     	//DRIVE TO SWITCH AND RAISE ARM
     	addParallel(new DriveDistance(AutoAction.DISTANCE_TO_MIDDLE_OF_SWITCH, AutoAction.LOCAL_SWITCH_SPEED,0,0));
     	addSequential(new MoveArm(ArmPositions.Switch));
@@ -50,7 +53,7 @@ public class AutoSwitchRRGroup extends CommandGroup {
     	
     	//ROTATE 90 AND DROP ON SWITCH
     	addSequential(new RotateAngle(-90));
-    	addParallel(new DriveDistance(18, 0, -AutoAction.LOCAL_SWITCH_SPEED,0));
+    	addParallel(new DriveDistance(21, 0, -AutoAction.LOCAL_SWITCH_SPEED,0));
     	addSequential(new MoveClawToLevel());
     	addSequential(new WaitForChildren());
     	addSequential(new OpenClaw());   
