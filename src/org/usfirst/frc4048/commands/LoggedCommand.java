@@ -6,6 +6,7 @@ import java.util.TreeSet;
 import org.usfirst.frc4048.Robot;
 import org.usfirst.frc4048.utils.Logging.MessageLevel;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -22,7 +23,7 @@ abstract public class LoggedCommand extends Command {
 		sb.append(this.getClass().getSimpleName());
 		sb.append(" ");
 		sb.append(ident);
-		Robot.logging.traceMessage(MessageLevel.InfoMessage, sb.toString(), requirements.toString(), text);
+		Robot.logging.traceMessage(MessageLevel.INFORMATION, sb.toString(), requirements.toString(), text);
 	}
 	
 	/**
@@ -101,9 +102,11 @@ abstract public class LoggedCommand extends Command {
 
 	@Override
 	final public synchronized void cancel() {
-		log("cancel()");
 		super.cancel();
 		loggedCancel();
+		if (DriverStation.getInstance().isEnabled()) {
+			log("cancel()");
+		}
 	}
 
 	/**

@@ -128,7 +128,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void disabledInit(){
-    	logging.traceMessage(Logging.MessageLevel.InfoMessage, "---------------------------- Robot Disabled ----------------------------");
+    	logging.traceMessage(Logging.MessageLevel.INFORMATION, "---------------------------- Robot Disabled ----------------------------");
     	
     	Robot.arm.setArmToCurrentPos();
 		Robot.drivetrain.resetDriveEncoder();
@@ -145,7 +145,7 @@ public class Robot extends TimedRobot {
         if (autoAction != oldAutoAction)
         {
         	// every time the driver changes autonomous selection
-        	logging.traceMessage(Logging.MessageLevel.InfoMessage,  "AutoAction user selection: " + autoAction.toString());
+        	logging.traceMessage(Logging.MessageLevel.INFORMATION,  "AutoAction user selection: " + autoAction.toString());
             oldAutoAction = autoAction;
         }
     	
@@ -158,13 +158,13 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-    	logging.traceMessage(Logging.MessageLevel.InfoMessage, "---------------------------- Autonomous mode starting ----------------------------");
+    	logging.traceMessage(Logging.MessageLevel.INFORMATION, "---------------------------- Autonomous mode starting ----------------------------");
     	logging.printHeadings();
     	Robot.drivetrain.swerveDrivetrain.setModeField();
         char switchPos = 'X';
         char scalePos = 'X';
         String gameData = DriverStation.getInstance().getGameSpecificMessage();
-    	logging.traceMessage(Logging.MessageLevel.InfoMessage,  "Field plate selection:" + gameData);
+    	logging.traceMessage(Logging.MessageLevel.INFORMATION,  "Field plate selection:" + gameData);
 
         if(gameData.length() < 2)
         {
@@ -187,8 +187,6 @@ public class Robot extends TimedRobot {
     	System.out.println("Action in Auto " + autoAction.toString());
     	System.out.println("Game Data: " + gameData);
     	autonomousCommand = new AutoAction(switchPos, scalePos, autoAction);
-    	logging.traceMessage(Logging.MessageLevel.InfoMessage,  "Autonomous Command:" + autonomousCommand.getName());
-
     	
         // schedule the autonomous command (example)
     	
@@ -211,7 +209,7 @@ public class Robot extends TimedRobot {
         // continue until interrupted by another command, remove
         // this line or comment it out.
 
-    	logging.traceMessage(Logging.MessageLevel.InfoMessage, "---------------------------- Teleop mode starting ----------------------------");
+    	logging.traceMessage(Logging.MessageLevel.INFORMATION, "---------------------------- Teleop mode starting ----------------------------");
     	logging.printHeadings();
     	Robot.drivetrain.swerveDrivetrain.setModeField();
     	

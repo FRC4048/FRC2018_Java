@@ -1,5 +1,6 @@
 package org.usfirst.frc4048.utils;
 
+import org.usfirst.frc4048.Robot;
 import org.usfirst.frc4048.RobotMap;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -53,6 +54,7 @@ public class MotorUtils {
 				SmartDashboard.putNumber(String.format("PDP%d.StalledTime",  PDPChannel), timeStalled);
 			if (now - time > timeout)
 			{
+				Robot.logging.traceMessage(Logging.MessageLevel.INFORMATION, "Motor stall, PDP channel=" + PDPChannel);
 				return true;
 			}
 			

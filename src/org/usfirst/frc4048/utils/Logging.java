@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj.Timer;
 public class Logging {
 
 	public static enum MessageLevel {
-		InfoMessage, WarningMessage, ErrorMessage
+		 INFORMATION
 	}
 
 	public static enum Subsystems {
