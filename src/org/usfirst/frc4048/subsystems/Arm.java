@@ -82,19 +82,11 @@ public class Arm extends Subsystem {
 	public static final double HOME_SETPOINT = 0.0;
 	public static final double HOME_MAX_ANGLE = 9.0;
 	public static final double INTAKE_SETPOINT = 16.0;
-	public static final double EXCHANGE_SETPOINT = 40.0;
+	public static final double EXCHANGE_SETPOINT = 32.0;
 	public static final double SWITCH_SETPOINT = 78.0;
 	public static final double LOWSCALE_SETPOINT = 118.0;	//Is mid scale
 	public static final double HIGHSCALE_SETPOINT = 145.5;
-	// public static final double POT_MARGIN_VALUE = 5.0;
-	// public static final double MATH_MARGIN_VALUE = 100.0;
-	// public static final double HOME_SETPOINT = 0.0;
-	// public static final double INTAKE_SETPOINT = 140.0;
-	// public static final double EXCHANGE_SETPOINT = 180.0;
-	// public static final double SWITCH_SETPOINT = 320.0;
-	// public static final double LOWSCALE_SETPOINT = 550.0;
-	// public static final double HIGHSCALE_SETPOINT = 780.0;
-	// public static final double CLIMBER_SETPOINT = 1010;
+
 	/*
 	 * All of these setpoints are used for the extension
 	 */
@@ -102,10 +94,7 @@ public class Arm extends Subsystem {
 	public static final double EXT_HOME_SETPOINT = 0.0;
 	public static final double EXT_INTAKE_SETPOINT = 4.5;
 	public static final double EXT_INTAKE_SETPOINT_GOTO = 15.0;
-	// public static final double EXT_CLIMB_SETPOINT = 1020;
-	// public static final double EXT_HOME_SETPOINT = 0.0;
-	// public static final double EXT_INTAKE_SETPOINT = 450.0;
-	// public static final double EXT_CLIMB_SETPOINT = 1020;
+	
 	/*
 	 * All of these values are used for the extension math
 	 */
@@ -128,6 +117,11 @@ public class Arm extends Subsystem {
 	private ArmMath armMath = new ArmMath();
 
 	private boolean goingHome = false;
+	
+	/**
+	 * States if the arm movement is disabled
+	 */
+	private boolean disableArm = true;
 	
 	private double armP = -1;
 	private double armI = -1;
@@ -219,12 +213,13 @@ public class Arm extends Subsystem {
 			    extD
 				);
 
-//		SmartDashboard.putNumber("ARM ANGLE", getArmAngle());
-//		SmartDashboard.putNumber("ARM SETPOINT", armAngleSetpoint);
-//		SmartDashboard.putNumber("ARM POT", getArmPos());
-//		SmartDashboard.putNumber("ARM ERROR", movementMotor.getClosedLoopError(0));
-//		SmartDashboard.putNumber("ARM VOLTAGE", movementMotor.getMotorOutputVoltage());
-//		
+		SmartDashboard.putNumber("ARM ANGLE", getArmAngle());
+		SmartDashboard.putNumber("ARM SETPOINT", armAngleSetpoint);
+		SmartDashboard.putNumber("ARM POT", getArmPos());
+		SmartDashboard.putNumber("ARM ERROR", movementMotor.getClosedLoopError(0));
+		SmartDashboard.putNumber("ARM VOLTAGE", movementMotor.getMotorOutputVoltage());
+		SmartDashboard.putBoolean("ARM DISABLED", disableArm);
+		
 //		SmartDashboard.putNumber("EXTENSION LENGTH", getExtLength());
 //		SmartDashboard.putNumber("EXTENSION SETPOINT", manualExtSetpoint);
 //		SmartDashboard.putNumber("EXT POT", getExtPos());
@@ -267,11 +262,19 @@ public class Arm extends Subsystem {
 	}
 	
 	public void finetuneUp() {
-		armAngleSetpoint += FINETUNE_RATE;
+		double newSetpoint = getArmAngle() + FINETUNE_RATE;
+		if(inAutoRange(newSetpoint)) {
+			disableArm = false;
+			armAngleSetpoint = newSetpoint;
+		}
 	}
 
 	public void finetuneDown() {
-		armAngleSetpoint -= FINETUNE_RATE;
+		double newSetpoint = getArmAngle() - FINETUNE_RATE;
+		if(inAutoRange(newSetpoint)) {
+			disableArm = false;
+			armAngleSetpoint = newSetpoint;
+		}
 	}
 
 	public void finetuneDownManual() {
@@ -283,7 +286,7 @@ public class Arm extends Subsystem {
 	}
 
 	public void stopArm() {
-		movementMotor.set(ControlMode.Position, armAngleSetpoint);
+		movementMotor.set(ControlMode.Position, getArmAngle());
 	}
 
 	public double getArmAngle() {
@@ -424,21 +427,10 @@ public class Arm extends Subsystem {
 		armAngleSetpoint = getArmAngle();
 	}
 	
-	public boolean inAutoRange() {
-		double armPos = getArmAngle();
+	public boolean inAutoRange(double value) {
+		double armPos = value;
 		return armPos >= EXCHANGE_SETPOINT - CRITICAL_MARGIN_VALUE
-//				&& armPos <= LOWSCALE_SETPOINT + CRITICAL_MARGIN_VALUE;
 				&& armPos <= HIGHSCALE_SETPOINT + CRITICAL_MARGIN_VALUE;
-	}
-	
-	public boolean isArmMoving()
-	{
-		return !(getArmAngle() >= armAngleSetpoint + ANGLE_MARGIN_VALUE && getArmAngle() <= armAngleSetpoint - ANGLE_MARGIN_VALUE);
-	}
-	
-	public boolean isExtMoving()
-	{
-		return !(getArmAngle() >=  + EXT_MARGIN_VALUE && getArmAngle() <= armAngleSetpoint - ANGLE_MARGIN_VALUE);
 	}
 	
 	/**
@@ -450,7 +442,7 @@ public class Arm extends Subsystem {
 			manualExtSetpoint = EXT_HOME_SETPOINT;
 		}
 		
-		if (inAutoRange() && !goingHome) {
+		if (inAutoRange(getArmAngle()) && !goingHome) {
 			double angle = getArmAngle();
 			double extSetpoint = armMath.convertArmAngleToExtPot(EXT_POT_MIN, EXT_LENGTH_MIN, EXT_POT_MAX, EXT_LENGTH_MAX, angle) * EXT_POT_INVERT;
 			mathPotExtSetpoint = extSetpoint;
@@ -461,41 +453,46 @@ public class Arm extends Subsystem {
 		}
 	}
 
+	public void setDisabled(boolean val)
+	{
+		disableArm = val;
+	}
+	
 	/**
 	 * Keeps arm locked to its current setpoint position
 	 */
 	private void moveArm() {
-		double armSetpoint = armMath.convertAngleToPot(ARM_POT_MIN, ARM_ANGLE_MIN, ARM_POT_MAX, ARM_ANGLE_MAX, armAngleSetpoint) * ARM_POT_INVERT;
-		
-//		if(isExtMoving())
-//		{
-//			armSetpoint = getArmAngle();
-//		}
-		
-		SmartDashboard.putNumber("ARM POT SETPOINT", armSetpoint);
-		movementMotor.set(ControlMode.Position, (int) armSetpoint);
-		
-		if(getArmPos() > armSetpoint)
-		{
-			SmartDashboard.putNumber("ARM P", ARM_DOWN_P);
-			SmartDashboard.putNumber("ARM I", ARM_DOWN_I);
-			SmartDashboard.putNumber("ARM D", ARM_DOWN_D);
-			armP = ARM_DOWN_P;
-			armI = ARM_DOWN_I;
-			armD = ARM_DOWN_D;
-			movementMotor.selectProfileSlot(1, 0);
+		if(!disableArm) {
+			double armSetpoint = armMath.convertAngleToPot(ARM_POT_MIN, ARM_ANGLE_MIN, ARM_POT_MAX, ARM_ANGLE_MAX, armAngleSetpoint) * ARM_POT_INVERT;
+			
+			SmartDashboard.putNumber("ARM POT SETPOINT", armSetpoint);
+			movementMotor.set(ControlMode.Position, (int) armSetpoint);
+			
+			if(getArmPos() > armSetpoint)
+			{
+				SmartDashboard.putNumber("ARM P", ARM_DOWN_P);
+				SmartDashboard.putNumber("ARM I", ARM_DOWN_I);
+				SmartDashboard.putNumber("ARM D", ARM_DOWN_D);
+				armP = ARM_DOWN_P;
+				armI = ARM_DOWN_I;
+				armD = ARM_DOWN_D;
+				movementMotor.selectProfileSlot(1, 0);
+			}
+			else
+			{
+				SmartDashboard.putNumber("ARM P", ARM_UP_P);
+				SmartDashboard.putNumber("ARM I", ARM_UP_I);
+				SmartDashboard.putNumber("ARM D", ARM_UP_D);
+				armP = ARM_UP_P;
+				armI = ARM_UP_I;
+				armD = ARM_UP_D;
+				movementMotor.selectProfileSlot(0, 0);
+			}
 		}
 		else
 		{
-			SmartDashboard.putNumber("ARM P", ARM_UP_P);
-			SmartDashboard.putNumber("ARM I", ARM_UP_I);
-			SmartDashboard.putNumber("ARM D", ARM_UP_D);
-			armP = ARM_UP_P;
-			armI = ARM_UP_I;
-			armD = ARM_UP_D;
-			movementMotor.selectProfileSlot(0, 0);
+			movementMotor.disable();
 		}
-
 	}
 
 	public String[] armHeadings() {
