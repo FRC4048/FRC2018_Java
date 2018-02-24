@@ -58,6 +58,10 @@ public class MoveClaw extends LoggedCommand {
     	{
     		Robot.wrist.moveClawToLevel();
     	}
+    	else if(Robot.wrist.getPosition() == WristPostion.Straight)
+    	{
+    		Robot.wrist.moveClawToStraight();
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
