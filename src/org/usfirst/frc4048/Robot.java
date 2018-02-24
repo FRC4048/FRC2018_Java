@@ -281,7 +281,7 @@ public class Robot extends TimedRobot {
     		SmartDashboard.putData(new GripIntake(GripPosition.Open));
 //    		SmartDashboard.putData("Extension Arm To Cube", new ExtensionAndArmToIntake());	
     	}
-    	
+    	SmartDashboard.putData("Drive 0.2", new DriveDistance(300, .2, 0, 0));
     	SmartDashboard.putString("Action for Auto", autoAction.toString());
     	SmartDashboard.putNumber("Claw Gyro Value", Robot.wrist.getGyroVal());
     }
