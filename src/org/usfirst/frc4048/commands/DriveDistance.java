@@ -1,7 +1,9 @@
 package org.usfirst.frc4048.commands;
 
 import org.usfirst.frc4048.Robot;
+import org.usfirst.frc4048.RobotMap;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -18,7 +20,8 @@ public class DriveDistance extends LoggedCommand {
 	private boolean doTimeout = true;
 	private final double MIN_SPEED = 0.15;
 	private final double MAX_ERROR = 50;
-
+	private final double TIMEOUT_DISTANCE = 15;
+	private double time;
 	/**
 	 * Moves robot a certain distance
 	 * @param distance - defines distance robot needs to travel
@@ -47,17 +50,23 @@ public class DriveDistance extends LoggedCommand {
 		lastDistance = Robot.drivetrain.getDistance();
 		distanceLeft = distance;
 		done = false;
-
+		doTimeout = true;
 		System.out.println("Travelling: " + this.distance + "in");
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void loggedExecute() {
 
-		if(!done && Math.abs(Robot.drivetrain.getDistance() - lastDistance) < distanceLeft/* && !isTimedOut()*/)
-		{
-			if(distanceLeft < MAX_ERROR && doTimeout == true) {
-				setTimeout(10.0);
+
+		if(doTimeout == false && Timer.getFPGATimestamp() - time > 4) {
+			System.out.println("TIMED OUT");
+			done = true;
+		}
+		else if(!done && Math.abs(Robot.drivetrain.getDistance() - lastDistance) < distanceLeft)
+		{	
+			if(distanceLeft <= TIMEOUT_DISTANCE && doTimeout == true) {
+				time = Timer.getFPGATimestamp();
+				System.out.println("SET TIME!!!!!!!!!!!!!!!!!!!!!!!1");
 				doTimeout = false;
 			}
 			Robot.drivetrain.move(PIDCalc(fwd), PIDCalc(dir), rot);
@@ -67,6 +76,7 @@ public class DriveDistance extends LoggedCommand {
 		else
 			done = true;
 	}
+	
 
 	private double PIDCalc(double speed)
 	{
@@ -91,7 +101,7 @@ public class DriveDistance extends LoggedCommand {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean loggedIsFinished() {
-		return isTimedOut() || done;
+		return done;
 	}
 
 	// Called once after isFinished returns true
