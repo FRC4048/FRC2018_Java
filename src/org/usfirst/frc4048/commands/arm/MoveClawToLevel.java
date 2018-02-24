@@ -17,7 +17,7 @@ public class MoveClawToLevel extends LoggedCommand {
 	
 	public MoveClawToLevel(GroupCommandCallback callback) {
 		super(String.format("Subcommand From: %s", callback.getName()));
-		requires(Robot.claw);
+		requires(Robot.wrist);
 		this.callback = callback;
 	}
 
@@ -27,22 +27,22 @@ public class MoveClawToLevel extends LoggedCommand {
 
 
 	protected void loggedExecute() {
-		if (!Robot.claw.isLevel()&& !callback.hasGroupBeenCanceled()) {
-			Robot.claw.moveClawToLevel();
+		if (!Robot.wrist.isLevel()&& !callback.hasGroupBeenCanceled()) {
+			Robot.wrist.moveClawToLevel();
 		}
 	}
 
 	protected boolean loggedIsFinished() {
-		return Robot.claw.isLevel() || isTimedOut();
+		return Robot.wrist.isLevel() || isTimedOut();
 	}
 
 	protected void loggedEnd() {
-		Robot.claw.stopWrist();
+		Robot.wrist.stopWrist();
 		callback.doCancel(isTimedOut());
 	}
 
 	protected void loggedInterrupted() {
-		Robot.claw.stopWrist();
+		Robot.wrist.stopWrist();
 		callback.doCancel(true);
 	}
 

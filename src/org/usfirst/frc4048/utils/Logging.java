@@ -22,7 +22,7 @@ public class Logging {
 	}
 
 	public static enum Subsystems {
-		ARM, CLAW, DRIVETRAIN, INTAKE, CLIMBER, POWERDISTPANEL
+		ARM, CLAW, WRIST, DRIVETRAIN, INTAKE, CLIMBER, POWERDISTPANEL
 	}
 
 	private boolean writeLoggingGap = false;
@@ -113,6 +113,7 @@ public class Logging {
 		traceSubsystem(Subsystems.DRIVETRAIN, Robot.drivetrain.drivetrianHeadings());
 		traceSubsystem(Subsystems.ARM, Robot.arm.armHeadings());
 		traceSubsystem(Subsystems.CLAW, Robot.claw.clawHeadings());
+		traceSubsystem(Subsystems.WRIST, Robot.wrist.wristHeadings());
 		traceSubsystem(Subsystems.INTAKE, Robot.intake.intakeHeadings());
 		traceSubsystem(Subsystems.POWERDISTPANEL, Robot.powerdistpanel.pdpHeadings());
 	}

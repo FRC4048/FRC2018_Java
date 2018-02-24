@@ -12,7 +12,7 @@ import org.usfirst.frc4048.commands.intake.GripIntake.GripPosition;
 import org.usfirst.frc4048.commands.PrintCommand;
 import org.usfirst.frc4048.commands.RotateAngle;
 import org.usfirst.frc4048.subsystems.Arm.ArmPositions;
-import org.usfirst.frc4048.subsystems.Claw.WristPostion;
+import org.usfirst.frc4048.subsystems.Wrist.WristPostion;
 import org.usfirst.frc4048.subsystems.Drivetrain.SonarSide;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
