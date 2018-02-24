@@ -26,7 +26,8 @@ public class SetClawPositionAndWait extends SetClawPosition {
     //TODO Get position returns an enum, and should not be used for determining current position
     protected boolean loggedIsFinished() {
         return (position.equals(WristPostion.Level) && Robot.wrist.isLevel()) 
-        	|| (position.equals(WristPostion.Compact) && Robot.wrist.clawUp()) || isTimedOut();
+        	|| (position.equals(WristPostion.Compact) && Robot.wrist.clawUp()) 
+        	|| (position.equals(WristPostion.Straight) && Robot.wrist.isStraight()) ||isTimedOut();
     }
     
     protected void loggedEnd() {

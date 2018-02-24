@@ -24,10 +24,14 @@ public class Wrist extends Subsystem {
 	private final ADXRS450_Gyro gyro = RobotMap.gyro;
 	
 	private final double ANGLE_UP_SPEED = 0.8;
+	private final double ANGLE_DOWN_SPEED = -0.70;
     private final double ANGLE_LEVEL_UP_SPEED = 0.60;
-    private final double ANGLE_LEVEL_DOWN_SPEED = -0.55;
+    private final double ANGLE_LEVEL_DOWN_SPEED = -0.50;
+    
     private final double LEVEL_GYRO_VAL = 102.0;
-    private final double LEVEL_GYRO_TOLERANCE = 3.5;
+    private final double STRAIGHT_GYRO_VAL = 12.0;
+    private final double GYRO_SLOW_MARGIN = 10.0;
+    private final double GYRO_STOP_MARGIN = 2.5;
     
     private final double LEVEL_MAX_SPEED = 0.5;
 	private final double LEVEL_MIN_SPEED = 0.1;
@@ -40,7 +44,8 @@ public class Wrist extends Subsystem {
     public enum WristPostion
     {
     	Compact,
-    	Level
+    	Level,
+    	Straight
     }
 	
     // Put methods for controlling this subsystem
@@ -62,6 +67,8 @@ public class Wrist extends Subsystem {
 		pitchMotor.setNeutralMode(NeutralMode.Brake);
 		
 		gyro.calibrate();
+		
+		SmartDashboard.putNumber("WRIST ANGLE", 0.0);
     }
     
     public void initDefaultCommand() {
@@ -115,7 +122,13 @@ public class Wrist extends Subsystem {
     public boolean isLevel()
     {
     	double gyro = getGyroVal();
-    	return gyro >= LEVEL_GYRO_VAL - LEVEL_GYRO_TOLERANCE && gyro <= LEVEL_GYRO_VAL + LEVEL_GYRO_TOLERANCE;
+    	return gyro >= LEVEL_GYRO_VAL - GYRO_STOP_MARGIN && gyro <= LEVEL_GYRO_VAL + GYRO_STOP_MARGIN;
+    }
+    
+    public boolean isStraight()
+    {
+    	double gyro = getGyroVal();
+    	return gyro >= STRAIGHT_GYRO_VAL - GYRO_STOP_MARGIN && gyro <= STRAIGHT_GYRO_VAL + GYRO_STOP_MARGIN;
     }
     
     public void stopWrist()
@@ -142,6 +155,9 @@ public class Wrist extends Subsystem {
     	position = newPos;
     }
     
+    /**
+     * Levels using makeshift PID
+     */
     public void moveClawToLevelWithPID()
     {
     	double error;
@@ -150,7 +166,7 @@ public class Wrist extends Subsystem {
     	double angle = LEVEL_GYRO_VAL;
     	double kP = 100;
     	
-    	if(Math.abs(angle - currAngle) < LEVEL_GYRO_TOLERANCE)
+    	if(Math.abs(angle - currAngle) < GYRO_STOP_MARGIN)
     	{
     		speed = 0.0;
     	}
@@ -172,7 +188,7 @@ public class Wrist extends Subsystem {
 	    	else
 	    		speed += LEVEL_MIN_SPEED;
 	    	
-	        if (Math.abs(angle - currAngle) < LEVEL_GYRO_TOLERANCE) speed = 0;	
+	        if (Math.abs(angle - currAngle) < GYRO_STOP_MARGIN) speed = 0;	
     	}
     	
     	speed *= -1;
@@ -182,16 +198,47 @@ public class Wrist extends Subsystem {
     	pitchMotor.set(ControlMode.PercentOutput, speed);
     }
     
+    /**
+     * Levels without PID, but looks like PID
+     */
     public void moveClawToLevel()
     {
-    	if(getGyroVal() > LEVEL_GYRO_VAL + LEVEL_GYRO_TOLERANCE) {
-    		pitchMotor.set(ANGLE_LEVEL_UP_SPEED);
+    	double angle = getGyroVal(); 
+    	if(angle < LEVEL_GYRO_VAL - GYRO_STOP_MARGIN) {
+    		if(angle < LEVEL_GYRO_VAL - GYRO_SLOW_MARGIN) {
+    			pitchMotor.set(ANGLE_DOWN_SPEED);
+    		} else {
+    			pitchMotor.set(ANGLE_LEVEL_DOWN_SPEED);
+    		}
     	}
-    	else if(getGyroVal() < LEVEL_GYRO_VAL - LEVEL_GYRO_TOLERANCE) {
-    		pitchMotor.set(ANGLE_LEVEL_DOWN_SPEED);
+    	else if(angle > LEVEL_GYRO_VAL + GYRO_STOP_MARGIN) {
+    		if(angle > LEVEL_GYRO_VAL + GYRO_SLOW_MARGIN) {
+    			pitchMotor.set(ANGLE_UP_SPEED);
+    		} else {
+    			pitchMotor.set(ANGLE_LEVEL_UP_SPEED);
+    		}
+    	} else {
+    		pitchMotor.stopMotor();
     	}
-    	else
-    	{
+    }
+    
+    public void moveClawToStraight()
+    {
+    	double angle = getGyroVal(); 
+    	if(angle < STRAIGHT_GYRO_VAL - GYRO_STOP_MARGIN) {
+    		if(angle < STRAIGHT_GYRO_VAL - GYRO_SLOW_MARGIN) {
+    			pitchMotor.set(ANGLE_DOWN_SPEED);
+    		} else {
+    			pitchMotor.set(ANGLE_LEVEL_DOWN_SPEED);
+    		}
+    	}
+    	else if(angle > STRAIGHT_GYRO_VAL + GYRO_STOP_MARGIN) {
+    		if(angle > STRAIGHT_GYRO_VAL + GYRO_SLOW_MARGIN) {
+    			pitchMotor.set(ANGLE_UP_SPEED);
+    		} else {
+    			pitchMotor.set(ANGLE_LEVEL_UP_SPEED);
+    		}
+    	} else {
     		pitchMotor.stopMotor();
     	}
     }
