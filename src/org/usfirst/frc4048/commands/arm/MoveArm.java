@@ -38,6 +38,7 @@ public class MoveArm extends LoggedCommand {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void loggedExecute() {
+		Robot.arm.setDisabled(false);
 		if(!callback.hasGroupBeenCanceled())
 			Robot.arm.moveToPos(position);
 	}
