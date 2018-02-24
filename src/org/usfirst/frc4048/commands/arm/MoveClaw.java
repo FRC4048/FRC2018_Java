@@ -5,7 +5,7 @@ import org.usfirst.frc4048.RobotMap;
 import org.usfirst.frc4048.commands.LoggedCommand;
 import org.usfirst.frc4048.subsystems.Arm;
 import org.usfirst.frc4048.subsystems.Arm.ArmPositions;
-import org.usfirst.frc4048.subsystems.Claw.WristPostion;
+import org.usfirst.frc4048.subsystems.Wrist.WristPostion;
 import org.usfirst.frc4048.utils.MotorUtils;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -22,7 +22,7 @@ public class MoveClaw extends LoggedCommand {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	
-    	requires(Robot.claw);
+    	requires(Robot.wrist);
     }
 
     // Called just before this Command runs the first time
@@ -33,30 +33,30 @@ public class MoveClaw extends LoggedCommand {
     protected void loggedExecute() {
     	if(Robot.arm.isGoingHome() || Robot.arm.getArmAngle() <= (Arm.HOME_MAX_ANGLE))
     	{
-    		Robot.claw.setPosition(WristPostion.Compact);
+    		Robot.wrist.setPosition(WristPostion.Compact);
     	}
     	else
     	{
-    		Robot.claw.setPosition(WristPostion.Level);
+    		Robot.wrist.setPosition(WristPostion.Level);
     	}
     	
-    	if(Robot.claw.getPosition() == WristPostion.Compact)
+    	if(Robot.wrist.getPosition() == WristPostion.Compact)
     	{
-    		if(!Robot.claw.clawUp())
+    		if(!Robot.wrist.clawUp())
     		{
-    			Robot.claw.angleUp();
+    			Robot.wrist.angleUp();
     		}
     		else
     		{
 //    			if(Robot.arm.armAtPosition(ArmPositions.Home)) {
 //    				Robot.claw.recalibrateClawGyro();
 //    			}
-    			Robot.claw.stopWrist();
+    			Robot.wrist.stopWrist();
     		}
     	}
-    	else if(Robot.claw.getPosition() == WristPostion.Level)
+    	else if(Robot.wrist.getPosition() == WristPostion.Level)
     	{
-    		Robot.claw.moveClawToLevel();
+    		Robot.wrist.moveClawToLevel();
     	}
     }
 
@@ -68,13 +68,13 @@ public class MoveClaw extends LoggedCommand {
 
     // Called once after isFinished returns true
     protected void loggedEnd() {
-    	Robot.claw.stopWrist();
+    	Robot.wrist.stopWrist();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void loggedInterrupted() {
-    	Robot.claw.stopWrist();
+    	Robot.wrist.stopWrist();
     }
 
 	@Override

@@ -9,7 +9,7 @@ import org.usfirst.frc4048.commands.arm.MoveClawToLevel;
 import org.usfirst.frc4048.commands.arm.OpenClaw;
 import org.usfirst.frc4048.commands.arm.SetClawPosition;
 import org.usfirst.frc4048.subsystems.Arm.ArmPositions;
-import org.usfirst.frc4048.subsystems.Claw.WristPostion;
+import org.usfirst.frc4048.subsystems.Wrist.WristPostion;
 import org.usfirst.frc4048.subsystems.Drivetrain.SonarSide;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;

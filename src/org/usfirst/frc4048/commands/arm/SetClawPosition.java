@@ -3,7 +3,7 @@ package org.usfirst.frc4048.commands.arm;
 import org.usfirst.frc4048.Robot;
 import org.usfirst.frc4048.commands.LoggedCommand;
 import org.usfirst.frc4048.subsystems.Claw;
-import org.usfirst.frc4048.subsystems.Claw.WristPostion;
+import org.usfirst.frc4048.subsystems.Wrist.WristPostion;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -14,18 +14,18 @@ public class SetClawPosition extends LoggedCommand {
 
 	protected final WristPostion position;
 	
-    public SetClawPosition(Claw.WristPostion position) {
+    public SetClawPosition(WristPostion position) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	super(String.format("Now running SetClawPosition, position: %s", position.toString()));
-    	//Does not require a subsystem because the default command would be cancelled
-    	requires(Robot.claw);
     	this.position = position;
+    	
+    	//Does not require a subsystem because the default command would be cancelled
     }
 
     // Called just before this Command runs the first time
     protected void loggedInitialize() {
-    	Robot.claw.setPosition(position);
+    	Robot.wrist.setPosition(position);
     }
 
     // Called repeatedly when this Command is scheduled to run

@@ -36,7 +36,7 @@ import org.usfirst.frc4048.commands.intake.ToggleIntake;
 import org.usfirst.frc4048.subsystems.Claw;
 import org.usfirst.frc4048.subsystems.Arm.ArmPositions;
 
-import org.usfirst.frc4048.subsystems.Claw.WristPostion;
+import org.usfirst.frc4048.subsystems.Wrist.WristPostion;
 
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
@@ -164,7 +164,7 @@ public class OI {
         intakeCube=new JoystickButton(leftJoystick, 9);
         intakeCube.whenPressed(new IntakeCube((IntakeCube.IntakeMode.STRAIGHT_PULL)));
         setClawPositionandWait= new JoystickButton(leftJoystick, 10);
-        setClawPositionandWait.whenPressed(new SetClawPositionAndWait(Claw.WristPostion.Level));
+        setClawPositionandWait.whenPressed(new SetClawPositionAndWait(WristPostion.Level));
         gripIntake= new JoystickButton(leftJoystick, 11);
         gripIntake.whenPressed(new GripIntake(GripPosition.Close));
         raiseIntake= new JoystickButton(leftJoystick, 8);

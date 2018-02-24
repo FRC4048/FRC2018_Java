@@ -16,6 +16,7 @@ public class MoveClawToHome extends Command {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	this.callback = callback;
+    	requires(Robot.wrist);
     }
 
     // Called just before this Command runs the first time
@@ -25,28 +26,28 @@ public class MoveClawToHome extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if(!Robot.claw.clawUp() && !callback.hasGroupBeenCanceled())
+    	if(!Robot.wrist.clawUp() && !callback.hasGroupBeenCanceled())
     	{
-    		Robot.claw.angleUp();
+    		Robot.wrist.angleUp();
     	}
     	
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return Robot.claw.clawUp() || isTimedOut() || callback.hasGroupBeenCanceled();
+        return Robot.wrist.clawUp() || isTimedOut() || callback.hasGroupBeenCanceled();
     }
 
     // Called once after isFinished returns true
     protected void end() {
     	callback.doCancel(isTimedOut());
-    	Robot.claw.stopWrist();
+    	Robot.wrist.stopWrist();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
     	callback.doCancel(true);
-    	Robot.claw.stopWrist();
+    	Robot.wrist.stopWrist();
     }
 }

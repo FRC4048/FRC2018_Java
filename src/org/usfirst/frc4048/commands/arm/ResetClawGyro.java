@@ -14,12 +14,12 @@ public class ResetClawGyro extends LoggedCommand {
     	super(String.format("command is running"));
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.claw);
+    	requires(Robot.wrist);
     }
 
     // Called just before this Command runs the first time
     protected void loggedInitialize() {
-    	Robot.claw.recalibrateClawGyro();
+    	Robot.wrist.recalibrateClawGyro();
     }
 
     // Called repeatedly when this Command is scheduled to run
