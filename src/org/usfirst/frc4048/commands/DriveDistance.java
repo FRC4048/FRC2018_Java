@@ -15,6 +15,7 @@ public class DriveDistance extends LoggedCommand {
 	private double lastDistance = 0.0;
 	private double fwd, dir, rot;
 	private boolean done = false;
+	private boolean doTimeout = true;
 	private final double MIN_SPEED = 0.15;
 	private final double MAX_ERROR = 50;
 
@@ -53,8 +54,12 @@ public class DriveDistance extends LoggedCommand {
 	// Called repeatedly when this Command is scheduled to run
 	protected void loggedExecute() {
 
-		if(!done && Math.abs(Robot.drivetrain.getDistance() - lastDistance) < distanceLeft)
+		if(!done && Math.abs(Robot.drivetrain.getDistance() - lastDistance) < distanceLeft/* && !isTimedOut()*/)
 		{
+			if(distanceLeft < MAX_ERROR && doTimeout == true) {
+				setTimeout(10.0);
+				doTimeout = false;
+			}
 			Robot.drivetrain.move(PIDCalc(fwd), PIDCalc(dir), rot);
 			distanceLeft -= Math.abs(Robot.drivetrain.getDistance() - lastDistance);
 			lastDistance = Robot.drivetrain.getDistance();
@@ -86,7 +91,7 @@ public class DriveDistance extends LoggedCommand {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean loggedIsFinished() {
-		return done;
+		return isTimedOut() || done;
 	}
 
 	// Called once after isFinished returns true
