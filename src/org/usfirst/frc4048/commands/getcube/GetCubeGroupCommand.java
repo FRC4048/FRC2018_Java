@@ -10,11 +10,14 @@ import org.usfirst.frc4048.commands.arm.OpenClaw;
 import org.usfirst.frc4048.commands.intake.GripIntake;
 import org.usfirst.frc4048.commands.intake.GripIntake.GripPosition;
 import org.usfirst.frc4048.commands.intake.IntakeCube;
+import org.usfirst.frc4048.commands.intake.LowerAndCloseIntake;
 import org.usfirst.frc4048.commands.intake.LowerIntake;
+import org.usfirst.frc4048.commands.intake.RaiseAndOpenIntake;
 import org.usfirst.frc4048.commands.intake.RaiseIntake;
 import org.usfirst.frc4048.subsystems.Arm.ArmPositions;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.WaitForChildren;
 
 public class GetCubeGroupCommand extends CommandGroup implements GroupCommandCallback {
 
@@ -29,29 +32,31 @@ public class GetCubeGroupCommand extends CommandGroup implements GroupCommandCal
 
 	public GetCubeGroupCommand(boolean part1, boolean part2) {
 		if (part1) {
-		addSequential(new CancelIfCubeInClaw(this));
-		
-		addSequential(new GripIntake(this, GripPosition.Close));
-		addSequential(new LowerIntake(this));
-		addSequential(new MoveArm(this, ArmPositions.Exchange));
-		addSequential(new MoveClawToLevel(this));
-		
-		addSequential(new IntakeCube(this, IntakeCube.IntakeMode.STRAIGHT_PULL));
-		
-		addSequential(new OpenClaw(this));
-		addSequential(new MoveArm(this, ArmPositions.Intake));
-    	addSequential(new ExtensionIntake(this));
-		
-		addSequential(new GripIntake(this, GripPosition.Open));
-		
-		addSequential(new ExtendArmToCube(this));
-		addSequential(new GrabCube(this));
+			addSequential(new CancelIfCubeInClaw(this));
+			
+			addSequential(new LowerAndCloseIntake());
+			
+			addParallel(new MoveArm(this, ArmPositions.Exchange));
+			addParallel(new MoveClawToLevel(this));
+			addSequential(new IntakeCube(this, IntakeCube.IntakeMode.STRAIGHT_PULL));
+			addSequential(new WaitForChildren());
+			
+			addParallel(new OpenClaw(this));
+			addParallel(new MoveArm(this, ArmPositions.Intake));
+	    	addSequential(new ExtensionIntake(this));
+	    	addSequential(new WaitForChildren());
+			
+			addParallel(new GripIntake(this, GripPosition.Open));
+			addSequential(new ExtendArmToCube(this));
+			addSequential(new WaitForChildren());
+			
+			addSequential(new GrabCube(this));
 		}
 		
 		if (part2) {
-		addSequential(new MoveArm(this, ArmPositions.Switch));
-		addSequential(new GripIntake(this, GripPosition.Open));
-		addSequential(new RaiseIntake(this));
+			addSequential(new MoveArm(this, ArmPositions.Switch));
+			
+			addSequential(new RaiseAndOpenIntake());
 		}
 	}
 

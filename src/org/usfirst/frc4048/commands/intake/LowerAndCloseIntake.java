@@ -3,6 +3,7 @@ package org.usfirst.frc4048.commands.intake;
 import org.usfirst.frc4048.commands.intake.GripIntake.GripPosition;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.WaitForChildren;
 
 /**
  *
@@ -29,5 +30,6 @@ public class LowerAndCloseIntake extends CommandGroup {
     	
     	addParallel(new GripIntake(GripPosition.Open));
     	addSequential(new LowerIntake());
+    	addSequential(new WaitForChildren());
     }
 }
