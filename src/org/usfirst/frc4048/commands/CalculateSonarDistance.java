@@ -3,16 +3,21 @@ package org.usfirst.frc4048.commands;
 import java.util.Arrays;
 
 import org.usfirst.frc4048.Robot;
+import org.usfirst.frc4048.RobotMap;
 import org.usfirst.frc4048.subsystems.Drivetrain.SonarSide;
+import org.usfirst.frc4048.utils.Logging;
+import org.usfirst.frc4048.utils.Logging.MessageLevel;
 
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 
 /**
  *
  */
 public class CalculateSonarDistance extends Command {
-
+	
 	SonarSide side;
 	double distance;
 	
@@ -32,6 +37,8 @@ public class CalculateSonarDistance extends Command {
 		this.side = side;
 		this.distance = distance;
 	}
+	
+	 
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
@@ -45,7 +52,8 @@ public class CalculateSonarDistance extends Command {
 		if(runs%5 == 0) {
 			sonarArray[counter] = Robot.drivetrain.getSonar(side);
 			counter++;
-		}
+			runs++; //Make sure we don't get sonar more frequently than once every 5 runs
+		}	    
 	}
 	private double dirSpeed(double currentDistance) {
 		double speed = 0;
@@ -79,6 +87,9 @@ public class CalculateSonarDistance extends Command {
 				Robot.drivetrain.globalDriveDistance = Math.abs(sonarArray[3]-distance);
 				Robot.drivetrain.globalDriveDirSpeed = dirSpeed(sonarArray[3]);
 			}
+			StringBuilder sb = new StringBuilder();
+			sb.append(sonarArray);
+			Robot.logging.traceMessage(MessageLevel.InfoMessage, sb.toString());
 			SmartDashboard.putNumberArray("Sonar Array", sonarArray);
 			return true;
 		}

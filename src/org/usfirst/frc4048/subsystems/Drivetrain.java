@@ -14,6 +14,7 @@ package org.usfirst.frc4048.subsystems;
 import org.usfirst.frc4048.Robot;
 import org.usfirst.frc4048.RobotMap;
 import org.usfirst.frc4048.commands.*;
+import org.usfirst.frc4048.subsystems.Drivetrain.SonarSide;
 import org.usfirst.frc4048.swerve.drive.CanTalonSwerveEnclosure;
 import org.usfirst.frc4048.swerve.drive.SwerveDrive;
 import org.usfirst.frc4048.swerve.math.CentricMode;
@@ -84,12 +85,11 @@ public class Drivetrain extends Subsystem {
     
     private final boolean REVERSE_ENCODER = true;
     private final boolean REVERSE_OUTPUT = true;
-    
-    private final AnalogInput leftSonar = RobotMap.leftSonarPort;
-    private final AnalogInput rightSonar = RobotMap.rightSonarPort;
-    private final double SCALE_FACTOR = 2.45; //Scale factor for the sonar (MB1240/20 = 2.45, MB1230 = 1.84(not verified by datasheet)) 
-    private final double MB1023_SCALE_FACTOR = 40.3149606; // 1024/(2*5)/2.54
-    public static enum SonarSide {RIGHT, LEFT};
+	private final AnalogInput leftSonar = RobotMap.leftSonarPort;
+	private final AnalogInput rightSonar = RobotMap.rightSonarPort;
+	private final double SCALE_FACTOR = 2.45; //Scale factor for the sonar (MB1240/20 = 2.45, MB1230 = 1.84(not verified by datasheet)) 
+	private final double MB1023_SCALE_FACTOR = 40.3149606; // 1024/(2*5)/2.54
+	public static enum SonarSide {RIGHT, LEFT};
     //This \/ is used to schedual the drive distance after calling CalculateSonarDistance()
     public double globalDriveDistance;
     public double globalDriveDirSpeed;
@@ -164,10 +164,7 @@ public class Drivetrain extends Subsystem {
         // Put code here to be run every loop
 //    	String x[] = {"LeftSonarVoltage", "LeftSonarDistance", "RightSonarVoltage", "RightSonarDistance", "SteerFL", "SteerFR", "SteerRL", "SteeRR", "DistEncoder"};
 
-    	Robot.logging.traceSubsystem(Logging.Subsystems.DRIVETRAIN, false, leftSonar.getVoltage(),
-        							 getSonar(SonarSide.LEFT),
-        							 rightSonar.getVoltage(),
-        							 getSonar(SonarSide.RIGHT),
+    	Robot.logging.traceSubsystem(Logging.Subsystems.DRIVETRAIN, false,
         							 frontLeftSteerMotor.getSelectedSensorPosition(TIMEOUT),
         							 frontRightSteerMotor.getSelectedSensorPosition(TIMEOUT),
         							 rearLeftSteerMotor.getSelectedSensorPosition(TIMEOUT),
@@ -309,10 +306,8 @@ public class Drivetrain extends Subsystem {
     
     	swerveDrivetrain.move(fwd, str, rcw, getGyro());
     }
-    
+ 
     public double getSonar(SonarSide side) {
-    	SmartDashboard.putNumber("Voltage", leftSonar.getVoltage());
-    	
     	if(side == SonarSide.LEFT) {
     		return(leftSonar.getVoltage()*MB1023_SCALE_FACTOR);
     	} else if(side == SonarSide.RIGHT) {
@@ -321,10 +316,9 @@ public class Drivetrain extends Subsystem {
     		return 0;
     	}
     }
-    
     //This is for putting the Drivetrain headings to the log
     public String[] drivetrianHeadings() {
-    	String x[] = {"LeftSonarVoltage", "LeftSonarDistance", "RightSonarVoltage", "RightSonarDistance", "SteerFL", "SteerFR", "SteerRL", "SteeRR", "DistEncoder"};
+    	String x[] = {"SteerFL", "SteerFR", "SteerRL", "SteeRR", "DistEncoder"};
     	return x;
     }
     
