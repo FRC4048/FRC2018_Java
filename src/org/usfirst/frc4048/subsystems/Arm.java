@@ -194,9 +194,6 @@ public class Arm extends Subsystem {
 		moveArm();
 		moveExtension();
 		
-//		String logs[] = {"Arm Pot", "Arm Angle", "Arm Angle Setpoint", "Extension Pot", "Extension Pot Setpoint", "Extension Length", "Extension Length Setpoint",
-//				"Arm P", "Arm I", "Arm D", "Ext P", "Ext I", "Ext D"};
-		
 		Robot.logging.traceSubsystem(Logging.Subsystems.ARM, false, 
 				getArmPos(),
 				getArmAngle(),
@@ -212,7 +209,9 @@ public class Arm extends Subsystem {
 			    extI,
 			    extD
 				);
+	}
 
+	public void armData() {
 		SmartDashboard.putNumber("ARM ANGLE", getArmAngle());
 		SmartDashboard.putNumber("ARM SETPOINT", armAngleSetpoint);
 		SmartDashboard.putNumber("ARM POT", getArmPos());
@@ -220,45 +219,18 @@ public class Arm extends Subsystem {
 		SmartDashboard.putNumber("ARM VOLTAGE", movementMotor.getMotorOutputVoltage());
 		SmartDashboard.putBoolean("ARM DISABLED", disableArm);
 		
-//		SmartDashboard.putNumber("EXTENSION LENGTH", getExtLength());
-//		SmartDashboard.putNumber("EXTENSION SETPOINT", manualExtSetpoint);
-//		SmartDashboard.putNumber("EXT POT", getExtPos());
-	}
-
-	public void armData() {
-//		SmartDashboard.putNumber("Setpoint", armAngleSetpoint);
-//		SmartDashboard.putNumber("ARM POT", getArmPos());
-//		
-//		SmartDashboard.putNumber("EXT POT", getExtPos());
-//		SmartDashboard.putNumber("EXTENSION LENGTH", getExtLength());
-//		SmartDashboard.putNumber("EXTENSION POT SETPOINT", mathPotExtSetpoint);
+		SmartDashboard.putNumber("EXTENSION LENGTH", getExtLength());
+		SmartDashboard.putNumber("EXTENSION SETPOINT", manualExtSetpoint);
+		SmartDashboard.putNumber("EXT POT", getExtPos());
 	}
 
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
 
-	public void getPIDValues() {
-//		ARM_P = SmartDashboard.getNumber("ARM P", ARM_P);
-//		ARM_I = SmartDashboard.getNumber("ARM I", ARM_I);
-//		ARM_D = SmartDashboard.getNumber("ARM D", ARM_D);
-//		movementMotor.config_kP(0, ARM_P, TIMEOUT);
-//		movementMotor.config_kI(0, ARM_I, TIMEOUT);
-//		movementMotor.config_kD(0, ARM_D, TIMEOUT);
-//
-//		EXT_P = SmartDashboard.getNumber("EXT P", EXT_P);
-//		EXT_I = SmartDashboard.getNumber("EXT I", EXT_I);
-//		EXT_D = SmartDashboard.getNumber("EXT D", EXT_D);
-//		extensionMotor.config_kP(0, EXT_P, TIMEOUT);
-//		extensionMotor.config_kI(0, EXT_I, TIMEOUT);
-//		extensionMotor.config_kD(0, EXT_D, TIMEOUT);
-	}
-
 	public void printPIDValues() {
-		
-
-//		SmartDashboard.putNumber("EXT P", EXT_P);
-//		SmartDashboard.putNumber("EXT I", EXT_I);
-//		SmartDashboard.putNumber("EXT D", EXT_D);
+		SmartDashboard.putNumber("EXT P", EXT_P);
+		SmartDashboard.putNumber("EXT I", EXT_I);
+		SmartDashboard.putNumber("EXT D", EXT_D);
 	}
 	
 	public void finetuneUp() {

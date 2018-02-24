@@ -78,7 +78,6 @@ public class Intake extends Subsystem {
     @Override
     public void periodic() {
     	
-    	SmartDashboard.putBoolean("Intake Has Cube", hasCube());
 //    	String log[] = {"Deploy Motor Speed", "Left Wheel Speed", "Right Wheel Speed", "Grip Motor Speed", "Raised?", "Lowered?", "Has Cube?", "Open?", "Close?" };
     	Robot.logging.traceSubsystem(Logging.Subsystems.INTAKE, false, 
     			""+deployMotor.get(),

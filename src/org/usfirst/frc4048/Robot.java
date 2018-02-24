@@ -59,8 +59,8 @@ public class Robot extends TimedRobot {
     public WorkQueue wq;
 
     //use this to see the debug commands and values for smart dashboard
-    public Boolean enableDebug = true;
-    public Boolean enableTesting= true;
+    public Boolean enableDebug = false;
+    public Boolean enableTesting= false;
   
     Action autoAction;
     Action oldAutoAction;
@@ -138,7 +138,6 @@ public class Robot extends TimedRobot {
     public void disabledPeriodic() {
         Scheduler.getInstance().run();        
         
-        Robot.arm.getPIDValues();
         Robot.arm.setDisabled(true);
         
         autoAction = chooser.getSelected();
@@ -250,12 +249,12 @@ public class Robot extends TimedRobot {
         	SmartDashboard.putNumber("Global Speed", Robot.drivetrain.globalDriveDirSpeed);
         	SmartDashboard.putData("Calc Right", new CalculateSonarDistance(SonarSide.RIGHT, AutoAction.DISTANCE_FROM_WALL_SWITCH));
         	SmartDashboard.putData("Calc Left", new CalculateSonarDistance(SonarSide.LEFT, AutoAction.DISTANCE_FROM_WALL_SWITCH));
-
+        	SmartDashboard.putBoolean("Intake Has Cube", intake.hasCube());
     	}
     	if (enableTesting) {
     		
     		SmartDashboard.putData("Drive Command", new Drive());
-    		//SmartDashboard.putData("Reset drive encoder", Robot.drivetrain.resetDriveEncoder());
+//    		SmartDashboard.putData("Reset drive encoder", Robot.drivetrain.resetDriveEncoder());
     		SmartDashboard.putData("Get Cube Command", new GetCubeGroupCommand());
     		SmartDashboard.putData("Reset Quad Encoders", new ReconfigEncoders());
     		SmartDashboard.putData("Rotate Angle", new RotateAngle(90));//Rotates robot by 90 degrees
@@ -265,7 +264,6 @@ public class Robot extends TimedRobot {
     		SmartDashboard.putData("Lower Arm to Cube", new ExtendArmToCube());
     		SmartDashboard.putData("Move Claw", new MoveClaw());
     		SmartDashboard.putData("Open Claw", new OpenClaw());
-    		SmartDashboard.putData("Reset Claw Gyro", new ResetClawGyro());
     		SmartDashboard.putData("Set Claw Position Compact", new SetClawPosition(WristPostion.Compact));//Sets claw position to compact
     		SmartDashboard.putData("Set Claw Position Level", new SetClawPosition(WristPostion.Level));//Sets claw position to level
     		SmartDashboard.putData("Flush Cube", new FlushCube());
@@ -277,10 +275,12 @@ public class Robot extends TimedRobot {
     		SmartDashboard.putData("Open Intake", new GripIntake(GripPosition.Open));
     		SmartDashboard.putData("Close Intake", new GripIntake(GripPosition.Close));
     		SmartDashboard.putData(new GripIntake(GripPosition.Open));
+    	   	SmartDashboard.putData("Drive 0.2", new DriveDistance(300, .2, 0, 0));
 //    		SmartDashboard.putData("Extension Arm To Cube", new ExtensionAndArmToIntake());	
     	}
-    	SmartDashboard.putData("Drive 0.2", new DriveDistance(300, .2, 0, 0));
+    	SmartDashboard.putData("Reset Claw Gyro", new ResetClawGyro());
     	SmartDashboard.putString("Action for Auto", autoAction.toString());
     	SmartDashboard.putNumber("Claw Gyro Value", Robot.wrist.getGyroVal());
+    	SmartDashboard.putNumber("Arm Angle", arm.getArmAngle());
     }
- }
+}
