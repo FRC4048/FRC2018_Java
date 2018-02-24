@@ -89,7 +89,7 @@ public class CalculateSonarDistance extends Command {
 			}
 			StringBuilder sb = new StringBuilder();
 			sb.append(sonarArray);
-			Robot.logging.traceMessage(MessageLevel.InfoMessage, sb.toString());
+			Robot.logging.traceMessage(MessageLevel.INFORMATION, sb.toString());
 			SmartDashboard.putNumberArray("Sonar Array", sonarArray);
 			return true;
 		}
