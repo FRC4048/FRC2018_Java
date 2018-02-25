@@ -60,7 +60,7 @@ public class Logging {
 		}
 		
 		public final void writeData() {
-			if (counter % 5 == 0 || writeTitles) {
+			if ((DriverStation.getInstance().isEnabled() && (counter % 5 == 0)) || writeTitles) {
 				sb.setLength(0);
 				sb.append(df3.format(Timer.getFPGATimestamp()));
 				sb.append(",");

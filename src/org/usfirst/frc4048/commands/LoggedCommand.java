@@ -66,7 +66,7 @@ abstract public class LoggedCommand extends Command {
 
 	@Override
 	final protected void execute() {
-		log("execute()");
+		//log("execute()");
 		loggedExecute();
 	}
 
