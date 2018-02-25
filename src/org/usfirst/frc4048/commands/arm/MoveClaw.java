@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class MoveClaw extends LoggedCommand {
 
-	MotorUtils util = new MotorUtils(RobotMap.PDP_WRIST_MOTOR, RobotMap.CURRENT_THRESHOLD_WRIST_MOTOR);
+	MotorUtils util = new MotorUtils(RobotMap.PDP_WRIST_MOTOR, RobotMap.CURRENT_THRESHOLD_WRIST_MOTOR, RobotMap.TIMEOUT_WRIST_MOTOR);
 	
     public MoveClaw() {
     	super(String.format("command is running"));
@@ -66,8 +66,8 @@ public class MoveClaw extends LoggedCommand {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean loggedIsFinished() {
-    	return false;
-//        return util.isStalled();
+//    	return false;
+    	return util.isStalled();
     }
 
     // Called once after isFinished returns true
