@@ -74,12 +74,23 @@ public class Intake extends Subsystem {
         // Set the default command for a subsystem here.
         // setDefaultCommand(new MySpecialCommand());
     }
+    
+	public final Logging.LoggingContext loggingContext = new Logging.LoggingContext(Logging.Subsystems.INTAKE) {
+
+		@Override
+		protected String[] headings() {
+			String log[] = { "Deploy Motor Speed", "Left Wheel Speed", "Right Wheel Speed", "Grip Motor Speed",
+					"Raised?", "Lowered?", "Has Cube?", "Open?", "Close?" };
+			return log;
+		}
+
+	};
 
     @Override
     public void periodic() {
     	
 //    	String log[] = {"Deploy Motor Speed", "Left Wheel Speed", "Right Wheel Speed", "Grip Motor Speed", "Raised?", "Lowered?", "Has Cube?", "Open?", "Close?" };
-    	Robot.logging.traceSubsystem(Logging.Subsystems.INTAKE, false, 
+    	Robot.logging.traceSubsystem(loggingContext, false, 
     			""+deployMotor.get(),
     			""+ leftIntakeMotor.get(),
     			""+ rightIntakeMotor.get(),
@@ -185,10 +196,6 @@ public class Intake extends Subsystem {
     {
     	return closeLimit.get();
 
-    }
-    public String[] intakeHeadings() {
-    	String log[] = {"Deploy Motor Speed", "Left Wheel Speed", "Right Wheel Speed", "Grip Motor Speed", "Raised?", "Lowered?", "Has Cube?", "Open?", "Close?" };
-    	return log;
     }
 }
 

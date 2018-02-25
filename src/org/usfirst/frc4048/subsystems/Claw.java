@@ -85,6 +85,18 @@ public class Claw extends Subsystem {
     	gripMotor.configNominalOutputReverse(0, TIMEOUT);
 		gripMotor.setNeutralMode(NeutralMode.Brake);
     }
+
+    
+	public final Logging.LoggingContext loggingContext = new Logging.LoggingContext(Logging.Subsystems.CLAW) {
+
+		@Override
+		protected String[] headings() {
+			String log[] = { "Cube Present" };
+			return log;
+		}
+
+	};
+
     
     @Override
     public void periodic() {
@@ -92,7 +104,7 @@ public class Claw extends Subsystem {
     	
     	SmartDashboard.putBoolean("Has Cube", cubePresent());
 //    	String log[] = {"Gyro Angle", "Position", "Cube Present"};
-    	Robot.logging.traceSubsystem(Logging.Subsystems.CLAW, false, 
+    	Robot.logging.traceSubsystem(loggingContext, false, 
     					""+cubePresent());
     	
     }
@@ -130,9 +142,5 @@ public class Claw extends Subsystem {
     	gripMotor.stopMotor();
     }
         
-    public String[] clawHeadings() {
-    	String log[] = {"Cube Present"};
-    	return log;
-    }
 }
 

@@ -186,6 +186,18 @@ public class Arm extends Subsystem {
 		// TODO Change this to automatic when tested
 		setDefaultCommand(new ArmFinetune());
 	}
+	
+    public final Logging.LoggingContext loggingContext = new Logging.LoggingContext(Logging.Subsystems.ARM) {
+
+		@Override
+		protected String[] headings() {
+			String logs[] = {"Arm Pot", "Arm Angle", "Arm Angle Setpoint", "Extension Pot", "Extension Pot Setpoint", "Extension Length", "Extension Length Setpoint",
+					"Arm P", "Arm I", "Arm D", "Ext P", "Ext I", "Ext D"};
+			return logs;
+		}
+    	
+    };
+
 
 	@Override
 	public void periodic() {
@@ -194,7 +206,7 @@ public class Arm extends Subsystem {
 		moveArm();
 		moveExtension();
 		
-		Robot.logging.traceSubsystem(Logging.Subsystems.ARM, false, 
+		Robot.logging.traceSubsystem(loggingContext, false, 
 				getArmPos(),
 				getArmAngle(),
 				armAngleSetpoint,
@@ -467,9 +479,4 @@ public class Arm extends Subsystem {
 		}
 	}
 
-	public String[] armHeadings() {
-		String logs[] = {"Arm Pot", "Arm Angle", "Arm Angle Setpoint", "Extension Pot", "Extension Pot Setpoint", "Extension Length", "Extension Length Setpoint",
-				"Arm P", "Arm I", "Arm D", "Ext P", "Ext I", "Ext D"};
-		return logs;
-	}
 }

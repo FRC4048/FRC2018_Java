@@ -33,12 +33,22 @@ public class Logging {
 	public static DecimalFormat df5 = new DecimalFormat(".#####");
 	public static DecimalFormat df4 = new DecimalFormat(".####");
 	public static DecimalFormat df3 = new DecimalFormat(".###");
-	private int counter;
 
 	public Logging(long period, WorkQueue wq) {
 		this.period = period;
 		this.wq = wq;
-		counter = 0;
+	}
+	
+	abstract static public class LoggingContext {
+		private int counter = 0;
+		private final Subsystems subsystem;
+		
+		public LoggingContext(final Subsystems subsystem) {
+			this.subsystem = subsystem;
+		}
+		
+		abstract protected String[] headings();
+		
 	}
 
 	public void startThread() {
@@ -46,42 +56,46 @@ public class Logging {
 		this.executor.schedule(new ConsolePrintTask(wq, this), 0L, this.period);
 	}
 
-	public void traceSubsystem(Subsystems s, boolean alwaysPrint, double... vals) {
-		traceSubsystem(s, alwaysPrint, vals, (String[]) null);
+	public void traceSubsystem(LoggingContext context, boolean alwaysPrint, double... vals) {
+		traceSubsystem(context, alwaysPrint, vals, (String[]) null);
 	}
 	
-	public void traceSubsystem(Subsystems s, boolean alwaysPrint, String... vals) {
-		traceSubsystem(s, true, (double[]) null, vals);
+	public void traceSubsystem(LoggingContext context, boolean alwaysPrint, String... vals) {
+		traceSubsystem(context, true, (double[]) null, vals);
 	}
 
-	public void traceSubsystem(Subsystems s, String vals1[], double... vals2) {
-		traceSubsystem(s, false, vals2, vals1);
+	public void traceSubsystem(LoggingContext context, String vals1[], double... vals2) {
+		traceSubsystem(context, false, vals2, vals1);
 	}
 
-	public void traceSubsystem(Subsystems s, boolean alwaysPrint, double vals1[], String... vals2) {
-		final StringBuilder sb = new StringBuilder();
-		sb.append(df3.format(Timer.getFPGATimestamp()));
-		sb.append(",");
-		sb.append(s.name());
-		sb.append(",");
-		if (vals1 != null) {
-			for (final double v : vals1) {
-				sb.append(df5.format(v));
-				sb.append(",");
+	public void traceSubsystem(LoggingContext context, boolean alwaysPrint, double vals1[], String... vals2) {
+		boolean printThis = alwaysPrint;
+		if (!printThis) {
+			printThis = DriverStation.getInstance().isEnabled() && (context.counter % 5 == 0);
+			if (printThis)
+				context.counter += 1;
+		}
+
+		if (printThis) {
+			final StringBuilder sb = new StringBuilder();
+			sb.append(df3.format(Timer.getFPGATimestamp()));
+			sb.append(",");
+			sb.append(context.subsystem.name());
+			sb.append(",");
+			if (vals1 != null) {
+				for (final double v : vals1) {
+					sb.append(df5.format(v));
+					sb.append(",");
+				}
 			}
-		}
-		if (vals2 != null) {
-			for (final String v : vals2) {
-				sb.append("\"").append(v).append("\"");
-				sb.append(",");
+			if (vals2 != null) {
+				for (final String v : vals2) {
+					sb.append("\"").append(v).append("\"");
+					sb.append(",");
+				}
 			}
-		}
-		if (DriverStation.getInstance().isEnabled() && counter % 5 == 0 && alwaysPrint == false) {
-			traceMessage(sb);
-		} else if (DriverStation.getInstance().isEnabled() && alwaysPrint == true) {
 			traceMessage(sb);
 		}
-		counter += 1;
 	}
 
 	private void traceMessage(final StringBuilder sb) {
@@ -108,14 +122,13 @@ public class Logging {
 		traceMessage(sb);
 	}
 
-	public void printHeadings()
-	{
-		traceSubsystem(Subsystems.DRIVETRAIN, Robot.drivetrain.drivetrianHeadings());
-		traceSubsystem(Subsystems.ARM, Robot.arm.armHeadings());
-		traceSubsystem(Subsystems.CLAW, Robot.claw.clawHeadings());
-		traceSubsystem(Subsystems.WRIST, Robot.wrist.wristHeadings());
-		traceSubsystem(Subsystems.INTAKE, Robot.intake.intakeHeadings());
-		traceSubsystem(Subsystems.POWERDISTPANEL, Robot.powerdistpanel.pdpHeadings());
+	public void printHeadings() {
+		final LoggingContext list[] = { Robot.drivetrain.loggingContext, Robot.arm.loggingContext,
+				Robot.claw.loggingContext, Robot.wrist.loggingContext, Robot.intake.loggingContext,
+				Robot.powerdistpanel.loggingContext, };
+		for (final LoggingContext c : list) {
+			traceSubsystem(c, true, null, c.headings());
+		}
 	}
 
 	private class ConsolePrintTask extends TimerTask {

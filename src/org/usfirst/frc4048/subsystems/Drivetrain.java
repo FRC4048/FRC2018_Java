@@ -158,13 +158,23 @@ public class Drivetrain extends Subsystem {
         // Set the default command for a subsystem here.
         // setDefaultCommand(new MySpecialCommand());
     }
+    
+    public final Logging.LoggingContext loggingContext = new Logging.LoggingContext(Logging.Subsystems.DRIVETRAIN) {
+
+		@Override
+		protected String[] headings() {
+	    	String x[] = {"SteerFL", "SteerFR", "SteerRL", "SteeRR", "DistEncoder"};
+	    	return x;
+		}
+    	
+    };
 
     @Override
     public void periodic() {
         // Put code here to be run every loop
 //    	String x[] = {"LeftSonarVoltage", "LeftSonarDistance", "RightSonarVoltage", "RightSonarDistance", "SteerFL", "SteerFR", "SteerRL", "SteeRR", "DistEncoder"};
 
-    	Robot.logging.traceSubsystem(Logging.Subsystems.DRIVETRAIN, false,
+    	Robot.logging.traceSubsystem(loggingContext, false,
         							 frontLeftSteerMotor.getSelectedSensorPosition(TIMEOUT),
         							 frontRightSteerMotor.getSelectedSensorPosition(TIMEOUT),
         							 rearLeftSteerMotor.getSelectedSensorPosition(TIMEOUT),
@@ -315,11 +325,6 @@ public class Drivetrain extends Subsystem {
     	} else { 
     		return 0;
     	}
-    }
-    //This is for putting the Drivetrain headings to the log
-    public String[] drivetrianHeadings() {
-    	String x[] = {"SteerFL", "SteerFR", "SteerRL", "SteeRR", "DistEncoder"};
-    	return x;
     }
     
     public void stop()

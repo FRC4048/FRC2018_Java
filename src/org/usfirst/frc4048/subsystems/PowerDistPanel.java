@@ -26,6 +26,19 @@ public class PowerDistPanel extends Subsystem {
     	  pdp = new PowerDistributionPanel(0);
     }
     
+	public final Logging.LoggingContext loggingContext = new Logging.LoggingContext(Logging.Subsystems.POWERDISTPANEL) {
+
+		@Override
+		protected String[] headings() {
+			final String vals[] = { "Total Voltage", "Total Current", "FR Steer", "FL Steer", "RL Steer", "RR Steer",
+					"FR Drive", "FL Drive", "RL Drive", "RR Drive", "Intake Deploy", "Right Intake", "Left Intake",
+					"Arm Motor", "Extension Motor", "Wrist Motor", "Gripper Motor" };
+			return vals;
+		}
+
+	};
+
+    
     public void periodic() {
     	/*
     	 * Logging:
@@ -34,17 +47,11 @@ public class PowerDistPanel extends Subsystem {
     	 *  Swerve Steer Motors
     	 *  
     	 */
-    	Robot.logging.traceSubsystem(Logging.Subsystems.POWERDISTPANEL, false, pdp.getVoltage(), pdp.getTotalCurrent(), pdp.getCurrent(RobotMap.PDP_STEERING_FR), pdp.getCurrent(RobotMap.PDP_STEERING_FL),
+    	Robot.logging.traceSubsystem(loggingContext, false, pdp.getVoltage(), pdp.getTotalCurrent(), pdp.getCurrent(RobotMap.PDP_STEERING_FR), pdp.getCurrent(RobotMap.PDP_STEERING_FL),
     			pdp.getCurrent(RobotMap.PDP_STEERING_RL), pdp.getCurrent(RobotMap.PDP_STEERING_RR), pdp.getCurrent(RobotMap.PDP_DRIVE_FR), pdp.getCurrent(RobotMap.PDP_DRIVE_FL), pdp.getCurrent(RobotMap.PDP_DRIVE_RL)
     			, pdp.getCurrent(RobotMap.PDP_DRIVE_RR), pdp.getCurrent(RobotMap.PDP_INTAKE_DEPLOY_MOTOR), pdp.getCurrent(RobotMap.PDP_RIGHT_INTAKE_MOTOR), pdp.getCurrent(RobotMap.PDP_LEFT_INTAKE_MOTOR),
     			pdp.getCurrent(RobotMap.PDP_ARM_MOTOR), pdp.getCurrent(RobotMap.PDP_EXTENSION), pdp.getCurrent(RobotMap.PDP_WRIST_MOTOR), pdp.getCurrent(RobotMap.PDP_GRIP_MOTOR));//value
     }
     
-	public String[] pdpHeadings() {
-		final String vals[] = { "Total Voltage", "Total Current", "FR Steer", "FL Steer", "RL Steer", "RR Steer",
-				"FR Drive", "FL Drive", "RL Drive", "RR Drive", "Intake Deploy", "Right Intake", "Left Intake",
-				"Arm Motor", "Extension Motor", "Wrist Motor", "Gripper Motor" };
-		return vals;
-	}
 }
 
