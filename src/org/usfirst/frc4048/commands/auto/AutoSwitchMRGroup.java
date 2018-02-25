@@ -1,6 +1,7 @@
 package org.usfirst.frc4048.commands.auto;
 
 import org.usfirst.frc4048.commands.DriveDistance;
+import org.usfirst.frc4048.commands.arm.GrabCube;
 import org.usfirst.frc4048.commands.arm.MoveArm;
 import org.usfirst.frc4048.commands.arm.MoveClawToLevel;
 import org.usfirst.frc4048.commands.arm.MoveClawToStraight;
@@ -36,6 +37,7 @@ public class AutoSwitchMRGroup extends CommandGroup {
         // arm.
     	
     	//DRIVE TO SWITCH AND RAISE ARM
+		addSequential(new GrabCube());
     	addSequential(new GripIntake(GripPosition.Open));
     	addParallel(new DriveDistance(AutoAction.AUTO_RUN_DISTANCE+10, AutoAction.LOCAL_SWITCH_SPEED, 0,0));
     	addSequential(new MoveArm(ArmPositions.Switch)); //TODO add this back
