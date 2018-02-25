@@ -90,7 +90,6 @@ public class Claw extends Subsystem {
     public void periodic() {
         // Put code here to be run every loop
     	
-    	SmartDashboard.putBoolean("Has Cube", cubePresent());
 //    	String log[] = {"Gyro Angle", "Position", "Cube Present"};
     	Robot.logging.traceSubsystem(Logging.Subsystems.CLAW, false, 
     					""+cubePresent());
