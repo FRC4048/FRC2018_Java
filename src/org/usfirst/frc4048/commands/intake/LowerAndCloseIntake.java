@@ -36,6 +36,6 @@ public class LowerAndCloseIntake extends CommandGroup {
     	
     	addParallel(new GripIntake(callback, GripPosition.Close));
     	addSequential(new LowerIntake(callback));
-//    	addSequential(new WaitForChildren());
+    	addSequential(new WaitForChildren());
     }
 }
