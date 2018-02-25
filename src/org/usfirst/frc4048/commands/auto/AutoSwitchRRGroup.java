@@ -4,6 +4,7 @@ import org.usfirst.frc4048.commands.CalculateSonarDistance;
 import org.usfirst.frc4048.commands.DriveDistance;
 import org.usfirst.frc4048.commands.PrintCommand;
 import org.usfirst.frc4048.commands.RotateAngle;
+import org.usfirst.frc4048.commands.arm.GrabCube;
 import org.usfirst.frc4048.commands.arm.MoveArm;
 import org.usfirst.frc4048.commands.arm.MoveClawToLevel;
 import org.usfirst.frc4048.commands.arm.MoveClawToStraight;
@@ -40,7 +41,7 @@ public class AutoSwitchRRGroup extends CommandGroup {
     	// e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
-    	
+		addSequential(new GrabCube());
        	addSequential(new GripIntake(GripPosition.Open));
     	//DRIVE TO SWITCH AND RAISE ARM
     	addParallel(new DriveDistance(AutoAction.DISTANCE_TO_MIDDLE_OF_SWITCH, AutoAction.LOCAL_SWITCH_SPEED,0,0));

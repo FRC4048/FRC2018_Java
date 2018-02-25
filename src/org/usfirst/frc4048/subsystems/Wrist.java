@@ -68,7 +68,7 @@ public class Wrist extends Subsystem {
 		
 		gyro.calibrate();
 		
-		SmartDashboard.putNumber("WRIST ANGLE", 0.0);
+		//SmartDashboard.putNumber("WRIST ANGLE", 0.0);
     }
     
     public void initDefaultCommand() {
@@ -193,7 +193,7 @@ public class Wrist extends Subsystem {
     	
     	speed *= -1;
     	
-    	SmartDashboard.putNumber("CLAW PITCH SPEED", speed);
+    	//SmartDashboard.putNumber("CLAW PITCH SPEED", speed);
     	
     	pitchMotor.set(ControlMode.PercentOutput, speed);
     }

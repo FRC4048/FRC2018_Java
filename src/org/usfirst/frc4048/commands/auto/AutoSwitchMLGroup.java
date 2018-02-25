@@ -2,6 +2,7 @@ package org.usfirst.frc4048.commands.auto;
 
 import org.usfirst.frc4048.commands.DriveDistance;
 import org.usfirst.frc4048.commands.RotateAngle;
+import org.usfirst.frc4048.commands.arm.GrabCube;
 import org.usfirst.frc4048.commands.arm.MoveArm;
 import org.usfirst.frc4048.commands.arm.MoveClawToLevel;
 import org.usfirst.frc4048.commands.arm.MoveClawToStraight;
@@ -35,6 +36,7 @@ public class AutoSwitchMLGroup extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
+		addSequential(new GrabCube());
        	addSequential(new GripIntake(GripPosition.Open));
     	addSequential(new DriveDistance(20, 0.3, 0, 0));//To get away from the wall
     	addParallel(new DriveDistance(101, 0, -AutoAction.LOCAL_SWITCH_SPEED-.1, 0));
