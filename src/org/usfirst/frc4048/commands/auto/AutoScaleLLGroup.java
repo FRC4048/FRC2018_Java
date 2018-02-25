@@ -7,6 +7,7 @@ import org.usfirst.frc4048.commands.PrintCommand;
 import org.usfirst.frc4048.commands.RotateAngle;
 import org.usfirst.frc4048.commands.arm.MoveArm;
 import org.usfirst.frc4048.commands.arm.MoveClawToLevel;
+import org.usfirst.frc4048.commands.arm.MoveClawToStraight;
 import org.usfirst.frc4048.commands.arm.SetClawPosition;
 import org.usfirst.frc4048.commands.arm.OpenClaw;
 import org.usfirst.frc4048.subsystems.Arm.ArmPositions;
@@ -65,7 +66,7 @@ public class AutoScaleLLGroup extends CommandGroup {
     	addSequential(new RotateAngle(45));
     	//ROTATE AND DROP CUBE (on scale?)
     	addParallel(new DriveDistance(20, AutoAction.LOCAL_SCALE_SPEED ,AutoAction.LOCAL_SCALE_SPEED,0));
-    	addSequential(new MoveClawToLevel());
+    	addSequential(new MoveClawToStraight());
     	addSequential(new WaitForChildren());
     	addSequential(new OpenClaw());
     }
