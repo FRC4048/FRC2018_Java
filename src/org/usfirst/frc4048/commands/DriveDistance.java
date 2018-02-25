@@ -59,14 +59,12 @@ public class DriveDistance extends LoggedCommand {
 
 
 		if(doTimeout == false && Timer.getFPGATimestamp() - time > 4) {
-			System.out.println("TIMED OUT");
 			done = true;
 		}
 		else if(!done && Math.abs(Robot.drivetrain.getDistance() - lastDistance) < distanceLeft)
 		{	
 			if(distanceLeft <= TIMEOUT_DISTANCE && doTimeout == true) {
 				time = Timer.getFPGATimestamp();
-				System.out.println("SET TIME!!!!!!!!!!!!!!!!!!!!!!!1");
 				doTimeout = false;
 			}
 			Robot.drivetrain.move(PIDCalc(fwd), PIDCalc(dir), rot);

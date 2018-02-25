@@ -22,22 +22,20 @@ public class AutoBase extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	//The distance to the autoline is 120 - (32.5[robotLength] + 6[bumpers])
+    	//We want to move atleast 2 inches beyond the auto line without hitting the switch
     	closeClaw.start();
+    	driveDistance.start();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	//The distance to the autoline is 120 - (32.5[robotLength] + 6[bumpers])
-    	//We want to move atleast 2 inches beyond the auto line without hitting the switch
     	
-    	if(closeClaw.isCompleted() && !driveDistance.isRunning()) {
-    		driveDistance.start();
-    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return closeClaw.isCompleted() && driveDistance.isCompleted();
+        return true;
     }
 
     // Called once after isFinished returns true
