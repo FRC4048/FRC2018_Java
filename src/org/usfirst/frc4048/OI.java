@@ -26,6 +26,7 @@ import org.usfirst.frc4048.commands.arm.SetClawPosition;
 import org.usfirst.frc4048.commands.arm.SetClawPositionAndWait;
 import org.usfirst.frc4048.commands.auto.AutoAction;
 import org.usfirst.frc4048.commands.getcube.GetCubeGroupCommand;
+import org.usfirst.frc4048.commands.getcube.GetCubeGroupCommandOrig;
 import org.usfirst.frc4048.commands.intake.FlushCube;
 import org.usfirst.frc4048.commands.intake.GripIntake;
 import org.usfirst.frc4048.commands.intake.GripIntake.GripPosition;
