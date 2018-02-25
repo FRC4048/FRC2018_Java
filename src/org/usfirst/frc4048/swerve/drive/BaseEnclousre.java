@@ -56,7 +56,7 @@ public abstract class BaseEnclousre implements SwerveEnclosure{
 		double longDiff = Math.abs(wa - ea);
 		
 		double diff = Math.min(longDiff, 1.0-longDiff);
-		SmartDashboard.putNumber("Encoder Difference", diff);
+		//SmartDashboard.putNumber("Encoder Difference", diff);
 		
 		if(diff > 0.25) return true;
 		else return false;

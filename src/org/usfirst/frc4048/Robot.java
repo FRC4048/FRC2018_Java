@@ -119,7 +119,7 @@ public class Robot extends TimedRobot {
         SmartDashboard.putData("Move Claw to Compact", new SetClawPosition(WristPostion.Compact));
         SmartDashboard.putData("Move Claw to Level", new SetClawPosition(WristPostion.Level));
         SmartDashboard.putData("Reset Claw Gyro", new ResetClawGyro());
-        SmartDashboard.putNumber("Global Scale Factor", GLOBAL_SCALE_FACTOR);
+       // SmartDashboard.putNumber("Global Scale Factor", GLOBAL_SCALE_FACTOR);
     }
 
     /**
@@ -280,7 +280,7 @@ public class Robot extends TimedRobot {
     	}
     	SmartDashboard.putData("Reset Claw Gyro", new ResetClawGyro());
     	SmartDashboard.putString("Action for Auto", autoAction.toString());
-    	SmartDashboard.putNumber("Claw Gyro Value", Robot.wrist.getGyroVal());
+    	//SmartDashboard.putNumber("Claw Gyro Value", Robot.wrist.getGyroVal());
     	SmartDashboard.putNumber("Arm Angle", arm.getArmAngle());
     }
 }
