@@ -59,8 +59,8 @@ public class Robot extends TimedRobot {
     public WorkQueue wq;
 
     //use this to see the debug commands and values for smart dashboard
-    public Boolean enableDebug = false;
-    public Boolean enableTesting= false;
+    public final Boolean enableDebug = false;
+    public final Boolean enableTesting = false;
   
     Action autoAction;
     Action oldAutoAction;
@@ -69,6 +69,8 @@ public class Robot extends TimedRobot {
     public static double ARM_UP_SCALE_FACTOR = 0.75;
     public static double ARM_DOWN_SCALE_FACTOR = 0.30;
     public static double EXT_SCALE_FACTOR = 1.00;
+    
+    public static final boolean USE_WRIST_STRAIGHT = true;
     
     /**
      * This function is run when the robot is first started up and should be

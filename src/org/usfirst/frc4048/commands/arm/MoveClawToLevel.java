@@ -5,6 +5,7 @@ import org.usfirst.frc4048.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc4048.commands.GroupCommandCallback;
 import org.usfirst.frc4048.commands.LoggedCommand;
+import org.usfirst.frc4048.subsystems.Wrist.WristPostion;
 
 public class MoveClawToLevel extends LoggedCommand {
 
@@ -23,6 +24,7 @@ public class MoveClawToLevel extends LoggedCommand {
 
 	protected void loggedInitialize() {
 		setTimeout(5.0);
+		Robot.wrist.setPosition(WristPostion.Level);
 	}
 
 

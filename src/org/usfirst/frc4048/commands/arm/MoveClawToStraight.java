@@ -5,6 +5,7 @@ import org.usfirst.frc4048.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc4048.commands.GroupCommandCallback;
 import org.usfirst.frc4048.commands.LoggedCommand;
+import org.usfirst.frc4048.subsystems.Wrist.WristPostion;
 
 public class MoveClawToStraight extends LoggedCommand {
 
@@ -23,8 +24,8 @@ public class MoveClawToStraight extends LoggedCommand {
 
 	protected void loggedInitialize() {
 		setTimeout(5.0);
+		Robot.wrist.setPosition(WristPostion.Straight);
 	}
-
 
 	protected void loggedExecute() {
 		if (!Robot.wrist.isStraight() && !callback.hasGroupBeenCanceled()) {
