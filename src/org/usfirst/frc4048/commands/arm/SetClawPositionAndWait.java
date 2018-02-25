@@ -13,17 +13,21 @@ public class SetClawPositionAndWait extends SetClawPosition {
 	private final GroupCommandCallback callback;
 	
     public SetClawPositionAndWait(final WristPostion position) {
-    	super(position);
-    	this.callback = GroupCommandCallback.NONE;
-    	setTimeout(3.0);
+    	this(GroupCommandCallback.NONE, position);
     }
     
     public SetClawPositionAndWait(final GroupCommandCallback callback, final WristPostion position) {
     	super(position);
     	this.callback = callback; 
     }
+    
+    @Override
+    protected void loggedInitialize()
+    {
+    	super.loggedInitialize();
+    	setTimeout(5.0);
+    }
 
-    //TODO Get position returns an enum, and should not be used for determining current position
     protected boolean loggedIsFinished() {
         return (position.equals(WristPostion.Level) && Robot.wrist.isLevel()) 
         	|| (position.equals(WristPostion.Compact) && Robot.wrist.clawUp()) 

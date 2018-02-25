@@ -101,8 +101,6 @@ public class Claw extends Subsystem {
     public void periodic() {
         // Put code here to be run every loop
     	
-    	SmartDashboard.putBoolean("Has Cube", cubePresent());
-    	
     	loggingContext.writeData();
     }
 

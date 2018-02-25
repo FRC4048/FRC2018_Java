@@ -1,5 +1,6 @@
 package org.usfirst.frc4048.commands.intake;
 
+import org.usfirst.frc4048.commands.GroupCommandCallback;
 import org.usfirst.frc4048.commands.intake.GripIntake.GripPosition;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -10,7 +11,11 @@ import edu.wpi.first.wpilibj.command.WaitForChildren;
  */
 public class RaiseAndOpenIntake extends CommandGroup {
 
-    public RaiseAndOpenIntake() {
+	public RaiseAndOpenIntake() {
+		this(GroupCommandCallback.NONE);
+	}
+	
+    public RaiseAndOpenIntake(GroupCommandCallback callback) {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
@@ -28,8 +33,8 @@ public class RaiseAndOpenIntake extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     	
-    	addParallel(new GripIntake(GripPosition.Open));
-    	addSequential(new RaiseIntake());
+    	addParallel(new GripIntake(callback, GripPosition.Open));
+    	addSequential(new RaiseIntake(callback));
     	addSequential(new WaitForChildren());
     }
 }

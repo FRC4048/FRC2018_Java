@@ -2,6 +2,7 @@ package org.usfirst.frc4048.commands.arm;
 
 import org.usfirst.frc4048.Robot;
 import org.usfirst.frc4048.commands.GroupCommandCallback;
+import org.usfirst.frc4048.subsystems.Wrist.WristPostion;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -22,6 +23,7 @@ public class MoveClawToHome extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	setTimeout(5.0);
+    	Robot.wrist.setPosition(WristPostion.Compact);
     }
 
     // Called repeatedly when this Command is scheduled to run

@@ -171,7 +171,7 @@ public class Arm extends Subsystem {
 		extensionToHome();
 		mathPotExtSetpoint = 0.0;
 
-		printPIDValues();
+		//printPIDValues();
 	}
 
 	@Override
@@ -222,12 +222,7 @@ public class Arm extends Subsystem {
 
 	public void armData() {
 		SmartDashboard.putNumber("ARM ANGLE", getArmAngle());
-		SmartDashboard.putNumber("ARM SETPOINT", armAngleSetpoint);
-		SmartDashboard.putNumber("ARM POT", getArmPos());
-		SmartDashboard.putNumber("ARM ERROR", movementMotor.getClosedLoopError(0));
-		SmartDashboard.putNumber("ARM VOLTAGE", movementMotor.getMotorOutputVoltage());
 		SmartDashboard.putBoolean("ARM DISABLED", disableArm);
-		
 		SmartDashboard.putNumber("EXTENSION LENGTH", getExtLength());
 		SmartDashboard.putNumber("EXTENSION SETPOINT", manualExtSetpoint);
 		SmartDashboard.putNumber("EXT POT", getExtPos());
@@ -446,14 +441,14 @@ public class Arm extends Subsystem {
 		if(!disableArm) {
 			double armSetpoint = armMath.convertAngleToPot(ARM_POT_MIN, ARM_ANGLE_MIN, ARM_POT_MAX, ARM_ANGLE_MAX, armAngleSetpoint) * ARM_POT_INVERT;
 			
-			SmartDashboard.putNumber("ARM POT SETPOINT", armSetpoint);
+			//SmartDashboard.putNumber("ARM POT SETPOINT", armSetpoint);
 			movementMotor.set(ControlMode.Position, (int) armSetpoint);
 			
 			if(getArmPos() > armSetpoint)
 			{
-				SmartDashboard.putNumber("ARM P", ARM_DOWN_P);
+				/*SmartDashboard.putNumber("ARM P", ARM_DOWN_P);
 				SmartDashboard.putNumber("ARM I", ARM_DOWN_I);
-				SmartDashboard.putNumber("ARM D", ARM_DOWN_D);
+				SmartDashboard.putNumber("ARM D", ARM_DOWN_D);*/
 				armP = ARM_DOWN_P;
 				armI = ARM_DOWN_I;
 				armD = ARM_DOWN_D;
@@ -461,9 +456,9 @@ public class Arm extends Subsystem {
 			}
 			else
 			{
-				SmartDashboard.putNumber("ARM P", ARM_UP_P);
+				/*SmartDashboard.putNumber("ARM P", ARM_UP_P);
 				SmartDashboard.putNumber("ARM I", ARM_UP_I);
-				SmartDashboard.putNumber("ARM D", ARM_UP_D);
+				SmartDashboard.putNumber("ARM D", ARM_UP_D);*/
 				armP = ARM_UP_P;
 				armI = ARM_UP_I;
 				armD = ARM_UP_D;

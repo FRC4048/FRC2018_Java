@@ -68,7 +68,7 @@ public class Wrist extends Subsystem {
 		
 		gyro.calibrate();
 		
-		SmartDashboard.putNumber("WRIST ANGLE", 0.0);
+		//SmartDashboard.putNumber("WRIST ANGLE", 0.0);
     }
     
     public void initDefaultCommand() {
@@ -201,7 +201,7 @@ public class Wrist extends Subsystem {
     	
     	speed *= -1;
     	
-    	SmartDashboard.putNumber("CLAW PITCH SPEED", speed);
+    	//SmartDashboard.putNumber("CLAW PITCH SPEED", speed);
     	
     	pitchMotor.set(ControlMode.PercentOutput, speed);
     }
@@ -230,6 +230,20 @@ public class Wrist extends Subsystem {
     	}
     }
     
+    public void moveClawToLevelOrig()
+    {
+    	if(getGyroVal() > LEVEL_GYRO_VAL + GYRO_STOP_MARGIN) {
+    		pitchMotor.set(ANGLE_LEVEL_UP_SPEED);
+    	}
+    	else if(getGyroVal() < LEVEL_GYRO_VAL - GYRO_STOP_MARGIN) {
+    		pitchMotor.set(ANGLE_LEVEL_DOWN_SPEED);
+    	}
+    	else
+    	{
+    		pitchMotor.stopMotor();
+    	}
+    }
+    
     public void moveClawToStraight()
     {
     	double angle = getGyroVal(); 
@@ -247,6 +261,20 @@ public class Wrist extends Subsystem {
     			pitchMotor.set(ANGLE_LEVEL_UP_SPEED);
     		}
     	} else {
+    		pitchMotor.stopMotor();
+    	}
+    }
+    
+    public void moveClawToStraightOrig()
+    {
+    	if(getGyroVal() > STRAIGHT_GYRO_VAL + GYRO_STOP_MARGIN) {
+    		pitchMotor.set(ANGLE_LEVEL_UP_SPEED);
+    	}
+    	else if(getGyroVal() < STRAIGHT_GYRO_VAL - GYRO_STOP_MARGIN) {
+    		pitchMotor.set(ANGLE_LEVEL_DOWN_SPEED);
+    	}
+    	else
+    	{
     		pitchMotor.stopMotor();
     	}
     }
