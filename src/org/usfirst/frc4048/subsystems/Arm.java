@@ -186,6 +186,28 @@ public class Arm extends Subsystem {
 		// TODO Change this to automatic when tested
 		setDefaultCommand(new ArmFinetune());
 	}
+	
+    public final Logging.LoggingContext loggingContext = new Logging.LoggingContext(Logging.Subsystems.ARM) {
+
+		@Override
+		protected void addAll() {
+			add("Arm Pot", getArmPos());
+			add("Arm Angle", getArmAngle());
+			add("Arm Angle Setpoint", armAngleSetpoint);
+			add("Extension Pot", getExtPos());
+			add("Extension Pot Setpoint", mathPotExtSetpoint);
+			add("Extension Length", getExtLength());
+			add("Extension Length Setpoint", manualExtSetpoint);
+			add("Arm P", armP);
+			add("Arm I", armI);
+			add("Arm D", armD);
+			add("Ext P", extP);
+			add("Ext I", extI);
+			add("Ext D", extD);
+		}
+    	
+    };
+
 
 	@Override
 	public void periodic() {
@@ -194,21 +216,8 @@ public class Arm extends Subsystem {
 		moveArm();
 		moveExtension();
 		
-		Robot.logging.traceSubsystem(Logging.Subsystems.ARM, false, 
-				getArmPos(),
-				getArmAngle(),
-				armAngleSetpoint,
-			    getExtPos(),
-			    mathPotExtSetpoint,
-			    getExtLength(),
-			    manualExtSetpoint,
-			    armP,
-			    armI,
-			    armD,
-			    extP,
-			    extI,
-			    extD
-				);
+		loggingContext.writeData();
+		
 	}
 
 	public void armData() {
@@ -462,9 +471,4 @@ public class Arm extends Subsystem {
 		}
 	}
 
-	public String[] armHeadings() {
-		String logs[] = {"Arm Pot", "Arm Angle", "Arm Angle Setpoint", "Extension Pot", "Extension Pot Setpoint", "Extension Length", "Extension Length Setpoint",
-				"Arm P", "Arm I", "Arm D", "Ext P", "Ext I", "Ext D"};
-		return logs;
-	}
 }
