@@ -60,10 +60,7 @@ public class PowerDistPanel extends Subsystem {
     	 *  Swerve Steer Motors
     	 *  
     	 */
-    	Robot.logging.traceSubsystem(loggingContext, false, pdp.getVoltage(), pdp.getTotalCurrent(), pdp.getCurrent(RobotMap.PDP_STEERING_FR), pdp.getCurrent(RobotMap.PDP_STEERING_FL),
-    			pdp.getCurrent(RobotMap.PDP_STEERING_RL), pdp.getCurrent(RobotMap.PDP_STEERING_RR), pdp.getCurrent(RobotMap.PDP_DRIVE_FR), pdp.getCurrent(RobotMap.PDP_DRIVE_FL), pdp.getCurrent(RobotMap.PDP_DRIVE_RL)
-    			, pdp.getCurrent(RobotMap.PDP_DRIVE_RR), pdp.getCurrent(RobotMap.PDP_INTAKE_DEPLOY_MOTOR), pdp.getCurrent(RobotMap.PDP_RIGHT_INTAKE_MOTOR), pdp.getCurrent(RobotMap.PDP_LEFT_INTAKE_MOTOR),
-    			pdp.getCurrent(RobotMap.PDP_ARM_MOTOR), pdp.getCurrent(RobotMap.PDP_EXTENSION), pdp.getCurrent(RobotMap.PDP_WRIST_MOTOR), pdp.getCurrent(RobotMap.PDP_GRIP_MOTOR));//value
+    	loggingContext.writeData();
     }
     
 }
