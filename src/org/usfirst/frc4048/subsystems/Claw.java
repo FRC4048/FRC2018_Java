@@ -90,9 +90,8 @@ public class Claw extends Subsystem {
 	public final Logging.LoggingContext loggingContext = new Logging.LoggingContext(Logging.Subsystems.CLAW) {
 
 		@Override
-		protected String[] headings() {
-			String log[] = { "Cube Present" };
-			return log;
+		protected void addAll() {
+			add("Cube Present", cubePresent());
 		}
 
 	};
@@ -103,10 +102,8 @@ public class Claw extends Subsystem {
         // Put code here to be run every loop
     	
     	SmartDashboard.putBoolean("Has Cube", cubePresent());
-//    	String log[] = {"Gyro Angle", "Position", "Cube Present"};
-    	Robot.logging.traceSubsystem(loggingContext, false, 
-    					""+cubePresent());
     	
+    	loggingContext.writeData();
     }
 
     // Put methods for controlling this subsystem

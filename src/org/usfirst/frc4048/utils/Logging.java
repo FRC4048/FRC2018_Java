@@ -42,13 +42,74 @@ public class Logging {
 	abstract static public class LoggingContext {
 		private int counter = 0;
 		private final Subsystems subsystem;
+		private final StringBuilder sb = new StringBuilder();
+		private static final char COMMA = ',';
+		private static final char QUOTE = '"';
+		private boolean writeTitles = false;
 		
 		public LoggingContext(final Subsystems subsystem) {
 			this.subsystem = subsystem;
 		}
 		
-		abstract protected String[] headings();
+		abstract protected void addAll();
 		
+		final void writeHeadings() {
+			writeTitles = true;
+			writeData();
+			writeTitles = false;
+		}
+		
+		public final void writeData() {
+			if (counter % 5 == 0 || writeTitles) {
+				sb.setLength(0);
+				sb.append(df3.format(Timer.getFPGATimestamp()));
+				sb.append(",");
+				sb.append(subsystem.name());
+				sb.append(",");
+				addAll();
+				Robot.logging.traceMessage(sb);
+			}
+		}
+		
+		protected void add(String title, int value) {
+			if (writeTitles) {
+				sb.append(QUOTE).append(title).append(QUOTE);
+			}
+			else {
+				sb.append(Integer.toString(value));
+			}
+			sb.append(COMMA);
+		}
+		
+		protected void add(String title, boolean value) {
+			if (writeTitles) {
+				sb.append(QUOTE).append(title).append(QUOTE);
+			}
+			else {
+				sb.append(Boolean.toString(value));
+			}
+			sb.append(COMMA);
+		}
+		
+		protected void add(String title, double value) {
+			if (writeTitles) {
+				sb.append(QUOTE).append(title).append(QUOTE);
+			}
+			else {
+				sb.append(Double.toString(value));
+			}
+			sb.append(COMMA);
+		}
+		
+		protected void add(String title, String value) {
+			if (writeTitles) {
+				sb.append(QUOTE).append(title).append(QUOTE);
+			}
+			else {
+				sb.append(QUOTE).append(value).append(QUOTE);
+			}
+			sb.append(COMMA);
+		}
 	}
 
 	public void startThread() {
@@ -126,7 +187,7 @@ public class Logging {
 				Robot.claw.loggingContext, Robot.wrist.loggingContext, Robot.intake.loggingContext,
 				Robot.powerdistpanel.loggingContext, };
 		for (final LoggingContext c : list) {
-			traceSubsystem(c, true, null, c.headings());
+			c.writeHeadings();
 		}
 	}
 

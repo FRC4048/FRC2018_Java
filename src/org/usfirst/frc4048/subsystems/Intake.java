@@ -78,28 +78,24 @@ public class Intake extends Subsystem {
 	public final Logging.LoggingContext loggingContext = new Logging.LoggingContext(Logging.Subsystems.INTAKE) {
 
 		@Override
-		protected String[] headings() {
-			String log[] = { "Deploy Motor Speed", "Left Wheel Speed", "Right Wheel Speed", "Grip Motor Speed",
-					"Raised?", "Lowered?", "Has Cube?", "Open?", "Close?" };
-			return log;
+		protected void addAll() {
+			add("Deploy Motor Speed", deployMotor.get());
+			add("Left Wheel Speed", leftIntakeMotor.get());
+			add("Right Wheel Speed", rightIntakeMotor.get());
+			add("Grip Motor Speed", gripMotor.get());
+			add("Raised?", isRaised());
+			add("Lowered?", isLowered());
+			add("Has Cube?", hasCube());
+			add("Open?", openLimit.get());
+			add("Close?", closeLimit.get());
 		}
+		
 
 	};
 
     @Override
     public void periodic() {
-    	
-//    	String log[] = {"Deploy Motor Speed", "Left Wheel Speed", "Right Wheel Speed", "Grip Motor Speed", "Raised?", "Lowered?", "Has Cube?", "Open?", "Close?" };
-    	Robot.logging.traceSubsystem(loggingContext, false, 
-    			""+deployMotor.get(),
-    			""+ leftIntakeMotor.get(),
-    			""+ rightIntakeMotor.get(),
-    			""+ gripMotor.get(),
-    			""+ isRaised(),
-    			""+ isLowered(),
-    			""+ hasCube(),
-    			""+ openLimit.get(),
-    			""+ closeLimit.get());
+    	loggingContext.writeData();
     }
 
     // Put methods for controlling this subsystem

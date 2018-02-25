@@ -29,11 +29,24 @@ public class PowerDistPanel extends Subsystem {
 	public final Logging.LoggingContext loggingContext = new Logging.LoggingContext(Logging.Subsystems.POWERDISTPANEL) {
 
 		@Override
-		protected String[] headings() {
-			final String vals[] = { "Total Voltage", "Total Current", "FR Steer", "FL Steer", "RL Steer", "RR Steer",
-					"FR Drive", "FL Drive", "RL Drive", "RR Drive", "Intake Deploy", "Right Intake", "Left Intake",
-					"Arm Motor", "Extension Motor", "Wrist Motor", "Gripper Motor" };
-			return vals;
+		protected void addAll() {
+			add("Total Voltage", pdp.getVoltage());
+			add("Total Current", pdp.getTotalCurrent());
+			add("FR Steer", pdp.getCurrent(RobotMap.PDP_STEERING_FR));
+			add("FL Steer", pdp.getCurrent(RobotMap.PDP_STEERING_FL));
+			add("RL Steer", pdp.getCurrent(RobotMap.PDP_STEERING_RL));
+			add("RR Steer", pdp.getCurrent(RobotMap.PDP_STEERING_RR));
+			add("FR Drive", pdp.getCurrent(RobotMap.PDP_DRIVE_FR));
+			add("FL Drive", pdp.getCurrent(RobotMap.PDP_DRIVE_FL));
+			add("RL Drive", pdp.getCurrent(RobotMap.PDP_DRIVE_RL));
+			add("RR Drive", pdp.getCurrent(RobotMap.PDP_DRIVE_RR));
+			add("Intake Deploy", pdp.getCurrent(RobotMap.PDP_INTAKE_DEPLOY_MOTOR));
+			add("Right Intake", pdp.getCurrent(RobotMap.PDP_RIGHT_INTAKE_MOTOR));
+			add("Left Intake", pdp.getCurrent(RobotMap.PDP_LEFT_INTAKE_MOTOR));
+			add("Arm Motor", pdp.getCurrent(RobotMap.PDP_ARM_MOTOR));
+			add("Extension Motor", pdp.getCurrent(RobotMap.PDP_EXTENSION));
+			add("Wrist Motor", pdp.getCurrent(RobotMap.PDP_WRIST_MOTOR));
+			add("Gripper Motor", pdp.getCurrent(RobotMap.PDP_GRIP_MOTOR));
 		}
 
 	};

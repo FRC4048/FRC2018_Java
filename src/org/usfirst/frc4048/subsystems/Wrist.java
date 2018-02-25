@@ -80,9 +80,9 @@ public class Wrist extends Subsystem {
 	public final Logging.LoggingContext loggingContext = new Logging.LoggingContext(Logging.Subsystems.WRIST) {
 
 		@Override
-		protected String[] headings() {
-			String log[] = { "Gyro Angle", "Position" };
-			return log;
+		protected void addAll() {
+			add("Gyro Angle", gyro.getAngle());
+			add("Position", position.toString());
 		}
 
 	};
@@ -90,9 +90,7 @@ public class Wrist extends Subsystem {
     @Override
     public void periodic()
     {
-    	Robot.logging.traceSubsystem(loggingContext, false, 
-				""+gyro.getAngle(),
-				position.toString());
+    	loggingContext.writeData();
     }
     
     /**

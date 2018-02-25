@@ -162,9 +162,13 @@ public class Drivetrain extends Subsystem {
     public final Logging.LoggingContext loggingContext = new Logging.LoggingContext(Logging.Subsystems.DRIVETRAIN) {
 
 		@Override
-		protected String[] headings() {
-	    	String x[] = {"SteerFL", "SteerFR", "SteerRL", "SteeRR", "DistEncoder"};
-	    	return x;
+		protected void addAll() {
+			add("SteerFL", frontLeftSteerMotor.getSelectedSensorPosition(TIMEOUT));
+			add("SteerFR", frontRightSteerMotor.getSelectedSensorPosition(TIMEOUT));
+			add("SteerRL", rearLeftSteerMotor.getSelectedSensorPosition(TIMEOUT));
+			add("SteeRR", rearRightSteerMotor.getSelectedSensorPosition(TIMEOUT));
+			add("DistEncoder", encoder.getDistance());
+			
 		}
     	
     };
@@ -172,14 +176,8 @@ public class Drivetrain extends Subsystem {
     @Override
     public void periodic() {
         // Put code here to be run every loop
-//    	String x[] = {"LeftSonarVoltage", "LeftSonarDistance", "RightSonarVoltage", "RightSonarDistance", "SteerFL", "SteerFR", "SteerRL", "SteeRR", "DistEncoder"};
 
-    	Robot.logging.traceSubsystem(loggingContext, false,
-        							 frontLeftSteerMotor.getSelectedSensorPosition(TIMEOUT),
-        							 frontRightSteerMotor.getSelectedSensorPosition(TIMEOUT),
-        							 rearLeftSteerMotor.getSelectedSensorPosition(TIMEOUT),
-        							 rearRightSteerMotor.getSelectedSensorPosition(TIMEOUT),
-        							 encoder.getDistance());
+    	loggingContext.writeData();
     }
     
 
