@@ -12,6 +12,8 @@
 package org.usfirst.frc4048;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.DriverStation.MatchType;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -59,8 +61,8 @@ public class Robot extends TimedRobot {
     public WorkQueue wq;
 
     //use this to see the debug commands and values for smart dashboard
-    public Boolean enableDebug = false;
-    public Boolean enableTesting= false;
+    public final Boolean enableDebug = false;
+    public final Boolean enableTesting = false;
   
     Action autoAction;
     Action oldAutoAction;
@@ -69,6 +71,8 @@ public class Robot extends TimedRobot {
     public static double ARM_UP_SCALE_FACTOR = 0.75;
     public static double ARM_DOWN_SCALE_FACTOR = 0.30;
     public static double EXT_SCALE_FACTOR = 1.00;
+    
+    public static final boolean USE_WRIST_STRAIGHT = true;
     
     /**
      * This function is run when the robot is first started up and should be
@@ -162,9 +166,18 @@ public class Robot extends TimedRobot {
     	Robot.drivetrain.swerveDrivetrain.setModeField();
         char switchPos = 'X';
         char scalePos = 'X';
+        StringBuilder gameInfo = new StringBuilder();
+        gameInfo.append("Match Number=");
+        gameInfo.append(DriverStation.getInstance().getMatchNumber());
+        gameInfo.append(", Alliance Color=");
+        gameInfo.append(DriverStation.getInstance().getAlliance().toString());
+        gameInfo.append(", Match Type=");
+        gameInfo.append(DriverStation.getInstance().getMatchType().toString());
+    	logging.traceMessage(Logging.MessageLevel.INFORMATION, gameInfo.toString());
+        
         String gameData = DriverStation.getInstance().getGameSpecificMessage();
-    	logging.traceMessage(Logging.MessageLevel.INFORMATION,  "Field plate selection:" + gameData);
-
+        logging.traceMessage(Logging.MessageLevel.INFORMATION,  "Field plate selection:" + gameData);
+        
         if(gameData.length() < 2)
         {
         	DriverStation.reportError("Bad game specific data recieved " + gameData, false);

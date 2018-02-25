@@ -35,10 +35,10 @@ public class MoveClaw extends LoggedCommand {
     	{
     		Robot.wrist.setPosition(WristPostion.Compact);
     	}
-    	else
-    	{
-    		Robot.wrist.setPosition(WristPostion.Level);
-    	}
+//    	else
+//    	{
+//    		Robot.wrist.setPosition(WristPostion.Level);
+//    	}
     	
     	if(Robot.wrist.getPosition() == WristPostion.Compact)
     	{

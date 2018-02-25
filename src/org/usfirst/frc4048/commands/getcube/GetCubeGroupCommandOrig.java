@@ -58,7 +58,6 @@ public class GetCubeGroupCommandOrig extends CommandGroup implements GroupComman
 	@Override
 	public void doCancel(final boolean isTimedOut) {
 		if (isTimedOut) {
-			new Exception("Hello there!").printStackTrace(System.out);
 			cancel();
 		}
 	}
