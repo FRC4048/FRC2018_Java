@@ -30,7 +30,7 @@ public class AutoBase extends Command {
     	//The distance to the autoline is 120 - (32.5[robotLength] + 6[bumpers])
     	//We want to move atleast 2 inches beyond the auto line without hitting the switch
     	
-    	if(closeClaw.isCompleted()) {
+    	if(closeClaw.isCompleted() && !driveDistance.isRunning()) {
     		driveDistance.start();
     	}
     }
