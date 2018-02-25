@@ -34,7 +34,7 @@ public class LowerAndCloseIntake extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     	
-    	addParallel(new GripIntake(callback, GripPosition.Open));
+    	addParallel(new GripIntake(callback, GripPosition.Close));
     	addSequential(new LowerIntake(callback));
 //    	addSequential(new WaitForChildren());
     }
