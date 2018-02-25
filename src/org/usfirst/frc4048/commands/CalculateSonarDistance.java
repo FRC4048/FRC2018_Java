@@ -76,21 +76,21 @@ public class CalculateSonarDistance extends Command {
 	protected boolean isFinished() {
 		if(counter >= 5) {
 			Arrays.sort(sonarArray);
-			System.out.println(Arrays.toString(sonarArray));
-			if(sonarArray[3] < 8 || Math.abs(sonarArray[3]-distance) > MAX_ADJUST) 
+			
+			if(sonarArray[2] < 8 || Math.abs(sonarArray[2]-distance) > MAX_ADJUST) 
 			{
 				Robot.drivetrain.globalDriveDistance = 0;
 				Robot.drivetrain.globalDriveDirSpeed = 0;
 			}
 			else 
 			{
-				Robot.drivetrain.globalDriveDistance = Math.abs(sonarArray[3]-distance);
-				Robot.drivetrain.globalDriveDirSpeed = dirSpeed(sonarArray[3]);
+				Robot.drivetrain.globalDriveDistance = Math.abs(sonarArray[2]-distance);
+				Robot.drivetrain.globalDriveDirSpeed = dirSpeed(sonarArray[2]);
 			}
+			
 			StringBuilder sb = new StringBuilder();
 			sb.append(sonarArray);
 			Robot.logging.traceMessage(MessageLevel.INFORMATION, sb.toString());
-			//SmartDashboard.putNumberArray("Sonar Array", sonarArray);
 			return true;
 		}
 		else

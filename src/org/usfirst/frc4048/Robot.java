@@ -276,6 +276,7 @@ public class Robot extends TimedRobot {
     		SmartDashboard.putData("Open Claw", new OpenClaw());
     		SmartDashboard.putData("Set Claw Position Compact", new SetClawPosition(WristPostion.Compact));//Sets claw position to compact
     		SmartDashboard.putData("Set Claw Position Level", new SetClawPosition(WristPostion.Level));//Sets claw position to level
+    		SmartDashboard.putData("Set Claw Position Straight", new SetClawPosition(WristPostion.Straight));//Sets claw position to straight
     		SmartDashboard.putData("Flush Cube", new FlushCube());
     		SmartDashboard.putData("Lower intake", new LowerIntake());
     		SmartDashboard.putData("Raise Intake", new RaiseIntake());
