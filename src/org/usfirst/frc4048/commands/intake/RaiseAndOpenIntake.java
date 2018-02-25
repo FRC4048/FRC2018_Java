@@ -35,6 +35,6 @@ public class RaiseAndOpenIntake extends CommandGroup {
     	
     	addParallel(new GripIntake(callback, GripPosition.Open));
     	addSequential(new RaiseIntake(callback));
-    	addSequential(new WaitForChildren());
+//    	addSequential(new WaitForChildren());
     }
 }
