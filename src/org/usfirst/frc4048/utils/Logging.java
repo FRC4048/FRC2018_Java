@@ -72,8 +72,7 @@ public class Logging {
 		boolean printThis = alwaysPrint;
 		if (!printThis) {
 			printThis = DriverStation.getInstance().isEnabled() && (context.counter % 5 == 0);
-			if (printThis)
-				context.counter += 1;
+			context.counter += 1;
 		}
 
 		if (printThis) {
