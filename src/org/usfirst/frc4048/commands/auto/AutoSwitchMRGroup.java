@@ -3,6 +3,7 @@ package org.usfirst.frc4048.commands.auto;
 import org.usfirst.frc4048.commands.DriveDistance;
 import org.usfirst.frc4048.commands.arm.MoveArm;
 import org.usfirst.frc4048.commands.arm.MoveClawToLevel;
+import org.usfirst.frc4048.commands.arm.MoveClawToStraight;
 import org.usfirst.frc4048.commands.arm.OpenClaw;
 import org.usfirst.frc4048.commands.intake.GripIntake;
 import org.usfirst.frc4048.commands.intake.GripIntake.GripPosition;
@@ -42,7 +43,7 @@ public class AutoSwitchMRGroup extends CommandGroup {
     	addSequential(new DriveDistance(13, 0, .2, 0));
 
     	//WaitForChildren() waits for the parallel commands to finish
-    	addSequential(new MoveClawToLevel());
+    	addSequential(new MoveClawToStraight());
     	addSequential(new OpenClaw());
     }
 }

@@ -12,6 +12,8 @@
 package org.usfirst.frc4048;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.DriverStation.MatchType;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -164,9 +166,18 @@ public class Robot extends TimedRobot {
     	Robot.drivetrain.swerveDrivetrain.setModeField();
         char switchPos = 'X';
         char scalePos = 'X';
+        StringBuilder gameInfo = new StringBuilder();
+        gameInfo.append("Match Number=");
+        gameInfo.append(DriverStation.getInstance().getMatchNumber());
+        gameInfo.append(", Alliance Color=");
+        gameInfo.append(DriverStation.getInstance().getAlliance().toString());
+        gameInfo.append(", Match Type=");
+        gameInfo.append(DriverStation.getInstance().getMatchType().toString());
+    	logging.traceMessage(Logging.MessageLevel.INFORMATION, gameInfo.toString());
+        
         String gameData = DriverStation.getInstance().getGameSpecificMessage();
-    	logging.traceMessage(Logging.MessageLevel.INFORMATION,  "Field plate selection:" + gameData);
-
+        logging.traceMessage(Logging.MessageLevel.INFORMATION,  "Field plate selection:" + gameData);
+        
         if(gameData.length() < 2)
         {
         	DriverStation.reportError("Bad game specific data recieved " + gameData, false);
