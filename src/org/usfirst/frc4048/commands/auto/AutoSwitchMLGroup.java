@@ -46,6 +46,7 @@ public class AutoSwitchMLGroup extends CommandGroup {
     	addSequential(new RotateAngle(0));
     	addParallel(new DriveDistance(AutoAction.AUTO_RUN_DISTANCE-4, AutoAction.LOCAL_SWITCH_SPEED,0,0));
     	addSequential(new MoveClawToStraight());
+    	addSequential(new WaitForChildren());
     	addSequential(new OpenClaw());
     }
 }

@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class CalculateSonarDistance extends Command {
+public class CalculateSonarDistance extends LoggedCommand {
 	
 	SonarSide side;
 	double distance;
@@ -33,6 +33,8 @@ public class CalculateSonarDistance extends Command {
 	public CalculateSonarDistance(SonarSide side, double distance) {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
+		super(String.format("CalculateSonarDistance, Side: &s, Distance: &f", side.toString(), distance));
+		
 		requires(Robot.drivetrain);
 		this.side = side;
 		this.distance = distance;
@@ -41,14 +43,14 @@ public class CalculateSonarDistance extends Command {
 	 
 
 	// Called just before this Command runs the first time
-	protected void initialize() {
+	protected void loggedInitialize() {
 		runs = 0;
 		counter = 0;
 		sonarArray = new double[5];
 	}
 
 	// Called repeatedly when this Command is scheduled to run
-	protected void execute() {
+	protected void loggedExecute() {
 		if(runs%5 == 0) {
 			sonarArray[counter] = Robot.drivetrain.getSonar(side);
 			counter++;
@@ -73,7 +75,7 @@ public class CalculateSonarDistance extends Command {
 		return speed;
 	}
 	// Make this return true when this Command no longer needs to run execute()
-	protected boolean isFinished() {
+	protected boolean loggedIsFinished() {
 		if(counter >= 5) {
 			Arrays.sort(sonarArray);
 			
@@ -98,11 +100,19 @@ public class CalculateSonarDistance extends Command {
 	}
 
 	// Called once after isFinished returns true
-	protected void end() {
+	protected void loggedEnd() {
 	}
 
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
-	protected void interrupted() {
+	protected void loggedInterrupted() {
+	}
+
+
+
+	@Override
+	protected void loggedCancel() {
+		// TODO Auto-generated method stub
+		
 	}
 }

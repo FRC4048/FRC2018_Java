@@ -14,6 +14,7 @@ public class ResetClawGyro extends LoggedCommand {
     	super(String.format("command is running"));
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
+    	setRunWhenDisabled(true);
     	requires(Robot.wrist);
     }
 
