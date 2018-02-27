@@ -33,7 +33,7 @@ public class RaiseAndOpenIntake extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     	
-    	addParallel(new GripIntake(callback, GripPosition.Open));
+    	addSequential(new GripIntake(callback, GripPosition.Open));
     	addSequential(new RaiseIntake(callback));
     	addSequential(new WaitForChildren());
     }

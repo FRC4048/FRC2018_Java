@@ -46,9 +46,9 @@ public class GetCubeGroupCommand extends CommandGroup implements GroupCommandCal
 			addSequential(new WaitForChildren());
 			
 			addParallel(new OpenClaw(this));
-			addParallel(new MoveArm(this, ArmPositions.Intake));
+			addSequential(new MoveArm(this, ArmPositions.Intake));
+			addSequential(new WaitForChildren());
 	    	addSequential(new ExtensionIntake(this));
-	    	addSequential(new WaitForChildren());
 			
 			addParallel(new GripIntake(this, GripPosition.Open));
 			addSequential(new ExtendArmToCube(this));
