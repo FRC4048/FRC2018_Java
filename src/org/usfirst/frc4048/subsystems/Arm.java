@@ -310,14 +310,13 @@ public class Arm extends Subsystem {
 		case MidScale:
 			return armPos >= MIDSCALE_SETPOINT - ANGLE_MARGIN_VALUE && armPos <= MIDSCALE_SETPOINT + ANGLE_MARGIN_VALUE;
 		case HighScale:
-			return armPos >= HIGHSCALE_SETPOINT - ANGLE_MARGIN_VALUE
-					&& armPos <= HIGHSCALE_SETPOINT + ANGLE_MARGIN_VALUE;
+			return armPos >= HIGHSCALE_SETPOINT - ANGLE_MARGIN_VALUE && armPos <= HIGHSCALE_SETPOINT + ANGLE_MARGIN_VALUE;
 		case Climb:
 			return armPos >= HOME_SETPOINT - ANGLE_MARGIN_VALUE && armPos <= HOME_SETPOINT + ANGLE_MARGIN_VALUE;
 		case Home:
 			return armPos >= HOME_SETPOINT - ANGLE_MARGIN_VALUE && armPos <= HOME_SETPOINT + ANGLE_MARGIN_VALUE;
 		default:
-			return true;
+			return false;
 		}
 	}
 
