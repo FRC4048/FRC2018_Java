@@ -33,7 +33,7 @@ public class CalculateSonarDistance extends LoggedCommand {
 	public CalculateSonarDistance(SonarSide side, double distance) {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
-		super(String.format("CalculateSonarDistance, Side: &s, Distance: &f", side.toString(), distance));
+		super(String.format("CalculateSonarDistance, Side: %s, Distance: %f", side.toString(), distance));
 		
 		requires(Robot.drivetrain);
 		this.side = side;
