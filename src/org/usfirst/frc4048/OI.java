@@ -34,6 +34,7 @@ import org.usfirst.frc4048.commands.intake.IntakeCube;
 import org.usfirst.frc4048.commands.intake.IntakeCube.IntakeMode;
 import org.usfirst.frc4048.commands.intake.RaiseIntake;
 import org.usfirst.frc4048.commands.intake.ToggleIntake;
+import org.usfirst.frc4048.commands.intake.ToggleIntakeGrip;
 import org.usfirst.frc4048.subsystems.Claw;
 import org.usfirst.frc4048.subsystems.Arm.ArmPositions;
 
@@ -94,7 +95,8 @@ public class OI {
     public JoystickButton moveToHighScale;
     public JoystickButton moveToExchange;
 //    public JoystickButton moveToClimb;
-    public JoystickButton gripIntake;
+    public JoystickButton toggleGripIntake;
+    public JoystickButton openIntake;
     public JoystickButton cancelFunction;
     public JoystickButton intakeCube;
     public Joystick controller;
@@ -166,10 +168,10 @@ public class OI {
         intakeCube.whenPressed(new IntakeCube((IntakeCube.IntakeMode.STRAIGHT_PULL)));
         setClawPositionandWait= new JoystickButton(leftJoystick, 10);
         setClawPositionandWait.whenPressed(new SetClawPositionAndWait(WristPostion.Level));
-        gripIntake= new JoystickButton(leftJoystick, 11);
-        gripIntake.whenPressed(new GripIntake(GripPosition.Close));
-        raiseIntake= new JoystickButton(leftJoystick, 8);
-        raiseIntake.whenPressed(new RaiseIntake());
+        toggleGripIntake = new JoystickButton(leftJoystick, 11);
+        toggleGripIntake.whenPressed(new ToggleIntakeGrip());
+//        raiseIntake= new JoystickButton(leftJoystick, 8);
+//        raiseIntake.whenPressed(new RaiseIntake());
         
         
         

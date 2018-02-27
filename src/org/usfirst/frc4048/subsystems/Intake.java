@@ -168,6 +168,16 @@ public class Intake extends Subsystem {
     	return !upperLimit.get();
     }
     
+    public boolean isOpened()
+    {
+    	return !openLimit.get();
+    }
+    
+    public boolean isClosed()
+    {
+    	return !closeLimit.get();
+    }
+    
     public void closeIntake()
     {
     	gripMotor.set(CLOSE_SPEED);
