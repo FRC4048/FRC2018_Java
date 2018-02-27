@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class ToggleIntakeGrip extends LoggedCommand {
 	
+	private static boolean toggle = false;
+	
 	Command closeIntake;
 	Command openIntake;
 
@@ -27,11 +29,13 @@ public class ToggleIntakeGrip extends LoggedCommand {
     	closeIntake = new GripIntake(GripPosition.Close);
     	openIntake = new GripIntake(GripPosition.Open);
     	
-    	if(!Robot.intake.isClosed() && Robot.intake.isOpened()) {
+    	if(toggle) {
     		closeIntake.start();
+    		toggle = false;
     	}
-    	else if(!Robot.intake.isOpened() && Robot.intake.isClosed()) {
+    	else {
     		openIntake.start();
+    		toggle = true;
     	}
     }
 
