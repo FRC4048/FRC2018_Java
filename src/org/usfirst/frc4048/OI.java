@@ -120,14 +120,9 @@ public class OI {
         
 		cancelFunction = new JoystickButton(controller, 7); // Back Button
         cancelFunction.whileHeld(new CancelCommand());
-//		moveToClimb = new JoystickButton(controller, 8); // Start Button
-//        moveToClimb.whenPressed(new MoveArm(ArmPositions.Climb));
+//		 moveToClimb = new JoystickButton(controller, 8); // Start Button
+//		 moveToClimb.whenPressed(new MoveArm(ArmPositions.Climb));
         
-//        moveToExchange = new JoystickButton(controller, 3); // X Button
-//        moveToExchange.whenPressed(new MoveArm(ArmPositions.Exchange));
-        /**
-         * Isha wanted this
-         */
 		moveToExchange = new JoystickButton(controller, 1); // X Button
         moveToExchange.whenPressed(new MoveArm(ArmPositions.Exchange));
         
@@ -140,11 +135,6 @@ public class OI {
 		moveToLowScale = new JoystickButton(controller, 2); // B Button
         moveToLowScale.whenPressed(new MoveArm(ArmPositions.LowScale));
         
-//        moveToSwitch = new JoystickButton(controller, 1); // A Button
-//        moveToSwitch.whenPressed(new MoveArm(ArmPositions.Switch));
-        /**
-         * Isha wanted this
-         */
         moveToSwitch = new JoystickButton(controller, 3); // A Button
         moveToSwitch.whenPressed(new MoveArm(ArmPositions.Switch));
 		grabCube = new JoystickButton(controller, 6); // Right Bumper
@@ -161,6 +151,14 @@ public class OI {
         intakeFlush.whileHeld(new FlushCube());
         toggleIntake = new JoystickButton(rightJoystick, 7);
         toggleIntake.whenPressed(new ToggleIntake());
+//        toggleMode = new JoystickButton(rightJoystick, 9);
+//        toggleMode.whenPressed(new ToggleMode());
+//        ditchCube = new JoystickButton(rightJoystick, 8);
+//        ditchCube.whenPressed(new BlankCommand());
+//        intakeFlush = new JoystickButton(rightJoystick, 7);
+//        intakeFlush.whileHeld(new FlushCube());
+//        toggleIntake = new JoystickButton(rightJoystick, 6);
+//        toggleIntake.whenPressed(new ToggleIntake());
         leftJoystick = new Joystick(0);
         
    
@@ -170,8 +168,7 @@ public class OI {
         setClawPositionandWait.whenPressed(new SetClawPositionAndWait(WristPostion.Level));
         toggleGripIntake = new JoystickButton(leftJoystick, 11);
         toggleGripIntake.whenPressed(new ToggleIntakeGrip());
-//        raiseIntake= new JoystickButton(leftJoystick, 8);
-//        raiseIntake.whenPressed(new RaiseIntake());
+
         
         
         
