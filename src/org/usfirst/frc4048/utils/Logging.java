@@ -227,7 +227,7 @@ public class Logging {
 						}
 					}
 					Date date = new Date();
-					SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss-SSS");
+					SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_ss-SSS");
 					dateFormat.setTimeZone(TimeZone.getTimeZone("EST5EDT"));
 					try {
 						this.log = new PrintWriter("/media/sda1/" + dateFormat.format(date) + "-Log.csv", "UTF-8");
