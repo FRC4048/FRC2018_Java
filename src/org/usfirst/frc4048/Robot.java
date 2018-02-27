@@ -128,7 +128,6 @@ public class Robot extends TimedRobot {
     @Override
     public void disabledInit(){
     	logging.traceMessage(Logging.MessageLevel.INFORMATION, "---------------------------- Robot Disabled ----------------------------");
-    	
     	Robot.arm.setArmToCurrentPos();
 		Robot.drivetrain.resetDriveEncoder();
     }

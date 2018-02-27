@@ -9,9 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 import java.util.TimerTask;
-
 import org.usfirst.frc4048.Robot;
-
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 
@@ -229,7 +227,7 @@ public class Logging {
 						}
 					}
 					Date date = new Date();
-					SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
+					SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss-SSS");
 					dateFormat.setTimeZone(TimeZone.getTimeZone("EST5EDT"));
 					try {
 						this.log = new PrintWriter("/media/sda1/" + dateFormat.format(date) + "-Log.csv", "UTF-8");
