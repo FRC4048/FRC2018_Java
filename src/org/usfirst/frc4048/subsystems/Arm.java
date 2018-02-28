@@ -71,7 +71,8 @@ public class Arm extends Subsystem {
 	/**
 	 * Is not a speed, but a setpoint adjustment value
 	 */
-	private final double FINETUNE_RATE = 1.0;
+	private final double FINETUNE_UP_RATE = 3.0;
+	private final double FINETUNE_DOWN_RATE = 1.0;
 
 	/*
 	 * All of these setpoints are used for the arm
@@ -94,6 +95,7 @@ public class Arm extends Subsystem {
 	public static final double EXT_HOME_SETPOINT = 0.0;
 	public static final double EXT_INTAKE_SETPOINT = 4.5;
 	public static final double EXT_INTAKE_SETPOINT_GOTO = 15.0;
+	public static final double EXT_ARM_STOP_MARGIN = 2.0;
 	
 	/*
 	 * All of these values are used for the extension math
@@ -212,8 +214,8 @@ public class Arm extends Subsystem {
 	public void periodic() {
 		// Put code here to be run every loop
 
-		moveArm();
 		moveExtension();
+		moveArm();
 		
 		loggingContext.writeData();
 		
@@ -237,7 +239,7 @@ public class Arm extends Subsystem {
 	}
 	
 	public void finetuneUp() {
-		double newSetpoint = getArmAngle() + FINETUNE_RATE;
+		double newSetpoint = getArmAngle() + FINETUNE_UP_RATE;
 		if(inAutoRange(newSetpoint)) {
 			disableArm = false;
 			armAngleSetpoint = newSetpoint;
@@ -245,7 +247,7 @@ public class Arm extends Subsystem {
 	}
 
 	public void finetuneDown() {
-		double newSetpoint = getArmAngle() - FINETUNE_RATE;
+		double newSetpoint = getArmAngle() - FINETUNE_DOWN_RATE;
 		if(inAutoRange(newSetpoint)) {
 			disableArm = false;
 			armAngleSetpoint = newSetpoint;
@@ -430,6 +432,19 @@ public class Arm extends Subsystem {
 			extensionMotor.set(ControlMode.Position, (int) extPot);
 		}
 	}
+	
+	/**
+	 * Outputs if extension is close enough for arm to start moving
+	 * @return
+	 */
+	private boolean extensionIsClose()
+	{
+		if(inAutoRange(getArmAngle()) && !goingHome) {
+			return Math.abs(mathPotExtSetpoint - getExtLength()) <= EXT_ARM_STOP_MARGIN; 
+		} else {
+			return Math.abs(manualExtSetpoint - getExtLength()) <= EXT_ARM_STOP_MARGIN; 
+		}
+	}
 
 	public void setDisabled(boolean val)
 	{
@@ -440,7 +455,7 @@ public class Arm extends Subsystem {
 	 * Keeps arm locked to its current setpoint position
 	 */
 	private void moveArm() {
-		if(!disableArm) {
+		if(!disableArm) {	// && extensionIsClose()
 			double armSetpoint = armMath.convertAngleToPot(ARM_POT_MIN, ARM_ANGLE_MIN, ARM_POT_MAX, ARM_ANGLE_MAX, armAngleSetpoint) * ARM_POT_INVERT;
 			
 			//SmartDashboard.putNumber("ARM POT SETPOINT", armSetpoint);
@@ -467,7 +482,7 @@ public class Arm extends Subsystem {
 				movementMotor.selectProfileSlot(0, 0);
 			}
 		}
-		else
+		else if(disableArm)
 		{
 			movementMotor.disable();
 		}
