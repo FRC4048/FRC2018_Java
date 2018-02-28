@@ -73,7 +73,6 @@ public class Arm extends Subsystem {
 	 */
 	private final double FINETUNE_RATE = 1.0;
 
-	// TODO ALL OF THESE SETPOINTS ARE NOT VALID
 	/*
 	 * All of these setpoints are used for the arm
 	 */
@@ -184,7 +183,6 @@ public class Arm extends Subsystem {
 		// Set the default command for a subsystem here.
 		// setDefaultCommand(new MySpecialCommand());
 
-		// TODO Change this to automatic when tested
 		setDefaultCommand(new ArmFinetune());
 	}
 	
@@ -274,7 +272,6 @@ public class Arm extends Subsystem {
 		 return armMath.convertExtPotToLength(EXT_POT_MIN, EXT_LENGTH_MIN, EXT_POT_MAX, EXT_LENGTH_MAX, getExtPos()* EXT_POT_INVERT);
 	}
 
-	// TODO Confirm if value is negative on real robot
  	public int getArmPos() {
  		extP = EXT_P;
 		extI = EXT_I;

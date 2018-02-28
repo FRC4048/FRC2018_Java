@@ -95,17 +95,12 @@ public class RobotMap {
     public static final int PDP_DRIVE_RR = 14;
     public static final int PDP_EXTENSION = 13;
 
-    /**
-     * TODO Determine correct values for Current threshold for intake motors.
-     */
     public static final double CURRENT_THRESHOLD_INTAKE_MOTOR = 10.0;
     public static final double CURRENT_THRESHOLD_INTAKE_DEPLOY_MOTOR = 25.0;
     public static final double CURRENT_THRESHOLD_ARM_CUBE_PICKUP = 10.0;
     public static final double CURRENT_THRESHOLD_WRIST_MOTOR = 6.0;
     public static final double CURRENT_THRESHOLD_GRIP_MOTOR = 5.5;
-    /**
-     * TODO Determine correct timeout for intake motors.
-     */
+    
     public static final double TIMEOUT_INTAKE_MOTOR = 0.20;
     public static final double TIMEOUT_WRIST_MOTOR = 1.0;
     

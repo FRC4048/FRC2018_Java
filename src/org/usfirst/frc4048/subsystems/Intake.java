@@ -52,7 +52,6 @@ public class Intake extends Subsystem {
     private final double CLOSE_SPEED = -0.25;
     private final double OPEN_SPEED = 1.00;
     
-    // TODO Adjust roller speed for intake as needed
     
 	/**
 	 * Approximately 8/12 volts.

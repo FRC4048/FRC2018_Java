@@ -35,7 +35,6 @@ public class OpenClaw extends LoggedCommand {
 
     // Called repeatedly when this Command is scheduled to run
     protected void loggedExecute() {
-    	//TODO Should it detect cube?
     	if(!Robot.claw.gripOpen() && !isTimedOut() && !util.isStalled() && !callback.hasGroupBeenCanceled())
     		Robot.claw.openClaw();
     }

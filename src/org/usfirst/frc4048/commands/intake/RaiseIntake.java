@@ -29,7 +29,7 @@ public class RaiseIntake extends LoggedCommand {
 
     // Called just before this Command runs the first time
     protected void loggedInitialize() {
-    	setTimeout(2.0); //TODO Implement RaiseIntake timeouts and test them (uncomment them, and make sure they work)
+    	setTimeout(2.0);
     }
 
     // Called repeatedly when this Command is scheduled to runs

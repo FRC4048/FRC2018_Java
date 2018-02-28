@@ -31,7 +31,7 @@ public class LowerIntake extends LoggedCommand {
 
     // Called just before this Command runs the first time
     protected void loggedInitialize() {
-    	setTimeout(4.0); //TODO Implement LowerIntake timeouts and test them (uncomment them, and make sure they work)
+    	setTimeout(4.0);
     }
 
     // Called repeatedly when this Command is scheduled to run
