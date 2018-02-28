@@ -25,12 +25,12 @@ public class Wrist extends Subsystem {
 	
 	private final double ANGLE_UP_SPEED = 0.8;
 	private final double ANGLE_DOWN_SPEED = -0.70;
-    private final double ANGLE_LEVEL_UP_SPEED = 0.60;
-    private final double ANGLE_LEVEL_DOWN_SPEED = -0.50;
+    private final double ANGLE_LEVEL_UP_SPEED = 0.35;
+    private final double ANGLE_LEVEL_DOWN_SPEED = -0.30;
     
     private final double LEVEL_GYRO_VAL = 102.0;
     private final double STRAIGHT_GYRO_VAL = 12.0;
-    private final double GYRO_SLOW_MARGIN = 10.0;
+    private final double GYRO_SLOW_MARGIN = 14.0;
     private final double GYRO_STOP_MARGIN = 2.5;
     
     private final double LEVEL_MAX_SPEED = 0.5;

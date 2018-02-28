@@ -38,9 +38,9 @@ public class AutoSwitchMLGroup extends CommandGroup {
         // arm.
 		addSequential(new GrabCube());
        	addSequential(new GripIntake(GripPosition.Open));
-    	addSequential(new DriveDistance(20, 0.3, 0, 0));//To get away from the wall
-    	addParallel(new DriveDistance(101, 0, -AutoAction.LOCAL_SWITCH_SPEED-.1, 0));
-    	addSequential(new MoveArm(ArmPositions.Switch)); //TODO add this back
+    	addSequential(new DriveDistance(20, 0.4, 0, 0));//T get away from the wall
+    	addParallel(new DriveDistance(95, 0, -.3, 0));
+    	addSequential(new MoveArm(ArmPositions.Exchange)); //TODO add this back
     	//WaitForChildren() waits for the parallel commands to finish
     	addSequential(new WaitForChildren());
     	addSequential(new RotateAngle(0));

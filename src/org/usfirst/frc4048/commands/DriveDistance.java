@@ -58,7 +58,7 @@ public class DriveDistance extends LoggedCommand {
 	protected void loggedExecute() {
 
 
-		if(doTimeout == false && Timer.getFPGATimestamp() - time > 4) {
+		if(doTimeout == false && Timer.getFPGATimestamp() - time > 2) {
 			done = true;
 		}
 		else if(!done && Math.abs(Robot.drivetrain.getDistance() - lastDistance) < distanceLeft)
