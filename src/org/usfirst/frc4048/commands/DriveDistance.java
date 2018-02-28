@@ -18,8 +18,8 @@ public class DriveDistance extends LoggedCommand {
 	private double fwd, dir, rot;
 	private boolean done = false;
 	private boolean doTimeout = true;
-	private final double MIN_SPEED = 0.15;
-	private final double MAX_ERROR = 50;
+	private final double MIN_SPEED = 0.25;
+	private final double MAX_ERROR = 40;
 	private final double TIMEOUT_DISTANCE = 15;
 	private double time;
 	/**
