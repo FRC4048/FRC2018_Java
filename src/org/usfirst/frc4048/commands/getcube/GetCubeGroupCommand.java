@@ -25,8 +25,6 @@ import edu.wpi.first.wpilibj.command.WaitForChildren;
 
 public class GetCubeGroupCommand extends CommandGroup implements GroupCommandCallback {
 
-	// TODO - Determine which commands can be done in parallel - Maybe MoveArm and
-	// LowerIntake.
 	// Also use addSequential(new WaitForChildren());
 	public GetCubeGroupCommand() {
 		this(true, true);
