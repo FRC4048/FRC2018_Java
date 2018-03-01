@@ -64,7 +64,7 @@ public class Arm extends Subsystem {
 	private final double ARM_UP_P = 10.0;
 	private final double ARM_UP_I = 0.0;
 	private final double ARM_UP_D = 0.0;
-	private final double ARM_DOWN_P = 2.5;
+	private final double ARM_DOWN_P = 1.5;
 	private final double ARM_DOWN_I = 0.0;
 	private final double ARM_DOWN_D = 0.0;
 
@@ -452,7 +452,7 @@ public class Arm extends Subsystem {
 	 * Keeps arm locked to its current setpoint position
 	 */
 	private void moveArm() {
-		if(!disableArm && extensionIsClose()) {
+		if(!disableArm) {// && extensionIsClose()) {
 			double armSetpoint = armMath.convertAngleToPot(ARM_POT_MIN, ARM_ANGLE_MIN, ARM_POT_MAX, ARM_ANGLE_MAX, armAngleSetpoint) * ARM_POT_INVERT;
 			
 			//SmartDashboard.putNumber("ARM POT SETPOINT", armSetpoint);
@@ -479,10 +479,10 @@ public class Arm extends Subsystem {
 				movementMotor.selectProfileSlot(0, 0);
 			}
 		}
-		else if(!disableArm && !extensionIsClose())
-		{
-			movementMotor.set(ControlMode.Position, (int)getArmPos());
-		}
+//		else if(!disableArm && !extensionIsClose())
+//		{
+//			movementMotor.set(ControlMode.Position, (int)getArmPos());
+//		}
 		else if(disableArm)
 		{
 			movementMotor.disable();

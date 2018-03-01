@@ -39,8 +39,8 @@ public class MoveArm extends LoggedCommand {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void loggedExecute() {
+		Robot.wrist.setPosition(WristPostion.Compact);
 		Robot.arm.setDisabled(false);
-		Robot.wrist.setPosition(WristPostion.Straight);
 		if(!callback.hasGroupBeenCanceled())
 			Robot.arm.moveToPos(position);
 	}
@@ -54,12 +54,14 @@ public class MoveArm extends LoggedCommand {
 	protected void loggedEnd() {
 		callback.doCancel(isTimedOut());
 		Robot.arm.stopArm();
+		Robot.wrist.setPosition(WristPostion.Straight);
 	}
 
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
 	protected void loggedInterrupted() {
 		Robot.arm.stopArm();
+		Robot.wrist.setPosition(WristPostion.Straight);
 //		callback.doCancel(true);
 	}
 

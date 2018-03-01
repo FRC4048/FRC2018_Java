@@ -21,7 +21,7 @@ public class FixedAngleStrat implements ArmStrat{
 	/**
 	 * Maximum angle for fully retracted range
 	 */
-	private static final double MAX_CRIT_ANGLE = 100.0;
+	private static final double MAX_CRIT_ANGLE = 110.0;
 	/**
 	 * Margin for minimum critical angle
 	 */
