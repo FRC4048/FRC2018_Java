@@ -71,8 +71,7 @@ public class Arm extends Subsystem {
 	/**
 	 * Is not a speed, but a setpoint adjustment value
 	 */
-	private final double FINETUNE_UP_RATE = 3.0;
-	private final double FINETUNE_DOWN_RATE = 1.0;
+	private final double FINETUNE_RATE = 1.0;
 
 	/*
 	 * All of these setpoints are used for the arm
@@ -239,17 +238,15 @@ public class Arm extends Subsystem {
 	}
 	
 	public void finetuneUp() {
-		double newSetpoint = getArmAngle() + FINETUNE_UP_RATE;
+		double newSetpoint = armAngleSetpoint + FINETUNE_RATE;
 		if(inAutoRange(newSetpoint)) {
-			disableArm = false;
 			armAngleSetpoint = newSetpoint;
 		}
 	}
 
 	public void finetuneDown() {
-		double newSetpoint = getArmAngle() - FINETUNE_DOWN_RATE;
+		double newSetpoint = armAngleSetpoint - FINETUNE_RATE;
 		if(inAutoRange(newSetpoint)) {
-			disableArm = false;
 			armAngleSetpoint = newSetpoint;
 		}
 	}
