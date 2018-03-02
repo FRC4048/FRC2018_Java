@@ -237,12 +237,13 @@ public class Drivetrain extends Subsystem {
     public void resetQuadEncoder() {
     	frontRightSteerMotor.setSelectedSensorPosition((int)((analogInputFrontRight.getValue() - FR_ZERO)/4000.0 * GEAR_RATIO), 0, TIMEOUT);
     	frontLeftSteerMotor.setSelectedSensorPosition((int) ((analogInputFrontLeft.getValue() - FL_ZERO)/4000.0 * GEAR_RATIO), 0, TIMEOUT);
-    	rearLeftSteerMotor.setSelectedSensorPosition((int) ((analogInputRearLeft.getValue() - RL_ZERO)/4000.0 * GEAR_RATIO), 0, TIMEOUT);
+//    	rearLeftSteerMotor.setSelectedSensorPosition((int) ((analogInputRearLeft.getValue() - RL_ZERO)/4000.0 * GEAR_RATIO), 0, TIMEOUT);
+    	rearLeftSteerMotor.setSelectedSensorPosition(0, 0, TIMEOUT);
     	rearRightSteerMotor.setSelectedSensorPosition((int) ((analogInputRearRight.getValue()- RR_ZERO)/4000.0 * GEAR_RATIO), 0, TIMEOUT);
     	
     	frontRightSteerMotor.set(ControlMode.Position, 0);
     	frontLeftSteerMotor.set(ControlMode.Position, 0);
-    	rearLeftSteerMotor.set(ControlMode.Position, 0);
+//    	rearLeftSteerMotor.set(ControlMode.Position, 0);
     	rearRightSteerMotor.set(ControlMode.Position, 0);
     }
     
@@ -274,6 +275,11 @@ public class Drivetrain extends Subsystem {
      */
     public void outputAbsEncValues()
     {
+    	SmartDashboard.putNumber("Front Right Enc", frontRightSteerMotor.getSelectedSensorPosition(0));
+    	SmartDashboard.putNumber("Front Left Enc", frontLeftSteerMotor.getSelectedSensorPosition(0));
+    	SmartDashboard.putNumber("Rear Left Enc", rearLeftSteerMotor.getSelectedSensorPosition(0));
+    	SmartDashboard.putNumber("Rear Right Enc", rearRightSteerMotor.getSelectedSensorPosition(0));
+    	
     	SmartDashboard.putNumber("Front Right Abs", analogInputFrontRight.getValue());
     	SmartDashboard.putNumber("Front Left Abs", analogInputFrontLeft.getValue());
     	SmartDashboard.putNumber("Rear Left Abs", analogInputRearLeft.getValue());
