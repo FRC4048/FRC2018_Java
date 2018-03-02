@@ -232,8 +232,9 @@ public class Arm extends Subsystem {
 			extensionMotor.stopMotor();
 			startStallTime = Timer.getFPGATimestamp();
 		} else if(Timer.getFPGATimestamp() - startStallTime <= EXT_STALL_DELAY){
-			DriverStation.reportWarning("Please wait, extension is resting after stall", false);
+			DriverStation.reportError("Please wait, extension is resting after stall", false);
 			extensionMotor.stopMotor();
+			armAngleSetpoint = getArmAngle();
 		} else {
 			moveExtension();
 		}
