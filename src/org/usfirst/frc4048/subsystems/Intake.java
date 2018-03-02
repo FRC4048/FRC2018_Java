@@ -50,7 +50,7 @@ public class Intake extends Subsystem {
     private final double LOWER_SPEED = -0.8;
     
     private final double CLOSE_SPEED = -0.25;
-    private final double OPEN_SPEED = 1.00;
+    private final double OPEN_SPEED = 0.80;
     
     
 	/**
