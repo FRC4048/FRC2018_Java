@@ -163,10 +163,10 @@ public class Drivetrain extends Subsystem {
 
 		@Override
 		protected void addAll() {
-			add("SteerFL", frontLeftSteerMotor.getSelectedSensorPosition(TIMEOUT));
-			add("SteerFR", frontRightSteerMotor.getSelectedSensorPosition(TIMEOUT));
-			add("SteerRL", rearLeftSteerMotor.getSelectedSensorPosition(TIMEOUT));
-			add("SteeRR", rearRightSteerMotor.getSelectedSensorPosition(TIMEOUT));
+			add("SteerFL", frontLeftSteerMotor.getSelectedSensorPosition(0));
+			add("SteerFR", frontRightSteerMotor.getSelectedSensorPosition(0));
+			add("SteerRL", rearLeftSteerMotor.getSelectedSensorPosition(0));
+			add("SteeRR", rearRightSteerMotor.getSelectedSensorPosition(0));
 			add("DistEncoder", encoder.getDistance());
 			
 		}

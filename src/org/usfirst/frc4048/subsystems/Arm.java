@@ -251,6 +251,7 @@ public class Arm extends Subsystem {
 		SmartDashboard.putNumber("EXTENSION LENGTH", getExtLength());
 		SmartDashboard.putNumber("EXTENSION SETPOINT", manualExtSetpoint);
 		SmartDashboard.putNumber("EXT POT", getExtPos());
+		
 	}
 
 	// Put methods for controlling this subsystem
