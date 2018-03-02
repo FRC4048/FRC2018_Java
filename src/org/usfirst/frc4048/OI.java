@@ -27,6 +27,7 @@ import org.usfirst.frc4048.commands.arm.SetClawPositionAndWait;
 import org.usfirst.frc4048.commands.auto.AutoAction;
 import org.usfirst.frc4048.commands.getcube.GetCubeGroupCommand;
 import org.usfirst.frc4048.commands.getcube.GetCubeGroupCommandOrig;
+import org.usfirst.frc4048.commands.getcube.GetCubeGroupCommandTest;
 import org.usfirst.frc4048.commands.intake.FlushCube;
 import org.usfirst.frc4048.commands.intake.GripIntake;
 import org.usfirst.frc4048.commands.intake.GripIntake.GripPosition;
@@ -188,8 +189,8 @@ public class OI {
         xboxTriggerRight = new XboxTriggerRight(xboxController);
         // Use this trigger for the straight intake for testing only.
         // xboxTriggerRight.whenActive(new IntakeCube(IntakeMode.STRAIGHT_PULL));
-        xboxTriggerRight.whenActive(new GetCubeGroupCommand());
-		
+        xboxTriggerRight.whenActive(new GetCubeGroupCommandTest()); //maybe change this
+		//xboxTriggerRight.whenActive(new GetCubeGroupCommand()); 
         xboxTriggerLeft = new XboxTriggerLeft(xboxController);
         xboxTriggerLeft.whenActive(new IntakeCube(IntakeMode.TOGGLE_PULL_LEFT_OR_RIGHT));
         

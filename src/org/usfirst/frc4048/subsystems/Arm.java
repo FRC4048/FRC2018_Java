@@ -91,7 +91,7 @@ public class Arm extends Subsystem {
 	public static final double CRITICAL_MARGIN_VALUE = 10.0;
 	public static final double HOME_SETPOINT = 0.0;
 	public static final double HOME_MAX_ANGLE = 9.0;
-	public static final double INTAKE_SETPOINT = 16.0;
+	public static final double INTAKE_SETPOINT = 14.0;
 	public static final double EXCHANGE_SETPOINT = 32.0;
 	public static final double SWITCH_SETPOINT = 78.0;
 	public static final double LOWSCALE_SETPOINT = 118.0;	//Is mid scale
@@ -246,6 +246,7 @@ public class Arm extends Subsystem {
 
 	public void armData() {
 		SmartDashboard.putNumber("ARM ANGLE", getArmAngle());
+		SmartDashboard.putNumber("ARM POT", getArmPos());
 		SmartDashboard.putBoolean("ARM DISABLED", disableArm);
 		SmartDashboard.putNumber("EXTENSION LENGTH", getExtLength());
 		SmartDashboard.putNumber("EXTENSION SETPOINT", manualExtSetpoint);
