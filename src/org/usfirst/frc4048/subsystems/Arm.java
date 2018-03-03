@@ -116,8 +116,8 @@ public class Arm extends Subsystem {
 	private final double ARM_ANGLE_MAX = 158.0;
 	private final double ARM_POT_INVERT = -1.0;
 	
-	private final double EXT_POT_MIN = 840.0;
-	private final double EXT_POT_MAX = 551.0;
+	private final double EXT_POT_MIN = 692.0;
+	private final double EXT_POT_MAX = 423.0;
 	private final double EXT_LENGTH_MIN = 0.0;
 	private final double EXT_LENGTH_MAX = 15.25;
 	private final double EXT_POT_INVERT = 1.0;
