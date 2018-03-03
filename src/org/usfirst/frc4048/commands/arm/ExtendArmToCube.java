@@ -32,7 +32,7 @@ public class ExtendArmToCube extends LoggedCommand {
 
     // Called just before this Command runs the first time
     protected void loggedInitialize() {
-    	setTimeout(4.0);
+    	setTimeout(7.5);
     	Robot.arm.setExtIntakePID();
     }
 

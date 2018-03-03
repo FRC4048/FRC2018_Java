@@ -28,6 +28,7 @@ import org.usfirst.frc4048.commands.auto.AutoAction;
 import org.usfirst.frc4048.commands.getcube.GetCubeGroupCommand;
 import org.usfirst.frc4048.commands.getcube.GetCubeGroupCommandOrig;
 import org.usfirst.frc4048.commands.getcube.GetCubeGroupCommandTest;
+import org.usfirst.frc4048.commands.getcube.GetCubeGroupCommandTestSplit;
 import org.usfirst.frc4048.commands.intake.FlushCube;
 import org.usfirst.frc4048.commands.intake.GripIntake;
 import org.usfirst.frc4048.commands.intake.GripIntake.GripPosition;
@@ -238,6 +239,26 @@ public class OI {
 	public boolean getGetCubeOverride()
 	{
 		return overrideButton.get();
+	}
+	
+	public boolean getUpDPAD()
+	{
+		if(xboxController.getPOV() <= 15 &&
+			xboxController.getPOV() >= 345) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public boolean getDownDPAD()
+	{
+		if(xboxController.getPOV() >= 195 &&
+			xboxController.getPOV() <= 165) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }
 

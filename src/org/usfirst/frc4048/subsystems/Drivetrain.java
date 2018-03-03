@@ -104,7 +104,7 @@ public class Drivetrain extends Subsystem {
      */
     private final int FR_ZERO = 1028;
     private final int FL_ZERO = 1784;
-    private final int RL_ZERO = 301;
+    private final int RL_ZERO = 2492;
     private final int RR_ZERO = 1448;
     
     private final double P = 10;
@@ -243,7 +243,7 @@ public class Drivetrain extends Subsystem {
     	
     	frontRightSteerMotor.set(ControlMode.Position, 0);
     	frontLeftSteerMotor.set(ControlMode.Position, 0);
-//    	rearLeftSteerMotor.set(ControlMode.Position, 0);
+    	rearLeftSteerMotor.set(ControlMode.Position, 0);
     	rearRightSteerMotor.set(ControlMode.Position, 0);
     }
     
