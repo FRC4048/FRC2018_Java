@@ -24,7 +24,7 @@ public class AutoAction extends Command {
 	
 	public static final double DISTANCE_TO_MIDDLE_OF_LANE = 222; //NOTE: We are not currently using this
 	
-	public static final double LOCAL_SCALE_SPEED = 0.5;
+	public static final double LOCAL_SCALE_SPEED = 0.55;
 	public static final double DISTANCE_TO_MIDDLE_OF_SCALE = 305;
 	
 	public static final double AUTO_RUN_DISTANCE = 90;

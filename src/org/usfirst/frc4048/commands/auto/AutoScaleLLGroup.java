@@ -54,23 +54,24 @@ public class AutoScaleLLGroup extends CommandGroup {
     	
     	//ADJUST ANGLE AND DISTANCE FROM WALL
     	addSequential(new RotateAngle(0));
-    	addSequential(new CalculateSonarDistance(SonarSide.LEFT, AutoAction.DISTANCE_FROM_WALL_SCALE));
+    	addSequential(new CalculateSonarDistance(SonarSide.LEFT, AutoAction.DISTANCE_FROM_WALL_SCALE+10));
     	addSequential(new DriveDistance(0, 0, 0, 0));
     	
     	//MOVE FINAL DISTANCE
     	//this number is not perminant
-    	addSequential(new DriveDistance(115, AutoAction.LOCAL_SWITCH_SPEED,0,0));
+    	addSequential(new DriveDistance(115, AutoAction.LOCAL_SCALE_SPEED,0,0));
     	addSequential(new RotateAngle(0));
     	
     	//ADJUST ANGLE AND DISTANCE FROM WALL
-    	addSequential(new CalculateSonarDistance(SonarSide.LEFT, AutoAction.DISTANCE_FROM_WALL_SCALE));
+    	addParallel(new RotateAngle(45));
+    	addSequential(new CalculateSonarDistance(SonarSide.LEFT, AutoAction.DISTANCE_FROM_WALL_SCALE+25));
     	addSequential(new DriveDistance(0, 0, 0, 0));
-    	addSequential(new RotateAngle(45));
+    	addParallel(new RotateAngle(45));
     	//ROTATE AND DROP CUBE (on scale?)
 //    	addParallel(new DriveDistance(20, AutoAction.LOCAL_SCALE_SPEED ,AutoAction.LOCAL_SCALE_SPEED,0));
     	addSequential(new MoveClawToStraight());
-//    	addSequential(new WaitForChildren());
-//    	addSequential(new OpenClaw());
+    	addSequential(new WaitForChildren());
+    	addSequential(new OpenClaw());
     	//WE WILL ADD THIS BACK LATER
     }
 }

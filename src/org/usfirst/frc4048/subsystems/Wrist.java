@@ -23,7 +23,7 @@ public class Wrist extends Subsystem {
 	private final WPI_TalonSRX pitchMotor = RobotMap.clawpitchMotor;
 	private final ADXRS450_Gyro gyro = RobotMap.gyro;
 	
-	private final double ANGLE_UP_SPEED = 0.8;
+	private final double ANGLE_UP_SPEED = 0.9;
 	private final double ANGLE_DOWN_SPEED = -0.70;
     private final double ANGLE_LEVEL_UP_SPEED = 0.35;
     private final double ANGLE_LEVEL_DOWN_SPEED = -0.30;

@@ -49,15 +49,16 @@ public class AutoScaleRRGroup extends CommandGroup {
     	
     	//ADJUST ANGLE AND DISTANCE FROM WALL
     	addSequential(new RotateAngle(0));
-    	addSequential(new CalculateSonarDistance(SonarSide.RIGHT, AutoAction.DISTANCE_FROM_WALL_SCALE));
+    	addSequential(new CalculateSonarDistance(SonarSide.RIGHT, AutoAction.DISTANCE_FROM_WALL_SCALE+10));
     	addSequential(new DriveDistance(0, 0, 0, 0));
     	
     	//MOVE FINAL DISTANCE
-    	addSequential(new DriveDistance(115, AutoAction.LOCAL_SWITCH_SPEED,0,0));
+    	addSequential(new DriveDistance(115, AutoAction.LOCAL_SCALE_SPEED,0,0));
     	addSequential(new RotateAngle(0));
     	
     	//ADJUST ANGLE AND DISTANCE FROM WALL
-    	addSequential(new CalculateSonarDistance(SonarSide.RIGHT, AutoAction.DISTANCE_FROM_WALL_SWITCH));
+    	addSequential(new RotateAngle(-45));
+    	addSequential(new CalculateSonarDistance(SonarSide.RIGHT, AutoAction.DISTANCE_FROM_WALL_SWITCH+25));
     	addSequential(new DriveDistance(0, 0, 0, 0));
     	addSequential(new RotateAngle(-45));
     	

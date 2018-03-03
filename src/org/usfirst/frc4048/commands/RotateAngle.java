@@ -13,8 +13,8 @@ public class RotateAngle extends LoggedCommand {
 
 	public double angle;
     private final double ANGLE_TOLERANCE = 3;	//Defines angle tolernace used when going to a specific location
-    private final double MAX_SPEED = 0.3;
-    private final double MIN_SPEED = 0.15;
+    private final double MAX_SPEED = 0.45;
+    private final double MIN_SPEED = 0.25;
     
     public RotateAngle(double angle) {
     	super(String.format("You are running rotate angle, angleVal: %f", angle));
