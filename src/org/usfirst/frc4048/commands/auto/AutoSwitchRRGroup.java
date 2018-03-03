@@ -45,7 +45,7 @@ public class AutoSwitchRRGroup extends CommandGroup {
        	addSequential(new GripIntake(GripPosition.Open));
     	//DRIVE TO SWITCH AND RAISE ARM
     	addParallel(new DriveDistance(AutoAction.DISTANCE_TO_MIDDLE_OF_SWITCH, AutoAction.LOCAL_SWITCH_SPEED,0,0));
-    	addSequential(new MoveArm(ArmPositions.Exchange));
+    	addSequential(new MoveArm(ArmPositions.Switch));
     	addSequential(new WaitForChildren());//WaitForChildren() waits for the parallel commands to finish
     	
     	//ADJUST ANGLE AND DISTANCE FROM WALL
