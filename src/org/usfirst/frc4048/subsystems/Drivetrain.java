@@ -104,7 +104,7 @@ public class Drivetrain extends Subsystem {
      */
     private final int FR_ZERO = 1028;
     private final int FL_ZERO = 1784;
-    private final int RL_ZERO = 2492;
+    private final int RL_ZERO = 2475;
     private final int RR_ZERO = 1448;
     
     private final double P = 10;
@@ -237,8 +237,8 @@ public class Drivetrain extends Subsystem {
     public void resetQuadEncoder() {
     	frontRightSteerMotor.setSelectedSensorPosition((int)((analogInputFrontRight.getValue() - FR_ZERO)/4000.0 * GEAR_RATIO), 0, TIMEOUT);
     	frontLeftSteerMotor.setSelectedSensorPosition((int) ((analogInputFrontLeft.getValue() - FL_ZERO)/4000.0 * GEAR_RATIO), 0, TIMEOUT);
-//    	rearLeftSteerMotor.setSelectedSensorPosition((int) ((analogInputRearLeft.getValue() - RL_ZERO)/4000.0 * GEAR_RATIO), 0, TIMEOUT);
-    	rearLeftSteerMotor.setSelectedSensorPosition(0, 0, TIMEOUT);
+    	rearLeftSteerMotor.setSelectedSensorPosition((int) ((analogInputRearLeft.getValue() - RL_ZERO)/4000.0 * GEAR_RATIO), 0, TIMEOUT);
+//    	rearLeftSteerMotor.setSelectedSensorPosition(0, 0, TIMEOUT);
     	rearRightSteerMotor.setSelectedSensorPosition((int) ((analogInputRearRight.getValue()- RR_ZERO)/4000.0 * GEAR_RATIO), 0, TIMEOUT);
     	
     	frontRightSteerMotor.set(ControlMode.Position, 0);
