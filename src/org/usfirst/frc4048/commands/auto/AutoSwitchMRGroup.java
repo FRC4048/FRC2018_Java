@@ -44,7 +44,7 @@ public class AutoSwitchMRGroup extends CommandGroup {
     	addSequential(new MoveArm(ArmPositions.Switch)); //TODO add this back
     	addSequential(new WaitForChildren());
     	addSequential(new DriveDistance(28, 0, .2, 0));
-    	addSequential(new DriveDistance(15, .3, 0, 0));
+    	addSequential(new DriveDistance(5, .3, 0, 0));
     	addSequential(new RotateAngle(0));
     	//WaitForChildren() waits for the parallel commands to finish
     	addSequential(new MoveClawToStraight());
