@@ -13,6 +13,7 @@ import org.usfirst.frc4048.commands.arm.SetClawPosition;
 import org.usfirst.frc4048.commands.intake.GripIntake;
 import org.usfirst.frc4048.commands.intake.GripIntake.GripPosition;
 import org.usfirst.frc4048.commands.intake.IntakeCube;
+import org.usfirst.frc4048.commands.intake.IntakeMode;
 import org.usfirst.frc4048.commands.intake.LowerAndCloseIntake;
 import org.usfirst.frc4048.commands.intake.LowerIntake;
 import org.usfirst.frc4048.commands.intake.RaiseAndOpenIntake;
@@ -40,7 +41,7 @@ public class GetCubeGroupCommand extends CommandGroup implements GroupCommandCal
 			
 			addParallel(new MoveArm(this, ArmPositions.Exchange));
 			addParallel(new MoveClawToLevel(this));
-			addSequential(new IntakeCube(this, IntakeCube.IntakeMode.STRAIGHT_PULL));
+			addSequential(new IntakeCube(this, IntakeMode.STRAIGHT_PULL));
 			addSequential(new WaitForChildren());
 			
 			addParallel(new OpenClaw(this));

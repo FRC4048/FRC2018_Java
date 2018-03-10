@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.command.Command;
  * <a href="https://docs.google.com/document/d/1OgAongLY_8LNqdwn1yhQ4sSoWiFGtY9wH-Y8xEroo0Y/edit">spec</a>
  *
  */
-public class IntakeCube extends LoggedCommand {
+public class IntakeCubeWithoutSwitch extends LoggedCommand {
 	private MotorUtils leftMotor;
 	private MotorUtils rightMotor;
 	private final IntakeMode mode;
@@ -24,7 +24,7 @@ public class IntakeCube extends LoggedCommand {
 		LEFT, RIGHT,
 	};
 
-	public IntakeCube(final GroupCommandCallback callback, final IntakeMode mode) {
+	public IntakeCubeWithoutSwitch(final GroupCommandCallback callback, final IntakeMode mode) {
 		super(String.format("Subcommand From: %s, Intake mode: %s", callback.getName(), mode.name()));
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
@@ -33,13 +33,13 @@ public class IntakeCube extends LoggedCommand {
 		this.mode = mode; // IntakeMode.STRAIGHT_PULL;
 	}
 
-	public IntakeCube(IntakeMode event) {
+	public IntakeCubeWithoutSwitch(IntakeMode event) {
 		this(GroupCommandCallback.NONE, event);
 	}
 
 	// Called just before this Command runs the first time
 	protected void loggedInitialize() {
-		setTimeout(6.0);
+		setTimeout(10.0);
 		leftMotor = new MotorUtils(RobotMap.PDP_LEFT_INTAKE_MOTOR, RobotMap.CURRENT_THRESHOLD_INTAKE_MOTOR,
 				RobotMap.TIMEOUT_INTAKE_MOTOR);
 		rightMotor = new MotorUtils(RobotMap.PDP_RIGHT_INTAKE_MOTOR, RobotMap.CURRENT_THRESHOLD_INTAKE_MOTOR,
@@ -58,10 +58,14 @@ public class IntakeCube extends LoggedCommand {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void loggedExecute() {
-		if (!Robot.intake.hasCube() && !Robot.oi.getGetCubeOverride() && Robot.intake.isLowered() && !isTimedOut() && !callback.hasGroupBeenCanceled()) {
+		if (Robot.intake.isLowered() && !isTimedOut() && !callback.hasGroupBeenCanceled()) {
 			switch (mode) {
 			case STRAIGHT_PULL:
-				Robot.intake.intakeCube();
+				if(leftMotor.isStalled() || rightMotor.isStalled()) {
+					Robot.intake.intakeCubeSlower();
+				} else {
+					Robot.intake.intakeCube();
+				}
 				break;
 
 			case TOGGLE_PULL_LEFT_OR_RIGHT:
@@ -81,20 +85,19 @@ public class IntakeCube extends LoggedCommand {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean loggedIsFinished() {
-		return Robot.intake.hasCube() || Robot.oi.getGetCubeOverride() || !Robot.intake.isLowered() || isTimedOut() || leftMotor.isStalled()
-				|| rightMotor.isStalled();
+		return Robot.claw.cubePresent() || !Robot.intake.isLowered() || isTimedOut();
 	}
 
 	// Called once after isFinished returns true
 	protected void loggedEnd() {
-		callback.doCancel(isTimedOut());
+//		callback.doCancel(isTimedOut());
 		Robot.intake.stopIntake();
 	}
 
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
 	protected void loggedInterrupted() {
-		callback.doCancel(true);
+//		callback.doCancel(true);
 		Robot.intake.stopIntake();
 	}
 

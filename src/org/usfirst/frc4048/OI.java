@@ -26,9 +26,9 @@ import org.usfirst.frc4048.commands.arm.SetClawPosition;
 import org.usfirst.frc4048.commands.arm.SetClawPositionAndWait;
 import org.usfirst.frc4048.commands.auto.AutoAction;
 import org.usfirst.frc4048.commands.getcube.GetCubeGroupCommand;
-import org.usfirst.frc4048.commands.getcube.GetCubeGroupCommandOrig;
-import org.usfirst.frc4048.commands.getcube.GetCubeGroupCommandTest;
-import org.usfirst.frc4048.commands.getcube.GetCubeGroupCommandTestSplit;
+import org.usfirst.frc4048.commands.getcube.GetCubeGroupCommandSequential;
+import org.usfirst.frc4048.commands.getcube.GetCubeGroupCommandSplit;
+import org.usfirst.frc4048.commands.getcube.GetCubeGroupCommandSplit;
 import org.usfirst.frc4048.commands.intake.FlushCube;
 import org.usfirst.frc4048.commands.intake.GripIntake;
 import org.usfirst.frc4048.commands.intake.GripIntake.GripPosition;
@@ -96,7 +96,7 @@ public class OI {
     public JoystickButton moveToLowScale;
     public JoystickButton moveToHighScale;
     public JoystickButton moveToExchange;
-//    public JoystickButton moveToClimb;
+    public JoystickButton getCube2;
     public JoystickButton toggleGripIntake;
     public JoystickButton openIntake;
     public JoystickButton cancelFunction;
@@ -122,8 +122,6 @@ public class OI {
         
 		cancelFunction = new JoystickButton(controller, 7); // Back Button
         cancelFunction.whileHeld(new CancelCommand());
-//		 moveToClimb = new JoystickButton(controller, 8); // Start Button
-//		 moveToClimb.whenPressed(new MoveArm(ArmPositions.Climb));
         
 		moveToExchange = new JoystickButton(controller, 1); // X Button
         moveToExchange.whenPressed(new MoveArm(ArmPositions.Exchange));
@@ -188,12 +186,11 @@ public class OI {
         xboxController = new XboxController(2);
         
         xboxTriggerRight = new XboxTriggerRight(xboxController);
-        // Use this trigger for the straight intake for testing only.
-        // xboxTriggerRight.whenActive(new IntakeCube(IntakeMode.STRAIGHT_PULL));
-        xboxTriggerRight.whenActive(new GetCubeGroupCommandTest()); //maybe change this
-		//xboxTriggerRight.whenActive(new GetCubeGroupCommand()); 
+        xboxTriggerRight.whenActive(new GetCubeGroupCommandSplit(true, false));
+//        getCube2 = new JoystickButton(controller, 8); // Start Button
+//        getCube2.whenPressed(new MoveArm(ArmPositions.Climb));
         xboxTriggerLeft = new XboxTriggerLeft(xboxController);
-        xboxTriggerLeft.whenActive(new IntakeCube(IntakeMode.TOGGLE_PULL_LEFT_OR_RIGHT));
+        xboxTriggerLeft.whenActive(new GetCubeGroupCommandSplit(false, true));
         
         overrideButton = new JoystickButton(leftJoystick, 7);
     }

@@ -13,6 +13,7 @@ import org.usfirst.frc4048.commands.arm.SetClawPosition;
 import org.usfirst.frc4048.commands.intake.GripIntake;
 import org.usfirst.frc4048.commands.intake.GripIntake.GripPosition;
 import org.usfirst.frc4048.commands.intake.IntakeCube;
+import org.usfirst.frc4048.commands.intake.IntakeMode;
 import org.usfirst.frc4048.commands.intake.LowerAndCloseIntake;
 import org.usfirst.frc4048.commands.intake.LowerIntake;
 import org.usfirst.frc4048.commands.intake.RaiseAndOpenIntake;
@@ -23,16 +24,16 @@ import org.usfirst.frc4048.subsystems.Wrist.WristPostion;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.WaitForChildren;
 
-public class GetCubeGroupCommandTestSplit extends CommandGroup implements GroupCommandCallback {
+public class GetCubeGroupCommandWPIComp extends CommandGroup implements GroupCommandCallback {
 
 	// Also use addSequential(new WaitForChildren());
-	public GetCubeGroupCommandTestSplit() {
+	public GetCubeGroupCommandWPIComp() {
 		this(true, true);
 	}
 	
 	
 
-	public GetCubeGroupCommandTestSplit(boolean part1, boolean part2) {
+	public GetCubeGroupCommandWPIComp(boolean part1, boolean part2) {
 		if (part1) {
 			addSequential(new CancelIfCubeInClaw(this));
 			
@@ -40,7 +41,7 @@ public class GetCubeGroupCommandTestSplit extends CommandGroup implements GroupC
 			
 			addParallel(new MoveArm(this, ArmPositions.Exchange));
 			addParallel(new MoveClawToLevel(this));
-			addSequential(new IntakeCube(this, IntakeCube.IntakeMode.STRAIGHT_PULL));
+			addSequential(new IntakeCube(this, IntakeMode.STRAIGHT_PULL));
 			addSequential(new WaitForChildren());
 			
 			addParallel(new OpenClaw(this));
@@ -50,9 +51,8 @@ public class GetCubeGroupCommandTestSplit extends CommandGroup implements GroupC
 			
 			addSequential(new ExtendArmToCube(this));
 		
-//			addSequential(new GrabCube(this));
+			addSequential(new GrabCube(this));
 			addSequential(new GripIntake(this, GripPosition.Open));
-			addSequential(new SetClawPosition(WristPostion.Level));
 		}
 		
 		if (part2) {

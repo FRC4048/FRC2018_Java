@@ -13,6 +13,8 @@ import org.usfirst.frc4048.commands.arm.SetClawPosition;
 import org.usfirst.frc4048.commands.intake.GripIntake;
 import org.usfirst.frc4048.commands.intake.GripIntake.GripPosition;
 import org.usfirst.frc4048.commands.intake.IntakeCube;
+import org.usfirst.frc4048.commands.intake.IntakeCubeWithoutSwitch;
+import org.usfirst.frc4048.commands.intake.IntakeMode;
 import org.usfirst.frc4048.commands.intake.LowerAndCloseIntake;
 import org.usfirst.frc4048.commands.intake.LowerIntake;
 import org.usfirst.frc4048.commands.intake.RaiseAndOpenIntake;
@@ -23,38 +25,45 @@ import org.usfirst.frc4048.subsystems.Wrist.WristPostion;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.WaitForChildren;
 
-public class GetCubeGroupCommandTest extends CommandGroup implements GroupCommandCallback {
+public class GetCubeGroupCommandSplit extends CommandGroup implements GroupCommandCallback {
 
 	// Also use addSequential(new WaitForChildren());
-	public GetCubeGroupCommandTest() {
+	public GetCubeGroupCommandSplit() {
 		this(true, true);
 	}
 	
 	
 
-	public GetCubeGroupCommandTest(boolean part1, boolean part2) {
+	public GetCubeGroupCommandSplit(boolean part1, boolean part2) {
 		if (part1) {
 			addSequential(new CancelIfCubeInClaw(this));
 			
 			addSequential(new LowerAndCloseIntake(this));
 			
+			//TODO Should we go to intake position instead of exchange?
 			addParallel(new MoveArm(this, ArmPositions.Exchange));
 			addParallel(new MoveClawToLevel(this));
-			addSequential(new IntakeCube(this, IntakeCube.IntakeMode.STRAIGHT_PULL));
 			addSequential(new WaitForChildren());
 			
 			addParallel(new OpenClaw(this));
 			addSequential(new MoveArm(this, ArmPositions.Intake));
 			addSequential(new WaitForChildren());
 	    	addSequential(new ExtensionIntake(this));
-			
-			addSequential(new ExtendArmToCube(this));
-		
-			addSequential(new GrabCube(this));
-			addSequential(new GripIntake(this, GripPosition.Open));
+	    	
+	    	addSequential(new IntakeCubeWithoutSwitch(this, IntakeMode.STRAIGHT_PULL));
 		}
 		
 		if (part2) {
+			addSequential(new MoveArm(this, ArmPositions.Intake));	//This is only a precaution in case part 2 ran without part 1
+			addSequential(new ExtensionIntake(this));	//This is only a precaution in case part 2 ran without part 1
+			
+			addParallel(new IntakeCubeWithoutSwitch(this, IntakeMode.STRAIGHT_PULL));	//Restarting intake because it will have stopped in part 1
+			
+			addSequential(new ExtendArmToCube(this));
+			
+			addSequential(new GrabCube(this));
+			addSequential(new GripIntake(this, GripPosition.Open));
+			
 			addSequential(new MoveArm(this, ArmPositions.Switch));
 			
 			if(Robot.USE_WRIST_STRAIGHT) {

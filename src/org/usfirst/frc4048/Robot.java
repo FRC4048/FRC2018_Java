@@ -27,7 +27,7 @@ import org.usfirst.frc4048.commands.auto.AutoAction;
 import org.usfirst.frc4048.commands.getcube.GetCubeGroupCommand;
 import org.usfirst.frc4048.commands.intake.*;
 import org.usfirst.frc4048.commands.intake.GripIntake.GripPosition;
-import org.usfirst.frc4048.commands.intake.IntakeCube.IntakeMode;
+import org.usfirst.frc4048.commands.intake.IntakeMode;
 import org.usfirst.frc4048.subsystems.*;
 import org.usfirst.frc4048.subsystems.Arm.ArmPositions;
 import org.usfirst.frc4048.subsystems.Drivetrain.SonarSide;

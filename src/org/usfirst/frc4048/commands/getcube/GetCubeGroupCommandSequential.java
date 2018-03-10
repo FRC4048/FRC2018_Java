@@ -10,24 +10,25 @@ import org.usfirst.frc4048.commands.arm.OpenClaw;
 import org.usfirst.frc4048.commands.intake.GripIntake;
 import org.usfirst.frc4048.commands.intake.GripIntake.GripPosition;
 import org.usfirst.frc4048.commands.intake.IntakeCube;
+import org.usfirst.frc4048.commands.intake.IntakeMode;
 import org.usfirst.frc4048.commands.intake.LowerIntake;
 import org.usfirst.frc4048.commands.intake.RaiseIntake;
 import org.usfirst.frc4048.subsystems.Arm.ArmPositions;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class GetCubeGroupCommandOrig extends CommandGroup implements GroupCommandCallback {
+public class GetCubeGroupCommandSequential extends CommandGroup implements GroupCommandCallback {
 
 	// TODO - Determine which commands can be done in parallel - Maybe MoveArm and
 	// LowerIntake.
 	// Also use addSequential(new WaitForChildren());
-	public GetCubeGroupCommandOrig() {
+	public GetCubeGroupCommandSequential() {
 		this(true, true);
 	}
 	
 	
 
-	public GetCubeGroupCommandOrig(boolean part1, boolean part2) {
+	public GetCubeGroupCommandSequential(boolean part1, boolean part2) {
 		if (part1) {
 		addSequential(new CancelIfCubeInClaw(this));
 		
@@ -36,7 +37,7 @@ public class GetCubeGroupCommandOrig extends CommandGroup implements GroupComman
 		addSequential(new MoveArm(this, ArmPositions.Exchange));
 		addSequential(new MoveClawToLevel(this));
 		
-		addSequential(new IntakeCube(this, IntakeCube.IntakeMode.STRAIGHT_PULL));
+		addSequential(new IntakeCube(this, IntakeMode.STRAIGHT_PULL));
 		
 		addSequential(new OpenClaw(this));
 		addSequential(new MoveArm(this, ArmPositions.Intake));

@@ -56,12 +56,14 @@ public class Intake extends Subsystem {
 	/**
 	 * Approximately 8/12 volts.
 	 */
-    private final double ROLLER_SPEED = 0.67*Robot.GLOBAL_SCALE_FACTOR;
+//    private final double ROLLER_SPEED = 0.67;
+    private final double ROLLER_SPEED = 1.0;
     
     /**
      * Approximately 4/12 volts.
      */
-    private final double VARIED_ROLLER_SPEED = 0.33*Robot.GLOBAL_SCALE_FACTOR;
+//    private final double VARIED_ROLLER_SPEED = 0.33;
+    private final double VARIED_ROLLER_SPEED = 0.25;
 
     @Override
     public void initDefaultCommand() {
@@ -119,6 +121,12 @@ public class Intake extends Subsystem {
     {
     	leftIntakeMotor.set(ROLLER_SPEED);
     	rightIntakeMotor.set(ROLLER_SPEED);
+    }
+    
+    public void intakeCubeSlower()
+    {
+    	leftIntakeMotor.set(VARIED_ROLLER_SPEED);
+    	rightIntakeMotor.set(VARIED_ROLLER_SPEED);
     }
     
     public void adjustCubeLeftSide()
