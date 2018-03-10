@@ -10,6 +10,7 @@ import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.sensors.PigeonIMU;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -21,7 +22,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Wrist extends Subsystem {
 
 	private final WPI_TalonSRX pitchMotor = RobotMap.clawpitchMotor;
-	private final ADXRS450_Gyro gyro = RobotMap.gyro;
+//	private final ADXRS450_Gyro gyro = RobotMap.gyro;
+	private final PigeonIMU gyro = RobotMap.gyro;
 	
 	private final double ANGLE_UP_SPEED = 0.9;
 	private final double ANGLE_DOWN_SPEED = -0.70;
@@ -66,7 +68,10 @@ public class Wrist extends Subsystem {
 		pitchMotor.configNominalOutputReverse(0, TIMEOUT);
 		pitchMotor.setNeutralMode(NeutralMode.Brake);
 		
-		gyro.calibrate();
+		gyro.setYaw(0, TIMEOUT);
+		gyro.setFusedHeading(0, TIMEOUT);
+		
+//		gyro.calibrate();
 		
 		//SmartDashboard.putNumber("WRIST ANGLE", 0.0);
     }
@@ -81,7 +86,8 @@ public class Wrist extends Subsystem {
 
 		@Override
 		protected void addAll() {
-			add("Gyro Angle", gyro.getAngle());
+//			add("Gyro Angle", gyro.getAngle());
+			add("Gyro Angle", gyro.getFusedHeading());
 			add("Position", position.toString());
 		}
 
@@ -91,6 +97,11 @@ public class Wrist extends Subsystem {
     public void periodic()
     {
     	loggingContext.writeData();
+    	double[] ypr = new double[3];
+    	gyro.getYawPitchRoll(ypr);
+    	SmartDashboard.putNumber("Claw Yaw",  ypr[0]);
+    	SmartDashboard.putNumber("Claw Pitch", ypr[1]);
+    	SmartDashboard.putNumber("Claw Roll", ypr[2]);
     }
     
     /**
@@ -146,8 +157,10 @@ public class Wrist extends Subsystem {
     
     public void recalibrateClawGyro()
     {
-    	gyro.reset();
-    	gyro.calibrate();
+//    	gyro.reset();
+//    	gyro.calibrate();
+    	gyro.setYaw(0, TIMEOUT);
+		gyro.setFusedHeading(0, TIMEOUT);
     }
     
     /**
@@ -170,7 +183,8 @@ public class Wrist extends Subsystem {
     {
     	double error;
     	double speed = 0.0;
-    	final double currAngle = gyro.getAngle();
+//    	final double currAngle = gyro.getAngle();
+    	final double currAngle = gyro.getFusedHeading();
     	double angle = LEVEL_GYRO_VAL;
     	double kP = 100;
     	
@@ -281,7 +295,8 @@ public class Wrist extends Subsystem {
     
     public double getGyroVal()
     {
-    	return gyro.getAngle() *-1;
+//    	return gyro.getAngle() *-1;
+    	return gyro.getFusedHeading() *-1;
     }
     
 }

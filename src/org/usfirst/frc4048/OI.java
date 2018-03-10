@@ -33,7 +33,7 @@ import org.usfirst.frc4048.commands.intake.FlushCube;
 import org.usfirst.frc4048.commands.intake.GripIntake;
 import org.usfirst.frc4048.commands.intake.GripIntake.GripPosition;
 import org.usfirst.frc4048.commands.intake.IntakeCube;
-import org.usfirst.frc4048.commands.intake.IntakeCube.IntakeMode;
+import org.usfirst.frc4048.commands.intake.IntakeMode;
 import org.usfirst.frc4048.commands.intake.RaiseIntake;
 import org.usfirst.frc4048.commands.intake.ToggleIntake;
 import org.usfirst.frc4048.commands.intake.ToggleIntakeGrip;
@@ -163,7 +163,7 @@ public class OI {
         
    
         intakeCube=new JoystickButton(leftJoystick, 9);
-        intakeCube.whenPressed(new IntakeCube((IntakeCube.IntakeMode.STRAIGHT_PULL)));
+        intakeCube.whenPressed(new IntakeCube((IntakeMode.STRAIGHT_PULL)));
         setClawPositionandWait= new JoystickButton(leftJoystick, 10);
         setClawPositionandWait.whenPressed(new SetClawPositionAndWait(WristPostion.Level));
         toggleGripIntake = new JoystickButton(leftJoystick, 11);
