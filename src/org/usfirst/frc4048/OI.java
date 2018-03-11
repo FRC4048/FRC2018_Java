@@ -22,21 +22,21 @@ import org.usfirst.frc4048.commands.ToggleMode;
 import org.usfirst.frc4048.commands.arm.GrabCube;
 import org.usfirst.frc4048.commands.arm.MoveArm;
 import org.usfirst.frc4048.commands.arm.OpenClaw;
-import org.usfirst.frc4048.commands.arm.SetClawPosition;
-import org.usfirst.frc4048.commands.arm.SetClawPositionAndWait;
+//import org.usfirst.frc4048.commands.arm.SetClawPosition;
+//import org.usfirst.frc4048.commands.arm.SetClawPositionAndWait;
 import org.usfirst.frc4048.commands.auto.AutoAction;
-import org.usfirst.frc4048.commands.getcube.GetCubeGroupCommand;
-import org.usfirst.frc4048.commands.getcube.GetCubeGroupCommandOrig;
-import org.usfirst.frc4048.commands.getcube.GetCubeGroupCommandTest;
-import org.usfirst.frc4048.commands.getcube.GetCubeGroupCommandTestSplit;
-import org.usfirst.frc4048.commands.intake.FlushCube;
-import org.usfirst.frc4048.commands.intake.GripIntake;
-import org.usfirst.frc4048.commands.intake.GripIntake.GripPosition;
-import org.usfirst.frc4048.commands.intake.IntakeCube;
-import org.usfirst.frc4048.commands.intake.IntakeCube.IntakeMode;
-import org.usfirst.frc4048.commands.intake.RaiseIntake;
-import org.usfirst.frc4048.commands.intake.ToggleIntake;
-import org.usfirst.frc4048.commands.intake.ToggleIntakeGrip;
+//import org.usfirst.frc4048.commands.getcube.GetCubeGroupCommand;
+//import org.usfirst.frc4048.commands.getcube.GetCubeGroupCommandOrig;
+//import org.usfirst.frc4048.commands.getcube.GetCubeGroupCommandTest;
+//import org.usfirst.frc4048.commands.getcube.GetCubeGroupCommandTestSplit;
+//import org.usfirst.frc4048.commands.intake.FlushCube;
+//import org.usfirst.frc4048.commands.intake.GripIntake;
+//import org.usfirst.frc4048.commands.intake.GripIntake.GripPosition;
+//import org.usfirst.frc4048.commands.intake.IntakeCube;
+//import org.usfirst.frc4048.commands.intake.IntakeCube.IntakeMode;
+//import org.usfirst.frc4048.commands.intake.RaiseIntake;
+//import org.usfirst.frc4048.commands.intake.ToggleIntake;
+//import org.usfirst.frc4048.commands.intake.ToggleIntakeGrip;
 import org.usfirst.frc4048.subsystems.Claw;
 import org.usfirst.frc4048.subsystems.Arm.ArmPositions;
 
@@ -150,9 +150,9 @@ public class OI {
         ditchCube = new JoystickButton(rightJoystick, 9);
         ditchCube.whenPressed(new BlankCommand());
         intakeFlush = new JoystickButton(rightJoystick, 8);
-        intakeFlush.whileHeld(new FlushCube());
+        intakeFlush.whileHeld(new BlankCommand());
         toggleIntake = new JoystickButton(rightJoystick, 7);
-        toggleIntake.whenPressed(new ToggleIntake());
+        toggleIntake.whenPressed(new BlankCommand());
 //        toggleMode = new JoystickButton(rightJoystick, 9);
 //        toggleMode.whenPressed(new ToggleMode());
 //        ditchCube = new JoystickButton(rightJoystick, 8);
@@ -164,12 +164,12 @@ public class OI {
         leftJoystick = new Joystick(0);
         
    
-        intakeCube=new JoystickButton(leftJoystick, 9);
-        intakeCube.whenPressed(new IntakeCube((IntakeCube.IntakeMode.STRAIGHT_PULL)));
-        setClawPositionandWait= new JoystickButton(leftJoystick, 10);
-        setClawPositionandWait.whenPressed(new SetClawPositionAndWait(WristPostion.Level));
+        intakeCube = new JoystickButton(leftJoystick, 9);
+        intakeCube.whenPressed(new BlankCommand());
+        setClawPositionandWait = new JoystickButton(leftJoystick, 10);
+        setClawPositionandWait.whenPressed(new BlankCommand());
         toggleGripIntake = new JoystickButton(leftJoystick, 11);
-        toggleGripIntake.whenPressed(new ToggleIntakeGrip());
+        toggleGripIntake.whenPressed(new BlankCommand());
 
         
         
@@ -190,10 +190,10 @@ public class OI {
         xboxTriggerRight = new XboxTriggerRight(xboxController);
         // Use this trigger for the straight intake for testing only.
         // xboxTriggerRight.whenActive(new IntakeCube(IntakeMode.STRAIGHT_PULL));
-        xboxTriggerRight.whenActive(new GetCubeGroupCommandTest()); //maybe change this
+        xboxTriggerRight.whenActive(new MoveArm(ArmPositions.Intake)); //maybe change this
 		//xboxTriggerRight.whenActive(new GetCubeGroupCommand()); 
         xboxTriggerLeft = new XboxTriggerLeft(xboxController);
-        xboxTriggerLeft.whenActive(new IntakeCube(IntakeMode.TOGGLE_PULL_LEFT_OR_RIGHT));
+        xboxTriggerLeft.whenActive(new BlankCommand());
         
         overrideButton = new JoystickButton(leftJoystick, 7);
     }

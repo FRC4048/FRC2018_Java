@@ -39,7 +39,11 @@ public class MoveArm extends LoggedCommand {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void loggedExecute() {
-		Robot.wrist.setPosition(WristPostion.Compact);
+//		Robot.wrist.setPosition(WristPostion.Compact);
+		if(Robot.arm.elbowShouldCompact()) {
+			Robot.arm.eblowToHome();
+		}
+		
 		Robot.arm.setDisabled(false);
 		if(!callback.hasGroupBeenCanceled())
 			Robot.arm.moveToPos(position);
@@ -54,14 +58,17 @@ public class MoveArm extends LoggedCommand {
 	protected void loggedEnd() {
 		callback.doCancel(isTimedOut());
 		Robot.arm.stopArm();
-		Robot.wrist.setPosition(WristPostion.Straight);
+		Robot.arm.elbowToPosition(position);
+		
+//		Robot.wrist.setPosition(WristPostion.Straight);
 	}
 
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
 	protected void loggedInterrupted() {
 		Robot.arm.stopArm();
-		Robot.wrist.setPosition(WristPostion.Straight);
+		Robot.arm.stopElbow();
+//		Robot.wrist.setPosition(WristPostion.Straight);
 //		callback.doCancel(true);
 	}
 

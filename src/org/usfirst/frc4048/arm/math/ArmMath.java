@@ -75,13 +75,13 @@ public class ArmMath {
 	}
 	
 	/**
-	 * Converts arm length value into extension pot value
-	 * @param length - length being converted
+	 * Converts elbow angle value into elbow pot value
+	 * @param angleInput - angle being converted
 	 * @return
 	 */
-	public double convertLengthToExtPot(double potMin, double lengthMin, double potMax, double lengthMax, double length)
+	public double convertAngleToElbwPot(double potMin, double angleMin, double potMax, double angleMax, double angleInput)
 	{
-		double potVal = ((potMax - potMin)/(lengthMax - lengthMin)) * (length - lengthMin) + potMin;
+		double potVal = ((potMax - potMin)/(angleMax - angleMin)) * (angleInput - angleMin) + potMin;
 //		potVal = Math.min(potVal, potMax);
 //		potVal = Math.max(potVal, potMin);
 		return potVal;
@@ -92,9 +92,9 @@ public class ArmMath {
 	 * @param pot - pot being converted
 	 * @return
 	 */
-	public double convertExtPotToLength(double potMin, double lengthMin, double potMax, double lengthMax, double potInput)
+	public double convertElbwPotToAngle(double potMin, double angleMin, double potMax, double angleMax, double potInput)
 	{
-		double potVal = ((lengthMax - lengthMin)/(potMax - potMin)) * (potInput - potMin) + lengthMin;
+		double potVal = ((angleMax - angleMin)/(potMax - potMin)) * (potInput - potMin) + angleMin;
 //		potVal = Math.min(potVal, potMax);
 //		potVal = Math.max(potVal, potMin);
 		return potVal;

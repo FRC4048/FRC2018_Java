@@ -100,11 +100,11 @@ public class RobotMap {
     public static final double CURRENT_THRESHOLD_ARM_CUBE_PICKUP = 10.0;
     public static final double CURRENT_THRESHOLD_WRIST_MOTOR = 6.0;
     public static final double CURRENT_THRESHOLD_GRIP_MOTOR = 5.5;
-    public static final double CURRENT_THRESHOLD_EXTENSION_MOTOR = 35.0;
+    public static final double CURRENT_THRESHOLD_ELBOW_MOTOR = 35.0;
     
     public static final double TIMEOUT_INTAKE_MOTOR = 0.20;
     public static final double TIMEOUT_WRIST_MOTOR = 1.0;
-    public static final double TIMEOUT_EXTENSION_MOTOR = 0.5;
+    public static final double TIMEOUT_ELBOW_MOTOR = 0.5;
     
     public static AnalogInput swerveDriveAnalogInputFrontRight;
     public static AnalogInput swerveDriveAnalogInputFrontLeft;

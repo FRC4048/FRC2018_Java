@@ -2,7 +2,7 @@ package org.usfirst.frc4048.subsystems;
 
 import org.usfirst.frc4048.Robot;
 import org.usfirst.frc4048.RobotMap;
-import org.usfirst.frc4048.commands.arm.MoveClaw;
+//import org.usfirst.frc4048.commands.arm.MoveClaw;
 import org.usfirst.frc4048.utils.Logging;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -74,7 +74,7 @@ public class Wrist extends Subsystem {
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
-    	setDefaultCommand(new MoveClaw());
+//    	setDefaultCommand(new MoveClaw());
     }
     
 	public final Logging.LoggingContext loggingContext = new Logging.LoggingContext(Logging.Subsystems.WRIST) {

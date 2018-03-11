@@ -25,7 +25,7 @@ public class OpenClaw extends LoggedCommand {
     	this.callback = callback;
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.claw);
+    	requires(Robot.pincher);
     }
 
     // Called just before this Command runs the first time
@@ -35,26 +35,24 @@ public class OpenClaw extends LoggedCommand {
 
     // Called repeatedly when this Command is scheduled to run
     protected void loggedExecute() {
-    	if(!Robot.claw.gripOpen() && !isTimedOut() && !util.isStalled() && !callback.hasGroupBeenCanceled())
-    		Robot.claw.openClaw();
+    	if(!Robot.pincher.pincherIsOpen() && !isTimedOut() && !util.isStalled() && !callback.hasGroupBeenCanceled())
+    		Robot.pincher.openPincher();;
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean loggedIsFinished() {
-        return Robot.claw.gripOpen() || isTimedOut() || util.isStalled();
+        return Robot.pincher.pincherIsOpen() || isTimedOut() || util.isStalled();
     }
 
     // Called once after isFinished returns true
     protected void loggedEnd() {
     	callback.doCancel(isTimedOut());
-    	Robot.claw.stopGrip();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void loggedInterrupted() {
     	callback.doCancel(true);
-    	Robot.claw.stopGrip();
     }
 
 	@Override

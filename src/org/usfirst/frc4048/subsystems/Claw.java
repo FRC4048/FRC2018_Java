@@ -14,7 +14,7 @@ package org.usfirst.frc4048.subsystems;
 import org.usfirst.frc4048.Robot;
 import org.usfirst.frc4048.RobotMap;
 import org.usfirst.frc4048.commands.*;
-import org.usfirst.frc4048.commands.arm.MoveClaw;
+//import org.usfirst.frc4048.commands.arm.MoveClaw;
 import org.usfirst.frc4048.utils.Logging;
 
 import edu.wpi.first.wpilibj.command.Subsystem;

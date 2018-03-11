@@ -20,7 +20,7 @@ public class Logging {
 	}
 
 	public static enum Subsystems {
-		ARM, CLAW, WRIST, DRIVETRAIN, INTAKE, CLIMBER, POWERDISTPANEL
+		PINCHER, ARM, CLAW, WRIST, DRIVETRAIN, INTAKE, CLIMBER, POWERDISTPANEL
 	}
 
 	private boolean writeLoggingGap = false;
@@ -181,8 +181,8 @@ public class Logging {
 	}
 
 	public void printHeadings() {
-		final LoggingContext list[] = { Robot.drivetrain.loggingContext, Robot.arm.loggingContext,
-				Robot.claw.loggingContext, Robot.wrist.loggingContext, Robot.intake.loggingContext,
+		final LoggingContext list[] = { Robot.drivetrain.loggingContext, Robot.pincher.loggingContext, Robot.arm.loggingContext,
+//				Robot.claw.loggingContext, Robot.wrist.loggingContext, Robot.intake.loggingContext,
 				Robot.powerdistpanel.loggingContext, };
 		for (final LoggingContext c : list) {
 			c.writeHeadings();

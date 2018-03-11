@@ -4,11 +4,11 @@ import org.usfirst.frc4048.commands.DriveDistance;
 import org.usfirst.frc4048.commands.RotateAngle;
 import org.usfirst.frc4048.commands.arm.GrabCube;
 import org.usfirst.frc4048.commands.arm.MoveArm;
-import org.usfirst.frc4048.commands.arm.MoveClawToLevel;
-import org.usfirst.frc4048.commands.arm.MoveClawToStraight;
+//import org.usfirst.frc4048.commands.arm.MoveClawToLevel;
+//import org.usfirst.frc4048.commands.arm.MoveClawToStraight;
 import org.usfirst.frc4048.commands.arm.OpenClaw;
-import org.usfirst.frc4048.commands.intake.GripIntake;
-import org.usfirst.frc4048.commands.intake.GripIntake.GripPosition;
+//import org.usfirst.frc4048.commands.intake.GripIntake;
+//import org.usfirst.frc4048.commands.intake.GripIntake.GripPosition;
 import org.usfirst.frc4048.subsystems.Arm.ArmPositions;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -37,7 +37,7 @@ public class AutoSwitchMLGroup extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
 		addSequential(new GrabCube());
-       	addSequential(new GripIntake(GripPosition.Open));
+//       	addSequential(new GripIntake(GripPosition.Open));
     	addSequential(new DriveDistance(20, 0.4, 0, 0));//T get away from the wall
     	addParallel(new DriveDistance(95, 0, -.3, 0));
     	addSequential(new MoveArm(ArmPositions.Switch)); //TODO add this back
@@ -45,7 +45,7 @@ public class AutoSwitchMLGroup extends CommandGroup {
     	addSequential(new WaitForChildren());
     	addSequential(new RotateAngle(0));
     	addParallel(new DriveDistance(AutoAction.AUTO_RUN_DISTANCE-4, AutoAction.LOCAL_SWITCH_SPEED,0,0));
-    	addSequential(new MoveClawToStraight());
+//    	addSequential(new MoveClawToStraight());
     	addSequential(new WaitForChildren());
     	addSequential(new OpenClaw());
     }
