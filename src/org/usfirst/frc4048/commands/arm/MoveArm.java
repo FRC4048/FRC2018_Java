@@ -39,9 +39,6 @@ public class MoveArm extends LoggedCommand {
 //		setTimeout(6.0);
 		retractElbow = Robot.arm.elbowShouldCompact();
 		elbowWasRetracted = false;
-		if(retractElbow) {
-			Robot.arm.elbowToPosition(ArmPositions.Home);
-		}
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -53,16 +50,21 @@ public class MoveArm extends LoggedCommand {
 		
 		if(!callback.hasGroupBeenCanceled()) {
 			
-			if(retractElbow && !elbowWasRetracted && Robot.arm.elbowAtPosition(ArmPositions.Home)) {
-				elbowWasRetracted = true;
-			}
-			
-			if(retractElbow && elbowWasRetracted) {
-				Robot.arm.armToPosition(position);
+			if(retractElbow) {
 				
-				if(Robot.arm.armAtPosition(position)) {
-					Robot.arm.elbowToPosition(position);
+				if(!elbowWasRetracted && Robot.arm.elbowAtPosition(ArmPositions.Home)) {
+					elbowWasRetracted = true;
+				} else if(!elbowWasRetracted) {
+					Robot.arm.elbowToPosition(ArmPositions.Home);
 				}
+				
+				if(elbowWasRetracted) {
+					Robot.arm.armToPosition(position);
+
+					if(Robot.arm.armAtPosition(position)) {
+						Robot.arm.elbowToPosition(position);
+					}
+				}	
 			} else {
 				Robot.arm.armToPosition(position);
 				Robot.arm.elbowToPosition(position);
@@ -86,6 +88,7 @@ public class MoveArm extends LoggedCommand {
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
 	protected void loggedInterrupted() {
+		SmartDashboard.putBoolean("Running Move arm", false);
 		Robot.arm.stopArm();
 		Robot.arm.stopElbow();
 
