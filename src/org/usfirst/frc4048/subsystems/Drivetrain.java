@@ -235,7 +235,7 @@ public class Drivetrain extends Subsystem {
     }
     
     public void resetQuadEncoder() {
-    	frontRightSteerMotor.setSelectedSensorPosition((int)((analogInputFrontRight.getValue() - FR_ZERO)/4000.0 * GEAR_RATIO), 0, TIMEOUT);
+    	frontRightSteerMotor.setSelectedSensorPosition((int)((getAnalogInputFrontRight().getValue() - FR_ZERO)/4000.0 * GEAR_RATIO), 0, TIMEOUT);
     	frontLeftSteerMotor.setSelectedSensorPosition((int) ((analogInputFrontLeft.getValue() - FL_ZERO)/4000.0 * GEAR_RATIO), 0, TIMEOUT);
     	rearLeftSteerMotor.setSelectedSensorPosition((int) ((analogInputRearLeft.getValue() - RL_ZERO)/4000.0 * GEAR_RATIO), 0, TIMEOUT);
 //    	rearLeftSteerMotor.setSelectedSensorPosition(0, 0, TIMEOUT);
@@ -280,7 +280,7 @@ public class Drivetrain extends Subsystem {
     	SmartDashboard.putNumber("Rear Left Enc", rearLeftSteerMotor.getSelectedSensorPosition(0));
     	SmartDashboard.putNumber("Rear Right Enc", rearRightSteerMotor.getSelectedSensorPosition(0));
     	
-    	SmartDashboard.putNumber("Front Right Abs", analogInputFrontRight.getValue());
+    	SmartDashboard.putNumber("Front Right Abs", getAnalogInputFrontRight().getValue());
     	SmartDashboard.putNumber("Front Left Abs", analogInputFrontLeft.getValue());
     	SmartDashboard.putNumber("Rear Left Abs", analogInputRearLeft.getValue());
     	SmartDashboard.putNumber("Rear Right Abs", analogInputRearRight.getValue());
@@ -331,9 +331,24 @@ public class Drivetrain extends Subsystem {
     	}
     }
     
+    
+    
     public void stop()
     {
     	swerveDrivetrain.stop();
     }
+
+	public AnalogInput getAnalogInputFrontRight() {
+		return analogInputFrontRight;
+	}
+	public AnalogInput getAnalogInputFrontLeft() {
+		return analogInputFrontLeft;
+	}
+	public AnalogInput getAnalogInputRearRight() {
+		return analogInputRearRight;
+	}
+	public AnalogInput getAnalogInputRearLeft() {
+		return analogInputRearLeft;
+	}
 }
 

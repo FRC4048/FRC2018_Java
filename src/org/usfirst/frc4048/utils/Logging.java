@@ -62,6 +62,11 @@ public class Logging {
 				sb.setLength(0);
 				sb.append(df3.format(Timer.getFPGATimestamp()));
 				sb.append(",");
+				if(DriverStation.getInstance().isDisabled())
+					sb.append(0);
+				else
+					sb.append(df3.format(Timer.getFPGATimestamp() - Robot.timeOfStart));
+				sb.append(",");
 				sb.append(subsystem.name());
 				sb.append(",");
 				addAll();
@@ -168,6 +173,11 @@ public class Logging {
 	public void traceMessage(MessageLevel ml, String ...vals) {
 		final StringBuilder sb = new StringBuilder();
 		sb.append(df3.format(Timer.getFPGATimestamp()));
+		sb.append(",");
+		if(DriverStation.getInstance().isDisabled())
+			sb.append(0);
+		else
+			sb.append(df3.format(Timer.getFPGATimestamp() - Robot.timeOfStart));
 		sb.append(",");
 		sb.append(ml.name());
 		sb.append(",");
