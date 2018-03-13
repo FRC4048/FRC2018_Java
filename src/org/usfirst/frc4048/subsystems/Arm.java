@@ -63,7 +63,7 @@ public class Arm extends Subsystem {
 
 	private final double ELBOW_STALL_DELAY = 5.0;
 	private double startStallTime = -ELBOW_STALL_DELAY;
-	private final MotorUtils extensionStall = new MotorUtils(RobotMap.PDP_EXTENSION, 
+	private final MotorUtils elbowStall = new MotorUtils(RobotMap.PDP_ELBOW, 
 															RobotMap.CURRENT_THRESHOLD_ELBOW_MOTOR, 
 															RobotMap.TIMEOUT_ELBOW_MOTOR);
 	
@@ -90,18 +90,21 @@ public class Arm extends Subsystem {
 	public static final double ANGLE_MARGIN_VALUE = 7.5;
 	public static final double CRITICAL_MARGIN_VALUE = 10.0;
 	public static final double HOME_SETPOINT = 0.0;
-	public static final double HOME_MAX_ANGLE = 9.0;
-	public static final double INTAKE_SETPOINT = 12.0;
+	public static final double HOME_MAX_ANGLE = 3.0;
+	public static final double INTAKE_SETPOINT = 0.0;
 	public static final double EXCHANGE_SETPOINT = INTAKE_SETPOINT;
 	public static final double SWITCH_SETPOINT = INTAKE_SETPOINT;
-	public static final double LOWSCALE_SETPOINT = 118.0;	//Is mid scale
-	public static final double MIDSCALE_SETPOINT = 118.0; //This will change in the future we are not sure about this
-	public static final double HIGHSCALE_SETPOINT = 145.5;
+	public static final double LOWSCALE_SETPOINT = 120.0;
+	public static final double MIDSCALE_SETPOINT = 150.0;
+	public static final double HIGHSCALE_SETPOINT = 155.0;
 	
-	public static final double ELBW_HOME_SETPOINT = 0.0;
-	public static final double ELBW_EXCHANGE_SETPOINT = 80.0;
-	public static final double ELBW_SWITCH_SETPOINT = 60.0;
-	public static final double ELBW_FULLY_EXTENDED_SETPOINT = 100.0;
+	public static final double ELBW_HOME_SETPOINT = 140.0;
+	public static final double ELBW_INTAKE_SETPOINT = 2.0;
+	public static final double ELBW_EXCHANGE_SETPOINT = 17.0;
+	public static final double ELBW_SWITCH_SETPOINT = 35;
+	public static final double ELBW_LOW_SCALE_SETPOINT = -90;
+	public static final double ELBW_MID_SCALE_SETPOINT = -100;
+	public static final double ELBW_HIGH_SCALE_SETPOINT = -85;
 	
 	/*
 	 * All of these values are used for the extension math
@@ -173,7 +176,7 @@ public class Arm extends Subsystem {
 		movementMotor.config_kD(1, ARM_DOWN_D, TIMEOUT);
 
 		armAngleSetpoint = getArmAngle();
-		eblowToHome();
+		elbowToPosition(ArmPositions.Home);
 
 		//printPIDValues();
 	}
@@ -218,7 +221,7 @@ public class Arm extends Subsystem {
 	public void periodic() {
 		// Put code here to be run every loop
 
-		if(extensionStall.isStalled()) {
+		if(elbowStall.isStalled()) {
 			elbowMotor.stopMotor();
 			startStallTime = Timer.getFPGATimestamp();
 		} else if(Timer.getFPGATimestamp() - startStallTime <= ELBOW_STALL_DELAY){
@@ -236,11 +239,12 @@ public class Arm extends Subsystem {
 
 	public void armData() {
 		SmartDashboard.putNumber("ARM ANGLE", getArmAngle());
+		SmartDashboard.putNumber("ARM SETPOINT", armAngleSetpoint);
 		SmartDashboard.putNumber("ARM POT", getArmPos());
 		SmartDashboard.putBoolean("ARM DISABLED", disableArm);
 		SmartDashboard.putNumber("ELBOW ANGLE", getElbowAngle());
-//		SmartDashboard.putNumber("EXTENSION SETPOINT", manualExtSetpoint);
-		SmartDashboard.putNumber("EXT POT", getElbowPos());
+		SmartDashboard.putNumber("ELBOW SETPOINT", elbowAngleSetpoint);
+		SmartDashboard.putNumber("ELBOW POT", getElbowPos());
 		
 	}
 
@@ -248,23 +252,27 @@ public class Arm extends Subsystem {
 	// here. Call these from Commands.
 
 	public void printPIDValues() {
-		SmartDashboard.putNumber("EXT P", ELBW_P);
-		SmartDashboard.putNumber("EXT I", ELBW_I);
-		SmartDashboard.putNumber("EXT D", ELBW_D);
+		SmartDashboard.putNumber("ELBOW P", ELBW_P);
+		SmartDashboard.putNumber("ELBOW I", ELBW_I);
+		SmartDashboard.putNumber("ELBOW D", ELBW_D);
 	}
 	
 	public void finetuneUp() {
-		double newSetpoint = armAngleSetpoint + FINETUNE_RATE;
-		if(inAutoRange(newSetpoint)) {
-			armAngleSetpoint = newSetpoint;
-		}
+//		double newSetpoint = armAngleSetpoint + FINETUNE_RATE;
+//		if(inAutoRange(newSetpoint)) {
+//			armAngleSetpoint = newSetpoint;
+//		}
+		
+		elbowAngleSetpoint += FINETUNE_RATE;
 	}
 
 	public void finetuneDown() {
-		double newSetpoint = armAngleSetpoint - FINETUNE_RATE;
-		if(inAutoRange(newSetpoint)) {
-			armAngleSetpoint = newSetpoint;
-		}
+//		double newSetpoint = armAngleSetpoint - FINETUNE_RATE;
+//		if(inAutoRange(newSetpoint)) {
+//			armAngleSetpoint = newSetpoint;
+//		}
+		
+		elbowAngleSetpoint -= FINETUNE_RATE;
 	}
 
 	public void finetuneDownManual() {
@@ -337,7 +345,7 @@ public class Arm extends Subsystem {
 		}
 	}
 
-	public void moveToPos(ArmPositions pos) {
+	public void armToPosition(ArmPositions pos) {
 		switch (pos) {
 		case Intake:
 			armAngleSetpoint = INTAKE_SETPOINT;
@@ -368,20 +376,6 @@ public class Arm extends Subsystem {
 		}
 	}
 	
-	/**
-	 * Set extension to fully retracted position, or home position.
-	 */
-	public void eblowToHome() {
-		elbowAngleSetpoint = ELBW_HOME_SETPOINT;
-	}
-
-	public boolean eblowAtHome() {
-//		double extension = getElbowAngle();
-//		return extension <= EXT_HOME_SETPOINT + EXT_MARGIN_VALUE
-//				&& extension >= EXT_HOME_SETPOINT - EXT_MARGIN_VALUE;
-		return false;
-	}
-	
 	public void setGoingHome(boolean val)
 	{
 		goingHome = val;
@@ -390,37 +384,6 @@ public class Arm extends Subsystem {
 	public boolean isGoingHome()
 	{
 		return goingHome;
-	}
-
-//	public void extensionToIntakeBegin() {
-//		manualExtSetpoint = EXT_INTAKE_SETPOINT;
-//	}
-//	
-//	public void extensionToIntakeEnd() {
-//		manualExtSetpoint = EXT_INTAKE_SETPOINT_GOTO;
-//	}
-//	
-//	public void setExtToCurrentPos()
-//	{
-//		manualExtSetpoint = getElbowAngle();
-//	}
-	
-	public void setExtIntakePID()
-	{
-		elbowMotor.selectProfileSlot(1, 0);
-	}
-
-	public void setExtNormalPID()
-	{
-		elbowMotor.selectProfileSlot(0, 0);
-	}
-	
-	//TODO Fix this for new arm
-	public boolean extensionAtIntake() {
-//		double extension = getElbowAngle();
-//		return extension <= EXT_INTAKE_SETPOINT + ANGLE_MARGIN_VALUE
-//				&& extension >= EXT_INTAKE_SETPOINT - ANGLE_MARGIN_VALUE;
-		return false;
 	}
 
 	public void setArmToCurrentPos()
@@ -449,7 +412,7 @@ public class Arm extends Subsystem {
 
 	public boolean elbowShouldCompact()
 	{
-		return !(getArmAngle() >= HOME_MAX_ANGLE && getArmAngle() <= SWITCH_SETPOINT + ANGLE_MARGIN_VALUE); 
+		return !(getArmAngle() >= HOME_SETPOINT - ANGLE_MARGIN_VALUE && getArmAngle() <= SWITCH_SETPOINT + ANGLE_MARGIN_VALUE); 
 	}
 	
 	public void elbowToPosition(ArmPositions position) 
@@ -459,7 +422,7 @@ public class Arm extends Subsystem {
 			elbowAngleSetpoint = ELBW_HOME_SETPOINT;
 			break;
 		case Intake :
-			elbowAngleSetpoint = ELBW_FULLY_EXTENDED_SETPOINT;
+			elbowAngleSetpoint = ELBW_INTAKE_SETPOINT;
 			break;
 		case Exchange:
 			elbowAngleSetpoint = ELBW_EXCHANGE_SETPOINT;
@@ -468,20 +431,44 @@ public class Arm extends Subsystem {
 			elbowAngleSetpoint = ELBW_SWITCH_SETPOINT;
 			break;
 		case LowScale : 
-			elbowAngleSetpoint = ELBW_FULLY_EXTENDED_SETPOINT;
+			elbowAngleSetpoint = ELBW_INTAKE_SETPOINT;
 			break;
 		case MidScale :
-			elbowAngleSetpoint = ELBW_FULLY_EXTENDED_SETPOINT;
+			elbowAngleSetpoint = ELBW_INTAKE_SETPOINT;
 			break;
 		case HighScale :
-			elbowAngleSetpoint = ELBW_FULLY_EXTENDED_SETPOINT;
+			elbowAngleSetpoint = ELBW_INTAKE_SETPOINT;
 			break;
 		case Climb :
 			elbowAngleSetpoint = ELBW_HOME_SETPOINT;
 			break;
 		default:
-			elbowAngleSetpoint = ELBW_FULLY_EXTENDED_SETPOINT;
+			elbowAngleSetpoint = ELBW_INTAKE_SETPOINT;
 			break;
+		}
+	}
+	
+	public boolean elbowAtPosition(ArmPositions position)
+	{
+		switch (position) {
+		case Home :
+			return getElbowAngle() >= ELBW_HOME_SETPOINT - ANGLE_MARGIN_VALUE && getElbowAngle() <= ELBW_HOME_SETPOINT + ANGLE_MARGIN_VALUE;
+		case Intake :
+			return getElbowAngle() >= ELBW_INTAKE_SETPOINT - ANGLE_MARGIN_VALUE && getElbowAngle() <= ELBW_INTAKE_SETPOINT + ANGLE_MARGIN_VALUE;
+		case Exchange:
+			return getElbowAngle() >= ELBW_EXCHANGE_SETPOINT - ANGLE_MARGIN_VALUE && getElbowAngle() <= ELBW_EXCHANGE_SETPOINT + ANGLE_MARGIN_VALUE;
+		case Switch :
+			return getElbowAngle() >= ELBW_SWITCH_SETPOINT - ANGLE_MARGIN_VALUE && getElbowAngle() <= ELBW_SWITCH_SETPOINT + ANGLE_MARGIN_VALUE;
+		case LowScale : 
+			return getElbowAngle() >= ELBW_LOW_SCALE_SETPOINT - ANGLE_MARGIN_VALUE && getElbowAngle() <= ELBW_LOW_SCALE_SETPOINT + ANGLE_MARGIN_VALUE;
+		case MidScale :
+			return getElbowAngle() >= ELBW_MID_SCALE_SETPOINT - ANGLE_MARGIN_VALUE && getElbowAngle() <= ELBW_MID_SCALE_SETPOINT + ANGLE_MARGIN_VALUE;
+		case HighScale :
+			return getElbowAngle() >= ELBW_HIGH_SCALE_SETPOINT - ANGLE_MARGIN_VALUE && getElbowAngle() <= ELBW_HIGH_SCALE_SETPOINT + ANGLE_MARGIN_VALUE;
+		case Climb :
+			return getElbowAngle() >= ELBW_HOME_SETPOINT - ANGLE_MARGIN_VALUE && getElbowAngle() <= ELBW_HOME_SETPOINT + ANGLE_MARGIN_VALUE;
+		default:
+			return false;
 		}
 	}
 	

@@ -93,7 +93,7 @@ public class RobotMap {
     public static final int PDP_DRIVE_FL = 0;
     public static final int PDP_DRIVE_RL = 1;
     public static final int PDP_DRIVE_RR = 14;
-    public static final int PDP_EXTENSION = 13;
+    public static final int PDP_ELBOW = 13;
 
     public static final double CURRENT_THRESHOLD_INTAKE_MOTOR = 10.0;
     public static final double CURRENT_THRESHOLD_INTAKE_DEPLOY_MOTOR = 25.0;

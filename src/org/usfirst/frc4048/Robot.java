@@ -63,7 +63,7 @@ public class Robot extends TimedRobot {
 
     //use this to see the debug commands and values for smart dashboard
     public final Boolean enableDebug = true;
-    public final Boolean enableTesting = false;
+    public final Boolean enableTesting = true;
   
     Action autoAction;
     Action oldAutoAction;
