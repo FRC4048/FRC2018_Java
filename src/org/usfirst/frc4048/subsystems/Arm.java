@@ -416,9 +416,10 @@ public class Arm extends Subsystem {
 		double elbwSetpoint = armMath.convertAngleToElbwPot(ELBW_POT_MIN, ELBW_ANGLE_MIN, ELBW_POT_MAX, ELBW_ANGLE_MAX, elbowAngleSetpoint);
 		elbowMotor.set(ControlMode.Position, elbwSetpoint);
 		
-		if(getElbowPos() < elbwSetpoint) {
-			elbowMotor.selectProfileSlot(1, 0);
-		}
+		//TODO Figure out what to do with PID switching
+//		if(getElbowPos() < elbwSetpoint) {
+//			elbowMotor.selectProfileSlot(1, 0);
+//		}
 	}
 
 	public boolean elbowShouldCompact(ArmPositions position)
