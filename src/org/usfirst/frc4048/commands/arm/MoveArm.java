@@ -37,7 +37,7 @@ public class MoveArm extends LoggedCommand {
 	// Called just before this Command runs the first time
 	protected void loggedInitialize() {
 //		setTimeout(6.0);
-		retractElbow = Robot.arm.elbowShouldCompact();
+		retractElbow = Robot.arm.elbowShouldCompact(position);
 		elbowWasRetracted = false;
 	}
 
@@ -48,7 +48,7 @@ public class MoveArm extends LoggedCommand {
 		SmartDashboard.putBoolean("Elbow Was Retracted", elbowWasRetracted);
 		Robot.arm.setDisabled(false);
 		
-		if(!callback.hasGroupBeenCanceled()) {
+		if(!callback.hasGroupBeenCanceled() && !(Robot.arm.armAtPosition(position) && Robot.arm.elbowAtPosition(position))) {
 			
 			if(retractElbow) {
 				
@@ -74,13 +74,14 @@ public class MoveArm extends LoggedCommand {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean loggedIsFinished() {
-		return isTimedOut() || (Robot.arm.armAtPosition(position) && Robot.arm.elbowAtPosition(position));
+		boolean output = isTimedOut() || (Robot.arm.armAtPosition(position) && Robot.arm.elbowAtPosition(position)); 
+		SmartDashboard.putBoolean("Running Move arm", !output);
+		return output;
 	}
 
 	// Called once after isFinished returns true
 	protected void loggedEnd() {
 		callback.doCancel(isTimedOut());
-		SmartDashboard.putBoolean("Running Move arm", false);
 		Robot.arm.stopArm();
 		Robot.arm.stopElbow();
 	}
@@ -88,7 +89,6 @@ public class MoveArm extends LoggedCommand {
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
 	protected void loggedInterrupted() {
-		SmartDashboard.putBoolean("Running Move arm", false);
 		Robot.arm.stopArm();
 		Robot.arm.stopElbow();
 
