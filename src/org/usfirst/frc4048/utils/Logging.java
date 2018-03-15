@@ -191,7 +191,7 @@ public class Logging {
 	}
 
 	public void printHeadings() {
-		final LoggingContext list[] = { Robot.drivetrain.loggingContext, Robot.pincher.loggingContext, Robot.arm.loggingContext,
+		final LoggingContext list[] = { Robot.drivetrain.loggingContext, Robot.intake.loggingContext, Robot.arm.loggingContext,
 //				Robot.claw.loggingContext, Robot.wrist.loggingContext, Robot.intake.loggingContext,
 				Robot.powerdistpanel.loggingContext, };
 		for (final LoggingContext c : list) {

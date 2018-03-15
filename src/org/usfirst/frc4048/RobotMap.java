@@ -95,7 +95,7 @@ public class RobotMap {
     public static final int PDP_DRIVE_RR = 14;
     public static final int PDP_ELBOW = 13;
 
-    public static final double CURRENT_THRESHOLD_INTAKE_MOTOR = 10.0;
+    public static final double CURRENT_THRESHOLD_INTAKE_MOTOR = /*10.0*/1.0;
     public static final double CURRENT_THRESHOLD_INTAKE_DEPLOY_MOTOR = 25.0;
     public static final double CURRENT_THRESHOLD_ARM_CUBE_PICKUP = 10.0;
     public static final double CURRENT_THRESHOLD_WRIST_MOTOR = 6.0;

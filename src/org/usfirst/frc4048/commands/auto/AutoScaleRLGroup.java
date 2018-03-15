@@ -4,7 +4,7 @@ import org.usfirst.frc4048.commands.DriveDistance;
 import org.usfirst.frc4048.commands.RotateAngle;
 import org.usfirst.frc4048.commands.arm.MoveArm;
 //import org.usfirst.frc4048.commands.arm.SetClawPosition;
-import org.usfirst.frc4048.commands.arm.OpenClaw;
+//import org.usfirst.frc4048.commands.arm.OpenClaw;
 import org.usfirst.frc4048.subsystems.Arm.ArmPositions;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -42,6 +42,6 @@ public class AutoScaleRLGroup extends CommandGroup {
     	addSequential(new RotateAngle(90));
     	addSequential(new DriveDistance(AutoAction.LANE_TO_SCALE, AutoAction.LOCAL_SWITCH_SPEED,0,0)); //TODO Add this back with better messurements
     	//addSequential(new MoveClaw(angle)); //TODO set the angle to the correct position
-    	addSequential(new OpenClaw());
+//    	addSequential(new OpenClaw());
     }
 }
