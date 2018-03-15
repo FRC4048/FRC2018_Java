@@ -68,9 +68,12 @@ public class Arm extends Subsystem {
 															RobotMap.TIMEOUT_ELBOW_MOTOR);
 	
 	//TODO Determine new values
-	private double ELBW_P = 10.0;
-	private double ELBW_I = 0.0;
-	private double ELBW_D = 0.0;
+	private double ELBW_UP_P = 10.0;
+	private double ELBW_UP_I = 0.0;
+	private double ELBW_UP_D = 0.0;
+	private double ELBW_DOWN_P = 1.5;
+	private double ELBW_DOWN_I= 0.0;
+	private double ELBW_DOWN_D = 0.0;
 
 	private final double ARM_UP_P = 10.0;
 	private final double ARM_UP_I = 0.0;
@@ -82,12 +85,12 @@ public class Arm extends Subsystem {
 	/**
 	 * Is not a speed, but a setpoint adjustment value
 	 */
-	private final double FINETUNE_RATE = 1.0;
+	private final double FINETUNE_RATE = 2.0;
 
 	/*
 	 * All of these setpoints are used for the arm
 	 */
-	public static final double ANGLE_MARGIN_VALUE = 7.5;
+	public static final double ANGLE_MARGIN_VALUE = 5.0;
 	public static final double CRITICAL_MARGIN_VALUE = 10.0;
 	public static final double HOME_SETPOINT = 0.0;
 	public static final double HOME_MAX_ANGLE = 3.0;
@@ -112,7 +115,7 @@ public class Arm extends Subsystem {
 	private final double ARM_POT_MIN = 935;
 	private final double ARM_POT_MAX = 84;
 	private final double ARM_ANGLE_MIN = 0.0;
-	private final double ARM_ANGLE_MAX = 158.0;
+	private final double ARM_ANGLE_MAX = 150.0;
 	private final double ARM_POT_INVERT = -1.0;
 	
 	private final double ELBW_POT_MIN = 692.0;
@@ -152,9 +155,13 @@ public class Arm extends Subsystem {
 		elbowMotor.setNeutralMode(NeutralMode.Brake);
 		elbowMotor.setSensorPhase(false);
 		elbowMotor.configAllowableClosedloopError(0, 4, TIMEOUT);
-		elbowMotor.config_kP(0, ELBW_P, TIMEOUT);
-		elbowMotor.config_kI(0, ELBW_I, TIMEOUT);
-		elbowMotor.config_kD(0, ELBW_D, TIMEOUT);
+		elbowMotor.config_kP(0, ELBW_UP_P, TIMEOUT);
+		elbowMotor.config_kI(0, ELBW_UP_I, TIMEOUT);
+		elbowMotor.config_kD(0, ELBW_UP_D, TIMEOUT);
+		elbowMotor.configAllowableClosedloopError(1, 4, TIMEOUT);
+		elbowMotor.config_kP(1, ELBW_DOWN_P, TIMEOUT);
+		elbowMotor.config_kI(1, ELBW_DOWN_I, TIMEOUT);
+		elbowMotor.config_kD(1, ELBW_DOWN_D, TIMEOUT);
 		elbowMotor.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, 
 													LimitSwitchNormal.NormallyOpen, 
 													TIMEOUT);
@@ -191,7 +198,7 @@ public class Arm extends Subsystem {
 		// setDefaultCommand(new MySpecialCommand());
 
 		//TODO How should this work for the new arm?
-//		setDefaultCommand(new ArmFinetune());
+		setDefaultCommand(new ArmFinetune());
 	}
 	
     public final Logging.LoggingContext loggingContext = new Logging.LoggingContext(Logging.Subsystems.ARM) {
@@ -252,9 +259,9 @@ public class Arm extends Subsystem {
 	// here. Call these from Commands.
 
 	public void printPIDValues() {
-		SmartDashboard.putNumber("ELBOW P", ELBW_P);
-		SmartDashboard.putNumber("ELBOW I", ELBW_I);
-		SmartDashboard.putNumber("ELBOW D", ELBW_D);
+		SmartDashboard.putNumber("ELBOW P", ELBW_UP_P);
+		SmartDashboard.putNumber("ELBOW I", ELBW_UP_I);
+		SmartDashboard.putNumber("ELBOW D", ELBW_UP_D);
 	}
 	
 	public void finetuneUp() {
@@ -284,12 +291,12 @@ public class Arm extends Subsystem {
 	}
 
 	public void stopArm() {
-		movementMotor.set(ControlMode.Position, getArmPos());
+		armAngleSetpoint = getArmAngle();
 	}
 	
 	public void stopElbow()
 	{
-		elbowMotor.set(ControlMode.Position, getElbowPos());
+		elbowAngleSetpoint = getElbowAngle();
 	}
 
 	public double getArmAngle() {
@@ -301,16 +308,16 @@ public class Arm extends Subsystem {
 	}
 
  	public int getArmPos() {
- 		elbwP = ELBW_P;
-		elbwI = ELBW_I;
-		elbwD = ELBW_D;
+ 		elbwP = ELBW_UP_P;
+		elbwI = ELBW_UP_I;
+		elbwD = ELBW_UP_D;
 		return movementMotor.getSelectedSensorPosition(0);
 	}
 
 	public int getElbowPos() {
-		elbwP = ELBW_P;
-		elbwI = ELBW_I;
-		elbwD = ELBW_D;
+		elbwP = ELBW_UP_P;
+		elbwI = ELBW_UP_I;
+		elbwD = ELBW_UP_D;
 		return elbowMotor.getSelectedSensorPosition(0);
 	}
 
@@ -402,16 +409,43 @@ public class Arm extends Subsystem {
 	 * within the exchange and high scale positions
 	 */
 	private void moveElbow() {
-		if(getArmAngle() <= HOME_MAX_ANGLE) {
-			elbowAngleSetpoint = ELBW_HOME_SETPOINT;
-		}
+//		if(getArmAngle() <= HOME_MAX_ANGLE) {
+//			elbowAngleSetpoint = ELBW_HOME_SETPOINT;
+//		}
 		
 		double elbwSetpoint = armMath.convertAngleToElbwPot(ELBW_POT_MIN, ELBW_ANGLE_MIN, ELBW_POT_MAX, ELBW_ANGLE_MAX, elbowAngleSetpoint);
 		elbowMotor.set(ControlMode.Position, elbwSetpoint);
+		
+		if(getElbowPos() < elbwSetpoint) {
+			elbowMotor.selectProfileSlot(1, 0);
+		}
 	}
 
-	public boolean elbowShouldCompact()
+	public boolean elbowShouldCompact(ArmPositions position)
 	{
+		switch (position) {
+		case Home:
+			return elbowBelowSwitch(); 
+		case Intake:
+			return elbowBelowSwitch(); 
+		case Exchange:
+			return elbowBelowSwitch(); 
+		case Switch:
+			return elbowBelowSwitch(); 
+		case LowScale:
+			return true;
+		case MidScale:
+			return true;
+		case HighScale:
+			return true;
+		case Climb:
+			return true;
+		default:
+			return true;
+		}
+	}
+	
+	private boolean elbowBelowSwitch() {
 		return !(getArmAngle() >= HOME_SETPOINT - ANGLE_MARGIN_VALUE && getArmAngle() <= SWITCH_SETPOINT + ANGLE_MARGIN_VALUE); 
 	}
 	
@@ -431,13 +465,13 @@ public class Arm extends Subsystem {
 			elbowAngleSetpoint = ELBW_SWITCH_SETPOINT;
 			break;
 		case LowScale : 
-			elbowAngleSetpoint = ELBW_INTAKE_SETPOINT;
+			elbowAngleSetpoint = ELBW_LOW_SCALE_SETPOINT;
 			break;
 		case MidScale :
-			elbowAngleSetpoint = ELBW_INTAKE_SETPOINT;
+			elbowAngleSetpoint = ELBW_MID_SCALE_SETPOINT;
 			break;
 		case HighScale :
-			elbowAngleSetpoint = ELBW_INTAKE_SETPOINT;
+			elbowAngleSetpoint = ELBW_HIGH_SCALE_SETPOINT;
 			break;
 		case Climb :
 			elbowAngleSetpoint = ELBW_HOME_SETPOINT;
