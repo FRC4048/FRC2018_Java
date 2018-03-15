@@ -55,8 +55,8 @@ public class Robot extends TimedRobot {
 	// public static Claw claw;
 	// public static Wrist wrist;
 	public static Arm arm;
-	public static Pincher pincher;
-	// public static Intake intake;
+//	public static Pincher pincher;
+	 public static Intake intake;
 	// public static Climber climber;
 	public static Logging logging;
 	public static PowerDistPanel powerdistpanel;
@@ -99,8 +99,8 @@ public class Robot extends TimedRobot {
 		// claw = new Claw();
 		// wrist = new Wrist();
 		arm = new Arm();
-		pincher = new Pincher();
-		// intake = new Intake();
+//		pincher = new Pincher();
+		intake = new Intake();
 		powerdistpanel = new PowerDistPanel();
 		// climber = new Climber();
 
@@ -339,11 +339,11 @@ public class Robot extends TimedRobot {
 			SmartDashboard.putData("Reset Quad Encoders", new ReconfigEncoders());
 			SmartDashboard.putData("Rotate Angle", new RotateAngle(90));// Rotates robot by 90 degrees
 			SmartDashboard.putData("Toggle Drive Mode", new ToggleMode());
-			SmartDashboard.putData("grab Cube", new GrabCube());
+//			SmartDashboard.putData("grab Cube", new GrabCube());
 			SmartDashboard.putData("Move Arm", new MoveArm(ArmPositions.Intake));// Sets Arm position to Intake position
 			// SmartDashboard.putData("Lower Arm to Cube", new ExtendArmToCube());
-			// SmartDashboard.putData("Move Claw", new MoveClaw());
-			SmartDashboard.putData("Open Claw", new OpenClaw());
+//			// SmartDashboard.putData("Move Claw", new MoveClaw());
+//			SmartDashboard.putData("Open Claw", new OpenClaw());
 			// SmartDashboard.putData("Set Claw Position Compact", new
 			// SetClawPosition(WristPostion.Compact));//Sets claw position to compact
 			// SmartDashboard.putData("Set Claw Position Level", new
@@ -368,7 +368,7 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putData("Auto mode", chooser);
 		SmartDashboard.putData("Run Diagnostics", diagnosticChoose);
 		// SmartDashboard.putData("Reset Claw Gyro", new ResetClawGyro());
-		SmartDashboard.putData("Close Claw", new GrabCube());
+//		SmartDashboard.putData("Close Claw", new GrabCube());
 		// SmartDashboard.putNumber("Claw Gyro Value", Robot.wrist.getGyroVal());
 		SmartDashboard.putNumber("Arm Angle", arm.getArmAngle());
 		SmartDashboard.putString("Action for Auto", autoAction.toString());

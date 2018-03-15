@@ -1,7 +1,7 @@
 package org.usfirst.frc4048.commands.auto;
 
 import org.usfirst.frc4048.Robot;
-import org.usfirst.frc4048.commands.arm.GrabCube;
+//import org.usfirst.frc4048.commands.arm.GrabCube;
 import org.usfirst.frc4048.subsystems.Drivetrain;
 import org.usfirst.frc4048.utils.Logging;
 
@@ -161,7 +161,7 @@ public class AutoAction extends Command {
     		}
     		break;
     	case Nothing:
-    		selectCmd = new GrabCube();
+//    		selectCmd = new GrabCube();
     		break;
     	default:
     		

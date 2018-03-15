@@ -2,7 +2,7 @@ package org.usfirst.frc4048.commands.auto;
 
 import org.usfirst.frc4048.Robot;
 import org.usfirst.frc4048.commands.DriveDistance;
-import org.usfirst.frc4048.commands.arm.GrabCube;
+//import org.usfirst.frc4048.commands.arm.GrabCube;
 import org.usfirst.frc4048.commands.*;
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class AutoBase extends Command {
 
-	Command closeClaw = new GrabCube();
+//	Command closeClaw = new GrabCube();
 	Command driveDistance = new DriveDistance(AutoAction.AUTO_RUN_DISTANCE, AutoAction.LOCAL_SWITCH_SPEED, 0, 0);
 	
     public AutoBase() {
@@ -24,7 +24,7 @@ public class AutoBase extends Command {
     protected void initialize() {
     	//The distance to the autoline is 120 - (32.5[robotLength] + 6[bumpers])
     	//We want to move atleast 2 inches beyond the auto line without hitting the switch
-    	closeClaw.start();
+//    	closeClaw.start();
     	driveDistance.start();
     }
 

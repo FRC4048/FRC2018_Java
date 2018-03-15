@@ -5,12 +5,12 @@ import org.usfirst.frc4048.commands.CalculateSonarDistance;
 import org.usfirst.frc4048.commands.DriveDistance;
 import org.usfirst.frc4048.commands.PrintCommand;
 import org.usfirst.frc4048.commands.RotateAngle;
-import org.usfirst.frc4048.commands.arm.GrabCube;
+//import org.usfirst.frc4048.commands.arm.GrabCube;
 import org.usfirst.frc4048.commands.arm.MoveArm;
 //import org.usfirst.frc4048.commands.arm.MoveClawToLevel;
 //import org.usfirst.frc4048.commands.arm.MoveClawToStraight;
 //import org.usfirst.frc4048.commands.arm.SetClawPosition;
-import org.usfirst.frc4048.commands.arm.OpenClaw;
+//import org.usfirst.frc4048.commands.arm.OpenClaw;
 import org.usfirst.frc4048.subsystems.Arm.ArmPositions;
 import org.usfirst.frc4048.subsystems.Wrist.WristPostion;
 import org.usfirst.frc4048.subsystems.Drivetrain.SonarSide;
@@ -44,7 +44,7 @@ public class AutoScaleLLGroup extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
-		addSequential(new GrabCube());
+//		addSequential(new GrabCube());
 //       	addSequential(new GripIntake(GripPosition.Open));
     	//MOVE HALF WAY
     	addParallel(new DriveDistance(AutoAction.DISTANCE_TO_MIDDLE_OF_SCALE/2, AutoAction.LOCAL_SCALE_SPEED,0,0));
@@ -71,7 +71,7 @@ public class AutoScaleLLGroup extends CommandGroup {
 //    	addParallel(new DriveDistance(20, AutoAction.LOCAL_SCALE_SPEED ,AutoAction.LOCAL_SCALE_SPEED,0));
 //    	addSequential(new MoveClawToStraight());
     	addSequential(new WaitForChildren());
-    	addSequential(new OpenClaw());
+//    	addSequential(new OpenClaw());
     	//WE WILL ADD THIS BACK LATER
     }
 }
