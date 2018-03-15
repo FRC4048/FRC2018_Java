@@ -81,6 +81,10 @@ public class Robot extends TimedRobot {
 
 	StringBuilder absEncoderSB = new StringBuilder();
 	StringBuilder armPotSB = new StringBuilder();
+	StringBuilder elbowPotSB= new StringBuilder();
+	StringBuilder armAngleSB= new StringBuilder();
+	StringBuilder elbowAngleSB= new StringBuilder();
+	StringBuilder distanceEncoderSB= new StringBuilder();
 	/**
 	 * This function is run when the robot is first started up and should be used
 	 * for any initialization code.
@@ -266,8 +270,37 @@ public class Robot extends TimedRobot {
 		absEncoderSB.append(String.format("RR ", Robot.drivetrain.getAnalogInputRearRight()));
 		SmartDashboard.putString("DIAGNOSTICS ABS ENCODER(TURN WHEELS)", absEncoderSB.toString());
 		
+		distanceEncoderSB.setLength(0);
+		distanceEncoderSB.append(String.format("Encoder Val", Robot.drivetrain.getDistance()));
+		SmartDashboard.putString("DIAGNOSTICS DISTANCE ENCODER (TURN FRONT RIGHT WHEEL)", distanceEncoderSB.toString());
+		
+		SmartDashboard.putBoolean("arm Forward Limit Switch", Robot.arm.getMovementMotor().getSensorCollection().isFwdLimitSwitchClosed());
+		SmartDashboard.putBoolean("arm Reverse Limit Switch", Robot.arm.getMovementMotor().getSensorCollection().isRevLimitSwitchClosed());
+		
 		armPotSB.setLength(0);
-//		armPotSB.append(String.format("Max Pot ", Robot.arm.))
+		armPotSB.append(String.format("Max Arm Pot ", Robot.arm.GET_MAX_ARM_POT()));
+		armPotSB.append(String.format("Min Arm Pot", Robot.arm.GET_MIN_ARM_POT()));
+		armPotSB.append(String.format("Current Pot", Robot.arm.getArmPos()));
+		SmartDashboard.putString("DIAGNOSTICS ARM POT VALS (MOVE ARM)", armPotSB.toString());
+		
+		elbowPotSB.setLength(0);
+		elbowPotSB.append(String.format("Max Elbow Pot", Robot.arm.GET_MAX_ELBOW_POT()));
+		elbowPotSB.append(String.format("Min Elbow Pot", Robot.arm.GET_MIN_ELBOW_POT()));
+		elbowPotSB.append(String.format("Current Elbow Pot", Robot.arm.getElbowPos()));
+		SmartDashboard.putString("DIAGNOSTICS ELBOW POT VALS (MOVE ELBOW)", elbowPotSB.toString());
+		
+		armAngleSB.setLength(0);	
+		armAngleSB.append(String.format("Max Arm Angle", Robot.arm.GET_MAX_ARM_ANGLE()));
+		armAngleSB.append(String.format("MIn Arm Angle", Robot.arm.GET_MIN_ARM_ANGLE()));
+		armAngleSB.append(String.format("Current Arm Angle", Robot.arm.getArmAngle()));
+		SmartDashboard.putString("DIAGNOSTICS ARM ANGLE VALS (MOVE ARM", armAngleSB.toString());
+		
+		elbowAngleSB.setLength(0);
+		elbowAngleSB.append(String.format("Max Elbow Angle", Robot.arm.GET_MAX_ELBOW_ANGLE()));
+		elbowAngleSB.append(String.format("MIn Elbow Angle", Robot.arm.GET_MIN_ELBOW_ANGLE()));
+		elbowAngleSB.append(String.format("Current ELbow Angle", Robot.arm.getElbowAngle()));
+		SmartDashboard.putString("DIAGNOSTICS ELBOW ANGLE VALS (MOVE ELBOW)", elbowAngleSB.toString());
+		
 	}
 	
 	public void dashboardData() {
