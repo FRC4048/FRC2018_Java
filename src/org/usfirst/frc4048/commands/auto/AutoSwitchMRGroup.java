@@ -4,6 +4,7 @@ import org.usfirst.frc4048.commands.DriveDistance;
 import org.usfirst.frc4048.commands.RotateAngle;
 //import org.usfirst.frc4048.commands.arm.GrabCube;
 import org.usfirst.frc4048.commands.arm.MoveArm;
+import org.usfirst.frc4048.commands.intake.FlushCube;
 //import org.usfirst.frc4048.commands.arm.MoveClawToLevel;
 //import org.usfirst.frc4048.commands.arm.MoveClawToStraight;
 //import org.usfirst.frc4048.commands.arm.OpenClaw;
@@ -43,11 +44,10 @@ public class AutoSwitchMRGroup extends CommandGroup {
     	addParallel(new DriveDistance(AutoAction.AUTO_RUN_DISTANCE-5, AutoAction.LOCAL_SWITCH_SPEED, 0,0));
     	addSequential(new MoveArm(ArmPositions.Switch)); //TODO add this back
     	addSequential(new WaitForChildren());
-    	addSequential(new DriveDistance(10, 0, AutoAction.LOCAL_SWITCH_SPEED, 0));
-    	addSequential(new DriveDistance(15, AutoAction.LOCAL_SWITCH_SPEED, 0, 0));
     	addSequential(new RotateAngle(0));
-    	//WaitForChildren() waits for the parallel commands to finish
-//    	addSequential(new MoveClawToStraight());
-//    	addSequential(new OpenClaw());
+    	addSequential(new DriveDistance(10, 0, AutoAction.LOCAL_SWITCH_SPEED, 0));
+    	addSequential(new RotateAngle(0));
+    	addSequential(new DriveDistance(15, AutoAction.LOCAL_SWITCH_SPEED, 0, 0));
+    	addSequential(new FlushCube());
     }
 }

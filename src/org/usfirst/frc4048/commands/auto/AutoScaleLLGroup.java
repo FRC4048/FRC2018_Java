@@ -18,6 +18,7 @@ import org.usfirst.frc4048.utils.Logging.MessageLevel;
 import org.usfirst.frc4048.commands.auto.*;
 //import org.usfirst.frc4048.commands.intake.GripIntake;
 //import org.usfirst.frc4048.commands.intake.GripIntake.GripPosition;
+import org.usfirst.frc4048.commands.intake.FlushCube;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.WaitForChildren;
@@ -63,15 +64,10 @@ public class AutoScaleLLGroup extends CommandGroup {
     	addSequential(new RotateAngle(0));
     	
     	//ADJUST ANGLE AND DISTANCE FROM WALL
-    	addParallel(new RotateAngle(45));
     	addSequential(new CalculateSonarDistance(SonarSide.LEFT, AutoAction.DISTANCE_FROM_WALL_SCALE+25));
     	addSequential(new DriveDistance(0, 0, 0, 0));
-    	addParallel(new RotateAngle(45));
+    	addSequential(new RotateAngle(45));
     	//ROTATE AND DROP CUBE (on scale?)
-//    	addParallel(new DriveDistance(20, AutoAction.LOCAL_SCALE_SPEED ,AutoAction.LOCAL_SCALE_SPEED,0));
-//    	addSequential(new MoveClawToStraight());
-    	addSequential(new WaitForChildren());
-//    	addSequential(new OpenClaw());
-    	//WE WILL ADD THIS BACK LATER
+    	addSequential(new FlushCube());
     }
 }

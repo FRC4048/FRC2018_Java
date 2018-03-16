@@ -59,8 +59,7 @@ public class AutoSwitchLLGroup extends CommandGroup {
     	//ROTATE 90 AND DROP ON SWITCH
     	addSequential(new RotateAngle(90));
     	addParallel(new DriveDistance(21, 0, AutoAction.LOCAL_SWITCH_SPEED,0));
-//    	addSequential(new MoveClawToStraight());
     	addSequential(new WaitForChildren());
-//    	addSequential(new FlushCube());   
+    	addSequential(new FlushCube());   
     	}
 }
