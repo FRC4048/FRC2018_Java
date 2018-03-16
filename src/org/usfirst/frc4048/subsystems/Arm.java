@@ -147,7 +147,7 @@ public class Arm extends Subsystem {
 	public Arm() {
 		super("Arm");
 
-		elbowMotor.configSelectedFeedbackSensor(FeedbackDevice.Analog, 0, TIMEOUT);
+		elbowMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, TIMEOUT);
 		elbowMotor.selectProfileSlot(0, 0);
 		elbowMotor.configNominalOutputForward(0, TIMEOUT);
 		elbowMotor.configNominalOutputReverse(0, TIMEOUT);
@@ -453,8 +453,10 @@ public class Arm extends Subsystem {
 		if( ((a < 180) && (b > a)) ||
 			((a > 180) && (b < a)) ) {
 			elbowMotor.selectProfileSlot(0, 0);	//Elbow is going upward
+//			SmartDashboard.putString("Elbow is going...", "UP");
 		} else {
 			elbowMotor.selectProfileSlot(1, 0);	//Elbow is going downward
+//			SmartDashboard.putString("Elbow is going...", "DOWN");
 		}
 	}
 
