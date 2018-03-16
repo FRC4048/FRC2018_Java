@@ -112,6 +112,7 @@ public class Arm extends Subsystem {
 	/*
 	 * All of these values are used for the extension math
 	 */
+	private final double HOME_FROM_TOWER = 30.0;
 	private final double ARM_POT_MIN = 935;
 	private final double ARM_POT_MAX = 84;
 	private final double ARM_ANGLE_MIN = 0.0;
@@ -446,9 +447,15 @@ public class Arm extends Subsystem {
 		elbowMotor.set(ControlMode.Position, elbwSetpoint);
 		
 		//TODO Figure out what to do with PID switching
-//		if(getElbowPos() < elbwSetpoint) {
-//			elbowMotor.selectProfileSlot(1, 0);
-//		}
+		double a = getArmAngle() + getElbowAngle() + HOME_FROM_TOWER;
+		double b = getArmAngle() + elbowAngleSetpoint + HOME_FROM_TOWER;
+		
+		if( ((a < 180) && (b > a)) ||
+			((a > 180) && (b < a)) ) {
+			elbowMotor.selectProfileSlot(0, 0);	//Elbow is going upward
+		} else {
+			elbowMotor.selectProfileSlot(1, 0);	//Elbow is going downward
+		}
 	}
 
 	public boolean elbowShouldCompact(ArmPositions position)
