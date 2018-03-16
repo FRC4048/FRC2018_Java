@@ -173,7 +173,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 		timeOfStart = Timer.getFPGATimestamp();
-
+		Robot.arm.ResetElbowEncoder();
 		logging.traceMessage(Logging.MessageLevel.INFORMATION,
 				"---------------------------- Autonomous mode starting ----------------------------");
 		logging.printHeadings();
@@ -274,8 +274,8 @@ public class Robot extends TimedRobot {
 		distanceEncoderSB.append(String.format("Encoder Val %.3f", Robot.drivetrain.getDistance()));
 		SmartDashboard.putString("DIAGNOSTICS DISTANCE ENCODER (TURN FRONT RIGHT WHEEL)", distanceEncoderSB.toString());
 		
-		SmartDashboard.putBoolean("arm Forward Limit Switch", Robot.arm.getMovementMotor().getSensorCollection().isFwdLimitSwitchClosed());
-		SmartDashboard.putBoolean(" arm Reverse Limit Switch", Robot.arm.getMovementMotor().getSensorCollection().isRevLimitSwitchClosed());
+		SmartDashboard.putBoolean("DIAGNOSTICS arm Forward Limit Switch", Robot.arm.getMovementMotor().getSensorCollection().isFwdLimitSwitchClosed());
+		SmartDashboard.putBoolean("DIAGNOSTICS arm Reverse Limit Switch", Robot.arm.getMovementMotor().getSensorCollection().isRevLimitSwitchClosed());
 		
 		armPotSB.setLength(0);
 		armPotSB.append(String.format("Max Arm Pot %.3f", Robot.arm.GET_MAX_ARM_POT()));
@@ -367,6 +367,7 @@ public class Robot extends TimedRobot {
 		}
 		SmartDashboard.putData("Auto mode", chooser);
 		SmartDashboard.putData("Run Diagnostics", diagnosticChoose);
+		SmartDashboard.putData(new ResetElbowEncoder());
 		// SmartDashboard.putData("Reset Claw Gyro", new ResetClawGyro());
 //		SmartDashboard.putData("Close Claw", new GrabCube());
 		// SmartDashboard.putNumber("Claw Gyro Value", Robot.wrist.getGyroVal());
