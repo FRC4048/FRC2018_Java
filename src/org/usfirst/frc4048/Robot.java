@@ -10,6 +10,8 @@
 
 package org.usfirst.frc4048;
 
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.DriverStation.MatchType;
@@ -85,6 +87,9 @@ public class Robot extends TimedRobot {
 	StringBuilder armAngleSB= new StringBuilder();
 	StringBuilder elbowAngleSB= new StringBuilder();
 	StringBuilder distanceEncoderSB= new StringBuilder();
+	
+	private boolean diagnosticsHaveBeenEnabled = false;
+	
 	/**
 	 * This function is run when the robot is first started up and should be used
 	 * for any initialization code.
@@ -167,6 +172,15 @@ public class Robot extends TimedRobot {
 			oldAutoAction = autoAction;
 		}
 		enableDiagnostic = diagnosticChoose.getSelected();
+		if (enableDiagnostic) {
+			diagnosticsHaveBeenEnabled = true;
+		}
+		if (!enableDiagnostic && diagnosticsHaveBeenEnabled) {
+			for(DiagnosticsKey x: DiagnosticsKey.values()) {
+				SmartDashboard.delete(x.value);
+			}
+			diagnosticsHaveBeenEnabled = false;
+		}
 		dashboardData();
 	}
 
@@ -268,38 +282,38 @@ public class Robot extends TimedRobot {
 		absEncoderSB.append(String.format(" FL %d", Robot.drivetrain.getAnalogInputFrontLeft().getValue()));
 		absEncoderSB.append(String.format(" RL %d", Robot.drivetrain.getAnalogInputRearLeft().getValue()));
 		absEncoderSB.append(String.format(" RR %d", Robot.drivetrain.getAnalogInputRearRight().getValue()));
-		SmartDashboard.putString("DIAGNOSTICS ABS ENCODER(TURN WHEELS)", absEncoderSB.toString());
+		SmartDashboard.putString(DiagnosticsKey.AbsEnc.value, absEncoderSB.toString());
 		
 		distanceEncoderSB.setLength(0);
 		distanceEncoderSB.append(String.format("Encoder Val %.3f", Robot.drivetrain.getDistance()));
-		SmartDashboard.putString("DIAGNOSTICS DISTANCE ENCODER (TURN FRONT RIGHT WHEEL)", distanceEncoderSB.toString());
+		SmartDashboard.putString(DiagnosticsKey.DisEnc.value, distanceEncoderSB.toString());
 		
-		SmartDashboard.putBoolean("DIAGNOSTICS arm Forward Limit Switch", Robot.arm.getMovementMotor().getSensorCollection().isFwdLimitSwitchClosed());
-		SmartDashboard.putBoolean("DIAGNOSTICS arm Reverse Limit Switch", Robot.arm.getMovementMotor().getSensorCollection().isRevLimitSwitchClosed());
+		SmartDashboard.putBoolean(DiagnosticsKey.FwdLimSwi.value, Robot.arm.getMovementMotor().getSensorCollection().isFwdLimitSwitchClosed());
+		SmartDashboard.putBoolean(DiagnosticsKey.BwdLimSwi.value, Robot.arm.getMovementMotor().getSensorCollection().isRevLimitSwitchClosed());
 		
 		armPotSB.setLength(0);
 		armPotSB.append(String.format("Max Arm Pot %.3f", Robot.arm.GET_MAX_ARM_POT()));
 		armPotSB.append(String.format(" Min Arm Pot %.3f", Robot.arm.GET_MIN_ARM_POT()));
 		armPotSB.append(String.format(" Current Pot %d", Robot.arm.getArmPos()));
-		SmartDashboard.putString("DIAGNOSTICS ARM POT VALS (MOVE ARM)", armPotSB.toString());
+		SmartDashboard.putString(DiagnosticsKey.ArmPot.value, armPotSB.toString());
 		
 		elbowPotSB.setLength(0);
 		elbowPotSB.append(String.format("Max Elbow Pot %.3f", Robot.arm.GET_MAX_ELBOW_POT()));
 		elbowPotSB.append(String.format(" Min Elbow Pot %.3f", Robot.arm.GET_MIN_ELBOW_POT()));
 		elbowPotSB.append(String.format(" Current Elbow Pot %d", Robot.arm.getElbowPos()));
-		SmartDashboard.putString("DIAGNOSTICS ELBOW POT VALS (MOVE ELBOW)", elbowPotSB.toString());
+		SmartDashboard.putString(DiagnosticsKey.ElbPot.value, elbowPotSB.toString());
 		
 		armAngleSB.setLength(0);	
 		armAngleSB.append(String.format("Max Arm Angle %.3f", Robot.arm.GET_MAX_ARM_ANGLE()));
 		armAngleSB.append(String.format(" Min Arm Angle %.3f", Robot.arm.GET_MIN_ARM_ANGLE()));
 		armAngleSB.append(String.format(" Current Arm Angle %.3f", Robot.arm.getArmAngle()));
-		SmartDashboard.putString("DIAGNOSTICS ARM ANGLE VALS (MOVE ARM", armAngleSB.toString());
+		SmartDashboard.putString(DiagnosticsKey.ArmAng.value, armAngleSB.toString());
 		
 		elbowAngleSB.setLength(0);
 		elbowAngleSB.append(String.format("Max Elbow Angle %.3f", Robot.arm.GET_MAX_ELBOW_ANGLE()));
 		elbowAngleSB.append(String.format("MIn Elbow Angle %.3f", Robot.arm.GET_MIN_ELBOW_ANGLE()));
 		elbowAngleSB.append(String.format("Current ELbow Angle %.3f", Robot.arm.getElbowAngle()));
-		SmartDashboard.putString("DIAGNOSTICS ELBOW ANGLE VALS (MOVE ELBOW)", elbowAngleSB.toString());
+		SmartDashboard.putString(DiagnosticsKey.ElbAng.value, elbowAngleSB.toString());
 		
 	}
 	
@@ -377,5 +391,20 @@ public class Robot extends TimedRobot {
 		if (enableDiagnostic) {
 			diagnostics();
 		}
+	}
+	enum DiagnosticsKey {
+		DisEnc("DIAGNOSTICS DISTANCE ENCODER (TURN FRONT RIGHT WHEEL)"), 
+		AbsEnc("DIAGNOSTICS ABS ENCODER(TURN WHEELS)"),
+		FwdLimSwi("DIAGNOSTICS arm Forward Limit Switch"),
+		BwdLimSwi("DIAGNOSTICS arm Reverse Limit Switch"),
+		ArmPot("DIAGNOSTICS ARM POT VALS (MOVE ARM)"),
+		ArmAng("DIAGNOSTICS ARM ANGLE VALS (MOVE ARM)"),
+		ElbPot("DIAGNOSTICS ELBOW POT VALS (MOVE ELBOW)"),
+		ElbAng("DIAGNOSTICS ELBOW ANGLE VALS (MOVE ELBOW)");
+		
+		DiagnosticsKey(String value){
+			this.value = value;
+		}
+		public final String value;
 	}
 }
