@@ -29,11 +29,10 @@ public class GrabCube extends LoggedCommand {
 
     // Called just before this Command runs the first time
     protected void loggedInitialize() {
-    	setTimeout(0.5);
+    	setTimeout(3.0);
     }
     
     // Called repeatedly when this Command is scheduled to run
-
     protected void loggedExecute() {
     	if(!Robot.pincher.pincherIsClosed() && !isTimedOut() && !callback.hasGroupBeenCanceled())
     		Robot.pincher.closePincher();
@@ -47,12 +46,14 @@ public class GrabCube extends LoggedCommand {
     // Called once after isFinished returns true
     protected void loggedEnd() {
     	callback.doCancel(isTimedOut());
+    	Robot.pincher.stopPincher();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void loggedInterrupted() {
     	callback.doCancel(true);
+    	Robot.pincher.stopPincher();
     }
 
 	@Override

@@ -1,7 +1,6 @@
 package org.usfirst.frc4048.subsystems;
 
 import org.usfirst.frc4048.RobotMap;
-import org.usfirst.frc4048.commands.Pinch;
 import org.usfirst.frc4048.utils.Logging;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -20,15 +19,9 @@ public class Pincher extends Subsystem {
 	WPI_TalonSRX pincherMotor = RobotMap.clawgripMotor;
 	
 	private final double PINCHER_OPEN_SPEED = 0.6;
-	private final double PINCHER_CLOSE_SPEED = 0.0;
+	private final double PINCHER_CLOSE_SPEED = -0.6;
 	
 	private final int TIMEOUT = 100;
-
-	public enum PincherState {
-		Open, Close
-	}
-	
-	private PincherState state = PincherState.Close;
 	
 	public Pincher()
 	{
@@ -47,7 +40,7 @@ public class Pincher extends Subsystem {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
     	
-    	setDefaultCommand(new Pinch());
+//    	setDefaultCommand(new Pinch());
     }
     
     public final Logging.LoggingContext loggingContext = new Logging.LoggingContext(Logging.Subsystems.PINCHER) {
@@ -69,17 +62,17 @@ public class Pincher extends Subsystem {
     
     public void openPincher()
     {
-    	state = PincherState.Open;
     	pincherMotor.set(ControlMode.PercentOutput, PINCHER_OPEN_SPEED);
     }
     
-    /*
-     * Speed is zero because of the spring
-     */
     public void closePincher()
     {
-    	state = PincherState.Close;
     	pincherMotor.set(PINCHER_CLOSE_SPEED);
+    }
+    
+    public void stopPincher()
+    {
+    	pincherMotor.set(0.0);
     }
     
     public boolean pincherIsOpen()
@@ -90,11 +83,6 @@ public class Pincher extends Subsystem {
     public boolean pincherIsClosed()
     {
     	return pincherMotor.getSensorCollection().isRevLimitSwitchClosed();
-    }
-    
-    public PincherState getPincherState()
-    {
-    	return state;
     }
 }
 

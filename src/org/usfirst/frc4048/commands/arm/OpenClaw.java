@@ -4,6 +4,7 @@ import org.usfirst.frc4048.Robot;
 import org.usfirst.frc4048.RobotMap;
 import org.usfirst.frc4048.commands.GroupCommandCallback;
 import org.usfirst.frc4048.commands.LoggedCommand;
+import org.usfirst.frc4048.subsystems.Pincher;
 import org.usfirst.frc4048.utils.MotorUtils;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -47,12 +48,14 @@ public class OpenClaw extends LoggedCommand {
     // Called once after isFinished returns true
     protected void loggedEnd() {
     	callback.doCancel(isTimedOut());
+    	Robot.pincher.stopPincher();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void loggedInterrupted() {
     	callback.doCancel(true);
+    	Robot.pincher.stopPincher();
     }
 
 	@Override
