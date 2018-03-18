@@ -9,6 +9,7 @@ import org.usfirst.frc4048.subsystems.Wrist.WristPostion;
 import org.usfirst.frc4048.utils.MotorUtils;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -34,15 +35,20 @@ public class MoveClaw extends LoggedCommand {
     	if(Robot.arm.isGoingHome() || Robot.arm.getArmAngle() <= (Arm.HOME_MAX_ANGLE))
     	{
     		Robot.wrist.setPosition(WristPostion.Compact);
-    	}
-    	
-    	
-    	
-    	
+    	}	
 //    	else
 //    	{
 //    		Robot.wrist.setPosition(WristPostion.Level);
 //    	}
+    	
+    	if(Robot.oi.getUpDPAD()) {
+    		Robot.wrist.angleUp();
+    		Robot.wrist.setPosition(WristPostion.DoNothing);
+    	}
+    	if(Robot.oi.getDownDPAD()) {
+    		Robot.wrist.angleDown();
+    		Robot.wrist.setPosition(WristPostion.DoNothing);
+    	}
     	
     	if(Robot.wrist.getPosition() == WristPostion.Compact)
     	{
@@ -65,6 +71,12 @@ public class MoveClaw extends LoggedCommand {
     	else if(Robot.wrist.getPosition() == WristPostion.Straight)
     	{
     		Robot.wrist.moveClawToStraight();
+    	}
+    	else if(Robot.wrist.getPosition() == WristPostion.DoNothing)
+    	{
+    		if(!(Robot.oi.getDownDPAD() || Robot.oi.getUpDPAD())) {
+    			Robot.wrist.stopWrist();
+    		}
     	}
     }
 

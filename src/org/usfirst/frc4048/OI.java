@@ -240,8 +240,12 @@ public class OI {
 	
 	public boolean getUpDPAD()
 	{
-		if(xboxController.getPOV() <= 15 &&
-			xboxController.getPOV() >= 345) {
+		if(xboxController.getPOV() == -1.0) {
+			return false;
+		}
+		
+		if(xboxController.getPOV() > 270 ||
+			xboxController.getPOV() < 90) {
 			return true;
 		} else {
 			return false;
@@ -250,8 +254,12 @@ public class OI {
 	
 	public boolean getDownDPAD()
 	{
-		if(xboxController.getPOV() >= 195 &&
-			xboxController.getPOV() <= 165) {
+		if(xboxController.getPOV() == -1.0) {
+			return false;
+		}
+		
+		if(xboxController.getPOV() < 270 &&
+			xboxController.getPOV() > 90) {
 			return true;
 		} else {
 			return false;

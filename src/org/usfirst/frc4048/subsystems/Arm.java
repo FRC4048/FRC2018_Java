@@ -66,6 +66,15 @@ public class Arm extends Subsystem {
 	private final MotorUtils extensionStall = new MotorUtils(RobotMap.PDP_EXTENSION, 
 															RobotMap.CURRENT_THRESHOLD_EXTENSION_MOTOR, 
 															RobotMap.TIMEOUT_EXTENSION_MOTOR);
+	private final MotorUtils armStall = new MotorUtils(RobotMap.PDP_ARM_MOTOR, 
+														RobotMap.CURRENT_THRESHOLD_ARM_CUBE_PICKUP,
+														RobotMap.TIMEOUT_ARM_MOTOR);
+	
+	/**
+	 * States if the arm movement is disabled
+	 */
+	private boolean disableArm = true;
+	private boolean fullyDisableArm = false;
 	
 	private double EXT_P = 20.0;
 	private double EXT_INTAKE_P = 10.0;
@@ -129,11 +138,6 @@ public class Arm extends Subsystem {
 	private ArmMath armMath = new ArmMath();
 
 	private boolean goingHome = false;
-	
-	/**
-	 * States if the arm movement is disabled
-	 */
-	private boolean disableArm = true;
 	
 	private double armP = -1;
 	private double armI = -1;
@@ -228,17 +232,28 @@ public class Arm extends Subsystem {
 	public void periodic() {
 		// Put code here to be run every loop
 
-		if(extensionStall.isStalled()) {
-			extensionMotor.stopMotor();
-			startStallTime = Timer.getFPGATimestamp();
-		} else if(Timer.getFPGATimestamp() - startStallTime <= EXT_STALL_DELAY){
-			DriverStation.reportError("Please wait, extension is resting after stall", false);
-			extensionMotor.stopMotor();
-			armAngleSetpoint = getArmAngle();
-		} else {
-			moveExtension();
+		//If the arm stalls, permanently disable it
+		if(armStall.isStalled()) {
+			fullyDisableArm = true;
 		}
-		moveArm();
+		
+		if(fullyDisableArm) {
+			extensionMotor.disable();
+			movementMotor.disable();
+		}
+		else {
+			if(extensionStall.isStalled()) {
+				extensionMotor.stopMotor();
+				startStallTime = Timer.getFPGATimestamp();
+			} else if(Timer.getFPGATimestamp() - startStallTime <= EXT_STALL_DELAY){
+				DriverStation.reportError("Please wait, extension is resting after stall", false);
+				extensionMotor.stopMotor();
+				armAngleSetpoint = getArmAngle();
+			} else {
+				moveExtension();
+			}
+			moveArm();
+		}
 		
 		loggingContext.writeData();
 		
@@ -472,6 +487,11 @@ public class Arm extends Subsystem {
 	public void setDisabled(boolean val)
 	{
 		disableArm = val;
+	}
+	
+	public void fullyEnableArm()
+	{
+		fullyDisableArm = false;
 	}
 	
 	/**

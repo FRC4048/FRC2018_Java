@@ -137,6 +137,7 @@ public class Robot extends TimedRobot {
         Scheduler.getInstance().run();
         
         Robot.arm.setDisabled(true);
+        Robot.arm.fullyEnableArm();
         
         autoAction = chooser.getSelected();
         if (autoAction != oldAutoAction)
@@ -259,6 +260,9 @@ public class Robot extends TimedRobot {
             SmartDashboard.putNumber("JoyStick Left X", oi.getLeftJoystick().getX());
             SmartDashboard.putNumber("JoyStick Left Y", oi.getLeftJoystick().getY());
             SmartDashboard.putNumber("JoyStick Right X", oi.getRightJoystick().getX());
+            SmartDashboard.putNumber("DPAD ANGLE", Robot.oi.xboxController.getPOV());
+            SmartDashboard.putBoolean("DPAD UP", Robot.oi.getUpDPAD());
+            SmartDashboard.putBoolean("DPAD DOWN", Robot.oi.getDownDPAD());
     		SmartDashboard.putData("Move Claw to Compact", new SetClawPosition(WristPostion.Compact));
             SmartDashboard.putData("Move Claw to Level", new SetClawPosition(WristPostion.Level));
             SmartDashboard.putNumber("Global Scale Factor", GLOBAL_SCALE_FACTOR);

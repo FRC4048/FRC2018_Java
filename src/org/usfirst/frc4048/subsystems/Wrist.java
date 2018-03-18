@@ -47,7 +47,8 @@ public class Wrist extends Subsystem {
     {
     	Compact,
     	Level,
-    	Straight
+    	Straight,
+    	DoNothing
     }
 	
     // Put methods for controlling this subsystem
