@@ -19,32 +19,13 @@ import org.usfirst.frc4048.commands.DriveDistance;
 import org.usfirst.frc4048.commands.ReconfigEncoders;
 import org.usfirst.frc4048.commands.RotateAngle;
 import org.usfirst.frc4048.commands.ToggleMode;
-//import org.usfirst.frc4048.commands.arm.GrabCube;
 import org.usfirst.frc4048.commands.arm.MoveArm;
-//import org.usfirst.frc4048.commands.arm.OpenClaw;
-//import org.usfirst.frc4048.commands.arm.SetClawPosition;
-//import org.usfirst.frc4048.commands.arm.SetClawPositionAndWait;
 import org.usfirst.frc4048.commands.auto.AutoAction;
 import org.usfirst.frc4048.commands.getcube.GetCubeIntake;
 import org.usfirst.frc4048.commands.intake.FlushCube;
 import org.usfirst.frc4048.commands.intake.IntakeCube;
 import org.usfirst.frc4048.commands.intake.IntakeCube.IntakeMode;
-//import org.usfirst.frc4048.commands.getcube.GetCubeGroupCommand;
-//import org.usfirst.frc4048.commands.getcube.GetCubeGroupCommandOrig;
-//import org.usfirst.frc4048.commands.getcube.GetCubeGroupCommandTest;
-//import org.usfirst.frc4048.commands.getcube.GetCubeGroupCommandTestSplit;
-//import org.usfirst.frc4048.commands.intake.FlushCube;
-//import org.usfirst.frc4048.commands.intake.GripIntake;
-//import org.usfirst.frc4048.commands.intake.GripIntake.GripPosition;
-//import org.usfirst.frc4048.commands.intake.IntakeCube;
-//import org.usfirst.frc4048.commands.intake.IntakeCube.IntakeMode;
-//import org.usfirst.frc4048.commands.intake.RaiseIntake;
-//import org.usfirst.frc4048.commands.intake.ToggleIntake;
-//import org.usfirst.frc4048.commands.intake.ToggleIntakeGrip;
-import org.usfirst.frc4048.subsystems.Claw;
 import org.usfirst.frc4048.subsystems.Arm.ArmPositions;
-
-import org.usfirst.frc4048.subsystems.Wrist.WristPostion;
 
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;

@@ -33,7 +33,6 @@ import org.usfirst.frc4048.commands.intake.*;
 import org.usfirst.frc4048.subsystems.*;
 import org.usfirst.frc4048.subsystems.Arm.ArmPositions;
 import org.usfirst.frc4048.subsystems.Drivetrain.SonarSide;
-import org.usfirst.frc4048.subsystems.Wrist.WristPostion;
 import org.usfirst.frc4048.commands.auto.Action;
 import org.usfirst.frc4048.swerve.math.*;
 import org.usfirst.frc4048.utils.Logging;
@@ -160,10 +159,10 @@ public class Robot extends TimedRobot {
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
-
+		
 		Robot.arm.setDisabled(true);
 		Robot.arm.fullyEnableArm();
-
+		
 		autoAction = chooser.getSelected();
 		
 		if (autoAction != oldAutoAction) {

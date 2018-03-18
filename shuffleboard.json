@@ -1,0 +1,164 @@
+{
+  "dividerPosition": 0.3285356695869837,
+  "tabPane": [
+    {
+      "title": "SmartDashboard",
+      "autoPopulate": true,
+      "autoPopulatePrefix": "SmartDashboard/",
+      "widgetPane": {
+        "gridSize": 128.0,
+        "hgap": 16.0,
+        "vgap": 16.0,
+        "tiles": {
+          "3,0": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Command",
+              "_source0": "network_table:///SmartDashboard/ResetElbowEncoder",
+              "_title": "ResetElbowEncoder"
+            }
+          },
+          "0,0": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "ComboBox Chooser",
+              "_source0": "network_table:///SmartDashboard/Run Diagnostics",
+              "_title": "Run Diagnostics"
+            }
+          },
+          "2,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "ComboBox Chooser",
+              "_source0": "network_table:///SmartDashboard/Auto mode",
+              "_title": "Auto mode"
+            }
+          },
+          "0,3": {
+            "size": [
+              3,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/DIAGNOSTICS ABS ENCODER(TURN WHEELS)",
+              "_title": "DIAGNOSTICS ABS ENCODER(TURN WHEELS)"
+            }
+          },
+          "3,2": {
+            "size": [
+              4,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/DIAGNOSTICS ARM ANGLE VALS (MOVE ARM)",
+              "_title": "DIAGNOSTICS ARM ANGLE VALS (MOVE ARM)"
+            }
+          },
+          "3,3": {
+            "size": [
+              4,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/DIAGNOSTICS DISTANCE ENCODER (TURN FRONT RIGHT WHEEL)",
+              "_title": "DIAGNOSTICS DISTANCE ENCODER (TURN FRONT RIGHT WHEEL)"
+            }
+          },
+          "0,4": {
+            "size": [
+              3,
+              1
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///SmartDashboard/DIAGNOSTICS arm Reverse Limit Switch",
+              "_title": "DIAGNOSTICS arm Reverse Limit Switch",
+              "colorWhenTrue": "#7CFC00FF",
+              "colorWhenFalse": "#8B0000FF"
+            }
+          },
+          "3,4": {
+            "size": [
+              4,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/DIAGNOSTICS ELBOW POT VALS (MOVE ELBOW)",
+              "_title": "DIAGNOSTICS ELBOW POT VALS (MOVE ELBOW)"
+            }
+          },
+          "0,1": {
+            "size": [
+              3,
+              1
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///SmartDashboard/DIAGNOSTICS arm Forward Limit Switch",
+              "_title": "DIAGNOSTICS arm Forward Limit Switch",
+              "colorWhenTrue": "#7CFC00FF",
+              "colorWhenFalse": "#8B0000FF"
+            }
+          },
+          "3,1": {
+            "size": [
+              4,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/DIAGNOSTICS ELBOW ANGLE VALS (MOVE ELBOW)",
+              "_title": "DIAGNOSTICS ELBOW ANGLE VALS (MOVE ELBOW)"
+            }
+          },
+          "6,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Action for Auto",
+              "_title": "Action for Auto"
+            }
+          },
+          "5,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Arm Angle",
+              "_title": "Arm Angle"
+            }
+          },
+          "0,2": {
+            "size": [
+              3,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/DIAGNOSTICS ARM POT VALS (MOVE ARM)",
+              "_title": "DIAGNOSTICS ARM POT VALS (MOVE ARM)"
+            }
+          }
+        }
+      }
+    }
+  ]
+}

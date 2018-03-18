@@ -60,7 +60,7 @@ public class RobotMap {
     public static SpeedController intakeleftIntakeMotor;
     public static SpeedController intakerightIntakeMotor;
     public static DigitalInput intakecubeSwitch;
-    public static SpeedController intakedeployMotor;
+    public static SpeedController intakeDeployMotor;
     public static DigitalInput intakeupperLimit;
     public static DigitalInput intakelowerLimit;
 //    public static SpeedController climberclimbMotor;
@@ -186,9 +186,9 @@ public class RobotMap {
         
         LiveWindow.addSensor("Intake", "cubeSwitch", intakecubeSwitch);
         
-        intakedeployMotor = new Spark(4);
-        LiveWindow.addActuator("Intake", "deployMotor", (Spark) intakedeployMotor);
-        intakedeployMotor.setInverted(false);
+        intakeDeployMotor = new Spark(4);
+        LiveWindow.addActuator("Intake", "deployMotor", (Spark) intakeDeployMotor);
+        intakeDeployMotor.setInverted(false);
         intakeupperLimit = new DigitalInput(1);
         LiveWindow.addSensor("Intake", "upperLimit", intakeupperLimit);
         
