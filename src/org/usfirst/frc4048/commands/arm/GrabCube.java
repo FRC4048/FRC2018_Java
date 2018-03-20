@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 
 public class GrabCube extends LoggedCommand {
 	private final GroupCommandCallback callback;
-	private final MotorUtils pdpMotor = new MotorUtils(RobotMap.PDP_GRIP_MOTOR, RobotMap.CURRENT_THRESHOLD_GRIP_MOTOR);
+	private final MotorUtils pdpMotor = new MotorUtils(RobotMap.PDP_GRIP_MOTOR, RobotMap.CURRENT_THRESHOLD_GRIP_MOTOR, RobotMap.TIMEOUT_GRIP_MOTOR);
 	
 //	MotorUtils currentCheck 
 	
