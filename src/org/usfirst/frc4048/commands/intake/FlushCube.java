@@ -26,7 +26,7 @@ public class FlushCube extends LoggedCommand {
 
     // Called just before this Command runs the first time
     protected void loggedInitialize() {
-    	setTimeout(2);
+    	setTimeout(Robot.intake.FLUSH_TIMOUT);
     }
 
     // Called repeatedly when this Command is scheduled to run

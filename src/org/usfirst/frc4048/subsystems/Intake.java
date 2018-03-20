@@ -13,6 +13,7 @@ package org.usfirst.frc4048.subsystems;
 
 import org.usfirst.frc4048.Robot;
 import org.usfirst.frc4048.RobotMap;
+import org.usfirst.frc4048.commands.intake.AlwaysIntake;
 import org.usfirst.frc4048.subsystems.Arm.ArmPositions;
 import org.usfirst.frc4048.utils.Logging;
 
@@ -53,14 +54,17 @@ public class Intake extends Subsystem {
 	 * Approximately 8/12 volts.
 	 */
     private final double ROLLER_SPEED = 0.67;//Intake speed
+    private final double ROLLER_SPEED_SLOW = .17;
     private final double ROLLER_SPEED_FLUSH = /*0.67*/-0.27;//Flush sleep Switch Position or lower
-    private final double ROLLER_SPEED_FLUSH_FASTER = -0.77;//Flush speed Scale position
+    private final double ROLLER_SPEED_FLUSH_FASTER = -0.67;//Flush speed Scale position
     
     /**
      * Approximately 4/12 volts.
      */
     private final double VARIED_ROLLER_SPEED = 0.33*Robot.GLOBAL_SCALE_FACTOR;
-
+    
+    public final double FLUSH_TIMOUT = .5;
+    
     public Intake()
     {
     	leftFrontIntakeMotor.selectProfileSlot(0, 0);
@@ -89,6 +93,7 @@ public class Intake extends Subsystem {
 
         // Set the default command for a subsystem here.
         // setDefaultCommand(new MySpecialCommand());
+    	setDefaultCommand(new AlwaysIntake());
     }
     
 	public final Logging.LoggingContext loggingContext = new Logging.LoggingContext(Logging.Subsystems.INTAKE) {
@@ -156,6 +161,14 @@ public class Intake extends Subsystem {
     		leftBackIntakeMotor.set(ROLLER_SPEED_FLUSH_FASTER);
     		rightBackIntakeMotor.set(ROLLER_SPEED_FLUSH_FASTER);
     	}
+    }
+    
+    public void alwaysIntake()
+    {
+    	leftFrontIntakeMotor.set(ControlMode.PercentOutput, ROLLER_SPEED_SLOW);
+    	rightFrontIntakeMotor.set(ControlMode.PercentOutput, -ROLLER_SPEED_SLOW);
+    	leftBackIntakeMotor.set(ROLLER_SPEED_SLOW);
+    	rightBackIntakeMotor.set(ROLLER_SPEED_SLOW);
     }
     
     public void stopIntake()

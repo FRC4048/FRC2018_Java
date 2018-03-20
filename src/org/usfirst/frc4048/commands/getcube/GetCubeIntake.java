@@ -3,6 +3,7 @@ package org.usfirst.frc4048.commands.getcube;
 import org.usfirst.frc4048.Robot;
 import org.usfirst.frc4048.commands.GroupCommandCallback;
 import org.usfirst.frc4048.commands.arm.MoveArm;
+import org.usfirst.frc4048.commands.intake.AlwaysIntake;
 import org.usfirst.frc4048.commands.intake.IntakeCube;
 import org.usfirst.frc4048.subsystems.Arm.ArmPositions;
 
@@ -24,6 +25,7 @@ public class GetCubeIntake extends CommandGroup implements GroupCommandCallback 
 		}
 		
 		if (part2) {
+			addParallel(new AlwaysIntake());
 			addSequential(new MoveArm(this, ArmPositions.Switch));
 		}
 	}
