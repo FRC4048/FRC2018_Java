@@ -130,8 +130,8 @@ public class Arm extends Subsystem {
 	private final double ARM_ANGLE_MAX = 150.0;
 	private final double ARM_POT_INVERT = -1.0;
 	
-	private final double ELBW_POT_MIN = 692.0;
-	private final double ELBW_POT_MAX = 423.0;
+	private final double ELBW_POT_MIN = 2728.0;
+	private final double ELBW_POT_MAX = 0.0;
 	private final double ELBW_ANGLE_MIN = 0.0;
 	private final double ELBW_ANGLE_MAX = 167.7;
 	private final double ELBW_POT_INVERT = 1.0;
@@ -193,6 +193,8 @@ public class Arm extends Subsystem {
 		armAngleSetpoint = getArmAngle();
 		elbowToPosition(ArmPositions.Home);
 
+		resetElbowEnc();
+		
 		//printPIDValues();
 	}
 	
