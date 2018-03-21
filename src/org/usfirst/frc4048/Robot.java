@@ -374,6 +374,8 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("Arm Angle", arm.getArmAngle());
 		SmartDashboard.putString("Action for Auto", autoAction.toString());
 
+		SmartDashboard.putData("Reset Elbow Encoder", new ResetElbowEncoder());
+		
 		if (enableDiagnostic) {
 			diagnostics();
 			SmartDashboard.putBoolean("Diagnostics are running?", enableDiagnostic);

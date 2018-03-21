@@ -99,7 +99,7 @@ public class RobotMap {
     public static final double CURRENT_THRESHOLD_INTAKE_DEPLOY_MOTOR = 25.0;
     public static final double CURRENT_THRESHOLD_ARM_MOTOR = 35.0;
     public static final double CURRENT_THRESHOLD_WRIST_MOTOR = 6.0;
-    public static final double CURRENT_THRESHOLD_GRIP_MOTOR = 12.0;
+    public static final double CURRENT_THRESHOLD_GRIP_MOTOR = 5.0;
     public static final double CURRENT_THRESHOLD_ELBOW_MOTOR = 35.0;
     
     public static final double TIMEOUT_INTAKE_MOTOR = 0.20;

@@ -18,8 +18,10 @@ public class Pincher extends Subsystem {
 
 	WPI_TalonSRX pincherMotor = RobotMap.clawgripMotor;
 	
-	private final double PINCHER_OPEN_SPEED = 0.6;
-	private final double PINCHER_CLOSE_SPEED = -0.6;
+	//PINCHER, Positive = Close, Negative = Open
+	
+	private final double PINCHER_OPEN_SPEED = -0.85;
+	private final double PINCHER_CLOSE_SPEED = 1.00;
 	
 	private final int TIMEOUT = 100;
 	
