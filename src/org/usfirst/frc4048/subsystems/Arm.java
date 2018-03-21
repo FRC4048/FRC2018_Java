@@ -565,7 +565,7 @@ public class Arm extends Subsystem {
 		}
 	}
 	
-	public void ResetElbowEncoder() {
+	public void resetElbowEncoder() {
 		elbowMotor.setSelectedSensorPosition(0, 0, TIMEOUT);
 	}
 

@@ -12,6 +12,7 @@ public class ResetElbowEncoder extends Command {
     public ResetElbowEncoder() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
+    	this.setRunWhenDisabled(true);
     }
 
     // Called just before this Command runs the first time
@@ -20,7 +21,7 @@ public class ResetElbowEncoder extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.arm.ResetElbowEncoder();
+    	Robot.arm.resetElbowEncoder();
     }
 
     // Make this return true when this Command no longer needs to run execute()

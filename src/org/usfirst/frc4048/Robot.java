@@ -187,7 +187,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 		timeOfStart = Timer.getFPGATimestamp();
-		Robot.arm.ResetElbowEncoder();
+		Robot.arm.resetElbowEncoder();
 		logging.traceMessage(Logging.MessageLevel.INFORMATION,
 				"---------------------------- Autonomous mode starting ----------------------------");
 		logging.printHeadings();
