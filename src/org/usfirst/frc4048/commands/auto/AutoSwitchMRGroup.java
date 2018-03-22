@@ -41,7 +41,7 @@ public class AutoSwitchMRGroup extends CommandGroup {
 		addSequential(new GrabCube());
 //    	addSequential(new GripIntake(GripPosition.Open));
     	addParallel(new DriveDistance(AutoAction.AUTO_RUN_DISTANCE-5, AutoAction.LOCAL_SWITCH_SPEED, 0,0));
-    	addSequential(new MoveArm(ArmPositions.Switch)); //TODO add this back
+    	addSequential(new MoveArm(ArmPositions.Switch));
     	addSequential(new WaitForChildren());
     	addSequential(new DriveDistance(10, 0, AutoAction.LOCAL_SWITCH_SPEED, 0));
     	addSequential(new DriveDistance(15, AutoAction.LOCAL_SWITCH_SPEED, 0, 0));

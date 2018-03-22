@@ -69,8 +69,8 @@ public class Arm extends Subsystem {
 															RobotMap.CURRENT_THRESHOLD_ELBOW_MOTOR, 
 															RobotMap.TIMEOUT_ELBOW_MOTOR);
 	private final MotorUtils armStall = new MotorUtils(RobotMap.PDP_ARM_MOTOR, 
-															RobotMap.CURRENT_THRESHOLD_ARM_MOTOR,
-															RobotMap.TIMEOUT_ARM_MOTOR);
+															RobotMap.CURRENT_THRESHOLD_ARM_MOTOR_PROBLEM,
+															RobotMap.TIMEOUT_ARM_MOTOR_PROBLEM);
 	
 	/**
 	 * States if the arm movement is disabled
@@ -239,6 +239,7 @@ public class Arm extends Subsystem {
 	public void periodic() {
 		// Put code here to be run every loop
 		
+		//TODO Should motor stall be being checked constantly?
 		//If the arm stalls, permanently disable it
 		if(armStall.isStalled()) {
 			fullyDisableArm = true;

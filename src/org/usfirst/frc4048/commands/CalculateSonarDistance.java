@@ -112,7 +112,6 @@ public class CalculateSonarDistance extends LoggedCommand {
 
 	@Override
 	protected void loggedCancel() {
-		// TODO Auto-generated method stub
 		
 	}
 }

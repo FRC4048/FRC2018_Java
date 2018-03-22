@@ -3,12 +3,14 @@ package org.usfirst.frc4048.commands.arm;
 import org.usfirst.frc4048.subsystems.Arm;
 import org.usfirst.frc4048.subsystems.Arm.ArmPositions;
 import org.usfirst.frc4048.subsystems.Wrist.WristPostion;
+import org.usfirst.frc4048.utils.MotorUtils;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc4048.Robot;
+import org.usfirst.frc4048.RobotMap;
 import org.usfirst.frc4048.commands.GroupCommandCallback;
 import org.usfirst.frc4048.commands.LoggedCommand;
 
@@ -21,7 +23,10 @@ public class MoveArm extends LoggedCommand {
 	private final ArmPositions position;
 	private boolean retractElbow = false;
 	private boolean elbowWasRetracted = false;
-
+	private final MotorUtils armStall = new MotorUtils(	RobotMap.PDP_ARM_MOTOR, 
+														RobotMap.CURRENT_THRESHOLD_ARM_MOTOR,
+														RobotMap.TIMEOUT_ARM_MOTOR);
+	
 	public MoveArm(final ArmPositions position) {
 		this(GroupCommandCallback.NONE, position);
 	}
@@ -49,7 +54,7 @@ public class MoveArm extends LoggedCommand {
 //		SmartDashboard.putBoolean("Elbow Was Retracted", elbowWasRetracted);
 		Robot.arm.setDisabled(false);
 		
-		if(!callback.hasGroupBeenCanceled() && !(Robot.arm.armAtPosition(position) && Robot.arm.elbowAtPosition(position))) {
+		if(!callback.hasGroupBeenCanceled() && !armStall.isStalled() && !(Robot.arm.armAtPosition(position) && Robot.arm.elbowAtPosition(position))) {
 			
 			if(retractElbow) {
 				
@@ -75,7 +80,7 @@ public class MoveArm extends LoggedCommand {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean loggedIsFinished() {
-		boolean output = isTimedOut() || (Robot.arm.armAtPosition(position) && Robot.arm.elbowAtPosition(position)); 
+		boolean output = isTimedOut() || armStall.isStalled() || (Robot.arm.armAtPosition(position) && Robot.arm.elbowAtPosition(position)); 
 //		SmartDashboard.putBoolean("Running Move arm", !output);
 		return output;
 	}

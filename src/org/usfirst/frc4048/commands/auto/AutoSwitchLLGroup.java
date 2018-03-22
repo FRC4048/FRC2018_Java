@@ -46,7 +46,7 @@ public class AutoSwitchLLGroup extends CommandGroup {
 //       	addSequential(new GripIntake(GripPosition.Open));
     	//DRIVE TO SWITCH AND RAISE ARM
     	addParallel(new DriveDistance(AutoAction.DISTANCE_TO_MIDDLE_OF_SWITCH, AutoAction.LOCAL_SWITCH_SPEED,0,0));
-    	addSequential(new MoveArm(ArmPositions.Switch)); //TODO add this back
+    	addSequential(new MoveArm(ArmPositions.Switch));
     	//WaitForChildren() waits for the parallel commands to finish
     	addSequential(new WaitForChildren());
     	

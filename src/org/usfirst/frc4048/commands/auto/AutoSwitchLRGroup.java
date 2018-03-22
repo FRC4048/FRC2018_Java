@@ -34,7 +34,7 @@ public class AutoSwitchLRGroup extends CommandGroup {
         // arm.
     	
     	addParallel(new DriveDistance(AutoAction.DISTANCE_TO_MIDDLE_OF_LANE, AutoAction.LOCAL_SCALE_SPEED,0,0));
-    	addSequential(new MoveArm(ArmPositions.Switch)); //TODO add this back
+    	addSequential(new MoveArm(ArmPositions.Switch));
     	//WaitForChildren() waits for the parallel commands to finish
     	addSequential(new WaitForChildren());
     	
