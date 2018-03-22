@@ -108,26 +108,26 @@ public class Arm extends Subsystem {
 	public static final double INTAKE_SETPOINT = 0.0;
 	public static final double EXCHANGE_SETPOINT = INTAKE_SETPOINT;
 	public static final double SWITCH_SETPOINT = INTAKE_SETPOINT;
-	public static final double LOWSCALE_SETPOINT = 120.0;
-	public static final double MIDSCALE_SETPOINT = 150.0;
-	public static final double HIGHSCALE_SETPOINT = 155.0;
+	public static final double LOWSCALE_SETPOINT = 82.0;
+	public static final double MIDSCALE_SETPOINT = 96.0;
+	public static final double HIGHSCALE_SETPOINT = 102.6;
 	
 	public static final double ELBW_HOME_SETPOINT = 140.0;
 	public static final double ELBW_INTAKE_SETPOINT = 2.0;
 	public static final double ELBW_EXCHANGE_SETPOINT = 17.0;
 	public static final double ELBW_SWITCH_SETPOINT = 35;
-	public static final double ELBW_LOW_SCALE_SETPOINT = -90;
-	public static final double ELBW_MID_SCALE_SETPOINT = -100;
-	public static final double ELBW_HIGH_SCALE_SETPOINT = -85;
+	public static final double ELBW_LOW_SCALE_SETPOINT = 10;
+	public static final double ELBW_MID_SCALE_SETPOINT = 5;
+	public static final double ELBW_HIGH_SCALE_SETPOINT = 0;
 	
 	/*
 	 * All of these values are used for the extension math
 	 */
-	private final double HOME_FROM_TOWER = 30.0;
+	private final double HOME_FROM_TOWER = 39.0;
 	private final double ARM_POT_MIN = 935;
 	private final double ARM_POT_MAX = 84;
 	private final double ARM_ANGLE_MIN = 0.0;
-	private final double ARM_ANGLE_MAX = 150.0;
+	private final double ARM_ANGLE_MAX = 141.0;
 	private final double ARM_POT_INVERT = -1.0;
 	
 	private final double ELBW_POT_MIN = 2728.0;
@@ -424,9 +424,6 @@ public class Arm extends Subsystem {
 	 * within the exchange and high scale positions
 	 */
 	private void moveElbow() {
-//		if(getArmAngle() <= HOME_MAX_ANGLE) {
-//			elbowAngleSetpoint = ELBW_HOME_SETPOINT;
-//		}
 		
 		double elbwSetpoint = armMath.convertAngleToElbwPot(ELBW_POT_MIN, ELBW_ANGLE_MIN, ELBW_POT_MAX, ELBW_ANGLE_MAX, elbowAngleSetpoint);
 		elbowMotor.set(ControlMode.Position, elbwSetpoint);
