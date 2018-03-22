@@ -37,7 +37,7 @@ public class MoveArm extends LoggedCommand {
 
 	// Called just before this Command runs the first time
 	protected void loggedInitialize() {
-//		setTimeout(6.0);
+		setTimeout(6.0);
 		retractElbow = Robot.arm.elbowShouldCompact(position);
 		elbowWasRetracted = false;
 	}
