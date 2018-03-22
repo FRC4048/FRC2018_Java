@@ -66,7 +66,7 @@ public class AutoScaleRRGroup extends CommandGroup {
 //    	addParallel(new DriveDistance(20, AutoAction.LOCAL_SCALE_SPEED,-AutoAction.LOCAL_SCALE_SPEED,0));
 //    	addSequential(new MoveClawToStraight());
 //    	addSequential(new WaitForChildren());
-//    	addSequential(new OpenClaw());
+    	addSequential(new OpenClaw());
     	//WE WILL ADD THIS BACK LATER
     }
 }
