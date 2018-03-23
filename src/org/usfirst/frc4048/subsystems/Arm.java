@@ -118,7 +118,7 @@ public class Arm extends Subsystem {
 	public static final double ELBW_SWITCH_SETPOINT = 90;
 	public static final double ELBW_LOW_SCALE_SETPOINT = 10;
 	public static final double ELBW_MID_SCALE_SETPOINT = 5;
-	public static final double ELBW_HIGH_SCALE_SETPOINT = 0;
+	public static final double ELBW_HIGH_SCALE_SETPOINT = 5;
 	
 	/*
 	 * All of these values are used for the extension math
