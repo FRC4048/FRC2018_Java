@@ -114,8 +114,8 @@ public class Arm extends Subsystem {
 	
 	public static final double ELBW_HOME_SETPOINT = 157.7;
 	public static final double ELBW_INTAKE_SETPOINT = 0.0;
-	public static final double ELBW_EXCHANGE_SETPOINT = 17.0;
-	public static final double ELBW_SWITCH_SETPOINT = 43;
+	public static final double ELBW_EXCHANGE_SETPOINT = 45.0;
+	public static final double ELBW_SWITCH_SETPOINT = 90;
 	public static final double ELBW_LOW_SCALE_SETPOINT = 10;
 	public static final double ELBW_MID_SCALE_SETPOINT = 5;
 	public static final double ELBW_HIGH_SCALE_SETPOINT = 0;
