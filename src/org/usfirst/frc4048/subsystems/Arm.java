@@ -112,7 +112,7 @@ public class Arm extends Subsystem {
 	public static final double MIDSCALE_SETPOINT = 96.0;
 	public static final double HIGHSCALE_SETPOINT = 102.6;
 	
-	public static final double ELBW_HOME_SETPOINT = 140.0;
+	public static final double ELBW_HOME_SETPOINT = 157.7;
 	public static final double ELBW_INTAKE_SETPOINT = 2.0;
 	public static final double ELBW_EXCHANGE_SETPOINT = 17.0;
 	public static final double ELBW_SWITCH_SETPOINT = 35;
@@ -124,16 +124,16 @@ public class Arm extends Subsystem {
 	 * All of these values are used for the extension math
 	 */
 	private final double HOME_FROM_TOWER = 39.0;
-	private final double ARM_POT_MIN = 935;
-	private final double ARM_POT_MAX = 84;
+	private final double ARM_POT_MIN = 626;
+	private final double ARM_POT_MAX = 55;
 	private final double ARM_ANGLE_MIN = 0.0;
-	private final double ARM_ANGLE_MAX = 141.0;
+	private final double ARM_ANGLE_MAX = 114.0;
 	private final double ARM_POT_INVERT = -1.0;
 	
-	private final double ELBW_POT_MIN = 2728.0;
+	private final double ELBW_POT_MIN = 2771.0;
 	private final double ELBW_POT_MAX = 0.0;
 	private final double ELBW_ANGLE_MIN = 0.0;
-	private final double ELBW_ANGLE_MAX = 167.7;
+	private final double ELBW_ANGLE_MAX = 157.7;
 	private final double ELBW_POT_INVERT = 1.0;
 
 	private double armAngleSetpoint;
@@ -542,6 +542,8 @@ public class Arm extends Subsystem {
 	private void moveArm() {
 		if(!disableArm) {// && extensionIsClose()) {
 			double armSetpoint = armMath.convertAngleToPot(ARM_POT_MIN, ARM_ANGLE_MIN, ARM_POT_MAX, ARM_ANGLE_MAX, armAngleSetpoint) * ARM_POT_INVERT;
+			
+			SmartDashboard.putNumber("Elbow Pot Setpoint", armSetpoint);
 			
 			//SmartDashboard.putNumber("ARM POT SETPOINT", armSetpoint);
 			getMovementMotor().set(ControlMode.Position, (int) armSetpoint);

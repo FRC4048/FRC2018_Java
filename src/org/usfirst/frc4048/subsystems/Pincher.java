@@ -79,12 +79,12 @@ public class Pincher extends Subsystem {
     
     public boolean pincherIsOpen()
     {
-    	return pincherMotor.getSensorCollection().isFwdLimitSwitchClosed();
+    	return pincherMotor.getSensorCollection().isRevLimitSwitchClosed();
     }
     
     public boolean pincherIsClosed()
     {
-    	return pincherMotor.getSensorCollection().isRevLimitSwitchClosed();
+    	return pincherMotor.getSensorCollection().isFwdLimitSwitchClosed();
     }
 }
 

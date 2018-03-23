@@ -46,7 +46,8 @@ public class ArmMath {
 	 */
 	public double convertAngleToPot(double potMin, double angleMin, double potMax, double angleMax, double inputAngle){	
 		//equation: point slope form given two     points: (angleMin, potMin) and (potMax, angleMax)
-		double pot = ((potMax - potMin)/(angleMax - angleMin))*(inputAngle - angleMin) + potMin;
+//		double pot = ((potMin - potMax)/(angleMax - angleMin))*(inputAngle - angleMin) + potMin;
+		double pot = potMin - ((potMin -potMax)/(angleMax - angleMin)) * (inputAngle - angleMin);
 //		if(potMax > potMin)
 //		{
 //			pot = Math.min(pot, potMax);
