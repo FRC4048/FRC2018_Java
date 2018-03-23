@@ -44,7 +44,7 @@ public class PowerDistPanel extends Subsystem {
 			add("Right Intake", pdp.getCurrent(RobotMap.PDP_RIGHT_INTAKE_MOTOR));
 			add("Left Intake", pdp.getCurrent(RobotMap.PDP_LEFT_INTAKE_MOTOR));
 			add("Arm Motor", pdp.getCurrent(RobotMap.PDP_ARM_MOTOR));
-			add("Extension Motor", pdp.getCurrent(RobotMap.PDP_ELBOW));
+			add("Elbow Motor", pdp.getCurrent(RobotMap.PDP_ELBOW));
 			add("Wrist Motor", pdp.getCurrent(RobotMap.PDP_WRIST_MOTOR));
 			add("Gripper Motor", pdp.getCurrent(RobotMap.PDP_GRIP_MOTOR));
 		}
