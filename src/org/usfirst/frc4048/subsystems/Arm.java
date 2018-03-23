@@ -101,7 +101,7 @@ public class Arm extends Subsystem {
 	/*
 	 * All of these setpoints are used for the arm
 	 */
-	public static final double ANGLE_MARGIN_VALUE = 5.0;
+	public static final double ANGLE_MARGIN_VALUE = 3.5;
 	public static final double CRITICAL_MARGIN_VALUE = 10.0;
 	public static final double HOME_SETPOINT = 0.0;
 	public static final double HOME_MAX_ANGLE = 3.0;
@@ -113,9 +113,9 @@ public class Arm extends Subsystem {
 	public static final double HIGHSCALE_SETPOINT = 102.6;
 	
 	public static final double ELBW_HOME_SETPOINT = 157.7;
-	public static final double ELBW_INTAKE_SETPOINT = 2.0;
+	public static final double ELBW_INTAKE_SETPOINT = 0.0;
 	public static final double ELBW_EXCHANGE_SETPOINT = 17.0;
-	public static final double ELBW_SWITCH_SETPOINT = 35;
+	public static final double ELBW_SWITCH_SETPOINT = 43;
 	public static final double ELBW_LOW_SCALE_SETPOINT = 10;
 	public static final double ELBW_MID_SCALE_SETPOINT = 5;
 	public static final double ELBW_HIGH_SCALE_SETPOINT = 0;
