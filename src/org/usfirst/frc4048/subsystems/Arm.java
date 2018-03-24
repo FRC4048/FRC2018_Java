@@ -79,17 +79,17 @@ public class Arm extends Subsystem {
 	private boolean fullyDisableArm = false;
 	
 	//TODO Determine new values
-	private double ELBW_UP_P = 14.0;
+	private double ELBW_UP_P = 15.5;
 	private double ELBW_UP_I = 0.0;
 	private double ELBW_UP_D = 0.0;
 	private double ELBW_DOWN_P = 4.5;
 	private double ELBW_DOWN_I= 0.0;
 	private double ELBW_DOWN_D = 0.0;
 
-	private final double ARM_UP_P = 14.0;
+	private final double ARM_UP_P = 16.5;
 	private final double ARM_UP_I = 0.0;
 	private final double ARM_UP_D = 0.0;
-	private final double ARM_DOWN_P = 3.5;
+	private final double ARM_DOWN_P = 4.5;
 	private final double ARM_DOWN_I = 0.0;
 	private final double ARM_DOWN_D = 0.0;
 
@@ -108,15 +108,15 @@ public class Arm extends Subsystem {
 	public static final double INTAKE_SETPOINT = 0.0;
 	public static final double EXCHANGE_SETPOINT = INTAKE_SETPOINT;
 	public static final double SWITCH_SETPOINT = INTAKE_SETPOINT;
-	public static final double LOWSCALE_SETPOINT = 82.0;
-	public static final double MIDSCALE_SETPOINT = 102.6;
-	public static final double HIGHSCALE_SETPOINT = 117.0;
+	public static final double LOWSCALE_SETPOINT = 80.0;
+	public static final double MIDSCALE_SETPOINT = 110.0;
+	public static final double HIGHSCALE_SETPOINT = 110.0;
 	
 	public static final double ELBW_HOME_SETPOINT = 157.7;
 	public static final double ELBW_INTAKE_SETPOINT = 0.0;
 	public static final double ELBW_EXCHANGE_SETPOINT = 45.0;
 	public static final double ELBW_SWITCH_SETPOINT = 90;
-	public static final double ELBW_LOW_SCALE_SETPOINT = 10;
+	public static final double ELBW_LOW_SCALE_SETPOINT = 49;
 	public static final double ELBW_MID_SCALE_SETPOINT = 5;
 	public static final double ELBW_HIGH_SCALE_SETPOINT = 5;
 	
