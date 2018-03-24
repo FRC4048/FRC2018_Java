@@ -466,7 +466,7 @@ public class Arm extends Subsystem {
 	}
 	
 	private boolean elbowBelowSwitch() {
-		return !(getArmAngle() >= HOME_SETPOINT - ANGLE_MARGIN_VALUE && getArmAngle() <= SWITCH_SETPOINT + ANGLE_MARGIN_VALUE); 
+		return !(getArmAngle() <= SWITCH_SETPOINT + ANGLE_MARGIN_VALUE); 
 	}
 	
 	public void elbowToPosition(ArmPositions position) 

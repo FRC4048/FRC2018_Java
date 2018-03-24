@@ -56,21 +56,33 @@ public class MoveArm extends LoggedCommand {
 		
 		if(!callback.hasGroupBeenCanceled() && !armStall.isStalled() && !(Robot.arm.armAtPosition(position) && Robot.arm.elbowAtPosition(position))) {
 			
-			if(retractElbow) {
+			if(retractElbow) { 
 				
-				if(!elbowWasRetracted && Robot.arm.elbowAtPosition(ArmPositions.Home)) {
-					elbowWasRetracted = true;
-				} else if(!elbowWasRetracted) {
+				if(!Robot.arm.elbowAtPosition(ArmPositions.Home) && !Robot.arm.armAtPosition(position)) {
 					Robot.arm.elbowToPosition(ArmPositions.Home);
 				}
 				
-				if(elbowWasRetracted) {
+				if(Robot.arm.elbowAtPosition(ArmPositions.Home)) {
 					Robot.arm.armToPosition(position);
-
-					if(Robot.arm.armAtPosition(position)) {
-						Robot.arm.elbowToPosition(position);
-					}
-				}	
+				}
+				
+				if(Robot.arm.armAtPosition(position)) {
+					Robot.arm.elbowToPosition(position);
+				}
+				
+//				if(!elbowWasRetracted && Robot.arm.elbowAtPosition(ArmPositions.Home)) {
+//					elbowWasRetracted = true;
+//				} else if(!elbowWasRetracted) {
+//					Robot.arm.elbowToPosition(ArmPositions.Home);
+//				}
+//				
+//				if(elbowWasRetracted) {
+//					Robot.arm.armToPosition(position);
+//
+//					if(Robot.arm.armAtPosition(position)) {
+//						Robot.arm.elbowToPosition(position);
+//					}
+//				}	
 			} else {
 				Robot.arm.armToPosition(position);
 				Robot.arm.elbowToPosition(position);
