@@ -368,12 +368,10 @@ public class Robot extends TimedRobot {
 		}
 		SmartDashboard.putData("Auto mode", chooser);
 		SmartDashboard.putData("Run Diagnostics", diagnosticChoose);
-		// SmartDashboard.putData("Reset Claw Gyro", new ResetClawGyro());
 		SmartDashboard.putData("Close Claw", new GrabCube());
-		// SmartDashboard.putNumber("Claw Gyro Value", Robot.wrist.getGyroVal());
 		SmartDashboard.putNumber("Arm Angle", arm.getArmAngle());
 		SmartDashboard.putString("Action for Auto", autoAction.toString());
-
+		SmartDashboard.putNumber("Elbow Angle (Home Angle = 157.7", arm.getElbowAngle());
 		SmartDashboard.putData("Reset Elbow Encoder", new ResetElbowEncoder());
 		
 		if (enableDiagnostic) {
