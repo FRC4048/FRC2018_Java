@@ -79,17 +79,17 @@ public class Arm extends Subsystem {
 	private boolean fullyDisableArm = false;
 	
 	//TODO Determine new values
-	private double ELBW_UP_P = 15.5;
+	private double ELBW_UP_P = 16.5;
 	private double ELBW_UP_I = 0.0;
 	private double ELBW_UP_D = 0.0;
-	private double ELBW_DOWN_P = 4.5;
+	private double ELBW_DOWN_P = 5.5;
 	private double ELBW_DOWN_I= 0.0;
 	private double ELBW_DOWN_D = 0.0;
 
-	private final double ARM_UP_P = 16.5;
+	private final double ARM_UP_P = 18.0;
 	private final double ARM_UP_I = 0.0;
 	private final double ARM_UP_D = 0.0;
-	private final double ARM_DOWN_P = 4.5;
+	private final double ARM_DOWN_P = 10.5;
 	private final double ARM_DOWN_I = 0.0;
 	private final double ARM_DOWN_D = 0.0;
 
