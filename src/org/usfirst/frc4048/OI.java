@@ -145,14 +145,14 @@ public class OI {
         releaseCube.whenPressed(new OpenClaw());
         rightJoystick = new Joystick(1);
         
-        toggleMode = new JoystickButton(rightJoystick, 10);
-        toggleMode.whenPressed(new ToggleMode());
-        ditchCube = new JoystickButton(rightJoystick, 9);
-        ditchCube.whenPressed(new BlankCommand());
-        intakeFlush = new JoystickButton(rightJoystick, 8);
-        intakeFlush.whileHeld(new BlankCommand());
-        toggleIntake = new JoystickButton(rightJoystick, 7);
-        toggleIntake.whenPressed(new BlankCommand());
+//        toggleMode = new JoystickButton(rightJoystick, 10);
+//        toggleMode.whenPressed(new ToggleMode());
+//        ditchCube = new JoystickButton(rightJoystick, 9);
+//        ditchCube.whenPressed(new BlankCommand());
+//        intakeFlush = new JoystickButton(rightJoystick, 8);
+//        intakeFlush.whileHeld(new BlankCommand());
+//        toggleIntake = new JoystickButton(rightJoystick, 7);
+//        toggleIntake.whenPressed(new BlankCommand());
 //        toggleMode = new JoystickButton(rightJoystick, 9);
 //        toggleMode.whenPressed(new ToggleMode());
 //        ditchCube = new JoystickButton(rightJoystick, 8);
@@ -164,12 +164,12 @@ public class OI {
         leftJoystick = new Joystick(0);
         
    
-        intakeCube = new JoystickButton(leftJoystick, 9);
-        intakeCube.whenPressed(new BlankCommand());
-        setClawPositionandWait = new JoystickButton(leftJoystick, 10);
-        setClawPositionandWait.whenPressed(new BlankCommand());
-        toggleGripIntake = new JoystickButton(leftJoystick, 11);
-        toggleGripIntake.whenPressed(new BlankCommand());
+//        intakeCube = new JoystickButton(leftJoystick, 9);
+//        intakeCube.whenPressed(new BlankCommand());
+//        setClawPositionandWait = new JoystickButton(leftJoystick, 10);
+//        setClawPositionandWait.whenPressed(new BlankCommand());
+//        toggleGripIntake = new JoystickButton(leftJoystick, 11);
+//        toggleGripIntake.whenPressed(new BlankCommand());
 
         
         
@@ -195,7 +195,7 @@ public class OI {
         xboxTriggerLeft = new XboxTriggerLeft(xboxController);
         xboxTriggerLeft.whenActive(new BlankCommand());
         
-        overrideButton = new JoystickButton(leftJoystick, 7);
+//        overrideButton = new JoystickButton(leftJoystick, 7);
     }
    
     public void dashboardButtons() {

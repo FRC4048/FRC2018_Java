@@ -31,7 +31,9 @@ public abstract class BaseEnclousre implements SwerveEnclosure{
 		
 		setSpeed(speed);
 		
-		setAngle(angle);
+		if(speed != 0.0) {
+			setAngle(angle); 
+		}
 	}
 
 	public String getName()
