@@ -168,7 +168,14 @@ public class Drivetrain extends Subsystem {
 			add("SteerRL", rearLeftSteerMotor.getSelectedSensorPosition(0));
 			add("SteeRR", rearRightSteerMotor.getSelectedSensorPosition(0));
 			add("DistEncoder", encoder.getDistance());
-			
+			CentricMode mode = swerveDrivetrain.getModeRobot();
+			String output = "";
+			if(mode == CentricMode.FIELD) {
+				output = "FIELD";
+			} else if(mode == CentricMode.ROBOT) {
+				output = "ROBOT";
+			}
+			add("DriveMode", output);
 		}
     	
     };
