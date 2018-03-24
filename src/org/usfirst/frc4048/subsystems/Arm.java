@@ -101,7 +101,7 @@ public class Arm extends Subsystem {
 	/*
 	 * All of these setpoints are used for the arm
 	 */
-	public static final double ANGLE_MARGIN_VALUE = 3.5;
+	public static final double ANGLE_MARGIN_VALUE = 5.5;
 	public static final double CRITICAL_MARGIN_VALUE = 10.0;
 	public static final double HOME_SETPOINT = 0.0;
 	public static final double HOME_MAX_ANGLE = 3.0;
@@ -124,8 +124,8 @@ public class Arm extends Subsystem {
 	 * All of these values are used for the extension math
 	 */
 	private final double HOME_FROM_TOWER = 39.0;
-	private final double ARM_POT_MIN = 626;
-	private final double ARM_POT_MAX = 55;
+	private final double ARM_POT_MIN = 606;
+	private final double ARM_POT_MAX = 14;
 	private final double ARM_ANGLE_MIN = 0.0;
 	private final double ARM_ANGLE_MAX = 114.0;
 	private final double ARM_POT_INVERT = -1.0;
