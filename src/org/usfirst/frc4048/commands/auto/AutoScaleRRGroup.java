@@ -43,7 +43,7 @@ public class AutoScaleRRGroup extends CommandGroup {
 //       	addSequential(new GripIntake(GripPosition.Open));
     	//MOVE HALF WAY
     	addParallel(new DriveDistance(AutoAction.DISTANCE_TO_MIDDLE_OF_SCALE/2, AutoAction.LOCAL_SCALE_SPEED,0,0));
-    	addSequential(new MoveArm(ArmPositions.MidScale)); //TO	DO add this back
+    	addSequential(new MoveArm(ArmPositions.HighScale)); //TO	DO add this back
     	//WaitForChildren() waits for the parallel commands to finish
     	addSequential(new WaitForChildren());
     	
