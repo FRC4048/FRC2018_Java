@@ -218,7 +218,7 @@ public class Arm extends Subsystem {
 			add("Arm Angle", getArmAngle());
 			add("Arm Angle Setpoint", armAngleSetpoint);
 			add("Elbow Pot", getElbowPos());
-//			add("Extension Pot Setpoint", mathPotExtSetpoint);
+			add("Elbow Angle Setpoint", elbowAngleSetpoint);
 			add("Elbow Angle", getElbowAngle());
 //			add("Extension Length Setpoint", manualExtSetpoint);
 			add("Arm P", armP);
