@@ -53,7 +53,7 @@ public class AutoScaleRRGroup extends CommandGroup {
     	addSequential(new DriveDistance(0, 0, 0, 0));
     	
     	//MOVE FINAL DISTANCE
-    	addSequential(new DriveDistance(115, AutoAction.LOCAL_SCALE_SPEED,0,0));
+    	addSequential(new DriveDistance(119.0, AutoAction.LOCAL_SCALE_SPEED,0,0));
     	addSequential(new RotateAngle(0));
     	
     	//ADJUST ANGLE AND DISTANCE FROM WALL
