@@ -10,6 +10,7 @@
 
 package org.usfirst.frc4048;
 
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.DriverStation.MatchType;
@@ -91,6 +92,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void robotInit() {
+    	CameraServer.getInstance().startAutomaticCapture();
 		absEncoderSB = new StringBuilder();
 		
 		RobotMap.init();
@@ -373,7 +375,7 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putString("Action for Auto", autoAction.toString());
 		SmartDashboard.putNumber("Elbow Angle (Home Angle = 157.7", arm.getElbowAngle());
 		SmartDashboard.putData("Reset Elbow Encoder", new ResetElbowEncoder());
-		
+    	
 		if (enableDiagnostic) {
 			diagnostics();
 			SmartDashboard.putBoolean("Diagnostics are running?", enableDiagnostic);
