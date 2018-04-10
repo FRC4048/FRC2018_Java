@@ -86,10 +86,10 @@ public class Arm extends Subsystem {
 	private double ELBW_DOWN_I= 0.0;
 	private double ELBW_DOWN_D = 0.0;
 
-	private final double ARM_UP_P = 18.0;
+	private final double ARM_UP_P = 20.0;
 	private final double ARM_UP_I = 0.0;
 	private final double ARM_UP_D = 0.0;
-	private final double ARM_DOWN_P = 10.5;
+	private final double ARM_DOWN_P = 10.0;
 	private final double ARM_DOWN_I = 0.0;
 	private final double ARM_DOWN_D = 0.0;
 
@@ -112,7 +112,7 @@ public class Arm extends Subsystem {
 	public static final double MIDSCALE_SETPOINT = 110.0;
 	public static final double HIGHSCALE_SETPOINT = 110.0;
 	
-	public static final double ELBW_HOME_SETPOINT = 157.7;
+	public static final double ELBW_HOME_SETPOINT = 131.7;
 	public static final double ELBW_INTAKE_SETPOINT = 0.0;
 	public static final double ELBW_EXCHANGE_SETPOINT = 45.0;
 	public static final double ELBW_SWITCH_SETPOINT = 90;
@@ -124,11 +124,11 @@ public class Arm extends Subsystem {
 	 * All of these values are used for the extension math
 	 */
 	private final double HOME_FROM_TOWER = 39.0;
-	private final double ARM_POT_MIN = 90;
-	private final double ARM_POT_MAX = 814;
+	private final double ARM_POT_MIN = 934;
+	private final double ARM_POT_MAX = 200;
 	private final double ARM_ANGLE_MIN = 0.0;
-	private final double ARM_ANGLE_MAX = 141.0;
-	private final double ARM_POT_INVERT = 1.0;
+	private final double ARM_ANGLE_MAX = 145.0;
+	private final double ARM_POT_INVERT = -1.0;
 	
 	private final double ELBW_POT_MIN = 2771.0;
 	private final double ELBW_POT_MAX = 0.0;
