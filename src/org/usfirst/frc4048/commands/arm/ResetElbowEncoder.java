@@ -1,36 +1,28 @@
-package org.usfirst.frc4048.commands.auto;
+package org.usfirst.frc4048.commands.arm;
 
 import org.usfirst.frc4048.Robot;
-import org.usfirst.frc4048.commands.DriveDistance;
-import org.usfirst.frc4048.commands.arm.GrabCube;
-import org.usfirst.frc4048.commands.*;
+
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class AutoBase extends Command {
+public class ResetElbowEncoder extends Command {
 
-	Command closeClaw = new GrabCube();
-	Command driveDistance = new DriveDistance(AutoAction.AUTO_RUN_DISTANCE, AutoAction.LOCAL_SWITCH_SPEED, 0, 0);
-	
-    public AutoBase() {
+    public ResetElbowEncoder() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.drivetrain);
+    	
+    	this.setRunWhenDisabled(true);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	//The distance to the autoline is 120 - (32.5[robotLength] + 6[bumpers])
-    	//We want to move atleast 2 inches beyond the auto line without hitting the switch
-    	closeClaw.start();
-    	driveDistance.start();
+    	Robot.arm.resetElbowEnc();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	
     }
 
     // Make this return true when this Command no longer needs to run execute()

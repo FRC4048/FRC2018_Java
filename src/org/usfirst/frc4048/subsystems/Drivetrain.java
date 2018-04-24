@@ -14,6 +14,7 @@ package org.usfirst.frc4048.subsystems;
 import org.usfirst.frc4048.Robot;
 import org.usfirst.frc4048.RobotMap;
 import org.usfirst.frc4048.commands.*;
+import org.usfirst.frc4048.subsystems.Drivetrain.SonarSide;
 import org.usfirst.frc4048.swerve.drive.CanTalonSwerveEnclosure;
 import org.usfirst.frc4048.swerve.drive.SwerveDrive;
 import org.usfirst.frc4048.swerve.math.CentricMode;
@@ -84,12 +85,11 @@ public class Drivetrain extends Subsystem {
     
     private final boolean REVERSE_ENCODER = true;
     private final boolean REVERSE_OUTPUT = true;
-    
-    private final AnalogInput leftSonar = RobotMap.leftSonarPort;
-    private final AnalogInput rightSonar = RobotMap.rightSonarPort;
-    private final double SCALE_FACTOR = 2.45; //Scale factor for the sonar (MB1240/20 = 2.45, MB1230 = 1.84(not verified by datasheet)) 
-    private final double MB1023_SCALE_FACTOR = 40.3149606; // 1024/(2*5)/2.54
-    public static enum SonarSide {RIGHT, LEFT};
+	private final AnalogInput leftSonar = RobotMap.leftSonarPort;
+	private final AnalogInput rightSonar = RobotMap.rightSonarPort;
+	private final double SCALE_FACTOR = 2.45; //Scale factor for the sonar (MB1240/20 = 2.45, MB1230 = 1.84(not verified by datasheet)) 
+	private final double MB1023_SCALE_FACTOR = 40.3149606; // 1024/(2*5)/2.54
+	public static enum SonarSide {RIGHT, LEFT};
     //This \/ is used to schedual the drive distance after calling CalculateSonarDistance()
     public double globalDriveDistance;
     public double globalDriveDirSpeed;
@@ -104,7 +104,7 @@ public class Drivetrain extends Subsystem {
      */
     private final int FR_ZERO = 1028;
     private final int FL_ZERO = 1784;
-    private final int RL_ZERO = 301;
+    private final int RL_ZERO = 2475;
     private final int RR_ZERO = 1448;
     
     private final double P = 10;
@@ -119,7 +119,7 @@ public class Drivetrain extends Subsystem {
     private final double RIGHT_JOY_X_MIN_DEADZONE = -0.0078125;
     private final double RIGHT_JOY_X_MAX_DEADZONE = 0.031496062874794006;
         
-    private final int TIMEOUT = 100;    //TODO Is this timeout right?
+    private final int TIMEOUT = 100;
     
     
     /**
@@ -158,21 +158,33 @@ public class Drivetrain extends Subsystem {
         // Set the default command for a subsystem here.
         // setDefaultCommand(new MySpecialCommand());
     }
+    
+    public final Logging.LoggingContext loggingContext = new Logging.LoggingContext(Logging.Subsystems.DRIVETRAIN) {
+
+		@Override
+		protected void addAll() {
+			add("SteerFL", frontLeftSteerMotor.getSelectedSensorPosition(0));
+			add("SteerFR", frontRightSteerMotor.getSelectedSensorPosition(0));
+			add("SteerRL", rearLeftSteerMotor.getSelectedSensorPosition(0));
+			add("SteeRR", rearRightSteerMotor.getSelectedSensorPosition(0));
+			add("DistEncoder", encoder.getDistance());
+			CentricMode mode = swerveDrivetrain.getModeRobot();
+			String output = "";
+			if(mode == CentricMode.FIELD) {
+				output = "FIELD";
+			} else if(mode == CentricMode.ROBOT) {
+				output = "ROBOT";
+			}
+			add("DriveMode", output);
+		}
+    	
+    };
 
     @Override
     public void periodic() {
         // Put code here to be run every loop
-//    	String x[] = {"LeftSonarVoltage", "LeftSonarDistance", "RightSonarVoltage", "RightSonarDistance", "SteerFL", "SteerFR", "SteerRL", "SteeRR", "DistEncoder"};
 
-    	Robot.logging.traceSubsystem(Logging.Subsystems.DRIVETRAIN, false, leftSonar.getVoltage(),
-        							 getSonar(SonarSide.LEFT),
-        							 rightSonar.getVoltage(),
-        							 getSonar(SonarSide.RIGHT),
-        							 frontLeftSteerMotor.getSelectedSensorPosition(TIMEOUT),
-        							 frontRightSteerMotor.getSelectedSensorPosition(TIMEOUT),
-        							 rearLeftSteerMotor.getSelectedSensorPosition(TIMEOUT),
-        							 rearRightSteerMotor.getSelectedSensorPosition(TIMEOUT),
-        							 encoder.getDistance());
+    	loggingContext.writeData();
     }
     
 
@@ -230,9 +242,10 @@ public class Drivetrain extends Subsystem {
     }
     
     public void resetQuadEncoder() {
-    	frontRightSteerMotor.setSelectedSensorPosition((int)((analogInputFrontRight.getValue() - FR_ZERO)/4000.0 * GEAR_RATIO), 0, TIMEOUT);
+    	frontRightSteerMotor.setSelectedSensorPosition((int)((getAnalogInputFrontRight().getValue() - FR_ZERO)/4000.0 * GEAR_RATIO), 0, TIMEOUT);
     	frontLeftSteerMotor.setSelectedSensorPosition((int) ((analogInputFrontLeft.getValue() - FL_ZERO)/4000.0 * GEAR_RATIO), 0, TIMEOUT);
     	rearLeftSteerMotor.setSelectedSensorPosition((int) ((analogInputRearLeft.getValue() - RL_ZERO)/4000.0 * GEAR_RATIO), 0, TIMEOUT);
+//    	rearLeftSteerMotor.setSelectedSensorPosition(0, 0, TIMEOUT);
     	rearRightSteerMotor.setSelectedSensorPosition((int) ((analogInputRearRight.getValue()- RR_ZERO)/4000.0 * GEAR_RATIO), 0, TIMEOUT);
     	
     	frontRightSteerMotor.set(ControlMode.Position, 0);
@@ -269,7 +282,12 @@ public class Drivetrain extends Subsystem {
      */
     public void outputAbsEncValues()
     {
-    	SmartDashboard.putNumber("Front Right Abs", analogInputFrontRight.getValue());
+    	SmartDashboard.putNumber("Front Right Enc", frontRightSteerMotor.getSelectedSensorPosition(0));
+    	SmartDashboard.putNumber("Front Left Enc", frontLeftSteerMotor.getSelectedSensorPosition(0));
+    	SmartDashboard.putNumber("Rear Left Enc", rearLeftSteerMotor.getSelectedSensorPosition(0));
+    	SmartDashboard.putNumber("Rear Right Enc", rearRightSteerMotor.getSelectedSensorPosition(0));
+    	
+    	SmartDashboard.putNumber("Front Right Abs", getAnalogInputFrontRight().getValue());
     	SmartDashboard.putNumber("Front Left Abs", analogInputFrontLeft.getValue());
     	SmartDashboard.putNumber("Rear Left Abs", analogInputRearLeft.getValue());
     	SmartDashboard.putNumber("Rear Right Abs", analogInputRearRight.getValue());
@@ -309,10 +327,8 @@ public class Drivetrain extends Subsystem {
     
     	swerveDrivetrain.move(fwd, str, rcw, getGyro());
     }
-    
+ 
     public double getSonar(SonarSide side) {
-    	SmartDashboard.putNumber("Voltage", leftSonar.getVoltage());
-    	
     	if(side == SonarSide.LEFT) {
     		return(leftSonar.getVoltage()*MB1023_SCALE_FACTOR);
     	} else if(side == SonarSide.RIGHT) {
@@ -322,15 +338,24 @@ public class Drivetrain extends Subsystem {
     	}
     }
     
-    //This is for putting the Drivetrain headings to the log
-    public String[] drivetrianHeadings() {
-    	String x[] = {"LeftSonarVoltage", "LeftSonarDistance", "RightSonarVoltage", "RightSonarDistance", "SteerFL", "SteerFR", "SteerRL", "SteeRR", "DistEncoder"};
-    	return x;
-    }
+    
     
     public void stop()
     {
     	swerveDrivetrain.stop();
     }
+
+	public AnalogInput getAnalogInputFrontRight() {
+		return analogInputFrontRight;
+	}
+	public AnalogInput getAnalogInputFrontLeft() {
+		return analogInputFrontLeft;
+	}
+	public AnalogInput getAnalogInputRearRight() {
+		return analogInputRearRight;
+	}
+	public AnalogInput getAnalogInputRearLeft() {
+		return analogInputRearLeft;
+	}
 }
 

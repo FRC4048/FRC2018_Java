@@ -7,16 +7,16 @@
 //import org.usfirst.frc4048.commands.LoggedCommand;
 //import org.usfirst.frc4048.subsystems.Wrist.WristPostion;
 //
-//public class MoveClawToLevel extends LoggedCommand {
+//public class MoveClawToStraight extends LoggedCommand {
 //
 //	private final GroupCommandCallback callback;
 //
-//	public MoveClawToLevel()
+//	public MoveClawToStraight()
 //	{
 //		this(GroupCommandCallback.NONE);
 //	}
 //	
-//	public MoveClawToLevel(GroupCommandCallback callback) {
+//	public MoveClawToStraight(GroupCommandCallback callback) {
 //		super(String.format("Subcommand From: %s", callback.getName()));
 //		requires(Robot.wrist);
 //		this.callback = callback;
@@ -24,18 +24,17 @@
 //
 //	protected void loggedInitialize() {
 //		setTimeout(5.0);
-//		Robot.wrist.setPosition(WristPostion.Level);
+//		Robot.wrist.setPosition(WristPostion.Straight);
 //	}
 //
-//
 //	protected void loggedExecute() {
-//		if (!Robot.wrist.isLevel()&& !callback.hasGroupBeenCanceled()) {
-//			Robot.wrist.moveClawToLevel();
+//		if (!Robot.wrist.isStraight() && !callback.hasGroupBeenCanceled()) {
+//			Robot.wrist.moveClawToStraight();
 //		}
 //	}
 //
 //	protected boolean loggedIsFinished() {
-//		return Robot.wrist.isLevel() || isTimedOut();
+//		return Robot.wrist.isStraight() || isTimedOut();
 //	}
 //
 //	protected void loggedEnd() {

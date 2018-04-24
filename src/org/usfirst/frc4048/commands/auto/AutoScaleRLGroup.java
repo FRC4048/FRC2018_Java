@@ -3,7 +3,7 @@ package org.usfirst.frc4048.commands.auto;
 import org.usfirst.frc4048.commands.DriveDistance;
 import org.usfirst.frc4048.commands.RotateAngle;
 import org.usfirst.frc4048.commands.arm.MoveArm;
-import org.usfirst.frc4048.commands.arm.SetClawPosition;
+//import org.usfirst.frc4048.commands.arm.SetClawPosition;
 import org.usfirst.frc4048.commands.arm.OpenClaw;
 import org.usfirst.frc4048.subsystems.Arm.ArmPositions;
 
@@ -34,7 +34,7 @@ public class AutoScaleRLGroup extends CommandGroup {
         // arm.
     	
     	addParallel(new DriveDistance(AutoAction.DISTANCE_TO_MIDDLE_OF_LANE, AutoAction.LOCAL_SCALE_SPEED,0,0));
-    	addSequential(new MoveArm(ArmPositions.HighScale));
+    	addSequential(new MoveArm(ArmPositions.MidScale));
     	//WaitForChildren() waits for the parallel commands to finish
     	addSequential(new WaitForChildren());
     	addSequential(new RotateAngle(0));

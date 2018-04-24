@@ -23,16 +23,16 @@
 //import edu.wpi.first.wpilibj.command.CommandGroup;
 //import edu.wpi.first.wpilibj.command.WaitForChildren;
 //
-//public class GetCubeGroupCommand extends CommandGroup implements GroupCommandCallback {
+//public class GetCubeGroupCommandTestSplit extends CommandGroup implements GroupCommandCallback {
 //
 //	// Also use addSequential(new WaitForChildren());
-//	public GetCubeGroupCommand() {
+//	public GetCubeGroupCommandTestSplit() {
 //		this(true, true);
 //	}
 //	
 //	
 //
-//	public GetCubeGroupCommand(boolean part1, boolean part2) {
+//	public GetCubeGroupCommandTestSplit(boolean part1, boolean part2) {
 //		if (part1) {
 //			addSequential(new CancelIfCubeInClaw(this));
 //			
@@ -48,11 +48,11 @@
 //			addSequential(new WaitForChildren());
 //	    	addSequential(new ExtensionIntake(this));
 //			
-//			addParallel(new GripIntake(this, GripPosition.Open));
 //			addSequential(new ExtendArmToCube(this));
-//			addSequential(new WaitForChildren());
-//			
-//			addSequential(new GrabCube(this));
+//		
+////			addSequential(new GrabCube(this));
+//			addSequential(new GripIntake(this, GripPosition.Open));
+//			addSequential(new SetClawPosition(WristPostion.Level));
 //		}
 //		
 //		if (part2) {

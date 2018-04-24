@@ -6,7 +6,7 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="C:/Users/Team 4048/wpilib/java/current/lib/cscore.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Team 4048/wpilib/java/current/lib/cscore-sources.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Team 4048/wpilib/java/current/lib/ntcore.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Team 4048/wpilib/java/current/lib/ntcore.jar" sourcepath="C:/Users/Team 4048/wpilib/java/current/lib/ntcore-sources.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Team 4048/wpilib/java/current/lib/ntcore-sources.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Team 4048/wpilib/java/current/lib/opencv.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Team 4048/wpilib/java/current/lib/opencv-sources.jar"/>

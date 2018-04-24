@@ -22,21 +22,25 @@ import org.usfirst.frc4048.commands.ToggleMode;
 import org.usfirst.frc4048.commands.arm.GrabCube;
 import org.usfirst.frc4048.commands.arm.MoveArm;
 import org.usfirst.frc4048.commands.arm.OpenClaw;
-import org.usfirst.frc4048.commands.arm.SetClawPosition;
-import org.usfirst.frc4048.commands.arm.SetClawPositionAndWait;
+//import org.usfirst.frc4048.commands.arm.SetClawPosition;
+//import org.usfirst.frc4048.commands.arm.SetClawPositionAndWait;
 import org.usfirst.frc4048.commands.auto.AutoAction;
-import org.usfirst.frc4048.commands.getcube.GetCubeGroupCommand;
-import org.usfirst.frc4048.commands.intake.FlushCube;
-import org.usfirst.frc4048.commands.intake.GripIntake;
-import org.usfirst.frc4048.commands.intake.GripIntake.GripPosition;
-import org.usfirst.frc4048.commands.intake.IntakeCube;
-import org.usfirst.frc4048.commands.intake.IntakeCube.IntakeMode;
-import org.usfirst.frc4048.commands.intake.RaiseIntake;
-import org.usfirst.frc4048.commands.intake.ToggleIntake;
+//import org.usfirst.frc4048.commands.getcube.GetCubeGroupCommand;
+//import org.usfirst.frc4048.commands.getcube.GetCubeGroupCommandOrig;
+//import org.usfirst.frc4048.commands.getcube.GetCubeGroupCommandTest;
+//import org.usfirst.frc4048.commands.getcube.GetCubeGroupCommandTestSplit;
+//import org.usfirst.frc4048.commands.intake.FlushCube;
+//import org.usfirst.frc4048.commands.intake.GripIntake;
+//import org.usfirst.frc4048.commands.intake.GripIntake.GripPosition;
+//import org.usfirst.frc4048.commands.intake.IntakeCube;
+//import org.usfirst.frc4048.commands.intake.IntakeCube.IntakeMode;
+//import org.usfirst.frc4048.commands.intake.RaiseIntake;
+//import org.usfirst.frc4048.commands.intake.ToggleIntake;
+//import org.usfirst.frc4048.commands.intake.ToggleIntakeGrip;
 import org.usfirst.frc4048.subsystems.Claw;
 import org.usfirst.frc4048.subsystems.Arm.ArmPositions;
 
-import org.usfirst.frc4048.subsystems.Claw.WristPostion;
+import org.usfirst.frc4048.subsystems.Wrist.WristPostion;
 
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
@@ -93,7 +97,8 @@ public class OI {
     public JoystickButton moveToHighScale;
     public JoystickButton moveToExchange;
 //    public JoystickButton moveToClimb;
-    public JoystickButton gripIntake;
+    public JoystickButton toggleGripIntake;
+    public JoystickButton openIntake;
     public JoystickButton cancelFunction;
     public JoystickButton intakeCube;
     public Joystick controller;
@@ -117,14 +122,9 @@ public class OI {
         
 		cancelFunction = new JoystickButton(controller, 7); // Back Button
         cancelFunction.whileHeld(new CancelCommand());
-//		moveToClimb = new JoystickButton(controller, 8); // Start Button
-//        moveToClimb.whenPressed(new MoveArm(ArmPositions.Climb));
+//		 moveToClimb = new JoystickButton(controller, 8); // Start Button
+//		 moveToClimb.whenPressed(new MoveArm(ArmPositions.Climb));
         
-//        moveToExchange = new JoystickButton(controller, 3); // X Button
-//        moveToExchange.whenPressed(new MoveArm(ArmPositions.Exchange));
-        /**
-         * Isha wanted this
-         */
 		moveToExchange = new JoystickButton(controller, 1); // X Button
         moveToExchange.whenPressed(new MoveArm(ArmPositions.Exchange));
         
@@ -137,11 +137,6 @@ public class OI {
 		moveToLowScale = new JoystickButton(controller, 2); // B Button
         moveToLowScale.whenPressed(new MoveArm(ArmPositions.LowScale));
         
-//        moveToSwitch = new JoystickButton(controller, 1); // A Button
-//        moveToSwitch.whenPressed(new MoveArm(ArmPositions.Switch));
-        /**
-         * Isha wanted this
-         */
         moveToSwitch = new JoystickButton(controller, 3); // A Button
         moveToSwitch.whenPressed(new MoveArm(ArmPositions.Switch));
 		grabCube = new JoystickButton(controller, 6); // Right Bumper
@@ -150,25 +145,32 @@ public class OI {
         releaseCube.whenPressed(new OpenClaw());
         rightJoystick = new Joystick(1);
         
-        toggleMode = new JoystickButton(rightJoystick, 10);
-        toggleMode.whenPressed(new ToggleMode());
-        ditchCube = new JoystickButton(rightJoystick, 9);
-        ditchCube.whenPressed(new BlankCommand());
-        intakeFlush = new JoystickButton(rightJoystick, 8);
-        intakeFlush.whileHeld(new FlushCube());
-        toggleIntake = new JoystickButton(rightJoystick, 7);
-        toggleIntake.whenPressed(new ToggleIntake());
+//        toggleMode = new JoystickButton(rightJoystick, 10);
+//        toggleMode.whenPressed(new ToggleMode());
+//        ditchCube = new JoystickButton(rightJoystick, 9);
+//        ditchCube.whenPressed(new BlankCommand());
+//        intakeFlush = new JoystickButton(rightJoystick, 8);
+//        intakeFlush.whileHeld(new BlankCommand());
+//        toggleIntake = new JoystickButton(rightJoystick, 7);
+//        toggleIntake.whenPressed(new BlankCommand());
+//        toggleMode = new JoystickButton(rightJoystick, 9);
+//        toggleMode.whenPressed(new ToggleMode());
+//        ditchCube = new JoystickButton(rightJoystick, 8);
+//        ditchCube.whenPressed(new BlankCommand());
+//        intakeFlush = new JoystickButton(rightJoystick, 7);
+//        intakeFlush.whileHeld(new FlushCube());
+//        toggleIntake = new JoystickButton(rightJoystick, 6);
+//        toggleIntake.whenPressed(new ToggleIntake());
         leftJoystick = new Joystick(0);
         
    
-        intakeCube=new JoystickButton(leftJoystick, 9);
-        intakeCube.whenPressed(new IntakeCube((IntakeCube.IntakeMode.STRAIGHT_PULL)));
-        setClawPositionandWait= new JoystickButton(leftJoystick, 10);
-        setClawPositionandWait.whenPressed(new SetClawPositionAndWait(Claw.WristPostion.Level));
-        gripIntake= new JoystickButton(leftJoystick, 11);
-        gripIntake.whenPressed(new GripIntake(GripPosition.Close));
-        raiseIntake= new JoystickButton(leftJoystick, 8);
-        raiseIntake.whenPressed(new RaiseIntake());
+//        intakeCube = new JoystickButton(leftJoystick, 9);
+//        intakeCube.whenPressed(new BlankCommand());
+//        setClawPositionandWait = new JoystickButton(leftJoystick, 10);
+//        setClawPositionandWait.whenPressed(new BlankCommand());
+//        toggleGripIntake = new JoystickButton(leftJoystick, 11);
+//        toggleGripIntake.whenPressed(new BlankCommand());
+
         
         
         
@@ -188,12 +190,12 @@ public class OI {
         xboxTriggerRight = new XboxTriggerRight(xboxController);
         // Use this trigger for the straight intake for testing only.
         // xboxTriggerRight.whenActive(new IntakeCube(IntakeMode.STRAIGHT_PULL));
-        xboxTriggerRight.whenActive(new GetCubeGroupCommand());
-		
+        xboxTriggerRight.whenActive(new MoveArm(ArmPositions.Intake)); //maybe change this
+		//xboxTriggerRight.whenActive(new GetCubeGroupCommand()); 
         xboxTriggerLeft = new XboxTriggerLeft(xboxController);
-        xboxTriggerLeft.whenActive(new IntakeCube(IntakeMode.TOGGLE_PULL_LEFT_OR_RIGHT));
+        xboxTriggerLeft.whenActive(new BlankCommand());
         
-        overrideButton = new JoystickButton(leftJoystick, 7);
+//        overrideButton = new JoystickButton(leftJoystick, 7);
     }
    
     public void dashboardButtons() {
@@ -237,6 +239,26 @@ public class OI {
 	public boolean getGetCubeOverride()
 	{
 		return overrideButton.get();
+	}
+	
+	public boolean getUpDPAD()
+	{
+		if(xboxController.getPOV() <= 15 &&
+			xboxController.getPOV() >= 345) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public boolean getDownDPAD()
+	{
+		if(xboxController.getPOV() >= 195 &&
+			xboxController.getPOV() <= 165) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }
 

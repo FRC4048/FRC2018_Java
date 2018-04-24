@@ -9,20 +9,18 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 import java.util.TimerTask;
-
 import org.usfirst.frc4048.Robot;
-
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 
 public class Logging {
 
 	public static enum MessageLevel {
-		InfoMessage, WarningMessage, ErrorMessage
+		 INFORMATION
 	}
 
 	public static enum Subsystems {
-		ARM, CLAW, DRIVETRAIN, INTAKE, CLIMBER, POWERDISTPANEL
+		PINCHER, ARM, CLAW, WRIST, DRIVETRAIN, INTAKE, CLIMBER, POWERDISTPANEL
 	}
 
 	private boolean writeLoggingGap = false;
@@ -33,12 +31,88 @@ public class Logging {
 	public static DecimalFormat df5 = new DecimalFormat(".#####");
 	public static DecimalFormat df4 = new DecimalFormat(".####");
 	public static DecimalFormat df3 = new DecimalFormat(".###");
-	private int counter;
 
 	public Logging(long period, WorkQueue wq) {
 		this.period = period;
 		this.wq = wq;
-		counter = 0;
+	}
+	
+	abstract static public class LoggingContext {
+		private int counter = 0;
+		private final Subsystems subsystem;
+		private final StringBuilder sb = new StringBuilder();
+		private static final char COMMA = ',';
+		private static final char QUOTE = '"';
+		private boolean writeTitles = false;
+		
+		public LoggingContext(final Subsystems subsystem) {
+			this.subsystem = subsystem;
+		}
+		
+		abstract protected void addAll();
+		
+		final void writeHeadings() {
+			writeTitles = true;
+			writeData();
+			writeTitles = false;
+		}
+		
+		public final void writeData() {
+			if ((DriverStation.getInstance().isEnabled() && (counter % 5 == 0)) || writeTitles) {
+				sb.setLength(0);
+				sb.append(df3.format(Timer.getFPGATimestamp()));
+				sb.append(",");
+				if(DriverStation.getInstance().isDisabled())
+					sb.append(0);
+				else
+					sb.append(df3.format(Timer.getFPGATimestamp() - Robot.timeOfStart));
+				sb.append(",");
+				sb.append(subsystem.name());
+				sb.append(",");
+				addAll();
+				Robot.logging.traceMessage(sb);
+			}
+		}
+		
+		protected void add(String title, int value) {
+			if (writeTitles) {
+				sb.append(QUOTE).append(title).append(QUOTE);
+			}
+			else {
+				sb.append(Integer.toString(value));
+			}
+			sb.append(COMMA);
+		}
+		
+		protected void add(String title, boolean value) {
+			if (writeTitles) {
+				sb.append(QUOTE).append(title).append(QUOTE);
+			}
+			else {
+				sb.append(Boolean.toString(value));
+			}
+			sb.append(COMMA);
+		}
+		
+		protected void add(String title, double value) {
+			if (writeTitles) {
+				sb.append(QUOTE).append(title).append(QUOTE);
+			}
+			else {
+				sb.append(Double.toString(value));
+			}
+			sb.append(COMMA);
+		}
+		
+		protected void add(String title, String value) {
+			if (writeTitles) {
+				sb.append(QUOTE).append(title).append(QUOTE);
+			}
+			else {
+				sb.append(QUOTE).append(value).append(QUOTE);
+			}
+			sb.append(COMMA);
+		}
 	}
 
 	public void startThread() {
@@ -46,43 +120,46 @@ public class Logging {
 		this.executor.schedule(new ConsolePrintTask(wq, this), 0L, this.period);
 	}
 
-	public void traceSubsystem(Subsystems s, boolean alwaysPrint, double... vals) {
-		traceSubsystem(s, alwaysPrint, vals, (String[]) null);
-	}
+//	public void traceSubsystem(LoggingContext context, boolean alwaysPrint, double... vals) {
+//		traceSubsystem(context, alwaysPrint, vals, (String[]) null);
+//	}
 	
-	public void traceSubsystem(Subsystems s, boolean alwaysPrint, String... vals) {
-		traceSubsystem(s, true, (double[]) null, vals);
-	}
+//	public void traceSubsystem(LoggingContext context, boolean alwaysPrint, String... vals) {
+//		traceSubsystem(context, true, (double[]) null, vals);
+//	}
 
-	public void traceSubsystem(Subsystems s, String vals1[], double... vals2) {
-		traceSubsystem(s, false, vals2, vals1);
-	}
+//	public void traceSubsystem(LoggingContext context, String vals1[], double... vals2) {
+//		traceSubsystem(context, false, vals2, vals1);
+//	}
 
-	public void traceSubsystem(Subsystems s, boolean alwaysPrint, double vals1[], String... vals2) {
-		final StringBuilder sb = new StringBuilder();
-		sb.append(df3.format(Timer.getFPGATimestamp()));
-		sb.append(",");
-		sb.append(s.name());
-		sb.append(",");
-		if (vals1 != null) {
-			for (final double v : vals1) {
-				sb.append(df5.format(v));
-				sb.append(",");
-			}
-		}
-		if (vals2 != null) {
-			for (final String v : vals2) {
-				sb.append("\"").append(v).append("\"");
-				sb.append(",");
-			}
-		}
-		if (DriverStation.getInstance().isEnabled() && counter % 5 == 0 && alwaysPrint == false) {
-			traceMessage(sb);
-		} else if (DriverStation.getInstance().isEnabled() && alwaysPrint == true) {
-			traceMessage(sb);
-		}
-		counter += 1;
-	}
+//	public void traceSubsystem(LoggingContext context, boolean alwaysPrint, double vals1[], String... vals2) {
+//		boolean printThis = alwaysPrint;
+//		if (!printThis) {
+//			printThis = DriverStation.getInstance().isEnabled() && (context.counter % 5 == 0);
+//			context.counter += 1;
+//		}
+//
+//		if (printThis) {
+//			final StringBuilder sb = new StringBuilder();
+//			sb.append(df3.format(Timer.getFPGATimestamp()));
+//			sb.append(",");
+//			sb.append(context.subsystem.name());
+//			sb.append(",");
+//			if (vals1 != null) {
+//				for (final double v : vals1) {
+//					sb.append(df5.format(v));
+//					sb.append(",");
+//				}
+//			}
+//			if (vals2 != null) {
+//				for (final String v : vals2) {
+//					sb.append("\"").append(v).append("\"");
+//					sb.append(",");
+//				}
+//			}
+//			traceMessage(sb);
+//		}
+//	}
 
 	private void traceMessage(final StringBuilder sb) {
 		if (writeLoggingGap) {
@@ -97,6 +174,11 @@ public class Logging {
 		final StringBuilder sb = new StringBuilder();
 		sb.append(df3.format(Timer.getFPGATimestamp()));
 		sb.append(",");
+		if(DriverStation.getInstance().isDisabled())
+			sb.append(0);
+		else
+			sb.append(df3.format(Timer.getFPGATimestamp() - Robot.timeOfStart));
+		sb.append(",");
 		sb.append(ml.name());
 		sb.append(",");
 		if (vals != null) {
@@ -108,13 +190,13 @@ public class Logging {
 		traceMessage(sb);
 	}
 
-	public void printHeadings()
-	{
-		traceSubsystem(Subsystems.DRIVETRAIN, Robot.drivetrain.drivetrianHeadings());
-		traceSubsystem(Subsystems.ARM, Robot.arm.armHeadings());
-		traceSubsystem(Subsystems.CLAW, Robot.claw.clawHeadings());
-		traceSubsystem(Subsystems.INTAKE, Robot.intake.intakeHeadings());
-		traceSubsystem(Subsystems.POWERDISTPANEL, Robot.powerdistpanel.pdpHeadings());
+	public void printHeadings() {
+		final LoggingContext list[] = { Robot.drivetrain.loggingContext, Robot.pincher.loggingContext, Robot.arm.loggingContext,
+//				Robot.claw.loggingContext, Robot.wrist.loggingContext, Robot.intake.loggingContext,
+				Robot.powerdistpanel.loggingContext, };
+		for (final LoggingContext c : list) {
+			c.writeHeadings();
+		}
 	}
 
 	private class ConsolePrintTask extends TimerTask {
@@ -155,7 +237,7 @@ public class Logging {
 						}
 					}
 					Date date = new Date();
-					SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
+					SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_ss-SSS");
 					dateFormat.setTimeZone(TimeZone.getTimeZone("EST5EDT"));
 					try {
 						this.log = new PrintWriter("/media/sda1/" + dateFormat.format(date) + "-Log.csv", "UTF-8");
@@ -166,10 +248,8 @@ public class Logging {
 
 					log.flush();
 				} catch (FileNotFoundException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (UnsupportedEncodingException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
