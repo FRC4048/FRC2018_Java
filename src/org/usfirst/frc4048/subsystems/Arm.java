@@ -36,6 +36,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Timer;
@@ -72,6 +73,7 @@ public class Arm extends Subsystem {
 															RobotMap.CURRENT_THRESHOLD_ARM_MOTOR_PROBLEM,
 															RobotMap.TIMEOUT_ARM_MOTOR_PROBLEM);
 	
+	private final Servo camServo = RobotMap.camServo;
 	/**
 	 * States if the arm movement is disabled
 	 */
@@ -239,6 +241,8 @@ public class Arm extends Subsystem {
 	public void periodic() {
 		// Put code here to be run every loop
 		
+		setCameraAngle();
+		
 		//TODO Should motor stall be being checked constantly?
 		//If the arm stalls, permanently disable it
 		if(armStall.isStalled()) {
@@ -380,6 +384,7 @@ public class Arm extends Subsystem {
 			break;
 		case LowScale:
 			armAngleSetpoint = LOWSCALE_SETPOINT;
+			
 			break;
 		case MidScale:
 			armAngleSetpoint = MIDSCALE_SETPOINT;
@@ -579,6 +584,16 @@ public class Arm extends Subsystem {
 		}
 	}
 
+	public void setCameraAngle() {
+		//Using the armAngleSetpoint incase the current arm angle messes up
+		if(armAngleSetpoint > LOWSCALE_SETPOINT) {
+			camServo.set(1); //These numbers may have to be changed
+		}
+		else {
+			camServo.set(0);
+		}
+	}
+	
 	public WPI_TalonSRX getMovementMotor() {
 		return movementMotor;
 	}

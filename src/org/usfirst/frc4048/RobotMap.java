@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.SPI.Port;
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
@@ -74,6 +75,7 @@ public class RobotMap {
     public static SpeedController intakeGripMotor;
     public static DigitalInput intakeOpenLimit;
     public static DigitalInput intakeCloseLimit;
+    public static Servo camServo;
     
     /**
      * TODO THE 2 PDP values are setup for the test bed -- Need to fixed
@@ -231,6 +233,8 @@ public class RobotMap {
         
         intakeOpenLimit = new DigitalInput(10);
         intakeCloseLimit = new DigitalInput(11);
+        
+        camServo = new Servo(5); //TODO add this back
     }
     
 }
