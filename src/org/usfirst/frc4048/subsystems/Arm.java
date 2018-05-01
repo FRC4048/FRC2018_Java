@@ -113,6 +113,7 @@ public class Arm extends Subsystem {
 	public static final double LOWSCALE_SETPOINT = 80.0;
 	public static final double MIDSCALE_SETPOINT = 110.0;
 	public static final double HIGHSCALE_SETPOINT = 110.0;
+	public static final double CLIMB_SETPOINT = 141.0;
 	
 	public static final double ELBW_HOME_SETPOINT = 131.7;
 	public static final double ELBW_INTAKE_SETPOINT = 0.0;
@@ -121,6 +122,7 @@ public class Arm extends Subsystem {
 	public static final double ELBW_LOW_SCALE_SETPOINT = 49;
 	public static final double ELBW_MID_SCALE_SETPOINT = 5;
 	public static final double ELBW_HIGH_SCALE_SETPOINT = 5;
+	public static final double ELBW_CLIMB_SETPOINT=0.0;
 	
 	/*
 	 * All of these values are used for the extension math
@@ -363,7 +365,7 @@ public class Arm extends Subsystem {
 		case HighScale:
 			return armPos >= HIGHSCALE_SETPOINT - ANGLE_MARGIN_VALUE && armPos <= HIGHSCALE_SETPOINT + ANGLE_MARGIN_VALUE;
 		case Climb:
-			return armPos >= HOME_SETPOINT - ANGLE_MARGIN_VALUE && armPos <= HOME_SETPOINT + ANGLE_MARGIN_VALUE;
+			return armPos >= CLIMB_SETPOINT - ANGLE_MARGIN_VALUE && armPos <= CLIMB_SETPOINT + ANGLE_MARGIN_VALUE;
 		case Home:
 			return armPos >= HOME_SETPOINT - ANGLE_MARGIN_VALUE && armPos <= HOME_SETPOINT + ANGLE_MARGIN_VALUE;
 		default:
@@ -384,7 +386,6 @@ public class Arm extends Subsystem {
 			break;
 		case LowScale:
 			armAngleSetpoint = LOWSCALE_SETPOINT;
-			
 			break;
 		case MidScale:
 			armAngleSetpoint = MIDSCALE_SETPOINT;
@@ -393,7 +394,7 @@ public class Arm extends Subsystem {
 			armAngleSetpoint = HIGHSCALE_SETPOINT;
 			break;
 		case Climb:
-			armAngleSetpoint = HOME_SETPOINT;
+			armAngleSetpoint = CLIMB_SETPOINT;
 			break;
 		case Home:
 			armAngleSetpoint = HOME_SETPOINT;
@@ -499,7 +500,7 @@ public class Arm extends Subsystem {
 			elbowAngleSetpoint = ELBW_HIGH_SCALE_SETPOINT;
 			break;
 		case Climb :
-			elbowAngleSetpoint = ELBW_HOME_SETPOINT;
+			elbowAngleSetpoint = ELBW_CLIMB_SETPOINT;
 			break;
 		default:
 			elbowAngleSetpoint = ELBW_INTAKE_SETPOINT;
