@@ -64,9 +64,9 @@ public class Robot extends TimedRobot {
 	public WorkQueue wq;
 
 	// use this to see the debug commands and values for smart dashboard
-	public final Boolean enableDebug = false;
-	public final Boolean enableTesting = false;
-	public Boolean enableDiagnostic = false;
+	public final boolean enableDebug = false;
+	public final boolean enableTesting = false;
+	public static boolean enableDiagnostic = false;
 
 	Action autoAction;
 	Action oldAutoAction;

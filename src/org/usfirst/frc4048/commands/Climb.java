@@ -25,8 +25,8 @@ public class Climb extends Command {
 		if(Robot.arm.armAtPosition(ArmPositions.Climb)) {
 			if(Robot.oi.getUpDPAD()) {
 				Robot.climber.winchUp();
-//			} else if(Robot.oi.getDownDPAD()) {
-//				Robot.climber.winchDown();
+		} else if(Robot.oi.getDownDPAD() && Robot.enableDiagnostic) {
+				Robot.climber.winchDown();
 			} else {
 				Robot.climber.stopWinch();
 			}
