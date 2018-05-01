@@ -64,7 +64,7 @@ public class RobotMap {
     public static SpeedController intakedeployMotor;
     public static DigitalInput intakeupperLimit;
     public static DigitalInput intakelowerLimit;
-//    public static SpeedController climberclimbMotor;
+    public static SpeedController climberclimbMotor;
 //    public static AnalogInput climbersonar;
 //    public static DigitalInput climberlatchSwitch;
 
@@ -229,12 +229,14 @@ public class RobotMap {
         
         pdp = new PowerDistributionPanel(0);
         
-        intakeGripMotor = new Spark(2);
+//        intakeGripMotor = new Spark(2);
         
         intakeOpenLimit = new DigitalInput(10);
         intakeCloseLimit = new DigitalInput(11);
         
         camServo = new Servo(5); //TODO add this back
+       
+        climberclimbMotor = new Spark(2); 
     }
     
 }

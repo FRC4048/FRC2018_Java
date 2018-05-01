@@ -86,7 +86,9 @@ public class MoveArm extends LoggedCommand {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean loggedIsFinished() {
-		boolean output = isTimedOut() || armStall.isStalled() || (Robot.arm.armAtPosition(position) && Robot.arm.elbowAtPosition(position)) || (position == ArmPositions.Climb && DriverStation.getInstance().getMatchTime() > 30); 
+		boolean output = isTimedOut() || armStall.isStalled() || (Robot.arm.armAtPosition(position) && Robot.arm.elbowAtPosition(position)) 
+				|| (position == ArmPositions.Climb && DriverStation.getInstance().getMatchTime() > 30); 
+		
 //		SmartDashboard.putBoolean("Running Move arm", !output);
 		return output;
 	}

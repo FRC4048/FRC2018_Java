@@ -58,7 +58,7 @@ public class Robot extends TimedRobot {
 	public static Arm arm;
 	public static Pincher pincher;
 	// public static Intake intake;
-	// public static Climber climber;
+	public static Climber climber;
 	public static Logging logging;
 	public static PowerDistPanel powerdistpanel;
 	public WorkQueue wq;

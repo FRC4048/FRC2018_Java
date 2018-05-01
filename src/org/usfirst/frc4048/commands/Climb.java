@@ -1,6 +1,6 @@
-package org.usfirst.frc4048.commands.arm;
+package org.usfirst.frc4048.commands;
 
-import org.usfirst.frc4048.Robot;
+import org.usfirst.frc4048.*;
 import org.usfirst.frc4048.subsystems.Arm.ArmPositions;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -8,12 +8,12 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class ArmFinetune extends Command {
+public class Climb extends Command {
 
-	public ArmFinetune() {
+	public Climb() {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
-		requires(Robot.arm);
+		requires(Robot.climber);
 	}
 
 	// Called just before this Command runs the first time
@@ -23,12 +23,13 @@ public class ArmFinetune extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		if(Robot.arm.armAtPosition(ArmPositions.Climb)) {
-			return;
-		} else {
-			if(Robot.oi.getLeftstickDown())
-				Robot.arm.finetuneDown();
-			if(Robot.oi.getLeftstickUp())
-				Robot.arm.finetuneUp();
+			if(Robot.oi.getUpDPAD()) {
+				Robot.climber.winchUp();
+//			} else if(Robot.oi.getDownDPAD()) {
+//				Robot.climber.winchDown();
+			} else {
+				Robot.climber.stopWinch();
+			}
 		}
 	}
 
@@ -39,12 +40,10 @@ public class ArmFinetune extends Command {
 
 	// Called once after isFinished returns true
 	protected void end() {
-		Robot.arm.stopArm();
 	}
 
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
 	protected void interrupted() {
-		Robot.arm.stopArm();
 	}
 }
