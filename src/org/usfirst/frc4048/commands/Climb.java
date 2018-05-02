@@ -26,7 +26,6 @@ public class Climb extends LoggedCommand {
 	protected void loggedExecute() {
 		if(Robot.arm.armAtPosition(ArmPositions.Climb)) {
 			if(Robot.oi.getRightstickUp()) {
-				System.out.println("DPAD UP IS BEING PRESSED!!!!!");
 				Robot.climber.winchUp();
 			} else if(Robot.oi.getRightstickDown() && Robot.enableDiagnostic) {
 				Robot.climber.winchDown();

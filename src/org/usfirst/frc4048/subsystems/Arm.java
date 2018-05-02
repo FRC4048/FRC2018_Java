@@ -394,8 +394,13 @@ public class Arm extends Subsystem {
 			armAngleSetpoint = HIGHSCALE_SETPOINT;
 			break;
 		case Climb:
-			armAngleSetpoint = CLIMB_SETPOINT;
-			break;
+			//This is so you can not go to climb until you are already in the HighScale Position
+			if(armAngleSetpoint >= (HIGHSCALE_SETPOINT - ANGLE_MARGIN_VALUE)) {
+				armAngleSetpoint = CLIMB_SETPOINT;
+				break;
+			} else {
+				break;
+			}
 		case Home:
 			armAngleSetpoint = HOME_SETPOINT;
 			break;

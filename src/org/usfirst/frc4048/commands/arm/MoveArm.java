@@ -55,12 +55,11 @@ public class MoveArm extends LoggedCommand {
 //		SmartDashboard.putBoolean("Retract Elbow", retractElbow);
 //		SmartDashboard.putBoolean("Elbow Was Retracted", elbowWasRetracted);
 		Robot.arm.setDisabled(false);
-		if(position == ArmPositions.Climb && DriverStation.getInstance().getMatchTime() > 30 && Robot.arm.getArmAngle() < (Robot.arm.GET_HIGHSCALE_SETPOINT() - Robot.arm.GET_ANGLE_MARGIN_VALUE())) {
+		if(position == ArmPositions.Climb && DriverStation.getInstance().getMatchTime() > 30){
 			return;
 		}
 		if(!callback.hasGroupBeenCanceled() && !armStall.isStalled() && !(Robot.arm.armAtPosition(position) && Robot.arm.elbowAtPosition(position))) {
-			
-			if (position == ArmPositions.Climb && Robot.arm.getArmAngle() >= CLIMB_FOLD_ANGLE) {
+			if (position == ArmPositions.Climb) {
 				retractElbow = false;
 			}
 			
@@ -87,7 +86,7 @@ public class MoveArm extends LoggedCommand {
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean loggedIsFinished() {
 		boolean output = isTimedOut() || armStall.isStalled() || (Robot.arm.armAtPosition(position) && Robot.arm.elbowAtPosition(position)) 
-				|| (position == ArmPositions.Climb && DriverStation.getInstance().getMatchTime() > 30); 
+				|| (position == ArmPositions.Climb && DriverStation.getInstance().getMatchTime() > 30);
 		
 //		SmartDashboard.putBoolean("Running Move arm", !output);
 		return output;
