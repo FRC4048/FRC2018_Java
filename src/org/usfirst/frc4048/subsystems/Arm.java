@@ -630,5 +630,11 @@ public class Arm extends Subsystem {
 	
 	public double GET_MIN_ELBOW_ANGLE() {
 		return ELBW_ANGLE_MIN;
-	}	
+	}
+	public double GET_HIGHSCALE_SETPOINT() {
+		return HIGHSCALE_SETPOINT;
+	}
+	public double GET_ANGLE_MARGIN_VALUE() {
+		return ANGLE_MARGIN_VALUE;
+	}
 }

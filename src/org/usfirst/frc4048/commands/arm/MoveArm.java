@@ -55,7 +55,7 @@ public class MoveArm extends LoggedCommand {
 //		SmartDashboard.putBoolean("Retract Elbow", retractElbow);
 //		SmartDashboard.putBoolean("Elbow Was Retracted", elbowWasRetracted);
 		Robot.arm.setDisabled(false);
-		if(position == ArmPositions.Climb && DriverStation.getInstance().getMatchTime() > 30) {
+		if(position == ArmPositions.Climb && DriverStation.getInstance().getMatchTime() > 30 && Robot.arm.getArmAngle() < (Robot.arm.GET_HIGHSCALE_SETPOINT() - Robot.arm.GET_ANGLE_MARGIN_VALUE())) {
 			return;
 		}
 		if(!callback.hasGroupBeenCanceled() && !armStall.isStalled() && !(Robot.arm.armAtPosition(position) && Robot.arm.elbowAtPosition(position))) {

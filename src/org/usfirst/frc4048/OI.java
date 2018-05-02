@@ -237,6 +237,14 @@ public class OI {
     	return xboxController.getY(Hand.kLeft) >= 0.75;
     }
 	
+	public boolean getRightstickUp() {
+		return xboxController.getY(Hand.kRight) <= -0.75;
+	}
+	
+	public boolean getRightstickDown() {
+		return xboxController.getY(Hand.kRight) >= 0.75;
+	}
+	
 	public boolean getGetCubeOverride()
 	{
 		return overrideButton.get();
