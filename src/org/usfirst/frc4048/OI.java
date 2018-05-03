@@ -44,6 +44,7 @@ import org.usfirst.frc4048.subsystems.Wrist.WristPostion;
 
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -252,7 +253,7 @@ public class OI {
 	
 	public boolean getUpDPAD()
 	{
-		if(xboxController.getPOV() <= 15 &&
+		if(xboxController.getPOV() <= 15 ||
 			xboxController.getPOV() >= 345) {
 			return true;
 		} else {
@@ -262,12 +263,21 @@ public class OI {
 	
 	public boolean getDownDPAD()
 	{
-		if(xboxController.getPOV() >= 195 &&
-			xboxController.getPOV() <= 165) {
+		if(xboxController.getPOV() <= 195 &&
+			xboxController.getPOV() >= 165) {
 			return true;
 		} else {
 			return false;
 		}
+	}
+	
+	public void doRumble() {
+		xboxController.setRumble(RumbleType.kLeftRumble, 1);
+		xboxController.setRumble(RumbleType.kRightRumble, 1);
+	}
+	public void noRumble() {
+		xboxController.setRumble(RumbleType.kLeftRumble, 0);
+		xboxController.setRumble(RumbleType.kRightRumble, 0);
 	}
 }
 

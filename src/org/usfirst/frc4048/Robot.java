@@ -254,6 +254,11 @@ public class Robot extends TimedRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 		dashboardData();
+		if(DriverStation.getInstance().getMatchTime() <= 30 && DriverStation.getInstance().getMatchTime() >= 28) {
+			oi.doRumble();
+		} else {
+			oi.noRumble();
+		}
 	}
 
 	@Override

@@ -593,10 +593,10 @@ public class Arm extends Subsystem {
 	public void setCameraAngle() {
 		//Using the armAngleSetpoint incase the current arm angle messes up
 		if(armAngleSetpoint > LOWSCALE_SETPOINT) {
-			camServo.set(1); //These numbers may have to be changed
+			camServo.set(.8); //These numbers may have to be changed
 		}
 		else {
-			camServo.set(0);
+			camServo.set(.4);
 		}
 	}
 	
