@@ -59,12 +59,12 @@ public class MoveArm extends LoggedCommand {
 			return;
 		}
 		if(!callback.hasGroupBeenCanceled() && !armStall.isStalled() && !(Robot.arm.armAtPosition(position) && Robot.arm.elbowAtPosition(position))) {
-			if (position == ArmPositions.Climb) {
+			
+			if (position == ArmPositions.Climb && Robot.arm.getArmAngle() >= Arm.HIGHSCALE_SETPOINT) {
 				retractElbow = false;
 			}
 			
 			if(retractElbow) { 
-
 				if(!Robot.arm.elbowAtPosition(ArmPositions.Home) && !Robot.arm.armAtPosition(position)) {
 					Robot.arm.elbowToPosition(ArmPositions.Home);
 				}
