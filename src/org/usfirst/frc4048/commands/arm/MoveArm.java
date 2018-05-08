@@ -60,7 +60,7 @@ public class MoveArm extends LoggedCommand {
 		}
 		if(!callback.hasGroupBeenCanceled() && !armStall.isStalled() && !(Robot.arm.armAtPosition(position) && Robot.arm.elbowAtPosition(position))) {
 			
-			if (position == ArmPositions.Climb && Robot.arm.getArmAngle() >= Arm.HIGHSCALE_SETPOINT) {
+			if (position == ArmPositions.Climb && Robot.arm.getArmAngle() >= Arm.HIGHSCALE_SETPOINT - Arm.ANGLE_MARGIN_VALUE) {
 				retractElbow = false;
 			}
 			
