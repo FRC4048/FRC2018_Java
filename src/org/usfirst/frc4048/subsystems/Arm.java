@@ -36,6 +36,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Timer;
@@ -72,6 +73,7 @@ public class Arm extends Subsystem {
 															RobotMap.CURRENT_THRESHOLD_ARM_MOTOR_PROBLEM,
 															RobotMap.TIMEOUT_ARM_MOTOR_PROBLEM);
 	
+	private final Servo camServo = RobotMap.camServo;
 	/**
 	 * States if the arm movement is disabled
 	 */
@@ -111,6 +113,7 @@ public class Arm extends Subsystem {
 	public static final double LOWSCALE_SETPOINT = 80.0;
 	public static final double MIDSCALE_SETPOINT = 110.0;
 	public static final double HIGHSCALE_SETPOINT = 110.0;
+	public static final double CLIMB_SETPOINT = 141.0;
 	
 	public static final double ELBW_HOME_SETPOINT = 131.7;
 	public static final double ELBW_INTAKE_SETPOINT = 0.0;
@@ -119,6 +122,7 @@ public class Arm extends Subsystem {
 	public static final double ELBW_LOW_SCALE_SETPOINT = 49;
 	public static final double ELBW_MID_SCALE_SETPOINT = 5;
 	public static final double ELBW_HIGH_SCALE_SETPOINT = 5;
+	public static final double ELBW_CLIMB_SETPOINT=0.0;
 	
 	/*
 	 * All of these values are used for the extension math
@@ -238,6 +242,8 @@ public class Arm extends Subsystem {
 	@Override
 	public void periodic() {
 		// Put code here to be run every loop
+		
+		setCameraAngle();
 		
 		//TODO Should motor stall be being checked constantly?
 		//If the arm stalls, permanently disable it
@@ -359,7 +365,7 @@ public class Arm extends Subsystem {
 		case HighScale:
 			return armPos >= HIGHSCALE_SETPOINT - ANGLE_MARGIN_VALUE && armPos <= HIGHSCALE_SETPOINT + ANGLE_MARGIN_VALUE;
 		case Climb:
-			return armPos >= HOME_SETPOINT - ANGLE_MARGIN_VALUE && armPos <= HOME_SETPOINT + ANGLE_MARGIN_VALUE;
+			return armPos >= CLIMB_SETPOINT - ANGLE_MARGIN_VALUE && armPos <= CLIMB_SETPOINT + ANGLE_MARGIN_VALUE;
 		case Home:
 			return armPos >= HOME_SETPOINT - ANGLE_MARGIN_VALUE && armPos <= HOME_SETPOINT + ANGLE_MARGIN_VALUE;
 		default:
@@ -388,8 +394,13 @@ public class Arm extends Subsystem {
 			armAngleSetpoint = HIGHSCALE_SETPOINT;
 			break;
 		case Climb:
-			armAngleSetpoint = HOME_SETPOINT;
-			break;
+			//This is so you can not go to climb until you are already in the HighScale Position
+			if(armAngleSetpoint >= (HIGHSCALE_SETPOINT - ANGLE_MARGIN_VALUE)) {
+				armAngleSetpoint = CLIMB_SETPOINT;
+				break;
+			} else {
+				break;
+			}
 		case Home:
 			armAngleSetpoint = HOME_SETPOINT;
 			break;
@@ -494,7 +505,7 @@ public class Arm extends Subsystem {
 			elbowAngleSetpoint = ELBW_HIGH_SCALE_SETPOINT;
 			break;
 		case Climb :
-			elbowAngleSetpoint = ELBW_HOME_SETPOINT;
+			elbowAngleSetpoint = ELBW_CLIMB_SETPOINT;
 			break;
 		default:
 			elbowAngleSetpoint = ELBW_INTAKE_SETPOINT;
@@ -579,6 +590,16 @@ public class Arm extends Subsystem {
 		}
 	}
 
+	public void setCameraAngle() {
+		//Using the armAngleSetpoint incase the current arm angle messes up
+		if(armAngleSetpoint >= LOWSCALE_SETPOINT) {
+			camServo.set(.35); //These numbers may have to be changed
+		}
+		else {
+			camServo.set(0);
+		}
+	}
+	
 	public WPI_TalonSRX getMovementMotor() {
 		return movementMotor;
 	}
@@ -614,5 +635,11 @@ public class Arm extends Subsystem {
 	
 	public double GET_MIN_ELBOW_ANGLE() {
 		return ELBW_ANGLE_MIN;
-	}	
+	}
+	public double GET_HIGHSCALE_SETPOINT() {
+		return HIGHSCALE_SETPOINT;
+	}
+	public double GET_ANGLE_MARGIN_VALUE() {
+		return ANGLE_MARGIN_VALUE;
+	}
 }

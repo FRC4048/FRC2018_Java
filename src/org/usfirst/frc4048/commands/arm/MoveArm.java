@@ -6,6 +6,7 @@ import org.usfirst.frc4048.subsystems.Wrist.WristPostion;
 import org.usfirst.frc4048.utils.MotorUtils;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -18,7 +19,7 @@ import org.usfirst.frc4048.commands.LoggedCommand;
  *
  */
 public class MoveArm extends LoggedCommand {
-
+	private final double CLIMB_FOLD_ANGLE= 120;
 	private final GroupCommandCallback callback;
 	private final ArmPositions position;
 	private boolean retractElbow = false;
@@ -39,6 +40,7 @@ public class MoveArm extends LoggedCommand {
 		this.callback = callback;
 		this.position = position;
 	}
+	
 
 	// Called just before this Command runs the first time
 	protected void loggedInitialize() {
@@ -53,11 +55,16 @@ public class MoveArm extends LoggedCommand {
 //		SmartDashboard.putBoolean("Retract Elbow", retractElbow);
 //		SmartDashboard.putBoolean("Elbow Was Retracted", elbowWasRetracted);
 		Robot.arm.setDisabled(false);
-		
+		if(position == ArmPositions.Climb && DriverStation.getInstance().getMatchTime() > 30){
+			return;
+		}
 		if(!callback.hasGroupBeenCanceled() && !armStall.isStalled() && !(Robot.arm.armAtPosition(position) && Robot.arm.elbowAtPosition(position))) {
 			
+			if (position == ArmPositions.Climb && Robot.arm.getArmAngle() >= Arm.HIGHSCALE_SETPOINT - Arm.ANGLE_MARGIN_VALUE) {
+				retractElbow = false;
+			}
+			
 			if(retractElbow) { 
-				
 				if(!Robot.arm.elbowAtPosition(ArmPositions.Home) && !Robot.arm.armAtPosition(position)) {
 					Robot.arm.elbowToPosition(ArmPositions.Home);
 				}
@@ -65,24 +72,10 @@ public class MoveArm extends LoggedCommand {
 				if(Robot.arm.elbowAtPosition(ArmPositions.Home)) {
 					Robot.arm.armToPosition(position);
 				}
-				
+							
 				if(Robot.arm.armAtPosition(position)) {
 					Robot.arm.elbowToPosition(position);
-				}
-				
-//				if(!elbowWasRetracted && Robot.arm.elbowAtPosition(ArmPositions.Home)) {
-//					elbowWasRetracted = true;
-//				} else if(!elbowWasRetracted) {
-//					Robot.arm.elbowToPosition(ArmPositions.Home);
-//				}
-//				
-//				if(elbowWasRetracted) {
-//					Robot.arm.armToPosition(position);
-//
-//					if(Robot.arm.armAtPosition(position)) {
-//						Robot.arm.elbowToPosition(position);
-//					}
-//				}	
+				}	
 			} else {
 				Robot.arm.armToPosition(position);
 				Robot.arm.elbowToPosition(position);
@@ -92,7 +85,9 @@ public class MoveArm extends LoggedCommand {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean loggedIsFinished() {
-		boolean output = isTimedOut() || armStall.isStalled() || (Robot.arm.armAtPosition(position) && Robot.arm.elbowAtPosition(position)); 
+		boolean output = isTimedOut() || armStall.isStalled() || (Robot.arm.armAtPosition(position) && Robot.arm.elbowAtPosition(position)) 
+				|| (position == ArmPositions.Climb && DriverStation.getInstance().getMatchTime() > 30);
+		
 //		SmartDashboard.putBoolean("Running Move arm", !output);
 		return output;
 	}
