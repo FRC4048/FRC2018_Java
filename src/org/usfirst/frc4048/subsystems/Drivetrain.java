@@ -13,12 +13,11 @@ package org.usfirst.frc4048.subsystems;
 
 import org.usfirst.frc4048.Robot;
 import org.usfirst.frc4048.RobotMap;
-import org.usfirst.frc4048.commands.*;
+import org.usfirst.frc4048.commands.Drive;
 import org.usfirst.frc4048.subsystems.Drivetrain.SonarSide;
 import org.usfirst.frc4048.swerve.drive.CanTalonSwerveEnclosure;
 import org.usfirst.frc4048.swerve.drive.SwerveDrive;
 import org.usfirst.frc4048.swerve.math.CentricMode;
-import org.usfirst.frc4048.utils.Logging;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
@@ -159,32 +158,12 @@ public class Drivetrain extends Subsystem {
         // setDefaultCommand(new MySpecialCommand());
     }
     
-    public final Logging.LoggingContext loggingContext = new Logging.LoggingContext(Logging.Subsystems.DRIVETRAIN) {
-
-		@Override
-		protected void addAll() {
-			add("SteerFL", frontLeftSteerMotor.getSelectedSensorPosition(0));
-			add("SteerFR", frontRightSteerMotor.getSelectedSensorPosition(0));
-			add("SteerRL", rearLeftSteerMotor.getSelectedSensorPosition(0));
-			add("SteeRR", rearRightSteerMotor.getSelectedSensorPosition(0));
-			add("DistEncoder", encoder.getDistance());
-			CentricMode mode = swerveDrivetrain.getModeRobot();
-			String output = "";
-			if(mode == CentricMode.FIELD) {
-				output = "FIELD";
-			} else if(mode == CentricMode.ROBOT) {
-				output = "ROBOT";
-			}
-			add("DriveMode", output);
-		}
-    	
-    };
-
+  
     @Override
     public void periodic() {
         // Put code here to be run every loop
 
-    	loggingContext.writeData();
+ 
     }
     
 

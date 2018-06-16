@@ -234,7 +234,7 @@ public class RobotMap {
         intakeOpenLimit = new DigitalInput(10);
         intakeCloseLimit = new DigitalInput(11);
         
-        camServo = new Servo(5); //TODO add this back
+        camServo = new Servo(5); 
        
         climberclimbMotor = new Spark(2); 
     }

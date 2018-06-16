@@ -54,7 +54,6 @@ public class MotorUtils {
 				SmartDashboard.putNumber(String.format("PDP%d.StalledTime",  PDPChannel), timeStalled);
 			if (now - time > timeout)
 			{
-				Robot.logging.traceMessage(Logging.MessageLevel.INFORMATION, "Motor stall, PDP channel =" + PDPChannel);
 				return true;
 			}
 			
