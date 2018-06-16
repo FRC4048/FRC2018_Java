@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc4048.subsystems.Drivetrain;
+import org.usfirst.frc4048.subsystems.Pincher;
 import org.usfirst.frc4048.utils.WorkQueue;
 
 /**
@@ -33,9 +34,11 @@ import org.usfirst.frc4048.utils.WorkQueue;
  * project.
  */
 public class Robot extends TimedRobot {
-
-	public static OI oi;
+	
 	public static Drivetrain drivetrain;
+	public static Pincher pincher;
+	public static OI oi;
+	
 	// use this to see the debug commands and values for smart dashboard
 	/**
 	 * This function is run when the robot is first started up and should be used
@@ -50,8 +53,10 @@ public class Robot extends TimedRobot {
 		// (which it very likely will), subsystems are not guaranteed to be
 		// constructed yet. Thus, their requires() statements may grab null
 		// pointers. Bad news. Don't move it.
-		oi = new OI();
+
 		drivetrain = new Drivetrain();
+		pincher = new Pincher();
+    	oi = new OI();
 	}
 
 	/**
@@ -60,17 +65,18 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void disabledInit() {
-	
+		Robot.drivetrain.resetDriveEncoder();
 	}
 
 	@Override
 	public void disabledPeriodic() {
-	
+		Scheduler.getInstance().run();
 	}
 
 	@Override
 	public void autonomousInit() {
-		}
+		
+	}
 
 	/**
 	 * This function is called periodically during autonomous
@@ -87,7 +93,7 @@ public class Robot extends TimedRobot {
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
-
+		Robot.drivetrain.swerveDrivetrain.setModeField();
 
 	}
 
