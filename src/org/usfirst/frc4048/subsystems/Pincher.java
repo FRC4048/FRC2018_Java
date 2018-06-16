@@ -17,8 +17,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class Pincher extends Subsystem {
 	WPI_TalonSRX pincher = RobotMap.clawgripMotor;
 	
-	private static double OPEN_SPEED = 1.0;
-	private static double CLOSE_SPEED = -0.85;
+	private final double OPEN_SPEED = -0.85;;
+	private final double CLOSE_SPEED = 1.0;
 	private static int TIMEOUT = 100;
 	
 
@@ -31,11 +31,6 @@ public class Pincher extends Subsystem {
 	
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
-	@Override
-	public void periodic() {
-	
-	}
-	
 	@Override
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
@@ -64,3 +59,4 @@ public class Pincher extends Subsystem {
     }
 }
 
+	

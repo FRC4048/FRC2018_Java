@@ -41,7 +41,7 @@ public class OpenPincher extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return isTimedOut() || pdpMotor.isStalled() || Robot.pincher.isClose();
+        return isTimedOut() || pdpMotor.isStalled() || Robot.pincher.isOpen();
     }
 
     // Called once after isFinished returns true
