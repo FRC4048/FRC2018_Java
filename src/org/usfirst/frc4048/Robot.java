@@ -21,6 +21,8 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import org.usfirst.frc4048.subsystems.Drivetrain;
 import org.usfirst.frc4048.utils.WorkQueue;
 
 /**
@@ -33,6 +35,7 @@ import org.usfirst.frc4048.utils.WorkQueue;
 public class Robot extends TimedRobot {
 
 	public static OI oi;
+	public static Drivetrain drivetrain;
 	// use this to see the debug commands and values for smart dashboard
 	/**
 	 * This function is run when the robot is first started up and should be used
