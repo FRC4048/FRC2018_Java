@@ -26,7 +26,6 @@ public class ClosePincher extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	if (!Robot.pincher.isClose() && !isTimedOut() && !pdpMotor.isStalled()) {
-    		System.out.println("CLOSE IS RUNNING");
     		Robot.pincher.closePincher();
     	}
     }

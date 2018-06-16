@@ -15,18 +15,18 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  *
  */
 public class Pincher extends Subsystem {
-	WPI_TalonSRX pincher = RobotMap.clawgripMotor;
+	WPI_TalonSRX pincherMotor = RobotMap.clawgripMotor;
 	
-	private final double OPEN_SPEED = -0.85;;
+	private final double OPEN_SPEED = -0.85;
 	private final double CLOSE_SPEED = 1.0;
 	private static int TIMEOUT = 100;
 	
 
 	public Pincher() {
 		super("Pincher");
-		pincher.setNeutralMode(NeutralMode.Brake);
-		pincher.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, TIMEOUT);
-		pincher.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, TIMEOUT);
+		pincherMotor.setNeutralMode(NeutralMode.Brake);
+		pincherMotor.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, TIMEOUT);
+		pincherMotor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, TIMEOUT);
 	}
 	
     // Put methods for controlling this subsystem
@@ -38,24 +38,24 @@ public class Pincher extends Subsystem {
     }
     
     public void closePincher() {
-    	pincher.set(CLOSE_SPEED);
+    	pincherMotor.set(CLOSE_SPEED);
     }
     
     public void openPincher() {
-    	pincher.set(ControlMode.PercentOutput, OPEN_SPEED);
+    	pincherMotor.set(ControlMode.PercentOutput, OPEN_SPEED);
 
     }
     
     public void stopMotor() { 
-    	pincher.set(0.0);
+    	pincherMotor.set(0.0);
     }
     
     public boolean isOpen() {
-    	return pincher.getSensorCollection().isRevLimitSwitchClosed();
+    	return pincherMotor.getSensorCollection().isRevLimitSwitchClosed();
     }
     
     public boolean isClose() {
-    	return pincher.getSensorCollection().isFwdLimitSwitchClosed();
+    	return pincherMotor.getSensorCollection().isFwdLimitSwitchClosed();
     }
 }
 
