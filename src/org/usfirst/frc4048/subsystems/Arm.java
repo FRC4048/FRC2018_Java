@@ -2,7 +2,9 @@ package org.usfirst.frc4048.subsystems;
 
 import org.usfirst.frc4048.Robot;
 import org.usfirst.frc4048.RobotMap;
+import org.usfirst.frc4048.arm.math.ArmMath;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
@@ -89,7 +91,9 @@ public class Arm extends Subsystem {
 	private double armAngleSetpoint;
 	private double elbowAngleSetpoint;
 	
-	enum position {
+	ArmMath armMath = new ArmMath();
+	
+	public enum Position {
 		CLIMB, SWITCH, LOWSCALE, HIGHSCALE, INTAKE, HOME
 	}
 	// Put methods for controlling this subsystem
@@ -98,7 +102,6 @@ public class Arm extends Subsystem {
 		super("Arm");
 
 		elbowMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, TIMEOUT);
-//		elbowMotor.configSelectedFeedbackSensor(FeedbackDevice.Analog, 0, TIMEOUT);
 		elbowMotor.selectProfileSlot(0, 0);
 		elbowMotor.configNominalOutputForward(0, TIMEOUT);
 		elbowMotor.configNominalOutputReverse(0, TIMEOUT);
@@ -151,16 +154,72 @@ public class Arm extends Subsystem {
         //setDefaultCommand(new MySpecialCommand());
     }
 	
-	public void armToPos() {
-		
+	public double getArmPos() {
+		return getMovementMotor().getSelectedSensorPosition(0);
 	}
 	
-	public void armAtPos() {
-		
+	public double getArmAngle() {
+		return armMath.convertPotToAngle(ARM_POT_MAX, ARM_POT_MIN, ARM_ANGLE_MAX, ARM_ANGLE_MIN, getArmPos() * ARM_POT_INVERT);
+	}
+	
+	public void armToPos(Position pos) {
+		switch(pos) {
+		case INTAKE:
+			armAngleSetpoint = INTAKE_SETPOINT;
+			break;
+		case SWITCH: 
+			armAngleSetpoint = SWITCH_SETPOINT;
+			break;
+		case LOWSCALE:
+			armAngleSetpoint = LOWSCALE_SETPOINT;
+			break;
+		case HIGHSCALE:
+			armAngleSetpoint = HIGHSCALE_SETPOINT;
+			break;
+		case HOME:
+			armAngleSetpoint = HOME_SETPOINT;
+			break;
+		case CLIMB:
+			armAngleSetpoint = CLIMB_SETPOINT;
+			break;
+		default:
+			break;
+		}
+	}
+	
+	public boolean armAtPos(Position pos) {
+		switch(pos) {
+		case CLIMB:
+			return (getArmPos() <= CLIMB_SETPOINT + ANGLE_MARGIN_VALUE) && (getArmPos() >= CLIMB_SETPOINT - ANGLE_MARGIN_VALUE);
+		case HIGHSCALE:
+			return (getArmPos() <= HIGHSCALE_SETPOINT + ANGLE_MARGIN_VALUE) && (getArmPos() >= HIGHSCALE_SETPOINT - ANGLE_MARGIN_VALUE);
+		case HOME:
+			return (getArmPos() <= HOME_SETPOINT + ANGLE_MARGIN_VALUE) && (getArmPos() >= HOME_SETPOINT - ANGLE_MARGIN_VALUE);
+		case INTAKE:
+			return (getArmPos() <= INTAKE_SETPOINT + ANGLE_MARGIN_VALUE) && (getArmPos() >= INTAKE_SETPOINT - ANGLE_MARGIN_VALUE);
+		case LOWSCALE:
+			return (getArmPos() <= LOWSCALE_SETPOINT + ANGLE_MARGIN_VALUE) && (getArmPos() >= LOWSCALE_SETPOINT - ANGLE_MARGIN_VALUE);
+		case SWITCH:
+			return (getArmPos() <= SWITCH_SETPOINT + ANGLE_MARGIN_VALUE) && (getArmPos() >= SWITCH_SETPOINT - ANGLE_MARGIN_VALUE);
+		default:
+			return false;
+		}
 	}
 	
 	public void moveArm() {
+		double armPos = armMath.convertAngleToPot(ARM_POT_MAX, ARM_POT_MIN, ARM_ANGLE_MAX, ARM_ANGLE_MIN, armAngleSetpoint) * ARM_POT_INVERT;
 		
+		getMovementMotor().set(ControlMode.Position, armPos);
+		
+		if (armPos > armAngleSetpoint) {
+			armP = ARM_DOWN_P;
+			armI = ARM_DOWN_I;
+			armD = ARM_DOWN_D;
+		} else if (armPos < armAngleSetpoint) {
+			armP = ARM_UP_P;
+			armI = ARM_UP_I;
+			armD = ARM_UP_D;
+		}
 	}
 }
 
