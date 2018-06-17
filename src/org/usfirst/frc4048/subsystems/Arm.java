@@ -3,6 +3,8 @@ package org.usfirst.frc4048.subsystems;
 import org.usfirst.frc4048.Robot;
 import org.usfirst.frc4048.RobotMap;
 import org.usfirst.frc4048.arm.math.ArmMath;
+import org.usfirst.frc4048.commands.arm.MoveArm;
+import org.usfirst.frc4048.utils.MotorUtils;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
@@ -22,6 +24,15 @@ public class Arm extends Subsystem {
 	private final WPI_TalonSRX elbowMotor = RobotMap.armextensionMotor;
 	
 	private final int TIMEOUT = 100;
+
+	private final double ELBOW_STALL_DELAY = 5.0;
+	private double startStallTime = -ELBOW_STALL_DELAY;
+	private final MotorUtils elbowStall = new MotorUtils(RobotMap.PDP_ELBOW, 
+															RobotMap.CURRENT_THRESHOLD_ELBOW_MOTOR, 
+															RobotMap.TIMEOUT_ELBOW_MOTOR);
+	private final MotorUtils armStall = new MotorUtils(RobotMap.PDP_ARM_MOTOR, 
+															RobotMap.CURRENT_THRESHOLD_ARM_MOTOR_PROBLEM,
+															RobotMap.TIMEOUT_ARM_MOTOR_PROBLEM);
    
 	private double ELBW_UP_P = 16.5;
 	private double ELBW_UP_I = 0.0;
@@ -152,7 +163,7 @@ public class Arm extends Subsystem {
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
-    }
+	}
 	
 	public double getArmPos() {
 		return getMovementMotor().getSelectedSensorPosition(0);
@@ -215,11 +226,10 @@ public class Arm extends Subsystem {
 			armP = ARM_DOWN_P;
 			armI = ARM_DOWN_I;
 			armD = ARM_DOWN_D;
-		} else if (armPos < armAngleSetpoint) {
+		} else {
 			armP = ARM_UP_P;
 			armI = ARM_UP_I;
 			armD = ARM_UP_D;
 		}
 	}
 }
-
