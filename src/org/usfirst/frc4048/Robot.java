@@ -22,8 +22,10 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import org.usfirst.frc4048.subsystems.Arm;
 import org.usfirst.frc4048.subsystems.Drivetrain;
 import org.usfirst.frc4048.subsystems.Pincher;
+import org.usfirst.frc4048.subsystems.Wrist;
 import org.usfirst.frc4048.utils.WorkQueue;
 
 /**
@@ -37,10 +39,15 @@ public class Robot extends TimedRobot {
 	
 	public static Drivetrain drivetrain;
 	public static Pincher pincher;
+	public static Arm arm;
+	public static Wrist wrist;
 	public static OI oi;
 	
+	public static double ARM_UP_SCALE_FACTOR = 1.00;
+	public static double ARM_DOWN_SCALE_FACTOR = 0.5;
+	public static double EXT_SCALE_FACTOR = 1.00;
 	// use this to see the debug commands and values for smart dashboard
-	/**
+	/**	x
 	 * This function is run when the robot is first started up and should be used
 	 * for any initialization code.
 	 */
@@ -53,7 +60,8 @@ public class Robot extends TimedRobot {
 		// (which it very likely will), subsystems are not guaranteed to be
 		// constructed yet. Thus, their requires() statements may grab null
 		// pointers. Bad news. Don't move it.
-
+    	arm = new Arm();
+    	wrist = new Wrist();
 		drivetrain = new Drivetrain();
 		pincher = new Pincher();
     	oi = new OI();
