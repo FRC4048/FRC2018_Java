@@ -35,14 +35,16 @@ public class MoveArm extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	Robot.arm.elbwToPos(Position.HOME);
     	if(!isTimedOut() && !armStall.isStalled()) {
+    		Robot.arm.elbwToPos(position);
     		Robot.arm.armToPos(position);
     	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return Robot.arm.armAtPos(position) || armStall.isStalled() || isTimedOut();
+        return (Robot.arm.armAtPos(position) && Robot.arm.elbwAtPos(position)) || armStall.isStalled() || isTimedOut();
     }
 
     // Called once after isFinished returns true

@@ -153,9 +153,12 @@ public class Arm extends Subsystem {
 		// TODO Auto-generated method stub
 		return armMotor;
 	}
-
+	private WPI_TalonSRX getElbowMotor() {
+		return elbowMotor;
+	}
 	@Override
 	public void periodic() {
+		moveElbow();
 		moveArm();
 	}
 		
@@ -167,6 +170,18 @@ public class Arm extends Subsystem {
 	
 	public double getArmPos() {
 		return getMovementMotor().getSelectedSensorPosition(0);
+	}
+	
+
+	public int getElbowPos() {
+			elbwP = ELBW_UP_P;
+			elbwI = ELBW_UP_I;
+			elbwD = ELBW_UP_D;
+			return elbowMotor.getSelectedSensorPosition(0);
+	}
+	
+	public double getElbowAngle() {
+		return armMath.convertElbowEncToAngle(ELBW_POT_MAX, ELBW_POT_MIN, ELBW_ANGLE_MAX, ELBW_ANGLE_MIN, getElbowPos() * ELBW_POT_INVERT);
 	}
 	
 	public double getArmAngle() {
@@ -230,6 +245,85 @@ public class Arm extends Subsystem {
 			armP = ARM_UP_P;
 			armI = ARM_UP_I;
 			armD = ARM_UP_D;
+		}
+	}
+	
+	public void elbwToPos(Position pos) {
+		switch(pos) {
+		case INTAKE:
+			elbowAngleSetpoint = ELBW_INTAKE_SETPOINT;
+			break;
+		case SWITCH: 
+			elbowAngleSetpoint = ELBW_SWITCH_SETPOINT;
+			break;
+		case LOWSCALE:
+			elbowAngleSetpoint = ELBW_LOW_SCALE_SETPOINT;
+			break;
+		case HIGHSCALE:
+			elbowAngleSetpoint = ELBW_HIGH_SCALE_SETPOINT;
+			break;
+		case HOME:
+			elbowAngleSetpoint = ELBW_HOME_SETPOINT;
+			break;
+		case CLIMB:
+			elbowAngleSetpoint = ELBW_CLIMB_SETPOINT;
+			break;
+		default:
+			break;
+		}
+	}
+	
+	public boolean elbwAtPos(Position pos) {
+		switch(pos) {
+		case CLIMB:
+			return (getElbowPos() <= ELBW_CLIMB_SETPOINT + ANGLE_MARGIN_VALUE) && (getElbowPos() >= ELBW_CLIMB_SETPOINT - ANGLE_MARGIN_VALUE);
+		case HIGHSCALE:
+			return (getElbowPos() <= ELBW_HIGH_SCALE_SETPOINT + ANGLE_MARGIN_VALUE) && (getElbowPos() >= ELBW_HIGH_SCALE_SETPOINT - ANGLE_MARGIN_VALUE);
+		case HOME:
+			return (getElbowPos() <= ELBW_HOME_SETPOINT + ANGLE_MARGIN_VALUE) && (getElbowPos() >= ELBW_HOME_SETPOINT - ANGLE_MARGIN_VALUE);
+		case INTAKE:
+			return (getElbowPos() <= ELBW_INTAKE_SETPOINT + ANGLE_MARGIN_VALUE) && (getElbowPos() >= ELBW_INTAKE_SETPOINT - ANGLE_MARGIN_VALUE);
+		case LOWSCALE:
+			return (getElbowPos() <= ELBW_LOW_SCALE_SETPOINT + ANGLE_MARGIN_VALUE) && (getElbowPos() >= ELBW_LOW_SCALE_SETPOINT - ANGLE_MARGIN_VALUE);
+		case SWITCH:
+			return (getElbowPos() <= ELBW_SWITCH_SETPOINT + ANGLE_MARGIN_VALUE) && (getElbowPos() >= ELBW_SWITCH_SETPOINT - ANGLE_MARGIN_VALUE);
+		default:
+			return false;
+		}
+	}
+	
+	public boolean armBellowSwitch() {
+		return !(getArmAngle() <= SWITCH_SETPOINT + ANGLE_MARGIN_VALUE);
+	}
+	
+	public boolean retractElbow(Position pos) {
+		switch(pos) {
+		case CLIMB:
+			return false;
+		case HIGHSCALE:
+			return true;
+		case HOME:
+			return armBellowSwitch();
+		case INTAKE:
+			return armBellowSwitch();
+		case LOWSCALE:
+			return true;
+		case SWITCH:
+			return armBellowSwitch();
+		default:
+			return false;
+		}
+	}
+	
+	public void moveElbow() {
+		double elbowPos = armMath.convertAngleToPot(ELBW_POT_MAX, ELBW_POT_MIN, ELBW_ANGLE_MAX, ELBW_ANGLE_MIN, elbowAngleSetpoint) * ELBW_POT_INVERT;
+		
+		getElbowMotor().set(ControlMode.Position, elbowPos);
+		
+		if (elbowPos > elbowAngleSetpoint) {
+			elbwP = ELBW_DOWN_P;
+			elbwI = ELBW_DOWN_I;
+			elbwD = ELBW_DOWN_D;
 		}
 	}
 }
