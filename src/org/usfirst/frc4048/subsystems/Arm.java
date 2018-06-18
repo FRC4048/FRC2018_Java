@@ -216,17 +216,17 @@ public class Arm extends Subsystem {
 	public boolean armAtPos(Position pos) {
 		switch(pos) {
 		case CLIMB:
-			return (getArmPos() <= CLIMB_SETPOINT + ANGLE_MARGIN_VALUE) && (getArmPos() >= CLIMB_SETPOINT - ANGLE_MARGIN_VALUE);
+			return (getArmAngle() <= CLIMB_SETPOINT + ANGLE_MARGIN_VALUE) && (getArmAngle() >= CLIMB_SETPOINT - ANGLE_MARGIN_VALUE);
 		case HIGHSCALE:
-			return (getArmPos() <= HIGHSCALE_SETPOINT + ANGLE_MARGIN_VALUE) && (getArmPos() >= HIGHSCALE_SETPOINT - ANGLE_MARGIN_VALUE);
+			return (getArmAngle() <= HIGHSCALE_SETPOINT + ANGLE_MARGIN_VALUE) && (getArmAngle() >= HIGHSCALE_SETPOINT - ANGLE_MARGIN_VALUE);
 		case HOME:
-			return (getArmPos() <= HOME_SETPOINT + ANGLE_MARGIN_VALUE) && (getArmPos() >= HOME_SETPOINT - ANGLE_MARGIN_VALUE);
+			return (getArmAngle() <= HOME_SETPOINT + ANGLE_MARGIN_VALUE) && (getArmAngle() >= HOME_SETPOINT - ANGLE_MARGIN_VALUE);
 		case INTAKE:
-			return (getArmPos() <= INTAKE_SETPOINT + ANGLE_MARGIN_VALUE) && (getArmPos() >= INTAKE_SETPOINT - ANGLE_MARGIN_VALUE);
+			return (getArmAngle() <= INTAKE_SETPOINT + ANGLE_MARGIN_VALUE) && (getArmAngle() >= INTAKE_SETPOINT - ANGLE_MARGIN_VALUE);
 		case LOWSCALE:
-			return (getArmPos() <= LOWSCALE_SETPOINT + ANGLE_MARGIN_VALUE) && (getArmPos() >= LOWSCALE_SETPOINT - ANGLE_MARGIN_VALUE);
+			return (getArmAngle() <= LOWSCALE_SETPOINT + ANGLE_MARGIN_VALUE) && (getArmAngle() >= LOWSCALE_SETPOINT - ANGLE_MARGIN_VALUE);
 		case SWITCH:
-			return (getArmPos() <= SWITCH_SETPOINT + ANGLE_MARGIN_VALUE) && (getArmPos() >= SWITCH_SETPOINT - ANGLE_MARGIN_VALUE);
+			return (getArmAngle() <= SWITCH_SETPOINT + ANGLE_MARGIN_VALUE) && (getArmAngle() >= SWITCH_SETPOINT - ANGLE_MARGIN_VALUE);
 		default:
 			return false;
 		}
@@ -276,17 +276,17 @@ public class Arm extends Subsystem {
 	public boolean elbwAtPos(Position pos) {
 		switch(pos) {
 		case CLIMB:
-			return (getElbowPos() <= ELBW_CLIMB_SETPOINT + ANGLE_MARGIN_VALUE) && (getElbowPos() >= ELBW_CLIMB_SETPOINT - ANGLE_MARGIN_VALUE);
+			return (getElbowAngle() <= ELBW_CLIMB_SETPOINT + ANGLE_MARGIN_VALUE) && (getElbowAngle() >= ELBW_CLIMB_SETPOINT - ANGLE_MARGIN_VALUE);
 		case HIGHSCALE:
-			return (getElbowPos() <= ELBW_HIGH_SCALE_SETPOINT + ANGLE_MARGIN_VALUE) && (getElbowPos() >= ELBW_HIGH_SCALE_SETPOINT - ANGLE_MARGIN_VALUE);
+			return (getElbowAngle() <= ELBW_HIGH_SCALE_SETPOINT + ANGLE_MARGIN_VALUE) && (getElbowAngle() >= ELBW_HIGH_SCALE_SETPOINT - ANGLE_MARGIN_VALUE);
 		case HOME:
-			return (getElbowPos() <= ELBW_HOME_SETPOINT + ANGLE_MARGIN_VALUE) && (getElbowPos() >= ELBW_HOME_SETPOINT - ANGLE_MARGIN_VALUE);
+			return (getElbowAngle() <= ELBW_HOME_SETPOINT + ANGLE_MARGIN_VALUE) && (getElbowAngle() >= ELBW_HOME_SETPOINT - ANGLE_MARGIN_VALUE);
 		case INTAKE:
-			return (getElbowPos() <= ELBW_INTAKE_SETPOINT + ANGLE_MARGIN_VALUE) && (getElbowPos() >= ELBW_INTAKE_SETPOINT - ANGLE_MARGIN_VALUE);
+			return (getElbowAngle() <= ELBW_INTAKE_SETPOINT + ANGLE_MARGIN_VALUE) && (getElbowAngle() >= ELBW_INTAKE_SETPOINT - ANGLE_MARGIN_VALUE);
 		case LOWSCALE:
-			return (getElbowPos() <= ELBW_LOW_SCALE_SETPOINT + ANGLE_MARGIN_VALUE) && (getElbowPos() >= ELBW_LOW_SCALE_SETPOINT - ANGLE_MARGIN_VALUE);
+			return (getElbowAngle() <= ELBW_LOW_SCALE_SETPOINT + ANGLE_MARGIN_VALUE) && (getElbowAngle() >= ELBW_LOW_SCALE_SETPOINT - ANGLE_MARGIN_VALUE);
 		case SWITCH:
-			return (getElbowPos() <= ELBW_SWITCH_SETPOINT + ANGLE_MARGIN_VALUE) && (getElbowPos() >= ELBW_SWITCH_SETPOINT - ANGLE_MARGIN_VALUE);
+			return (getElbowAngle() <= ELBW_SWITCH_SETPOINT + ANGLE_MARGIN_VALUE) && (getElbowAngle() >= ELBW_SWITCH_SETPOINT - ANGLE_MARGIN_VALUE);
 		default:
 			return false;
 		}
@@ -311,7 +311,7 @@ public class Arm extends Subsystem {
 		case SWITCH:
 			return armBellowSwitch();
 		default:
-			return false;
+			return true;
 		}
 	}
 	
@@ -320,10 +320,13 @@ public class Arm extends Subsystem {
 		
 		getElbowMotor().set(ControlMode.Position, elbowPos);
 		
-		if (elbowPos > elbowAngleSetpoint) {
-			elbwP = ELBW_DOWN_P;
-			elbwI = ELBW_DOWN_I;
-			elbwD = ELBW_DOWN_D;
+		double a = getArmAngle() - getElbowAngle() + HOME_FROM_TOWER;
+		double b = getArmAngle() - elbowAngleSetpoint + HOME_FROM_TOWER;
+		
+		if ((a < 180 && b > a) || (a > 180 && a > b)) {
+			getElbowMotor().selectProfileSlot(0, 0);
+		} else {
+			getElbowMotor().selectProfileSlot(1, 0);
 		}
 	}
 }

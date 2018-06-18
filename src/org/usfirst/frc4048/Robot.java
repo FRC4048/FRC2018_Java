@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc4048.subsystems.Arm;
+import org.usfirst.frc4048.subsystems.Arm.Position;
 import org.usfirst.frc4048.subsystems.Drivetrain;
 import org.usfirst.frc4048.subsystems.Pincher;
 import org.usfirst.frc4048.subsystems.Wrist;
@@ -83,7 +84,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousInit() {
-		
+		Robot.arm.elbwToPos(Position.HOME);
 	}
 
 	/**
@@ -102,7 +103,7 @@ public class Robot extends TimedRobot {
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
 		Robot.drivetrain.swerveDrivetrain.setModeField();
-
+		Robot.arm.elbwToPos(Position.HOME);
 	}
 
 	/**
