@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc4048.subsystems.Arm;
 import org.usfirst.frc4048.subsystems.Arm.Position;
+import org.usfirst.frc4048.subsystems.Climber;
 import org.usfirst.frc4048.subsystems.Drivetrain;
 import org.usfirst.frc4048.subsystems.Pincher;
 import org.usfirst.frc4048.subsystems.Wrist;
@@ -42,6 +43,7 @@ public class Robot extends TimedRobot {
 	public static Pincher pincher;
 	public static Arm arm;
 	public static Wrist wrist;
+	public static Climber climber;
 	public static OI oi;
 	
 	public static double ARM_UP_SCALE_FACTOR = 1.00;
@@ -65,7 +67,8 @@ public class Robot extends TimedRobot {
     	wrist = new Wrist();
 		drivetrain = new Drivetrain();
 		pincher = new Pincher();
-    	oi = new OI();
+    	climber = new Climber();
+		oi = new OI();
 	}
 
 	/**

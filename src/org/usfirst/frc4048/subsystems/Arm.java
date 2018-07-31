@@ -3,6 +3,7 @@ package org.usfirst.frc4048.subsystems;
 import org.usfirst.frc4048.Robot;
 import org.usfirst.frc4048.RobotMap;
 import org.usfirst.frc4048.arm.math.ArmMath;
+import org.usfirst.frc4048.commands.arm.ElbowFinetune;
 import org.usfirst.frc4048.commands.arm.MoveArm;
 import org.usfirst.frc4048.utils.MotorUtils;
 
@@ -91,6 +92,8 @@ public class Arm extends Subsystem {
 	private final double ELBW_ANGLE_MAX = 157.7;
 	private final double ELBW_POT_INVERT = 1.0;
 	
+	private final double ELBW_FINETUNE_RATE = 2.0;
+	
 	private double armP = -1;
 	private double armI = -1;
 	private double armD = -1;
@@ -166,6 +169,7 @@ public class Arm extends Subsystem {
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
+		setDefaultCommand(new ElbowFinetune());
 	}
 	
 	public double getArmPos() {
@@ -206,8 +210,12 @@ public class Arm extends Subsystem {
 			armAngleSetpoint = HOME_SETPOINT;
 			break;
 		case CLIMB:
-			armAngleSetpoint = CLIMB_SETPOINT;
-			break;
+			if(armAngleSetpoint >= (HIGHSCALE_SETPOINT - ANGLE_MARGIN_VALUE)) {
+				armAngleSetpoint = CLIMB_SETPOINT;
+				break;
+			} else {
+				break;
+			}
 		default:
 			break;
 		}
@@ -328,5 +336,13 @@ public class Arm extends Subsystem {
 		} else {
 			getElbowMotor().selectProfileSlot(1, 0);
 		}
+	}
+	
+	public void fineTuneUp() {
+		elbowAngleSetpoint += ELBW_FINETUNE_RATE;
+	}
+	
+	public void fineTuneDown() {
+		elbowAngleSetpoint -= ELBW_FINETUNE_RATE;
 	}
 }
