@@ -128,8 +128,8 @@ public class Arm extends Subsystem {
 	 * All of these values are used for the extension math
 	 */
 	private final double HOME_FROM_TOWER = 39.0;
-	private final double ARM_POT_MIN = 934;
-	private final double ARM_POT_MAX = 200;
+	private final double ARM_POT_MIN = 956;//934
+	private final double ARM_POT_MAX = 248;//200
 	private final double ARM_ANGLE_MIN = 0.0;
 	private final double ARM_ANGLE_MAX = 145.0;
 	private final double ARM_POT_INVERT = -1.0;
