@@ -170,7 +170,7 @@ public class Robot extends TimedRobot {
 			oldAutoAction = autoAction;
 		}
 		enableDiagnostic = diagnosticChoose.getSelected();
-//		dashboardData();
+		dashboardData();
 	}
 
 	@Override
@@ -253,7 +253,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
-//		dashboardData();
+		dashboardData();
 		if(DriverStation.getInstance().getMatchTime() <= 30 && DriverStation.getInstance().getMatchTime() >= 28) {
 			oi.doRumble();
 		} else {

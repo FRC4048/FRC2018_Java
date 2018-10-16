@@ -113,7 +113,7 @@ public class Arm extends Subsystem {
 	public static final double LOWSCALE_SETPOINT = 80.0;
 	public static final double MIDSCALE_SETPOINT = 110.0;
 	public static final double HIGHSCALE_SETPOINT = 110.0;
-	public static final double CLIMB_SETPOINT = 141.0;
+	public static final double CLIMB_SETPOINT = 145.0; //141
 	
 	public static final double ELBW_HOME_SETPOINT = 131.7;
 	public static final double ELBW_INTAKE_SETPOINT = 0.0;
@@ -128,8 +128,8 @@ public class Arm extends Subsystem {
 	 * All of these values are used for the extension math
 	 */
 	private final double HOME_FROM_TOWER = 39.0;
-	private final double ARM_POT_MIN = 956;//934
-	private final double ARM_POT_MAX = 248;//200
+	private final double ARM_POT_MIN = 960;//934
+	private final double ARM_POT_MAX = 245;//200
 	private final double ARM_ANGLE_MIN = 0.0;
 	private final double ARM_ANGLE_MAX = 145.0;
 	private final double ARM_POT_INVERT = -1.0;
