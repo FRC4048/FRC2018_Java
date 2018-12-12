@@ -29,6 +29,10 @@ public class ArmFinetune extends Command {
 				Robot.arm.finetuneDown();
 			if(Robot.oi.getLeftstickUp())
 				Robot.arm.finetuneUp();
+//    		if(Robot.oi.getDownDPAD())
+//    			Robot.arm.armFinetuneDown();
+//    		if(Robot.oi.getUpDPAD())
+//    			Robot.arm.armFinetuneUp();
 		}
 	}
 

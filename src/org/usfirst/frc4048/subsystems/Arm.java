@@ -128,8 +128,8 @@ public class Arm extends Subsystem {
 	 * All of these values are used for the extension math
 	 */
 	private final double HOME_FROM_TOWER = 39.0;
-	private final double ARM_POT_MIN = 960;//934
-	private final double ARM_POT_MAX = 245;//200
+	private final double ARM_POT_MIN = 957;//934
+	private final double ARM_POT_MAX = 240;//200
 	private final double ARM_ANGLE_MIN = 0.0;
 	private final double ARM_ANGLE_MAX = 145.0;
 	private final double ARM_POT_INVERT = -1.0;
@@ -300,7 +300,13 @@ public class Arm extends Subsystem {
 	public void finetuneDown() {
 		elbowAngleSetpoint -= FINETUNE_RATE;
 	}
-
+	public void armFinetuneUp() {
+		armAngleSetpoint += FINETUNE_RATE;
+	}
+	public void armFinetuneDown() {
+		armAngleSetpoint -= FINETUNE_RATE;
+	}
+	
 	public void finetuneDownManual() {
 		getMovementMotor().set(ControlMode.PercentOutput, 0.2);
 	}

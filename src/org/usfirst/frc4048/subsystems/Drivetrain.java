@@ -325,7 +325,10 @@ public class Drivetrain extends Subsystem {
     	if(rcw <= RIGHT_JOY_X_MAX_DEADZONE && rcw >= RIGHT_JOY_X_MIN_DEADZONE)
     		rcw = 0.0;
     
+ 	
     	swerveDrivetrain.move(fwd, str, rcw, getGyro());
+
+    
     }
  
     public double getSonar(SonarSide side) {

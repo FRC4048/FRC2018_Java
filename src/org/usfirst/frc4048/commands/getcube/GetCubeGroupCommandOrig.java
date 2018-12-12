@@ -35,8 +35,8 @@
 //		addSequential(new LowerIntake(this));
 //		addSequential(new MoveArm(this, ArmPositions.Exchange));
 //		addSequential(new MoveClawToLevel(this));
-//		
 //		addSequential(new IntakeCube(this, IntakeCube.IntakeMode.STRAIGHT_PULL));
+//		
 //		
 //		addSequential(new OpenClaw(this));
 //		addSequential(new MoveArm(this, ArmPositions.Intake));
